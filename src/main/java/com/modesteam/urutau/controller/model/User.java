@@ -1,12 +1,10 @@
 package com.modesteam.urutau.controller.model;
 
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@DiscriminatorColumn()
-public abstract class User {
+public class User {
 	@Id
 	private String email;
 	private String name;
