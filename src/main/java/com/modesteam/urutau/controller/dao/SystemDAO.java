@@ -3,6 +3,9 @@ package com.modesteam.urutau.controller.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.modesteam.urutau.controller.model.Administrator;
+import com.modesteam.urutau.controller.model.system.Configurations;
+
 public class SystemDAO {
 	private EntityManager manager;
 	/**
@@ -20,6 +23,18 @@ public class SystemDAO {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * If no account has been found in DB, the system will create
+	 * an administrator with the login and password "admin".
+	 */
+	public void createFirstAdministrator() {
+		Administrator administrator = new Administrator();
+		administrator.setLogin("admin");
+		administrator.setPassword("admin");
+		administrator.setConfigurations(new Configurations());
+		manager.persist(administrator);
 	}
 
 }
