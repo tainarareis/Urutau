@@ -1,12 +1,16 @@
 package com.modesteam.urutau.controller.dao;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.modesteam.urutau.controller.model.Administrator;
 import com.modesteam.urutau.controller.model.system.Configurations;
 
+@RequestScoped
 public class SystemDAO {
+	@Inject
 	private EntityManager manager;
 	/**
 	 * Check if there is any account registered on DB as administrator
