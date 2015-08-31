@@ -9,7 +9,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
             <!-- DADOS CONEXAO    -->
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />  
             <property name="hibernate.connection.username" value="root" />  
-            <property name="hibernate.connection.password" value="root" />  
+            <property name="hibernate.connection.password" value="konsama123" />  
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/Urutau" />  
             <property name="hibernate.default_schema" value="Urutau"/> 
             
