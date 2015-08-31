@@ -7,12 +7,16 @@ import com.modesteam.urutau.controller.dao.UserDAO;
 import com.modesteam.urutau.controller.model.Administrator;
 import com.modesteam.urutau.controller.model.User;
 
+import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Patch;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 
 /**
  * Manage the users
  */
+@Controller
 public class UserController {
 	@Inject
 	private Result result;
@@ -26,6 +30,7 @@ public class UserController {
 	 * the first administrator
 	 */
 	@Post
+	@Path("/register")
 	public void register(User user) {
 		// If no account registered, create the first administrator
 		if(!systemDAO.existAdministrator()) {

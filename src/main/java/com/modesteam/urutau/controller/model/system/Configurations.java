@@ -3,10 +3,14 @@ package com.modesteam.urutau.controller.model.system;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import com.modesteam.urutau.controller.model.Administrator;
 
+@Entity
 public class Configurations {
+	@Id
+	private Long id;
 	private String registerType;
 	private List<Administrator> corcernedAdministrator;
 
