@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 
 import com.modesteam.urutau.controller.model.Administrator;
 
-@Entity
 public class Configurations {
 	private String registerType;
 	private List<Administrator> corcernedAdministrator;
