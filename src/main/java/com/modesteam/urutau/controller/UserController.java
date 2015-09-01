@@ -18,7 +18,6 @@ public class UserController {
 		@Inject
 		private UserDAO userDAO;
 		
-		
 		@Get
 		@Path("/register")
 		public void register() {
@@ -28,6 +27,7 @@ public class UserController {
 		@Path("/register")
 		public void register(User user) {
 			userDAO.add(user);
+			
 		}
 
 }
