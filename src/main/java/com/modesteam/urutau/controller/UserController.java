@@ -14,18 +14,10 @@ import br.com.caelum.vraptor.Result;
 public class UserController {
 
 		@Inject
-		private final Result result;
-		private final UserDAO userDAO;
-		
-		public UserController() {
-			this(null,null);
-		}
-		
+		private Result result;
 		@Inject
-		public UserController(Result result, UserDAO userDAO) {
-			this.result = result;
-			this.userDAO = userDAO;
-		}
+		private UserDAO userDAO;
+		
 		
 		@Get
 		@Path("/register")
@@ -35,6 +27,7 @@ public class UserController {
 		@Post
 		@Path("/register")
 		public void register(User user) {
+			userDAO.add(user);
 		}
 
 }

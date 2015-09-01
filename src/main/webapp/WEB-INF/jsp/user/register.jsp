@@ -9,7 +9,10 @@
 <body>
 	<h1>Sign in</h1>
 	<form action="register" method="POST">
+		Nome: <input name="user.name" type="text"/>
+		<br/>
 		Login: <input name="user.login" type="text"/>
+		<br/>
 		Password: <input name="user.password" type="password"/>
 		<input type="submit"/>
 	</form>

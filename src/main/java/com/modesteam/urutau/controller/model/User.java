@@ -3,9 +3,9 @@ package com.modesteam.urutau.controller.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class User {
-	//@Id
+	@Id
 	private String email;
 	private String name;
 	private String lastName;

@@ -1,15 +1,16 @@
 package com.modesteam.urutau.controller.dao;
-import javax.enterprise.inject.*;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.enterprise.context.RequestScoped;
 
 import com.modesteam.urutau.controller.model.User;
 
-@RequestScopped
+@RequestScoped
 public class UserDAO {
-	@inject
+	@Inject
 	private EntityManager manager;
 	
-	private void add(User user){
-		
+	public void add(User user){
+		manager.persist(user);
 	}
 }
