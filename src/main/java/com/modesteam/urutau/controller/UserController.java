@@ -26,7 +26,13 @@ public class UserController {
 		@Post
 		@Path("/register")
 		public void register(User user) {
-			userDAO.add(user);
+			if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())){
+				result.forwardTo(IndexController.class).getClass();
+				userDAO.add(user);
+			}else{
+				result.forwardTo(UserController.class).register();
+				
+			}
 			
 		}
 

@@ -20,13 +20,23 @@
 	<form action="register" method="POST">
 		Nome: <input name="user.name" type="text"/>
 		<br/>
+		<br/>
+		<br/>
 		Login: <input name="user.login" type="text"/>
+		<br/>
+		<br/>
 		<br/>
 		Password: <input name="user.password" type="password"/>
 		<br/>
+		<br/>
+		<br/>
 		Confirm Password: <input name="user.passwordVerify" type="password"/>
 		<br/>
+		<br/>
+		<br/>
 		Email: <input name="user.email" type="text"/>
+		<br/>
+		<br/>
 		<input type="submit"/>
 	</form>
 	</body>
