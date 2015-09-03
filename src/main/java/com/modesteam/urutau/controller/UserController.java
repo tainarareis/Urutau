@@ -32,14 +32,11 @@ public class UserController {
 		@Post
 		@Path("/register")
 		public void register(User user) {
-			System.out.println(user.getLogin());
-			System.out.println(user.getPassword());
-			
 			if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true){
 				userDAO.add(user);
 				result.redirectTo(UserController.class).showSignInSucess();
 			}else{
-				System.out.println("SENHAS NAO BATEM!");
+				result.include("mensagem", "As senhas não são compatíveis!");
 			}
 			
 		}

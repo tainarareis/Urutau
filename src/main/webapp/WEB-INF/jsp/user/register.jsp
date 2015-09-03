@@ -37,6 +37,7 @@
 		Email: <input name="user.email" type="text"/>
 		<br/>
 		<br/>
+		<p>${mensagem}  
 		<input type="submit"/>
 	</form>
 	</body>
