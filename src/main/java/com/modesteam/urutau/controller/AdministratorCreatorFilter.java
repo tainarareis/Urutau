@@ -24,9 +24,21 @@ import com.modesteam.urutau.controller.model.Administrator;
  */
 @WebFilter("/")
 public class AdministratorCreatorFilter implements Filter {
+
 	@Inject
 	private SystemDAO systemDAO;
 	
+	/**
+	 * @deprecated CDI eye only
+	 */
+	public AdministratorCreatorFilter() {
+	
+	}
+	
+	public AdministratorCreatorFilter(SystemDAO systemDAO) {
+		this.systemDAO = systemDAO;
+	}
+
 	/**
 	 * If database is empty, create an admin
 	 * 

@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.controller.model.Administrator;
-import com.modesteam.urutau.controller.model.system.Configurations;
 
 @RequestScoped
 public class SystemDAO {
@@ -26,7 +25,7 @@ public class SystemDAO {
 	 * 
 	 */
 	public boolean existAdministrator() {
-		String sql = "SELECT administrator FROM "+ Administrator.class.getName();
+		String sql = "SELECT admin FROM " + Administrator.class.getName() + " admin";
 		Query query = manager.createQuery(sql);
 		int existenceOfAdministrator = query.getFirstResult();
 		if(existenceOfAdministrator == 0) {
@@ -45,8 +44,6 @@ public class SystemDAO {
 		Administrator administrator = new Administrator();
 		administrator.setLogin("admin");
 		administrator.setPassword("admin");
-		administrator.setConfigurations(new Configurations());
 		manager.persist(administrator);
 	}
-
 }

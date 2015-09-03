@@ -1,11 +1,22 @@
 package com.modesteam.urutau.controller.model;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="userType", discriminatorType=DiscriminatorType.INTEGER)
+@DiscriminatorValue("1")
 public class User {
 	@Id
+	@GeneratedValue
+	private Long id;
 	private String email;
 	private String name;
 	private String lastName;
