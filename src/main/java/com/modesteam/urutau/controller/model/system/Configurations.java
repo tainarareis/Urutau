@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 import com.modesteam.urutau.controller.model.Administrator;
 
-@Entity
 public class Configurations {
 	@Id
 	private Long id;

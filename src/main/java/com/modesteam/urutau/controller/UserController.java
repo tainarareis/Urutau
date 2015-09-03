@@ -31,15 +31,7 @@ public class UserController {
 	@Post
 	@Path("/register")
 	public void register(User user) {
-		// If no account registered, create the first administrator
-		if(!systemDAO.existAdministrator()) {
-			systemDAO.createFirstAdministrator();
-			result.redirectTo(this).welcomeAdministrator();
-		} else {
-			// Create new user
-			userDAO.create(user);
-			result.redirectTo(this).welcomeUser();
-		}
+		
 	}
 	
 	@View
@@ -51,6 +43,4 @@ public class UserController {
 	public void welcomeUser() {
 		
 	}
-	
-
 }

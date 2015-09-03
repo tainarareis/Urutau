@@ -5,13 +5,20 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.controller.model.Administrator;
 import com.modesteam.urutau.controller.model.system.Configurations;
 
 @RequestScoped
 public class SystemDAO {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SystemDAO.class);
+	
 	@Inject
 	private EntityManager manager;
+	
 	/**
 	 * Check if there is any account registered on DB as administrator
 	 * 
@@ -19,7 +26,7 @@ public class SystemDAO {
 	 * 
 	 */
 	public boolean existAdministrator() {
-		String sql = "SELECT adm FROM ADMINISTRATOR adm";
+		String sql = "SELECT administrator FROM "+ Administrator.class.getName();
 		Query query = manager.createQuery(sql);
 		int existenceOfAdministrator = query.getFirstResult();
 		if(existenceOfAdministrator == 0) {
@@ -34,6 +41,7 @@ public class SystemDAO {
 	 * an administrator with the login and password "admin".
 	 */
 	public void createFirstAdministrator() {
+		logger.info("Creating first administrator");
 		Administrator administrator = new Administrator();
 		administrator.setLogin("admin");
 		administrator.setPassword("admin");
