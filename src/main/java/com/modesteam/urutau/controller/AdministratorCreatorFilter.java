@@ -48,8 +48,7 @@ public class AdministratorCreatorFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		if(!systemDAO.existAdministrator()){
-//			Needs fix Administrator entity
-//			systemDAO.createFirstAdministrator();
+			systemDAO.createFirstAdministrator();
 		} else {
 			// Admin yet created!
 		}
