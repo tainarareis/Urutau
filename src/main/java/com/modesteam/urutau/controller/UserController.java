@@ -23,15 +23,23 @@ public class UserController {
 		public void register() {
 		}
 		
+		@Get
+		@Path("/showSignInSucess")
+		public void showSignInSucess(){
+			
+		}
+		
 		@Post
 		@Path("/register")
 		public void register(User user) {
 			System.out.println(user.getLogin());
 			System.out.println(user.getPassword());
+			
 			if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true){
 				userDAO.add(user);
+				result.redirectTo(UserController.class).showSignInSucess();
 			}else{
-				result.redirectTo(IndexController.class).index();
+				System.out.println("SENHAS NAO BATEM!");
 			}
 			
 		}
