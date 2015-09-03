@@ -2,16 +2,15 @@ package com.modesteam.urutau.controller;
 
 import javax.inject.Inject;
 
-import com.modesteam.urutau.controller.dao.SystemDAO;
-import com.modesteam.urutau.controller.dao.UserDAO;
-import com.modesteam.urutau.controller.model.Administrator;
-import com.modesteam.urutau.controller.model.User;
-
 import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Patch;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.controller.dao.SystemDAO;
+import com.modesteam.urutau.controller.dao.UserDAO;
+import com.modesteam.urutau.controller.model.User;
 
 /**
  * Manage the users
@@ -43,11 +42,12 @@ public class UserController {
 		}
 	}
 	
-	//
+	@View
 	public void welcomeAdministrator() {
 		
 	}
 	
+	@View
 	public void welcomeUser() {
 		
 	}
