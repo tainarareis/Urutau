@@ -22,7 +22,12 @@ public class UserDAO {
 		String sql = "SELECT E.login FROM User E";
 		Query query = manager.createQuery(sql);
 		List<String> login =  query.getResultList();
+		System.out.println(login.size());
+		if(login.size()==0){
+			return false;
+		}
 		for(int i=0; i<=login.size(); i++){
+			System.out.println(login.get(i));
 			if(login.get(i).equalsIgnoreCase(user.getLogin())==true){
 				return true;
 			}
