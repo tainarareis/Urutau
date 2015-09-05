@@ -43,6 +43,9 @@ public class UserController {
 				result.include("mensagem", "Campos obrigatórios nao preenchidos!");
 				System.out.println("TESTE");
 			}else{
+				if(userDAO.verify(user)==true){
+					result.include("mensagem", "Login já está sendo usado!");
+				}else{
 				if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true){
 					user.setPasswordVerify(null);
 					userDAO.add(user);
@@ -50,6 +53,7 @@ public class UserController {
 				}else{
 					result.include("mensagem", "As senhas não são compatíveis!");
 				}
+			}
 			}
 			
 		}
