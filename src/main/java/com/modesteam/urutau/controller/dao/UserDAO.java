@@ -18,20 +18,24 @@ public class UserDAO {
 		manager.persist(user);
 	}
 	
-	public boolean verify(User user){
-		String sql = "SELECT E.login FROM User E";
-		Query query = manager.createQuery(sql);
-		List<String> login =  query.getResultList();
-		System.out.println(login.size());
-		if(login.size()==0){
-			return false;
-		}
-		for(int i=0; i<=login.size(); i++){
-			System.out.println(login.get(i));
-			if(login.get(i).equalsIgnoreCase(user.getLogin())==true){
-				return true;
+	public int verifyUser(User user){
+		String sqlLogin = "SELECT E.login FROM User E";
+		String sqlEmail = "SELECT E.email FROM User E";
+		Query queryLogin = manager.createQuery(sqlLogin);
+		Query queryEmail = manager.createQuery(sqlEmail);
+		List<String> login =  queryLogin.getResultList();
+		List<String> email =  queryEmail.getResultList();
+			for(String log : login){
+				if(log.equalsIgnoreCase(user.getLogin())==true){
+					return 1;
+				}
+			}
+		for(String emailAux : email){
+			if(emailAux.equalsIgnoreCase(user.getEmail())==true){
+				return 2;
 			}
 		}
-		return false;
+		return 0;
 	}
+
 }

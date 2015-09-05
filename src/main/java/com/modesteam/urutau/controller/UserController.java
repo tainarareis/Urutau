@@ -38,22 +38,27 @@ public class UserController {
 		
 		@Post
 		@Path("/register")
-		public void register(User user) {
+		public boolean register(User user) {
 			if(user.getEmail() == null || user.getLogin() == null || user.getName() == null || user.getPasswordVerify() == null){
 				result.include("mensagem", "Campos obrigatórios nao preenchidos!");
 				System.out.println("TESTE");
 			}else{
-				if(userDAO.verify(user)==true){
-					result.include("mensagem", "Login já está sendo usado!");
-				}else if(userDAO.verify(user)==false){
+				if(userDAO.verifyUser(user)==1){
+					result.include("mensagem", "Login já utilizado");
+					return true;
+				}else if(userDAO.verifyUser(user)==2){
+					result.include("mensagem", "Email já utilizado");
+					return true;
+				}else{
 					if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true){
 						user.setPasswordVerify(null);
 						userDAO.add(user);
 						result.redirectTo(UserController.class).showSignInSucess();
 					}else{
-					result.include("mensagem", "As senhas não são compatíveis!");
+						result.include("mensagem", "As senhas não são compatíveis!");
 					}
 				}
-			}
+				}
+			return false;
 		}
 }
