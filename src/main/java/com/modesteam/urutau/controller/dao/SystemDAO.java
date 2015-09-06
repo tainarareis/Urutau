@@ -14,6 +14,7 @@ import com.modesteam.urutau.controller.model.Administrator;
 public class SystemDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SystemDAO.class);
+	private static final String DEFAULT_ADMIN_DATA = "admin";
 	
 	@Inject
 	private EntityManager manager;
@@ -42,8 +43,24 @@ public class SystemDAO {
 	public void createFirstAdministrator() {
 		logger.info("Creating first administrator");
 		Administrator administrator = new Administrator();
-		administrator.setLogin("admin");
-		administrator.setPassword("admin");
+		administrator.setLogin(DEFAULT_ADMIN_DATA);
+		administrator.setPassword(DEFAULT_ADMIN_DATA);
 		manager.persist(administrator);
+	}
+	/**
+	 * Verify the existence of first administrator,
+	 * with login and password "admin","admin".
+	 */
+	public boolean isFirstAdministrator() {
+		String sql = "SELECT u FROM User u WHERE u.login = :login"
+				+ " AND u.password = :password";
+		Query query = manager.createQuery(sql);
+		query.setParameter("login", DEFAULT_ADMIN_DATA);
+		query.setParameter("password", DEFAULT_ADMIN_DATA);
+		if(query.getSingleResult() != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -51,6 +51,28 @@
 		</form>
 	</div>
 	
+	<div class="row">
+	<div class="col-sm-4">
+		<form action="login" class="form-signin" method="POST">
+			<h2 class="form-signin-heading">Login</h2>
+			
+			<label for="inputEmail" class="sr-only">Email address</label>
+			<input name="user.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			
+			<label for="inputLogin" class="sr-only">Login</label>
+			<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
+			
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			
+			
+			<div class="checkbox">
+			  
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+		</form>
+	</div>
+	
 	     
 </div> 
 </body>
