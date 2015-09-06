@@ -17,8 +17,10 @@ public class UserDAO {
 	public void add(User user){
 		manager.persist(user);
 	}
-	
-	public int verifyUser(User user){
+	/*
+	 * Method to verify if exist a user with same email or same login
+	 */
+	public int verifyUser(User user) {
 		String sqlLogin = "SELECT E.login FROM User E";
 		String sqlEmail = "SELECT E.email FROM User E";
 		Query queryLogin = manager.createQuery(sqlLogin);
@@ -26,15 +28,15 @@ public class UserDAO {
 		List<String> login =  queryLogin.getResultList();
 		List<String> email =  queryEmail.getResultList();
 			for(String log : login){
-				if(log.equalsIgnoreCase(user.getLogin())==true){
+				if(log.equalsIgnoreCase(user.getLogin())==true) {
 					return 1;
 				}
 			}
-		for(String emailAux : email){
-			if(emailAux.equalsIgnoreCase(user.getEmail())==true){
-				return 2;
+			for(String emailAux : email) {
+				if(emailAux.equalsIgnoreCase(user.getEmail())==true) {
+					return 2;
+				}
 			}
-		}
 		return 0;
 	}
 
