@@ -32,18 +32,17 @@ public class UserController {
 		
 		@Get
 		@Path("/showSignInSucess")
-		public void showSignInSucess(){
-			
+		public void showSignInSucess() {	
 		}
 		
 		@Post
 		@Path("/register")
 		public boolean register(User user) {
-			if(user.getEmail() == null || user.getLogin() == null || user.getName() == null || user.getPasswordVerify() == null){
+			if(user.getEmail() == null || user.getLogin() == null || user.getName() == null || user.getPasswordVerify() == null) {
 				result.include("mensagem", "Campos obrigatórios nao preenchidos!");
 				result.redirectTo(IndexController.class).index();
 			}else{
-				if(userDAO.verifyUser(user)==1){
+				if(userDAO.verifyUser(user)==1) {
 					result.include("mensagem", "Login já utilizado");
 					result.redirectTo(IndexController.class).index();
 					return true;
@@ -52,7 +51,7 @@ public class UserController {
 					result.redirectTo(IndexController.class).index();
 					return true;
 				}else{
-					if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true){
+					if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true) {
 						user.setPasswordVerify(null);
 						userDAO.add(user);
 						result.redirectTo(UserController.class).showSignInSucess();
@@ -60,7 +59,7 @@ public class UserController {
 						result.include("mensagem", "As senhas não são compatíveis!");
 						result.redirectTo(IndexController.class).index();
 					}
-				}
+					}
 				}
 			return false;
 		}
