@@ -40,9 +40,22 @@ public class UserDAO {
 			}
 		return 0;
 	}
-	
+	/**
+	 * Method to recover user from database.
+	 * @param user
+	 * @return
+	 */
 	public User find(User user){
 		return manager.find(User.class, user);
+	}
+
+	/**
+	 * Method to update user from database.
+	 * @param user
+	 */
+	public void update(User user) {
+		manager.merge(user);
+		
 	}
 
 }

@@ -8,28 +8,36 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String email;
-	@NotNull 
-	@Size(min=3, max=10)
+	@NotNull
+	@Size(min = 3, max = 10)
 	private String name;
 	@NotNull
-	@Size(min=3, max=10)
+	@Size(min = 3, max = 10)
 	private String lastName;
 	@NotNull
-	@Size(min=6, max=12)
+	@Size(min = 6, max = 12)
 	private String login;
 	@NotNull
-	@Size(min=6, max=6)
+	@Size(min = 6, max = 6)
 	private String password;
 	@NotNull
-	@Size(min=6, max=6)
+	@Size(min = 6, max = 6)
 	private String passwordVerify;
 	private boolean isConfirmed;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public boolean isConfirmed() {
 		return isConfirmed;
 	}
