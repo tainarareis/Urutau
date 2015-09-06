@@ -1,5 +1,9 @@
 package com.modesteam.urutau.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -21,10 +25,7 @@ public class UserController {
 		private Result result;
 		@Inject
 		private UserDAO userDAO;
-		
-		 
 
-		
 		@Get
 		@Path("/register")
 		public void register() {
@@ -60,5 +61,25 @@ public class UserController {
 				}
 				}
 			return false;
+		}
+		/**
+		 * Simple encrypt
+		 * 
+		 * @param user
+		 * @return
+		 * @throws NoSuchAlgorithmException 
+		 * @throws UnsupportedEncodingException 
+		 */
+		private String codeOfConfirmation(String toEncrypt) throws NoSuchAlgorithmException, 
+			UnsupportedEncodingException {
+			MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+			byte messageDigest[] = algorithm.digest(toEncrypt.getBytes("UTF-8"));
+			 
+			StringBuilder hexString = new StringBuilder();
+			for (byte b : messageDigest) {
+			  hexString.append(String.format("%02X", 0xFF & b));
+			}
+			String password = hexString.toString();
+			return password;
 		}
 }
