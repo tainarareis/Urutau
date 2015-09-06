@@ -41,13 +41,15 @@ public class UserController {
 		public boolean register(User user) {
 			if(user.getEmail() == null || user.getLogin() == null || user.getName() == null || user.getPasswordVerify() == null){
 				result.include("mensagem", "Campos obrigatórios nao preenchidos!");
-				System.out.println("TESTE");
+				result.redirectTo(IndexController.class).index();
 			}else{
 				if(userDAO.verifyUser(user)==1){
 					result.include("mensagem", "Login já utilizado");
+					result.redirectTo(IndexController.class).index();
 					return true;
 				}else if(userDAO.verifyUser(user)==2){
 					result.include("mensagem", "Email já utilizado");
+					result.redirectTo(IndexController.class).index();
 					return true;
 				}else{
 					if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true){
@@ -56,6 +58,7 @@ public class UserController {
 						result.redirectTo(UserController.class).showSignInSucess();
 					}else{
 						result.include("mensagem", "As senhas não são compatíveis!");
+						result.redirectTo(IndexController.class).index();
 					}
 				}
 				}
