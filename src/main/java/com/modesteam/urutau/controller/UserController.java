@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import com.modesteam.urutau.controller.model.User;
+import com.modesteam.urutau.controller.model.system.EmailManager;
 import com.modesteam.urutau.controller.dao.UserDAO;
 
 import br.com.caelum.vraptor.Controller;
@@ -25,7 +26,9 @@ public class UserController {
 		private Result result;
 		@Inject
 		private UserDAO userDAO;
-
+		@Inject
+		private EmailManager emailManager;
+		
 		@Get
 		@Path("/register")
 		public void register() {
@@ -34,6 +37,16 @@ public class UserController {
 		@Get
 		@Path("/showSignInSucess")
 		public void showSignInSucess() {	
+		}
+		
+		@Get
+		public void confirmEmail(String confirmCode, User user) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+			String loginEncrypted = codeOfConfirmation(user.getLogin());
+			if(confirmCode.equalsIgnoreCase(loginEncrypted)) {
+				
+			}else {
+				
+			}
 		}
 		
 		@Post
@@ -54,6 +67,7 @@ public class UserController {
 				}else{
 					if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())==true) {
 						user.setPasswordVerify(null);
+						emailManager.newEmail("Cadastro do urutau", user.getEmail(), message);
 						userDAO.add(user);
 						result.redirectTo(UserController.class).showSignInSucess();
 					}else{

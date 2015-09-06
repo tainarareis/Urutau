@@ -17,7 +17,8 @@ public class UserDAO {
 	public void add(User user){
 		manager.persist(user);
 	}
-	/*
+	
+	/**
 	 * Method to verify if exist a user with same email or same login
 	 */
 	public int verifyUser(User user) {
@@ -38,6 +39,10 @@ public class UserDAO {
 				}
 			}
 		return 0;
+	}
+	
+	public User find(User user){
+		return manager.find(User.class, user);
 	}
 
 }

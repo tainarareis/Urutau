@@ -7,19 +7,23 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User {
 	@Id
-
 	private String email;
-
 	private String name;
 	private String lastName;
-
 	private String login;
-
 	private String password;
-
 	private String passwordVerify;
+	private boolean isConfirmed;
 
 	
+	public boolean isConfirmed() {
+		return isConfirmed;
+	}
+
+	public void setConfirmed(boolean isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+
 	public String getPasswordVerify() {
 		return passwordVerify;
 	}
