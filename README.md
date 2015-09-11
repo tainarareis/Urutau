@@ -1,4 +1,5 @@
 # Urutau
+<<<<<<< HEAD
 
 ## Synopsis
 
@@ -29,3 +30,6 @@ The installation is explained in this example video made by us:
 ## License
 
 Apache's license is found [here](https://github.com/Modesteam/Urutau/blob/master/LICENSE).
+=======
+Urutau is an tool of requirements with all adaptability that you will need
+>>>>>>> origin/01_PR

@@ -6,7 +6,9 @@ import javax.persistence.Query;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
-
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.controller.model.User;
 
 @RequestScoped
@@ -57,5 +59,18 @@ public class UserDAO {
 		manager.merge(user);
 		
 	}
+
+	@Inject
+	private UserManager userManager;
+	
+	public void create(User user) {
+		manager.persist(user);		
+	}
+	
+
+	public void newUserSettings(User user) {
+		manager.merge(user);
+	}
+	
 
 }

@@ -1,17 +1,26 @@
 package com.modesteam.urutau.controller.model;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * URUTAU - 2015 
  * This class implements the generic user witch can be extended to an Administrator.
  */
 
+
 @Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="userType", discriminatorType=DiscriminatorType.INTEGER)
+@DiscriminatorValue("1")
 public class User {
 
 	@Id
