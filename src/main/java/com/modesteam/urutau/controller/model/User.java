@@ -15,8 +15,6 @@ import javax.persistence.InheritanceType;
  * URUTAU - 2015 
  * This class implements the generic user witch can be extended to an Administrator.
  */
-
-
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="userType", discriminatorType=DiscriminatorType.INTEGER)

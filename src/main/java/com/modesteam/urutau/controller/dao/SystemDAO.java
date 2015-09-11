@@ -10,6 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.controller.model.Administrator;
 
+/**
+ * URUTAU - 2015
+ * Class responsible to ensure/allow administrator interaction 	
+ * through the database management information about Administrators
+ */
 @RequestScoped
 public class SystemDAO {
 	

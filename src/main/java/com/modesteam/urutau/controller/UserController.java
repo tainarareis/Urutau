@@ -14,6 +14,7 @@ import com.modesteam.urutau.controller.dao.UserDAO;
 import com.modesteam.urutau.controller.model.User;
 
 /**
+ * URUTAU - 2015
  * Manage the users
  */
 @Controller
@@ -36,18 +37,26 @@ public class UserController {
 	@Path("/register")
 	public void register(User user) {
 		
-	}
+	}	
 	
 	@View
 	public void welcomeAdministrator() {
 		
 	}
 	
+	/**
+	 * Responsible for redirecting to the welcomeUser.jsp page.
+	 */
 	@Path("/welcomeUser")
 	public void welcomeUser() {
 		
 	}
 	
+	/**
+	 * Setts up the user and redirects him to two possible jsp pages
+	 * depending on the user kind.
+	 * @param user
+	 */
 	@Post
 	@Path("/login")
 	public void login(User user) {
@@ -58,6 +67,9 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Responsible for redirecting to the firstAdministratorSettings.jsp page.
+	 */	
 	@Path("/firstAdministratorSettings")
 	public void firstAdministratorSettings() {
 		

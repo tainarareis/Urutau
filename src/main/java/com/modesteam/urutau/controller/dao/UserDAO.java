@@ -1,27 +1,36 @@
 package com.modesteam.urutau.controller.dao;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.controller.model.User;
 
+/**
+ * URUTAU - 2015
+ * Accesses the database related to the user.
+ */
 @RequestScoped
 public class UserDAO {
+	
 	@Inject
 	private EntityManager manager;
 	
+	/**
+	 * Make the user instance managed and persistent.
+	 * @param user
+	 */
 	public void add(User user){
 		manager.persist(user);
 	}
 	
 	/**
 	 * Method to verify if exist a user with same email or same login
+	 * @param user
+	 * @return 0 if the verification fails
 	 */
 	public int verifyUser(User user) {
 		String sqlLogin = "SELECT E.login FROM User E";
@@ -42,6 +51,7 @@ public class UserDAO {
 			}
 		return 0;
 	}
+	
 	/**
 	 * Method to recover user from database.
 	 * @param user
@@ -63,11 +73,19 @@ public class UserDAO {
 	@Inject
 	private UserManager userManager;
 	
+	/**
+	 * Allows the creation of the user directly in database throughout the manager entity.
+	 * @param user
+	 */
 	public void create(User user) {
 		manager.persist(user);		
 	}
 	
 
+	/**
+	 * Merge the state of the given entity into the current persistence context.
+	 * @param user
+	 */
 	public void newUserSettings(User user) {
 		manager.merge(user);
 	}
