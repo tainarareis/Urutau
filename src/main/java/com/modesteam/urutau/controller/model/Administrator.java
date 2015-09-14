@@ -3,6 +3,7 @@ package com.modesteam.urutau.controller.model;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
  * This class implements the Administrator model which is a special user. 
  */
 
+@Entity
 @DiscriminatorValue(value = "2")
 public class Administrator extends User {
 	

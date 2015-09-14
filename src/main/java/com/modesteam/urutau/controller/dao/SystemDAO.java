@@ -19,7 +19,7 @@ import com.modesteam.urutau.controller.model.Administrator;
 public class SystemDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SystemDAO.class);
-	private static final String DEFAULT_ADMIN_DATA = "admin";
+	private static final String DEFAULT_ADMIN_DATA = "administrator";
 	
 	@Inject
 	private EntityManager manager;
@@ -50,6 +50,10 @@ public class SystemDAO {
 		Administrator administrator = new Administrator();
 		administrator.setLogin(DEFAULT_ADMIN_DATA);
 		administrator.setPassword(DEFAULT_ADMIN_DATA);
+		administrator.setEmail(DEFAULT_ADMIN_DATA);
+		administrator.setName(DEFAULT_ADMIN_DATA);
+		administrator.setLastName(DEFAULT_ADMIN_DATA);
+		administrator.setPasswordVerify(DEFAULT_ADMIN_DATA);
 		manager.persist(administrator);
 	}
 	/**

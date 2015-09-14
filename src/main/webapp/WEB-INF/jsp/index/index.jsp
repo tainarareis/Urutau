@@ -19,39 +19,13 @@
 </head>
 <body>
 <section class="container">
-<<<<<<< HEAD
-	<form action="register" method="POST">
-		Nome: <input name="user.name" type="text"/>
-		<br/>
-		<br/>
-		<br/>
-		Login: <input name="user.login" type="text"/>
-		<br/>
-		<br/>
-		<br/>
-		Password: <input name="user.password" type="password"/>
-		<br/>
-		<br/>
-		<br/>
-		Confirm Password: <input name="user.passwordVerify" type="password"/>
-		<br/>
-		<br/>
-		<br/>
-		Email: <input name="user.email" type="text"/>
-		<br/>
-		<br/>
-		<p>${mensagem}  
-		<input type="submit"/>
-	</form>
-=======
-	<h1>Urutau</h1>
-	<h4>by Modesteam</h4>
-	<h3>Bem vindo ao gerenciador de requisitos que é a sua cara </h3>
->>>>>>> origin/01_PR
-</section>
 
+<h1>Bem vindo ao URUTAU</h1>
+<div class="col-xs-6 col-md-4">
+</div><img src="img/teste.png" class="img-responsive" alt="" width="200px">
+</div>   
  <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-6">
 		<form action="register" class="form-signin" method="POST">
 			<h2 class="form-signin-heading">Sign in</h2>
 			
@@ -78,7 +52,7 @@
 	</div>
 	
 	<div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-6">
 		<form action="login" class="form-signin" method="POST">
 			<h2 class="form-signin-heading">Login</h2>
 			
@@ -101,5 +75,8 @@
 	
 	     
 </div> 
+
+</section>
+
 </body>
 </html>
