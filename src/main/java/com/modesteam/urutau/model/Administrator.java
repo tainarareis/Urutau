@@ -1,4 +1,4 @@
-package com.modesteam.urutau.controller.model;
+package com.modesteam.urutau.model;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import javax.persistence.ManyToMany;
 
 
 /**
- * URUTAU - 2015 
  * This class implements the Administrator model which is a special user. 
  */
 

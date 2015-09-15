@@ -1,4 +1,4 @@
-package com.modesteam.urutau.controller.model.system;
+package com.modesteam.urutau.model.system;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

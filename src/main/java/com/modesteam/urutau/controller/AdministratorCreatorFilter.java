@@ -12,8 +12,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
-import com.modesteam.urutau.controller.dao.SystemDAO;
-import com.modesteam.urutau.controller.model.Administrator;
+import com.modesteam.urutau.dao.SystemDAO;
+import com.modesteam.urutau.model.Administrator;
 
 /**
  * Realizes an filter in index request to create 

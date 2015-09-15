@@ -7,7 +7,7 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 
 /**
- * URUTAU - 2015
+ * 
  * The default controller
  */
 @Controller

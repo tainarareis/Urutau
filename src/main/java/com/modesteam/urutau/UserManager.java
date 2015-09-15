@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import com.modesteam.urutau.controller.model.User;
+import com.modesteam.urutau.model.User;
 
 @SessionScoped
 @Named("manager")

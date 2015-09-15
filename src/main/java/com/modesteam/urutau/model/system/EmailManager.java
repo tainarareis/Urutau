@@ -1,4 +1,4 @@
-package com.modesteam.urutau.controller.model.system;
+package com.modesteam.urutau.model.system;
 
 import javax.enterprise.context.Dependent;
 
@@ -7,7 +7,7 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
-import com.modesteam.urutau.controller.model.User;
+import com.modesteam.urutau.model.User;
 
 @Dependent
 public class EmailManager {

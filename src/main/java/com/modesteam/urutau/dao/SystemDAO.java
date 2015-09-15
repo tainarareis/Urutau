@@ -1,4 +1,4 @@
-package com.modesteam.urutau.controller.dao;
+package com.modesteam.urutau.dao;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -8,10 +8,9 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.controller.model.Administrator;
+import com.modesteam.urutau.model.Administrator;
 
 /**
- * URUTAU - 2015
  * Class responsible to ensure/allow administrator interaction 	
  * through the database management information about Administrators
  */
@@ -31,6 +30,8 @@ public class SystemDAO {
 	 * 
 	 */
 	public boolean existAdministrator() {
+		logger.debug("Verifying existence of administrator...");
+
 		String sql = "SELECT admin FROM " + Administrator.class.getName() + " admin";
 		Query query = manager.createQuery(sql);
 		int existenceOfAdministrator = query.getFirstResult();
@@ -47,6 +48,7 @@ public class SystemDAO {
 	 */
 	public void createFirstAdministrator() {
 		logger.info("Creating first administrator");
+		
 		Administrator administrator = new Administrator();
 		administrator.setLogin(DEFAULT_ADMIN_DATA);
 		administrator.setPassword(DEFAULT_ADMIN_DATA);
@@ -54,6 +56,7 @@ public class SystemDAO {
 		administrator.setName(DEFAULT_ADMIN_DATA);
 		administrator.setLastName(DEFAULT_ADMIN_DATA);
 		administrator.setPasswordVerify(DEFAULT_ADMIN_DATA);
+		
 		manager.persist(administrator);
 	}
 	/**

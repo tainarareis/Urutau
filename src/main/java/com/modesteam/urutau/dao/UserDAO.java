@@ -1,4 +1,4 @@
-package com.modesteam.urutau.controller.dao;
+package com.modesteam.urutau.dao;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.modesteam.urutau.UserManager;
-import com.modesteam.urutau.controller.model.User;
+import com.modesteam.urutau.model.User;
 
 /**
- * URUTAU - 2015
+ *
  * Accesses the database related to the user.
  */
 @RequestScoped

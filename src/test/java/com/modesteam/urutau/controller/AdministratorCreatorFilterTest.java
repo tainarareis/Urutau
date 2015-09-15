@@ -11,7 +11,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.modesteam.urutau.controller.dao.SystemDAO;
+import com.modesteam.urutau.dao.SystemDAO;
 
 public class AdministratorCreatorFilterTest {
 	private ServletRequest request;

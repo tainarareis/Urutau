@@ -3,3 +3,19 @@
 .container {
 	text-align: center;
 }
+
+.form-signin input {
+	height: 50px;
+	text-align: center;
+	display: block;
+	margin: 2px;
+}
+
+.form-signin button{
+	margin-left: 2px;
+}
+
+/* Any information */
+.info{
+	color: #909090;
+}

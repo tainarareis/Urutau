@@ -14,18 +14,15 @@
 	<title>Urutau - Página Inicial</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/agency.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link href="<c:url value='/css/agency.css'/>" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 </head>
+
 <body id="page-top" class="index">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -39,7 +36,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top">
-                	<img src="img/Urutau.png" class="img-responsive" width="50px">               
+                	<img src="img/Urutau.png" class="img-responsive" width="70px">               
 	            </a>
             </div>
 
@@ -49,9 +46,6 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Serviços</a>
-                    </li>                   
                     <li>
                         <a class="page-scroll" href="#about">Sobre</a>
                     </li>
@@ -71,75 +65,57 @@
     <!-- Header -->
     <header>
         <div class="intro-text">         
-            <div class="col-xs-6"> 
-	            <div class="intro-lead-in">
-		            Bem Vindo ao Urutau! Sua ferramenta de requisitos open source!
+            <div class="col-xs-8"> 
+	            <div class="intro-lead-in"> 
+	            	Bem Vindo ao Urutau! <br/>
+	            	<small>Sua ferramenta de requisitos open source!</small>
 	            </div>
 	    	</div>
-            <div class="col-xs-6">                 
-	            <a href="#entrar" class="page-scroll btn btn-xl">Entrar</a>              
+            <div class="col-xs-3">                 
+	            <form action="login" class="form-signin" method="POST">
+					<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
+					<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+				</form>              
 	            <br/>
-	            <br/>
-	            <a href="#cadastrar" class="page-scroll btn btn-xl">Cadastrar</a>
+	            Ainda não é membro? <a href="#cadastrar" class="page-scroll">Cadastra-se</a>
         	</div>
         </div>
     </header>
-
-<section id="entrar">
-<div class="row">
-	<div class="col-sm-6">
-		<form action="login" class="form-signin" method="POST">
-			<h2 class="form-signin-heading">Entrar</h2>
-			
-			<label for="inputEmail" class="sr-only">Email address</label>
-			<input name="user.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-			
-			<label for="inputLogin" class="sr-only">Login</label>
-			<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
-			
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-			
-			
-			<div class="checkbox">
-			  
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-		</form>
-	</div>
-</div> 
-</section>
-
     
  <section id="cadastrar">
- <div class="row">
-	<div class="col-sm-6">
-		<form action="register" class="form-signin" method="POST">
-			
-			<h2 class="section-heading">Cadastrar</h2>
-			
-			<label for="inputEmail" class="sr-only">Email address</label>
-			<input name="user.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-			
-			<label for="inputLogin" class="sr-only">Login</label>
-			<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
-			
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-			
-			<label for="inputName" class="sr-only">Name</label>
-			<input name="user.name" id="inputName" class="form-control" placeholder="Name" required>
-			
-			<label for="inputLastName" class="sr-only">Last name</label>
-			<input name="user.lastName" id="inputLastName" class="form-control" placeholder="Last name" required>
-			
-			<div class="checkbox">
-			  
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
-		</form>
+	 <div class="container">
+		<div class="col-md-6 col-md-offset-3">
+			<h3>
+				Sign up
+			</h3>
+			<form action="register" class="form-signin" method="POST">				
+				<label for="inputEmail" class="sr-only">Email address</label>
+				<input name="user.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+				
+				<label for="inputLogin" class="sr-only">Login</label>
+				<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
+				
+				<label for="inputPassword" class="sr-only">Password</label>
+				<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+				
+				<label for="inputName" class="sr-only">Name</label>
+				<input name="user.name" id="inputName" class="form-control" placeholder="Name" required>
+				
+				<label for="inputLastName" class="sr-only">Last name</label>
+				<input name="user.lastName" id="inputLastName" class="form-control" placeholder="Last name" required>
+				
+				<div class="checkbox">
+				  
+				</div>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+			</form>
+			<p class="info">
+				The registration rules depend  of the enterprise policy. <br/>
+				More information: <a href="#contact" class="page-scroll">Contact administrator</a>.
+			</p>
+		</div>
 	</div>
-</div>
 </section>
 
 <!-- Contact Section -->

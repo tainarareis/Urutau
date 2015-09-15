@@ -1,4 +1,4 @@
-package com.modesteam.urutau.controller.model;
+package com.modesteam.urutau.model;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -6,18 +6,18 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
- * URUTAU - 2015 
- * This class implements the generic user witch can be extended to an Administrator.
+ * This class implements the generic user witch can be extended to an
+ * Administrator.
  */
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="userType", discriminatorType=DiscriminatorType.INTEGER)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.INTEGER)
 @DiscriminatorValue("1")
 public class User {
 
@@ -40,10 +40,15 @@ public class User {
 	@NotNull
 	@Size(min = 6, max = 20)
 	private String passwordVerify;
-	private boolean isConfirmed;
+	/*
+	 * 0 - wait (default value)
+	 * 1 - confirmed
+	 */
+	private int confirmed = 0;
 
 	/**
 	 * Getter for "id"
+	 * 
 	 * @return Long - the user id
 	 */
 	public Long getId() {
@@ -52,6 +57,7 @@ public class User {
 
 	/**
 	 * Sets up the user id
+	 * 
 	 * @param id
 	 */
 	public void setId(Long id) {
@@ -60,22 +66,16 @@ public class User {
 
 	/**
 	 * Verifies if the password inserted is confirmed correctly.
+	 * 
 	 * @return boolean isConfirmed.
 	 */
 	public boolean isConfirmed() {
-		return isConfirmed;
-	}
-
-	/**
-	 * Set up the confirmation password.
-	 * @param isConfirmed.
-	 */
-	public void setConfirmed(boolean isConfirmed) {
-		this.isConfirmed = isConfirmed;
+		return confirmed == 1;
 	}
 
 	/**
 	 * Outputs the password for verification.
+	 * 
 	 * @return String - The password settled up for verification .
 	 */
 	public String getPasswordVerify() {
@@ -84,7 +84,9 @@ public class User {
 
 	/**
 	 * Sets up the password for verification.
-	 * @param passwordVerify.
+	 * 
+	 * @param passwordVerify
+	 *            .
 	 */
 	public void setPasswordVerify(String passwordVerify) {
 		this.passwordVerify = passwordVerify;
@@ -92,6 +94,7 @@ public class User {
 
 	/**
 	 * Getter for "name".
+	 * 
 	 * @return String - the user's name.
 	 */
 	public String getName() {
@@ -100,14 +103,16 @@ public class User {
 
 	/**
 	 * Sets up the user name as a String
+	 * 
 	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Getter for "lastName"
+	 * 
 	 * @return String - the user last name
 	 */
 
@@ -117,6 +122,7 @@ public class User {
 
 	/**
 	 * Sets up the user last name as String
+	 * 
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -125,6 +131,7 @@ public class User {
 
 	/**
 	 * Getter for the user "login"
+	 * 
 	 * @return String - user login
 	 */
 	public String getLogin() {
@@ -133,6 +140,7 @@ public class User {
 
 	/**
 	 * Sets up the user login as String
+	 * 
 	 * @param login
 	 */
 	public void setLogin(String login) {
@@ -141,6 +149,7 @@ public class User {
 
 	/**
 	 * Getter for "password"
+	 * 
 	 * @return String - user password
 	 */
 	public String getPassword() {
@@ -149,6 +158,7 @@ public class User {
 
 	/**
 	 * Sets up the user password as a String
+	 * 
 	 * @param password
 	 */
 	public void setPassword(String password) {
@@ -157,6 +167,7 @@ public class User {
 
 	/**
 	 * Getter for the user "email"
+	 * 
 	 * @return String - user email
 	 */
 	public String getEmail() {
@@ -165,10 +176,19 @@ public class User {
 
 	/**
 	 * Sets up the user email a String
+	 * 
 	 * @param email
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int getConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(int confirmed) {
+		this.confirmed = confirmed;
 	}
 
 }

@@ -7,14 +7,15 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.controller.dao.SystemDAO;
-import com.modesteam.urutau.controller.dao.UserDAO;
-import com.modesteam.urutau.controller.model.User;
+import com.modesteam.urutau.dao.SystemDAO;
+import com.modesteam.urutau.dao.UserDAO;
+import com.modesteam.urutau.model.User;
 
 /**
- * URUTAU - 2015
+ * 
  * Manage the users
  */
 @Controller
