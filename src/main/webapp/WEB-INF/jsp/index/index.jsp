@@ -21,6 +21,27 @@
     
     <!-- Stylesheet -->
     <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
+    
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/cbpAnimatedHeader.js"></script>
+
+    <!--
+    	FIX ME - ISSUE https://github.com/Modesteam/Urutau/issues/3
+    Contact Form JavaScript 
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+    -->
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/agency.js"></script>    
 </head>
 
 <body id="page-top" class="index">
@@ -86,29 +107,18 @@
  <section id="cadastrar">
 	 <div class="container">
 		<div class="col-md-6 col-md-offset-3">
-			<h3>
-				Sign up
-			</h3>
-			<form action="register" class="form-signin" method="POST">				
-				<label for="inputEmail" class="sr-only">Email address</label>
+			<c:forEach var="error" items="${errors}">
+			    ${error.message}<br />
+			</c:forEach>
+			<h3>Sign up</h3>
+			<form action="register" class="form-signin" method="POST">		
 				<input name="user.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-				
-				<label for="inputLogin" class="sr-only">Login</label>
-				<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
-				
-				<label for="inputPassword" class="sr-only">Password</label>
-				<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-				
-				<label for="inputName" class="sr-only">Name</label>
 				<input name="user.name" id="inputName" class="form-control" placeholder="Name" required>
-				
-				<label for="inputLastName" class="sr-only">Last name</label>
 				<input name="user.lastName" id="inputLastName" class="form-control" placeholder="Last name" required>
-				
-				<div class="checkbox">
-				  
-				</div>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+				<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
+				<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+				<input name="user.passwordVerify" type="password" id="inputPassword" class="form-control" placeholder="Confirm password" required>
+				<input class="btn btn-lg btn-primary btn-block" type="submit" value="Cadastrar">
 			</form>
 			<p class="info">
 				The registration rules depend  of the enterprise policy. <br/>
@@ -190,26 +200,6 @@
             </div>
         </div>
     </footer>
-
-    
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="js/classie.js"></script>
-    <script src="js/cbpAnimatedHeader.js"></script>
-
-    <!-- Contact Form JavaScript -->
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/agency.js"></script>
-
 </body>
 
 </html>

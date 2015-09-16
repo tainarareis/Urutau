@@ -3,10 +3,15 @@ package com.modesteam.urutau.controller;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
@@ -16,11 +21,12 @@ import com.modesteam.urutau.model.User;
 
 /**
  * 
- * Manage the users
+ * This controller have actions directly connect to user
  */
 @Controller
 public class UserController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Inject
 	private Result result;
 	@Inject
@@ -29,29 +35,43 @@ public class UserController {
 	private UserDAO userDAO;
 	@Inject
 	private UserManager userManager;
+	@Inject
+	private Validator validator;
 	
 	/**
-	 * Create new user. If there is no user, create
-	 * the first administrator
+	 * Method to register another user in system.
+	 * @param user is an user of model class.
+	 * @return
+	 * 
 	 */
 	@Post
 	@Path("/register")
 	public void register(User user) {
 		
+		logger.info("Initiate an register");
+
+		// Validate if any field is null
+		if(user.getEmail() == null || user.getLogin() == null || 
+				user.getName() == null || user.getPasswordVerify() == null) {
+				validator.add(new SimpleMessage("message", "Campo em branco!"));
+		} else {
+			// If login or email already exist
+			if(!userDAO.isValidField(user.getLogin(), "login")) {
+				validator.add(new SimpleMessage("login", "Login em uso!"));
+			} else if(!userDAO.isValidField(user.getEmail(), "email")) {
+				validator.add(new SimpleMessage("message", "Email já utilizado"));
+			} else {
+				if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify()) == true) {
+					logger.info("User will be persisted, and page redirected");
+					userDAO.add(user);
+					result.redirectTo(this).showSignInSucess();
+				} else {
+					validator.add(new SimpleMessage("message", "As senhas não são compatíveis!"));
+				}
+			}
+		}
+		validator.onErrorRedirectTo(IndexController.class).index();
 	}	
-	
-	@View
-	public void welcomeAdministrator() {
-		
-	}
-	
-	/**
-	 * Responsible for redirecting to the welcomeUser.jsp page.
-	 */
-	@Path("/welcomeUser")
-	public void welcomeUser() {
-		
-	}
 	
 	/**
 	 * Setts up the user and redirects him to two possible jsp pages
@@ -67,15 +87,7 @@ public class UserController {
 			result.redirectTo(this).welcomeUser();
 		}
 	}
-	
-	/**
-	 * Responsible for redirecting to the firstAdministratorSettings.jsp page.
-	 */	
-	@Path("/firstAdministratorSettings")
-	public void firstAdministratorSettings() {
 		
-	}
-	
 	/**
 	 * Set the new first administrator login and password
 	 */
@@ -89,5 +101,26 @@ public class UserController {
 		userDAO.newUserSettings(logged);
 		result.redirectTo(this).welcomeAdministrator();
 	}
+
+	@View
+	public void welcomeAdministrator() {
+		
+	}
+	
+	@View
+	public void welcomeUser() {
+		
+	}
+	
+	@View
+	public void firstAdministratorSettings() {
+		
+	}
+	
+	@View
+	public void showSignInSucess() {
+		
+	}
+
 
 }

@@ -1,12 +1,12 @@
 package com.modesteam.urutau.dao;
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.modesteam.urutau.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.model.User;
 
 /**
@@ -15,6 +15,8 @@ import com.modesteam.urutau.model.User;
  */
 @RequestScoped
 public class UserDAO {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	@Inject
 	private EntityManager manager;
@@ -30,26 +32,20 @@ public class UserDAO {
 	/**
 	 * Method to verify if exist a user with same email or same login
 	 * @param user
-	 * @return 0 if the verification fails
+	 * @return false if the verification fails
 	 */
-	public int verifyUser(User user) {
-		String sqlLogin = "SELECT E.login FROM User E";
-		String sqlEmail = "SELECT E.email FROM User E";
-		Query queryLogin = manager.createQuery(sqlLogin);
-		Query queryEmail = manager.createQuery(sqlEmail);
-		List<String> login =  queryLogin.getResultList();
-		List<String> email =  queryEmail.getResultList();
-			for(String log : login){
-				if(log.equalsIgnoreCase(user.getLogin())==true) {
-					return 1;
-				}
-			}
-			for(String emailAux : email) {
-				if(emailAux.equalsIgnoreCase(user.getEmail())==true) {
-					return 2;
-				}
-			}
-		return 0;
+	public boolean isValidField(Object value, String field) {
+		logger.info("Verification of user, field = "+field);
+		
+		String sql = "SELECT user FROM User user WHERE user."+field+"=:"+field;
+		Query query = manager.createQuery(sql);
+		query.setParameter(field, value);
+		
+		if(query.getResultList().size() == 0){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -69,9 +65,6 @@ public class UserDAO {
 		manager.merge(user);
 		
 	}
-
-	@Inject
-	private UserManager userManager;
 	
 	/**
 	 * Allows the creation of the user directly in database throughout the manager entity.

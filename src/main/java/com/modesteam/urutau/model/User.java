@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,8 +38,7 @@ public class User {
 	@NotNull
 	@Size(min = 6, max = 20)
 	private String password;
-	@NotNull
-	@Size(min = 6, max = 20)
+	@Transient
 	private String passwordVerify;
 	/*
 	 * 0 - wait (default value)
