@@ -27,6 +27,8 @@ import com.modesteam.urutau.model.User;
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	private static final String CATEGORY_ERROR = "message";
 	@Inject
 	private Result result;
 	@Inject
@@ -53,20 +55,20 @@ public class UserController {
 		// Validate if any field is null
 		if(user.getEmail() == null || user.getLogin() == null || 
 				user.getName() == null || user.getPasswordVerify() == null) {
-				validator.add(new SimpleMessage("message", "Campo em branco!"));
+				validator.add(new SimpleMessage(CATEGORY_ERROR, "Campo em branco!"));
 		} else {
 			// If login or email already exist
 			if(!userDAO.isValidField(user.getLogin(), "login")) {
-				validator.add(new SimpleMessage("login", "Login em uso!"));
+				validator.add(new SimpleMessage(CATEGORY_ERROR, "Login em uso!"));
 			} else if(!userDAO.isValidField(user.getEmail(), "email")) {
-				validator.add(new SimpleMessage("message", "Email já utilizado"));
+				validator.add(new SimpleMessage(CATEGORY_ERROR, "Email já utilizado"));
 			} else {
 				if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify()) == true) {
 					logger.info("User will be persisted, and page redirected");
 					userDAO.add(user);
 					result.redirectTo(this).showSignInSucess();
 				} else {
-					validator.add(new SimpleMessage("message", "As senhas não são compatíveis!"));
+					validator.add(new SimpleMessage(CATEGORY_ERROR, "As senhas não são compatíveis!"));
 				}
 			}
 		}
@@ -81,8 +83,10 @@ public class UserController {
 	@Post
 	@Path("/login")
 	public void login(User user) {
+		// Se for o primeiro administrador, ja redireciona pra configurar
+		// Deixar login limpo!
 		if(systemDAO.isFirstAdministrator()){
-			result.redirectTo(this).firstAdministratorSettings();
+			result.redirectTo(AdministratorController.class).changeFirstSettings();
 		} else {
 			result.redirectTo(this).welcomeUser();
 		}
@@ -99,21 +103,11 @@ public class UserController {
 		logged.setPassword(user.getPassword());
 		userManager.setUserLogged(logged);
 		userDAO.newUserSettings(logged);
-		result.redirectTo(this).welcomeAdministrator();
-	}
-
-	@View
-	public void welcomeAdministrator() {
-		
+		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
 	
 	@View
 	public void welcomeUser() {
-		
-	}
-	
-	@View
-	public void firstAdministratorSettings() {
 		
 	}
 	

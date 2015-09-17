@@ -34,8 +34,9 @@ public class SystemDAO {
 
 		String sql = "SELECT admin FROM " + Administrator.class.getName() + " admin";
 		Query query = manager.createQuery(sql);
-		int existenceOfAdministrator = query.getFirstResult();
-		if(existenceOfAdministrator == 0) {
+		int numberOfAdministrators = query.getResultList().size();
+		
+		if(numberOfAdministrators == 0) {
 			return false;
 		} else {
 			return true;
