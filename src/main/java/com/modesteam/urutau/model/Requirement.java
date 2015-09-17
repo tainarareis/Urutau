@@ -5,14 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Requirements {
+public class Requirement {
 	@Id
 	@GeneratedValue
 	private long id;
 	private String title;
 	private String description;
 	
-	public Requirements() {
+	public Requirement() {
 		super();
 	}
 	

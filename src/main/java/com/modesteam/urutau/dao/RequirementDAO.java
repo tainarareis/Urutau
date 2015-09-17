@@ -4,15 +4,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.modesteam.urutau.model.Requirements;
+import com.modesteam.urutau.model.Requirement;
 
 @RequestScoped
-public class RequirementsDAO {
+public class RequirementDAO {
 
 	@Inject
 	private EntityManager manager;
 	
-	public void save(Requirements requirement) {
+	public void save(Requirement requirement) {
 		manager.persist(requirement);
 	}
 	
