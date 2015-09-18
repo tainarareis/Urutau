@@ -13,6 +13,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.dao.SystemDAO;
 import com.modesteam.urutau.model.Administrator;
 
@@ -26,6 +29,8 @@ import com.modesteam.urutau.model.Administrator;
 @WebFilter("/")
 public class AdministratorCreatorFilter implements Filter {
 
+	private static final Logger logger = LoggerFactory.getLogger(AdministratorCreatorFilter.class);
+	
 	private static final String CHANGE_SETTINGS_VIEW = "/administrator/changeFirstSettings";
 	
 	@Inject
@@ -54,8 +59,10 @@ public class AdministratorCreatorFilter implements Filter {
 			// Admin yet created!
 			chain.doFilter(request, response);
 		} else {
+			logger.info("First admin will created");
 			systemDAO.createFirstAdministrator();
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
+			logger.debug("Redirecting with "+ requestDispatcher + " to change settings");
 			requestDispatcher.forward(request, response);
 		}
 	}
