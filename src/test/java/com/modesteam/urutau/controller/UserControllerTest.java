@@ -11,13 +11,13 @@ import br.com.caelum.vraptor.validator.ValidationException;
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.builder.UserBuilder;
 import com.modesteam.urutau.dao.SystemDAO;
-import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.UserService;
 
 public class UserControllerTest {
 	private MockResult mockResult;
 	private SystemDAO mockSystemDAO;
-	private UserDAO mockUserDAO;
+	private UserService mockUserService;
 	private UserManager mockUserManager;
 	private MockValidator mockValidator;
 
@@ -29,7 +29,7 @@ public class UserControllerTest {
 		
 		// Components of system
 		mockSystemDAO = EasyMock.createMock(SystemDAO.class);
-		mockUserDAO = EasyMock.createMock(UserDAO.class);
+		mockUserService = EasyMock.createMock(UserService.class);
 		mockUserManager = EasyMock.createMock(UserManager.class);
 	}
 	
@@ -50,10 +50,10 @@ public class UserControllerTest {
 		
 		mockAdd(user);
 
-		EasyMock.replay(mockUserDAO);
+		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
-				mockSystemDAO, mockUserDAO, mockUserManager, mockValidator);
+				mockSystemDAO, mockUserService, mockUserManager, mockValidator);
 		
 		controller.register(user);
 	}
@@ -65,7 +65,7 @@ public class UserControllerTest {
 		User user = builder.build();
 
 		UserController controller = new UserController(mockResult,
-				mockSystemDAO, mockUserDAO, mockUserManager, mockValidator);
+				mockSystemDAO, mockUserService, mockUserManager, mockValidator);
 		
 		controller.register(user);
 	}
@@ -87,20 +87,20 @@ public class UserControllerTest {
 		
 		mockAdd(user);
 
-		EasyMock.replay(mockUserDAO);
+		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
-				mockSystemDAO, mockUserDAO, mockUserManager, mockValidator);
+				mockSystemDAO, mockUserService, mockUserManager, mockValidator);
 		
 		controller.register(user);
 	}
 
 	private void mockIsExistsField(Object value, String field, Boolean returnValue) {
-		EasyMock.expect(mockUserDAO.existsField(value, field)).andReturn(returnValue);
+		EasyMock.expect(mockUserService.existsField(field, value)).andReturn(returnValue);
 	}
 	
 	private void mockAdd(User user){
-		mockUserDAO.add(user);
+		mockUserService.create(user);
 		EasyMock.expectLastCall();
 	}
 }

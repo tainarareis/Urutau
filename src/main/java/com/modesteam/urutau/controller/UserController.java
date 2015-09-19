@@ -16,8 +16,8 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.SystemDAO;
-import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.UserService;
 
 /**
  * 
@@ -29,15 +29,11 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	private static final String CATEGORY_ERROR = "message";
-	@Inject
+
 	private final Result result;
-	@Inject
 	private final SystemDAO systemDAO;
-	@Inject
-	private final UserDAO userDAO;
-	@Inject
+	private final UserService userService;
 	private final UserManager userManager;
-	@Inject
 	private final Validator validator;
 	
 	/*
@@ -49,10 +45,10 @@ public class UserController {
 	
 	@Inject
 	public UserController(Result result, SystemDAO systemDAO, 
-			UserDAO userDAO, UserManager userManager, Validator validator) {
+			UserService userService, UserManager userManager, Validator validator) {
 		this.result = result;
 		this.systemDAO = systemDAO;
-		this.userDAO = userDAO;
+		this.userService = userService;
 		this.userManager = userManager;
 		this.validator = validator;
 	}
@@ -75,25 +71,20 @@ public class UserController {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Campo em branco!"));
 		} else {			
 			// If login or email already exist
-			if(!userDAO.existsField(user.getLogin(), "login")) {
+			if(!userService.existsField("login", user.getLogin())) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Login em uso!"));
-			} 
-			
-			if(!userDAO.existsField(user.getEmail(), "email")) {
+			} else if(!userService.existsField("email", user.getEmail())) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Email já utilizado"));
-			} 
-			
-			if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
-					logger.info("User will be persisted, and page redirected");
-					userDAO.add(user);
-					result.redirectTo(this).showSignInSucess();
+			} else if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
+				logger.info("User will be persisted, and page redirected");
+				userService.create(user);
+				result.redirectTo(this).showSignInSucess();
 			} else {
-					validator.add(new SimpleMessage(CATEGORY_ERROR, "As senhas não são compatíveis!"));
+				validator.add(new SimpleMessage(CATEGORY_ERROR, "As senhas não são compatíveis!"));
 			}
 		}
-		
-		validator.onErrorRedirectTo(IndexController.class).index();
-	
+		// If happen any error of validation
+		validator.onErrorUsePageOf(IndexController.class).index();
 	}	
 	
 	/**
@@ -123,7 +114,7 @@ public class UserController {
 		logged.setLogin(user.getLogin());
 		logged.setPassword(user.getPassword());
 		userManager.setUserLogged(logged);
-		userDAO.newUserSettings(logged);
+		userService.update(logged);
 		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
 	
