@@ -30,15 +30,32 @@ public class UserController {
 	
 	private static final String CATEGORY_ERROR = "message";
 	@Inject
-	private Result result;
+	private final Result result;
 	@Inject
-	private SystemDAO systemDAO;
+	private final SystemDAO systemDAO;
 	@Inject
-	private UserDAO userDAO;
+	private final UserDAO userDAO;
 	@Inject
-	private UserManager userManager;
+	private final UserManager userManager;
 	@Inject
-	private Validator validator;
+	private final Validator validator;
+	
+	/*
+	 * CDI needs this
+	 */
+	public UserController() {
+		this(null, null, null, null, null);
+	}
+	
+	@Inject
+	public UserController(Result result, SystemDAO systemDAO, 
+			UserDAO userDAO, UserManager userManager, Validator validator) {
+		this.result = result;
+		this.systemDAO = systemDAO;
+		this.userDAO = userDAO;
+		this.userManager = userManager;
+		this.validator = validator;
+	}
 	
 	/**
 	 * Method to register another user in system.
@@ -56,23 +73,27 @@ public class UserController {
 		if(user.getEmail() == null || user.getLogin() == null || 
 				user.getName() == null || user.getPasswordVerify() == null) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Campo em branco!"));
-		} else {
+		} else {			
 			// If login or email already exist
-			if(!userDAO.isValidField(user.getLogin(), "login")) {
+			if(!userDAO.existsField(user.getLogin(), "login")) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Login em uso!"));
-			} else if(!userDAO.isValidField(user.getEmail(), "email")) {
+			} 
+			
+			if(!userDAO.existsField(user.getEmail(), "email")) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Email já utilizado"));
-			} else {
-				if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify()) == true) {
+			} 
+			
+			if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
 					logger.info("User will be persisted, and page redirected");
 					userDAO.add(user);
 					result.redirectTo(this).showSignInSucess();
-				} else {
+			} else {
 					validator.add(new SimpleMessage(CATEGORY_ERROR, "As senhas não são compatíveis!"));
-				}
 			}
 		}
+		
 		validator.onErrorRedirectTo(IndexController.class).index();
+	
 	}	
 	
 	/**
@@ -115,6 +136,5 @@ public class UserController {
 	public void showSignInSucess() {
 		
 	}
-
 
 }

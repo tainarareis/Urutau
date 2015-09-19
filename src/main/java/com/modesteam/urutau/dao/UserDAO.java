@@ -34,7 +34,7 @@ public class UserDAO {
 	 * @param user
 	 * @return false if the verification fails
 	 */
-	public boolean isValidField(Object value, String field) {
+	public boolean existsField(Object value, String field) {
 		logger.info("Verification of user, field = "+field);
 		
 		String sql = "SELECT user FROM User user WHERE user."+field+"=:"+field;
