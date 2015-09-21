@@ -37,7 +37,7 @@
 					<br/>
 					<input name="user.name" type="text" placeholder="Name: Jhon"/>
 					<br/>
-					<input name="user.lastname" type="text" placeholder="Lastname: Pereira"/>
+					<input name="user.lastName" type="text" placeholder="Lastname: Pereira"/>
 					<button class="btn btn-primary btn-block" type="submit">Próxima página (1/2)</button>
 				</form>
 			</div>

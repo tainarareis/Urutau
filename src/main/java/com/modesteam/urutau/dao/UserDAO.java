@@ -78,4 +78,8 @@ public class UserDAO implements DaoInterface<User>{
 		}
 	}
 
+	public void clean() {
+		manager.clear();
+	}
+
 }
