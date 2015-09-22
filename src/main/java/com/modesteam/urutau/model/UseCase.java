@@ -3,7 +3,7 @@ package com.modesteam.urutau.model;
 import javax.persistence.Entity;
 
 @Entity
-public class UseCase extends Requirement{
+public class UseCase extends Requirement {
 	private String actors;
 
 	public String getActors() {

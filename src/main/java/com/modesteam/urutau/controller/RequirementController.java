@@ -5,6 +5,8 @@ import javax.persistence.EntityManager;
 
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Requirement;
+import com.modesteam.urutau.model.UseCase;
+import com.modesteam.urutau.model.UserHistory;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -28,7 +30,21 @@ public class RequirementController {
 	@Post
 	@Path("/registerRequirement")
 	public void registerRequirement(Requirement requirement) {
-		requirementDAO.save(requirement);
+		requirementDAO.saveGeneric(requirement);
+		result.redirectTo(this).registerRequirement();
+	}
+	
+	@Post
+	@Path("/registerRequirement")
+	public void registerUserHistory(UserHistory userHistory) {
+		requirementDAO.saveUserHistory(userHistory);
+		result.redirectTo(this).registerRequirement();
+	}
+	
+	@Post
+	@Path("/registerRequirement")
+	public void registerUseCase(UseCase useCase) {
+		requirementDAO.saveUseCase(useCase);
 		result.redirectTo(this).registerRequirement();
 	}
 	
