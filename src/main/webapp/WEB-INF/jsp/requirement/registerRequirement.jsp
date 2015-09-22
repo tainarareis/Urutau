@@ -23,10 +23,12 @@
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 </head>
 
+
 <body>
 	<h1>Registre um requisito!</h1>
 
 	<select id="mySelect" onchange="myFunction()">
+		<option value="nenhum">Nenhum
 		<option value="generico">Genérico
 		<option value="historia">História de Usuário
 		<option value="casodeUso">Caso de Uso
@@ -36,13 +38,28 @@
 		function myFunction() {
 			var x = document.getElementById("mySelect").value;
 			if (x == "generico") {
-				document.getElementById("generico").style.hidden = "visible";
+				document.getElementById("formGenerico").setAttribute('style','visibility:visible');
+				document.getElementById("formHistoria").setAttribute('style','visibility:hidden');
+				document.getElementById("formCasoDeUso").setAttribute('style','visibility:hidden');
+			} else if (x == "historia"){
+				document.getElementById("formHistoria").setAttribute('style','visibility:visible');
+				document.getElementById("formGenerico").setAttribute('style','visibility:hidden');
+				document.getElementById("formCasoDeUso").setAttribute('style','visibility:hidden');
+			} else if (x == "casodeUso"){
+				document.getElementById("formCasoDeUso").setAttribute('style','visibility:visible');
+				document.getElementById("formGenerico").setAttribute('style','visibility:hidden');
+				document.getElementById("formHistoria").setAttribute('style','visibility:hidden');
+			} else {
+				document.getElementById("formGenerico").setAttribute('style','visibility:hidden');
+				document.getElementById("formHistoria").setAttribute('style','visibility:hidden');
+				document.getElementById("formCasoDeUso").setAttribute('style','visibility:hidden');
+				
 			}
 
 		}
 	</script>
 
-	<div id="generico" hidden = "invisible">
+	<div id="formGenerico" style="visibility:hidden">
 		<form action="registerRequirement" method="POST">
 			generico : <input name="requirement.title" placeholder="Título"
 				type="text"> Descrição : <input
@@ -51,7 +68,7 @@
 		</form>
 	</div>
 
-	<div id="historia">
+	<div id="formHistoria" style="visibility:hidden">
 		<form action="registerRequirement" method="POST">
 			historia : <input name="requirement.title" placeholder="Título"
 				type="text"> Descrição : <input
@@ -59,5 +76,15 @@
 			<input type="submit" value="Login">
 		</form>
 	</div>
+	
+	<div id="formCasoDeUso" style="visibility:hidden">
+		<form action="registerRequirement" method="POST">
+			caso de uso : <input name="requirement.title" placeholder="Título"
+				type="text"> Descrição : <input
+				name="requirement.description" placeholder="Descrição" type="text">
+			<input type="submit" value="Login">
+		</form>
+	</div>
 </body>
 </html>
+
