@@ -35,14 +35,14 @@ public class RequirementController {
 	}
 	
 	@Post
-	@Path("/registerRequirement")
+	@Path("/registerUserHistory")
 	public void registerUserHistory(UserHistory userHistory) {
 		requirementDAO.saveUserHistory(userHistory);
 		result.redirectTo(this).registerRequirement();
 	}
 	
 	@Post
-	@Path("/registerRequirement")
+	@Path("/registerUseCase")
 	public void registerUseCase(UseCase useCase) {
 		requirementDAO.saveUseCase(useCase);
 		result.redirectTo(this).registerRequirement();

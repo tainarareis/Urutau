@@ -38,51 +38,68 @@
 		function myFunction() {
 			var x = document.getElementById("mySelect").value;
 			if (x == "generico") {
-				document.getElementById("formGenerico").setAttribute('style','visibility:visible');
-				document.getElementById("formHistoria").setAttribute('style','visibility:hidden');
-				document.getElementById("formCasoDeUso").setAttribute('style','visibility:hidden');
-			} else if (x == "historia"){
-				document.getElementById("formHistoria").setAttribute('style','visibility:visible');
-				document.getElementById("formGenerico").setAttribute('style','visibility:hidden');
-				document.getElementById("formCasoDeUso").setAttribute('style','visibility:hidden');
-			} else if (x == "casodeUso"){
-				document.getElementById("formCasoDeUso").setAttribute('style','visibility:visible');
-				document.getElementById("formGenerico").setAttribute('style','visibility:hidden');
-				document.getElementById("formHistoria").setAttribute('style','visibility:hidden');
+				document.getElementById("formGenerico").setAttribute('style',
+						'visibility:visible');
+				document.getElementById("formHistoria").setAttribute('style',
+						'visibility:hidden');
+				document.getElementById("formCasoDeUso").setAttribute('style',
+						'visibility:hidden');
+			} else if (x == "historia") {
+				document.getElementById("formHistoria").setAttribute('style',
+						'visibility:visible');
+				document.getElementById("formGenerico").setAttribute('style',
+						'visibility:hidden');
+				document.getElementById("formCasoDeUso").setAttribute('style',
+						'visibility:hidden');
+			} else if (x == "casodeUso") {
+				document.getElementById("formCasoDeUso").setAttribute('style',
+						'visibility:visible');
+				document.getElementById("formGenerico").setAttribute('style',
+						'visibility:hidden');
+				document.getElementById("formHistoria").setAttribute('style',
+						'visibility:hidden');
 			} else {
-				document.getElementById("formGenerico").setAttribute('style','visibility:hidden');
-				document.getElementById("formHistoria").setAttribute('style','visibility:hidden');
-				document.getElementById("formCasoDeUso").setAttribute('style','visibility:hidden');
-				
+				document.getElementById("formGenerico").setAttribute('style',
+						'visibility:hidden');
+				document.getElementById("formHistoria").setAttribute('style',
+						'visibility:hidden');
+				document.getElementById("formCasoDeUso").setAttribute('style',
+						'visibility:hidden');
+
 			}
 
 		}
 	</script>
 
-	<div id="formGenerico" style="visibility:hidden">
+	<div id="formGenerico" style="visibility: hidden">
 		<form action="registerRequirement" method="POST">
-			generico : <input name="requirement.title" placeholder="Título"
-				type="text"> Descrição : <input
-				name="requirement.description" placeholder="Descrição" type="text">
-			<input type="submit" value="Login">
+			<input name="requirement.title" placeholder="Título"
+				type="text">
+			<input name="requirement.description" placeholder="Descrição" type="text">
+			<input type="submit" value="Cadastrar">
 		</form>
 	</div>
 
-	<div id="formHistoria" style="visibility:hidden">
-		<form action="registerRequirement" method="POST">
-			historia : <input name="requirement.title" placeholder="Título"
-				type="text"> Descrição : <input
-				name="requirement.description" placeholder="Descrição" type="text">
-			<input type="submit" value="Login">
+	<div id="formHistoria" style="visibility: hidden">
+		<form action="registerUserHistory" method="POST">
+			<input name="userHistory.title" placeholder="Título" type="text"> 
+			<input name="userHistory.description" 
+			placeholder="Descrição" type="text">
+				<input name="userHistory.history" placeholder="História" type="text">
+				<input name="userHistory.scenary" placeholder="Cenário" type="text">
+				<input name="userHistory.discretion" 
+				placeholder="Critérios de aceitação" type="text">
+			<input type="submit" value="Cadastrar">
 		</form>
 	</div>
-	
-	<div id="formCasoDeUso" style="visibility:hidden">
-		<form action="registerRequirement" method="POST">
-			caso de uso : <input name="requirement.title" placeholder="Título"
-				type="text"> Descrição : <input
-				name="requirement.description" placeholder="Descrição" type="text">
-			<input type="submit" value="Login">
+
+	<div id="formCasoDeUso" style="visibility: hidden">
+		<form action="registerUseCase" method="POST">
+			<input name="useCase.title" placeholder="Título" type="text">
+			<input name="useCase.description" placeholder="Descrição" type="text">
+			<input name="useCase.actors" placeholder="Atores" type="text">
+			
+			<input type="submit" value="Cadastrar">
 		</form>
 	</div>
 </body>
