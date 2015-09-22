@@ -56,6 +56,16 @@ public class UserDAO implements DaoInterface<User>{
 		}
 	}
 
+	public boolean existsUser(User user){
+		boolean userExistence;
+		String sql = "SELECT u FROM User u WHERE u.login = :login and u.password = :password";
+		userExistence = manager.createQuery(sql)
+					.setParameter("login", user.getLogin())
+					.setParameter("password", user.getPassword())
+					.getResultList().isEmpty();
+		return userExistence;
+	}
+	
 	@Override
 	public boolean destroy(User entity) {
 		try {

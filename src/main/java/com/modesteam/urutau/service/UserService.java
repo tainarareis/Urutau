@@ -49,11 +49,20 @@ public class UserService {
 			return false;
 		}
 	}
+
+	
 	/**
 	 * See {@link UserDAO#update(User)}
 	 */
 	public void update(User user) {
 		userDAO.create(user);
 	}
+
+	public boolean existsUser(User user) {
+		boolean userExistence;
+		userExistence = userDAO.existsUser(user);
+		return userExistence;
+	}
+
 
 }

@@ -6,18 +6,19 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.dao.SystemDAO;
+import com.modesteam.urutau.service.UserService;
+
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserManager;
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.SystemDAO;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.UserService;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class UserController {
 	private final UserService userService;
 	private final UserManager userManager;
 	private final Validator validator;
-	
+
 	/*
 	 * CDI needs this
 	 */
@@ -45,7 +46,8 @@ public class UserController {
 	
 	@Inject
 	public UserController(Result result, SystemDAO systemDAO, 
-			UserService userService, UserManager userManager, Validator validator) {
+			UserService userService, UserManager userManager,
+			Validator validator) {
 		this.result = result;
 		this.systemDAO = systemDAO;
 		this.userService = userService;
@@ -70,7 +72,7 @@ public class UserController {
 				user.getName() == null || user.getPasswordVerify() == null) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Campo em branco!"));
 		} else {			
-			// If login or email already exist
+			//Verifies the existence the current login and email are already registered
 			if(!userService.existsField("login", user.getLogin())) {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "Login em uso!"));
 			} else if(!userService.existsField("email", user.getEmail())) {
@@ -83,23 +85,32 @@ public class UserController {
 				validator.add(new SimpleMessage(CATEGORY_ERROR, "As senhas não são compatíveis!"));
 			}
 		}
-		// If happen any error of validation
+		// If happens any error of validation
 		validator.onErrorUsePageOf(IndexController.class).index();
 	}	
 	
+	
+	
+	@Get
+	public void login(){		
+	
+	}
+	
 	/**
-	 * Setts up the user and redirects him to two possible jsp pages
+	 * Sets up the user and redirects him to two possible jsp pages
 	 * depending on the user kind.
 	 * @param user
 	 */
 	@Post
 	@Path("/login")
-	public void login(User user) {
+	public void userAutentication(User user) {
 		// Se for o primeiro administrador, ja redireciona pra configurar
 		// Deixar login limpo!
-		if(systemDAO.isFirstAdministrator()){
-			result.redirectTo(AdministratorController.class).changeFirstSettings();
-		} else {
+		if (!userService.existsUser(user)){
+			validator.add(new SimpleMessage(CATEGORY_ERROR, "Usuário inexistente no sistema!"));
+			
+		}else{			
+			userService.setUser(user);
 			result.redirectTo(this).welcomeUser();
 		}
 	}
