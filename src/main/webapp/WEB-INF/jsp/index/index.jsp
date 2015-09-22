@@ -89,17 +89,20 @@
             <div class="col-xs-8"> 
 	            <div class="intro-lead-in"> 
 	            	Bem Vindo ao Urutau! <br/>
-	            	<small>Sua ferramenta de requisitos open source!</small>
+	            	<small>Sua ferramenta de gerenciamento de requisitos <i>Open Source!</i></small>
 	            </div>
 	    	</div>
             <div class="col-xs-3">                 
+	            <c:forEach var="error" items="${errors}">
+		    		${error.message}<br />
+				</c:forEach>
 	            <form action="login" class="form-signin" method="POST">
 					<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
 					<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 				</form>              
 	            <br/>
-	            Ainda não é membro? <a href="#cadastrar" class="page-scroll">Cadastra-se</a>
+	            Ainda não é membro? <a href="#cadastrar" class="page-scroll">Cadastre-se</a>
         	</div>
         </div>
     </header>
