@@ -57,12 +57,20 @@ public class UserService {
 	public void update(User user) {
 		userDAO.create(user);
 	}
-
-	public boolean existsUser(User user) {
+	
+	/**
+	 * See if an user exist
+	 * 
+	 * @param login
+	 * @return
+	 */
+	public boolean existsUser(String login) {
 		boolean userExistence;
-		userExistence = userDAO.existsUser(user);
+		if(userDAO.get("login", login) != null) {
+			userExistence = true;
+		} else {
+			userExistence = false;
+		}
 		return userExistence;
 	}
-
-
 }
