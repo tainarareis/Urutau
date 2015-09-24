@@ -6,12 +6,14 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.IndexController;
 import com.modesteam.urutau.dao.SystemDAO;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
+
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -20,6 +22,11 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
+
+import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.UserService;
 
 
 /**
@@ -34,7 +41,6 @@ public class UserController {
 	private static final String CATEGORY_ERROR = "message";
 
 	private final Result result;
-	private final SystemDAO systemDAO;
 	private final UserService userService;
 	private final UserManager userManager;
 	private final Validator validator;
@@ -43,15 +49,14 @@ public class UserController {
 	 * CDI needs this
 	 */
 	public UserController() {
-		this(null, null, null, null, null);
+		this(null, null, null, null);
 	}
 	
 	@Inject
-	public UserController(Result result, SystemDAO systemDAO, 
+	public UserController(Result result, 
 			UserService userService, UserManager userManager,
 			Validator validator) {
 		this.result = result;
-		this.systemDAO = systemDAO;
 		this.userService = userService;
 		this.userManager = userManager;
 		this.validator = validator;
@@ -105,14 +110,11 @@ public class UserController {
 	 */
 	@Post
 	@Path("/login")
-	public void userAuthentication(User user) {
-		// Se for o primeiro administrador, ja redireciona pra configurar
-		// Deixar login limpo!
-		if (!userService.existsUser(user)){
+	public void userAutentication(User user) {
+		// Verifies if exists an user with this login
+		if (!userService.existsUser(user.getLogin())) {
 			validator.add(new SimpleMessage(CATEGORY_ERROR, "Usuário inexistente no sistema!"));
-			
-		}else{			
-		
+		} else {			
 			result.redirectTo(this).welcomeUser();
 		}
 	}

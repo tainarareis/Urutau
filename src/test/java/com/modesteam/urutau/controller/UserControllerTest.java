@@ -10,13 +10,11 @@ import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.builder.UserBuilder;
-import com.modesteam.urutau.dao.SystemDAO;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
 
 public class UserControllerTest {
 	private MockResult mockResult;
-	private SystemDAO mockSystemDAO;
 	private UserService mockUserService;
 	private UserManager mockUserManager;
 	private MockValidator mockValidator;
@@ -28,7 +26,6 @@ public class UserControllerTest {
 		mockValidator = new MockValidator();
 		
 		// Components of system
-		mockSystemDAO = EasyMock.createMock(SystemDAO.class);
 		mockUserService = EasyMock.createMock(UserService.class);
 		mockUserManager = EasyMock.createMock(UserManager.class);
 	}
@@ -52,8 +49,8 @@ public class UserControllerTest {
 
 		EasyMock.replay(mockUserService);
 
-		UserController controller = new UserController(mockResult,
-				mockSystemDAO, mockUserService, mockUserManager, mockValidator);
+		UserController controller = new UserController(mockResult, mockUserService, 
+				mockUserManager, mockValidator);
 		
 		controller.register(user);
 	}
@@ -64,8 +61,8 @@ public class UserControllerTest {
 		
 		User user = builder.build();
 
-		UserController controller = new UserController(mockResult,
-				mockSystemDAO, mockUserService, mockUserManager, mockValidator);
+		UserController controller = new UserController(mockResult, 
+				mockUserService, mockUserManager, mockValidator);
 		
 		controller.register(user);
 	}
@@ -90,7 +87,7 @@ public class UserControllerTest {
 		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
-				mockSystemDAO, mockUserService, mockUserManager, mockValidator);
+				mockUserService, mockUserManager, mockValidator);
 		
 		controller.register(user);
 	}

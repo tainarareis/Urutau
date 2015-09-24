@@ -51,9 +51,14 @@ public class SystemDAO {
 		logger.info("Creating first administrator");
 		
 		Administrator administrator = new Administrator();
+
+		// Yet confirmed!
+		administrator.setConfirmed(1);
 		administrator.setLogin(DEFAULT_ADMIN_DATA);
 		administrator.setPassword(DEFAULT_ADMIN_DATA);
-		administrator.setEmail(DEFAULT_ADMIN_DATA);
+		administrator.setEmail(
+				DEFAULT_ADMIN_DATA.concat("@")
+				.concat(DEFAULT_ADMIN_DATA).concat(".com"));
 		administrator.setName(DEFAULT_ADMIN_DATA);
 		administrator.setLastName(DEFAULT_ADMIN_DATA);
 		administrator.setPasswordVerify(DEFAULT_ADMIN_DATA);

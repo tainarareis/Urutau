@@ -10,6 +10,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -25,7 +26,13 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String email;
+	@NotNull
+	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+	        +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+	        +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+	             message="{invalid.email}")
+	// ^font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
+	private String email; 
 	@NotNull
 	@Size(min = 3, max = 20)
 	private String name;
