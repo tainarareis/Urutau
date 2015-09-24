@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.dao.IndexController;
 import com.modesteam.urutau.dao.SystemDAO;
+import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
 
 import br.com.caelum.vraptor.Controller;
@@ -103,14 +105,14 @@ public class UserController {
 	 */
 	@Post
 	@Path("/login")
-	public void userAutentication(User user) {
+	public void userAuthentication(User user) {
 		// Se for o primeiro administrador, ja redireciona pra configurar
 		// Deixar login limpo!
 		if (!userService.existsUser(user)){
 			validator.add(new SimpleMessage(CATEGORY_ERROR, "Usuário inexistente no sistema!"));
 			
 		}else{			
-			userService.setUser(user);
+		
 			result.redirectTo(this).welcomeUser();
 		}
 	}
@@ -139,4 +141,22 @@ public class UserController {
 		
 	}
 
+	@Post("/authenticate")
+    public void authenticateUser(User user) {
+        User user = userDao.authenticate(user.getLogin(), user.getPassword());
+
+        if (user != null) {
+            userSession.setUser(user);
+
+            result.redirectTo(IndexController.class).index();
+        } else {
+            result.include("error", "E-mail ou senha incorreta!").redirectTo(this).login();
+        }
+    }
+
+    @Get("/logout")
+    public void logout() {
+        userSession.logout();
+        result.redirectTo(this).login();
+    }
 }

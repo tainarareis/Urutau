@@ -2,7 +2,9 @@ package com.modesteam.urutau.service;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,5 +66,6 @@ public class UserService {
 		return userExistence;
 	}
 
+ 
 
 }
