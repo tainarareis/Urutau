@@ -5,11 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Configuration {
+public class Place {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private Place place;
 	private String name;
 
 	public Long getId() {
@@ -18,14 +17,6 @@ public class Configuration {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Place getPlace() {
-		return place;
-	}
-
-	public void setPlace(Place place) {
-		this.place = place;
 	}
 
 	public String getName() {

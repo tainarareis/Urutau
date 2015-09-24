@@ -16,8 +16,8 @@ import javax.servlet.annotation.WebFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.dao.SystemDAO;
 import com.modesteam.urutau.model.Administrator;
+import com.modesteam.urutau.service.AdministratorService;
 
 /**
  * Realizes an filter in index request to create 
@@ -34,7 +34,7 @@ public class AdministratorCreatorFilter implements Filter {
 	private static final String CHANGE_SETTINGS_VIEW = "/administrator/changeFirstSettings";
 	
 	@Inject
-	private SystemDAO systemDAO;
+	private AdministratorService administratorService;
 	
 	/**
 	 * @deprecated CDI eye only
@@ -43,8 +43,8 @@ public class AdministratorCreatorFilter implements Filter {
 	
 	}
 	
-	public AdministratorCreatorFilter(SystemDAO systemDAO) {
-		this.systemDAO = systemDAO;
+	public AdministratorCreatorFilter(AdministratorService administratorService) {
+		this.administratorService = administratorService;
 	}
 
 	/**
@@ -55,12 +55,12 @@ public class AdministratorCreatorFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		if(systemDAO.existAdministrator()){
+		if(administratorService.existAdministrator()){
 			// Admin yet created!
 			chain.doFilter(request, response);
 		} else {
 			logger.info("First admin will created");
-			systemDAO.createFirstAdministrator();
+			administratorService.createFirstAdministrator();
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
 			logger.debug("Redirecting with "+ requestDispatcher + " to change settings");
 			requestDispatcher.forward(request, response);
@@ -69,10 +69,12 @@ public class AdministratorCreatorFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		
 	}
 	
 	@Override
 	public void destroy() {
+		
 	}
 
 }

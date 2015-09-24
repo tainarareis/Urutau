@@ -11,7 +11,9 @@ import br.com.caelum.vraptor.Result;
 
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.Configuration;
 import com.modesteam.urutau.service.AdministratorService;
+import com.modesteam.urutau.service.ConfigurationService;
 /**
  * Executes main logics of administrator
  */
@@ -23,18 +25,22 @@ public class AdministratorController {
 	private final Result result;
 	
 	private final AdministratorService administratorService;
+
+	private final ConfigurationService systemService;
 	
 	/*
 	 * CDI 
 	 */
 	public AdministratorController() {
-		this(null, null);
+		this(null, null, null);
 	}
 	
 	@Inject
-	public AdministratorController(Result result, AdministratorService administratorService) {
+	public AdministratorController(Result result, AdministratorService administratorService, 
+			ConfigurationService systemService) {
 		this.result = result;
 		this.administratorService = administratorService;
+		this.systemService = systemService;
 	}
 	
 	@Post("/changeFirstSettings")
@@ -50,6 +56,15 @@ public class AdministratorController {
 		administratorService.configureNew(user);
 		
 		result.redirectTo(this).changeSecondSettings();
+	}
+	
+	@Post("/changeSecondSettings")
+	public void changeSecondSettings(Configuration config) {
+		logger.info("Setting default configuration of system");
+		
+		systemService.put(config);
+		
+		result.redirectTo(UserController.class).login();
 	}
 	
 	@View

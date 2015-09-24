@@ -87,8 +87,6 @@ public class UserController {
 		validator.onErrorUsePageOf(IndexController.class).index();
 	}	
 	
-	
-	
 	@Get
 	public void login(){		
 	

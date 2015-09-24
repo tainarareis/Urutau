@@ -40,8 +40,13 @@ public class UserDAO implements DaoInterface<User>{
 	public User get(String field, Object value) {
 		logger.info("Get an user with field '"+field+"' and value '"+value+"'");
 		
-		String sql = "SELECT user FROM User user WHERE user.".concat(field)
-				.concat("=:value");
+		String sql = "SELECT user FROM User user";
+		
+		if(field == null && value == null) {
+			sql = sql + " WHERE user.".concat(field).concat("=:value");
+		} else {
+			// default sql string
+		}
 		
 		logger.info(sql);
 		
