@@ -48,5 +48,10 @@ public class RequirementController {
 		result.redirectTo(this).registerRequirement();
 	}
 	
-
+	@Get
+	@Path("/showAllRequirements")
+	public void showAllRequirements() {
+		
+	}
+	
 }
