@@ -1,5 +1,7 @@
 package com.modesteam.urutau.controller;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
@@ -51,7 +53,9 @@ public class RequirementController {
 	@Get
 	@Path("/showAllRequirements")
 	public void showAllRequirements() {
-		
+		ArrayList<Requirement> requirements;
+		requirements = requirementDAO.loadAll();
+		result.include("requirements",requirements);
 	}
 	
 }

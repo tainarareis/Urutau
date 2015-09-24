@@ -17,6 +17,18 @@
 	</head>
 </head>
 <body>
-	<h1>CADASTRO EFETUADO COM SUCESSO!</h1>
-	</body>
+
+<c:forEach items="${requirements}" var="requirement">    
+	<tr> 
+	<div class="panel panel-default">
+	  <div class="panel-heading"> ${requirement.title} <br>
+	  <div class="panel-body">${requirement.description}</div>
+	</div>
+		
+		
+	</tr>        
+	</c:forEach> 
+  	<a href="." class="btn btn-info btn-lg">Voltar</a>
+
+</body>
 </html>
