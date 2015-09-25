@@ -62,6 +62,9 @@ public class RequirementController {
 		generics = requirementDAO.loadGenerics();
 		useCases = requirementDAO.loadUseCases();
 		userHistories = requirementDAO.loadUserHistories();
+		System.out.println(generics.get(1).getTitle());
+		System.out.println(useCases.get(1).getTitle());
+		System.out.println(userHistories.get(1).getTitle());
 		result.include("generics",generics);
 		result.include("useCases",useCases);
 		result.include("userHistories",userHistories);
