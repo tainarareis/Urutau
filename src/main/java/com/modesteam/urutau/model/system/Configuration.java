@@ -1,16 +1,20 @@
 package com.modesteam.urutau.model.system;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Configuration {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@OneToOne(cascade=CascadeType.PERSIST)
 	private Place place;
 	private String name;
+	private String value;
 
 	public Long getId() {
 		return id;
@@ -34,6 +38,14 @@ public class Configuration {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 }

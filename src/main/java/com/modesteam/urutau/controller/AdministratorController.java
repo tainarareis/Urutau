@@ -1,5 +1,7 @@
 package com.modesteam.urutau.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import br.com.caelum.vraptor.Result;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.Configuration;
+import com.modesteam.urutau.model.system.Place;
 import com.modesteam.urutau.service.AdministratorService;
 import com.modesteam.urutau.service.ConfigurationService;
 /**
@@ -26,7 +29,7 @@ public class AdministratorController {
 	
 	private final AdministratorService administratorService;
 
-	private final ConfigurationService systemService;
+	private final ConfigurationService configurationService;
 	
 	/*
 	 * CDI 
@@ -37,10 +40,10 @@ public class AdministratorController {
 	
 	@Inject
 	public AdministratorController(Result result, AdministratorService administratorService, 
-			ConfigurationService systemService) {
+			ConfigurationService configurationService) {
 		this.result = result;
 		this.administratorService = administratorService;
-		this.systemService = systemService;
+		this.configurationService = configurationService;
 	}
 	
 	@Post("/changeFirstSettings")
@@ -59,12 +62,22 @@ public class AdministratorController {
 	}
 	
 	@Post("/changeSecondSettings")
-	public void changeSecondSettings(Configuration config) {
+	public void changeSecondSettings(List<Configuration> configurations) {
 		logger.info("Setting default configuration of system");
 		
-		systemService.put(config);
+		Configuration emailOfSystem = configurations.get(0);
 		
-		result.redirectTo(UserController.class).login();
+		Place place = new Place();
+		// should be an const
+		place.setName("system");
+		
+		// should be an const
+		emailOfSystem.setName("email");
+		emailOfSystem.setPlace(place);
+		
+		configurationService.put(emailOfSystem);
+		
+		result.redirectTo(this).welcomeAdministrator();
 	}
 	
 	@View

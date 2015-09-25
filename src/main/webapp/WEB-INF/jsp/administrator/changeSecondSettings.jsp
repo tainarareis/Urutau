@@ -28,17 +28,10 @@
 				<br/>
 			</div>
 			<div class="col-md-6 layout-gradient-col">
-				<form action="changeFirstSettings" method="POST" class="form-input-user" >
-					<input name="user.email" type="email" placeholder="Email: example@email.com" required>
+				<form action="changeSecondSettings" method="POST" class="form-input-user" >
+					<input name="configuration[0].value" type="email" placeholder="Email of system: example@email.com" required>
 					<br/>
-					<input name="user.login" type="text" placeholder="Login: (a..z + 1..9)" required/>
-					<br/>
-					<input name="user.password" type="password" placeholder="Password: minimum 6 length" required/>
-					<br/>
-					<input name="user.name" type="text" placeholder="Name: Jhon"/>
-					<br/>
-					<input name="user.lastname" type="text" placeholder="Lastname: Pereira"/>
-					<button class="btn btn-primary btn-block" type="submit">Próxima página (2/2)</button>
+					<button class="btn btn-primary btn-block" type="submit">Finalizar(2/2)</button>
 				</form>
 			</div>
 		</div>

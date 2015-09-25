@@ -38,11 +38,12 @@ public class UserDAO implements DaoInterface<User>{
 
 	@Override
 	public User get(String field, Object value) {
-		logger.info("Get an user with field '"+field+"' and value '"+value+"'");
-		
 		String sql = "SELECT user FROM User user";
 		
-		if(field == null && value == null) {
+		// Verifies if select have an criteria
+		boolean isGenericSelect = field != null && value != null;
+		
+		if(isGenericSelect) {
 			sql = sql + " WHERE user.".concat(field).concat("=:value");
 		} else {
 			// default sql string
@@ -52,7 +53,13 @@ public class UserDAO implements DaoInterface<User>{
 		
 		try {
 			Query query = manager.createQuery(sql);
-			query.setParameter("value", value);
+			
+			if(isGenericSelect) {
+				query.setParameter("value", value);
+			} else {
+				// without param
+			}
+			
 			return (User) query.getSingleResult();
 		} catch (NonUniqueResultException exception){
 			throw new NonUniqueResultException();

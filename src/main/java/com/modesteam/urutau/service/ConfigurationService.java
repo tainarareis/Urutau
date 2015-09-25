@@ -15,8 +15,6 @@ import com.modesteam.urutau.model.system.Configuration;
 public class ConfigurationService {
 	
 	private final static Logger logger = LoggerFactory.getLogger(ConfigurationService.class);
-
-	private final static String DEFAULT_ADMIN_DATA = "administrator";
 	
 	private final ConfigurationDAO configurationDAO;
 	
@@ -29,8 +27,8 @@ public class ConfigurationService {
 		this.configurationDAO = configurationDAO;
 	}
 	
-	public void put(Configuration config) {
-		
+	public void put(Configuration configuration) {
+		configurationDAO.create(configuration);
 	}
 	
 }
