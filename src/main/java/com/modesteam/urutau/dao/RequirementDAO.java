@@ -34,13 +34,24 @@ public class RequirementDAO {
 		ArrayList<Requirement> requirements;
 		requirements =(ArrayList<Requirement>) query.getResultList();
 		return requirements;
-		
+	}
+	public ArrayList<Requirement> loadGenerics(){
+		String sql = "SELECT r FROM Requirement r WHERE actors = :actors "
+				+ "AND discretion = :discretion";
+		Query query = manager.createQuery(sql);
+		query.setParameter("actors", "NULL");
+		query.setParameter("discretion", "NULL");
+		ArrayList<Requirement> requirements;
+		requirements =(ArrayList<Requirement>) query.getResultList();
+		return requirements;
 	}
 	public Requirement detail(long id) {
 		Requirement requirement;
 		requirement = manager.find(Requirement.class, id);
 		return requirement;		
 	}
+	
+	public 
 
 	
 }
