@@ -56,9 +56,15 @@ public class RequirementController {
 	@Get
 	@Path("/showAllRequirements")
 	public void showAllRequirements() {
-		ArrayList<Requirement> requirements = null;
-		requirements = requirementDAO.loadAll();
-		result.include("requirements",requirements);
+		ArrayList<Requirement> generics = null;
+		ArrayList<Requirement> useCases = null;
+		ArrayList<Requirement> userHistories = null;
+		generics = requirementDAO.loadGenerics();
+		useCases = requirementDAO.loadUseCases();
+		userHistories = requirementDAO.loadUserHistories();
+		result.include("generics",generics);
+		result.include("useCases",useCases);
+		result.include("userHistories",userHistories);
 	}
 	
 
