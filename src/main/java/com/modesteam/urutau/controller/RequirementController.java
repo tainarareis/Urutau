@@ -78,9 +78,5 @@ public class RequirementController {
 		System.out.println(requirementManager.getRequirement().getId());
 		result.include("requirement",requirementManager.getRequirement());
 	}
-	
-	
-	
-	
-	
+
 }
