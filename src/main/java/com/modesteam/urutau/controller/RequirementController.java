@@ -58,4 +58,12 @@ public class RequirementController {
 		result.include("requirements",requirements);
 	}
 	
+	@Post
+	@Path("/detailRequirement")
+	public void detailRequirement(Requirement requirement) {
+		System.out.println(requirement.getTitle());
+		//Requirement requirement = requirementDAO.detail(id);
+		//System.out.println(requirement.getTitle());
+	}
+	
 }

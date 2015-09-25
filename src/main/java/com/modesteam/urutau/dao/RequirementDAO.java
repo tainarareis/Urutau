@@ -12,6 +12,7 @@ import com.modesteam.urutau.model.Requirement;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.UserHistory;
 
+
 @RequestScoped
 public class RequirementDAO {
 
@@ -34,6 +35,11 @@ public class RequirementDAO {
 		requirements =(ArrayList<Requirement>) query.getResultList();
 		return requirements;
 		
+	}
+	public Requirement detail(long id) {
+		Requirement requirement;
+		requirement = manager.find(Requirement.class, id);
+		return requirement;		
 	}
 
 	
