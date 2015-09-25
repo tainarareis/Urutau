@@ -59,22 +59,14 @@ public class RequirementController {
 	}
 	
 
-	Requirement ridicula;
 	
 	@Post
 	@Path("/detailRequirement")
 	public void detailRequirement(Requirement requirement) {
 		requirement = requirementDAO.detail(requirement.getId());
-		ridicula = requirement;
+		result.include("requirements",requirement);
 	}
 	
-	@Get
-	@Path("/detailRequirement")
-	public void detailRequirement() {
-		System.out.println("********************************************************");
-		System.out.println(ridicula.getTitle());
-		result.include("requirements",ridicula);
-	}
 	
 	
 	
