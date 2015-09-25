@@ -23,24 +23,15 @@
 </head>
 <body>
 
-
-	<div class="container">
-
-		<c:forEach items="${requirements}" var="requirement">
-			<tr>
-				<div class="panel panel-default">
-					<div class="panel-body">
-						${requirement.title}
-						<br>
-					</div>
-				</div>
-
-
-			</tr>
-		</c:forEach>
-		<a href="." class="btn btn-info btn-lg">Voltar</a>
-
+	<div class="panel panel-default">
+		<div class="panel-body">
+			${requirement.title} <br>
+			${requirement.description}
+		</div>
 	</div>
 
+	<a href="." class="btn btn-info btn-lg">Voltar</a>
+
+	</div>
 </body>
 </html>

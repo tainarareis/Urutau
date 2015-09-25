@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import com.modesteam.urutau.RequirementManager;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Requirement;
 import com.modesteam.urutau.model.UseCase;
@@ -23,6 +24,8 @@ public class RequirementController {
 	private Result result;
 	@Inject
 	private RequirementDAO requirementDAO;
+	@Inject
+	private RequirementManager requirementManager;
 	
 	@Get
 	@Path("/registerRequirement")
@@ -64,7 +67,16 @@ public class RequirementController {
 	@Path("/detailRequirement")
 	public void detailRequirement(Requirement requirement) {
 		requirement = requirementDAO.detail(requirement.getId());
-		result.include("requirements",requirement);
+		requirementManager.setRequirement(requirement);
+		result.redirectTo(this).detailRequirement();
+	}
+	
+	@Get
+	@Path("/detailRequirement")
+	public void detailRequirement() {
+		System.out.println(requirementManager.getRequirement().getTitle());
+		System.out.println(requirementManager.getRequirement().getId());
+		result.include("requirement",requirementManager.getRequirement());
 	}
 	
 	

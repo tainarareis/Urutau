@@ -31,7 +31,6 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						${requirement.title}
-						${requirement.description}
 						<form action="detailRequirement" class="form-signin" method="POST">
 								<input type="hidden" name="requirement.id" value="${requirement.id}">
 								<input type="submit" value="Verificar">
