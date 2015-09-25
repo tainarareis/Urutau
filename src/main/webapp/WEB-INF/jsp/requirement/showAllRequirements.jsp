@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
@@ -18,17 +20,26 @@
 </head>
 <body>
 
-<c:forEach items="${requirements}" var="requirement">    
+
+<div class="container">
+  <div class="jumbotron">
+  	<h1>SitePontoCom</h1>
+	<h2>Notícias!!</h2>      
+  </div> 
+  
+	<c:forEach items="${requirements}" var="requirement">    
 	<tr> 
 	<div class="panel panel-default">
-	  <div class="panel-heading"> ${requirement.title} <br>
-	  <div class="panel-body">${requirement.description}</div>
+	  <div class="panel-body"> ${requirement.title} <br>
+	   </div>
 	</div>
 		
 		
 	</tr>        
 	</c:forEach> 
   	<a href="." class="btn btn-info btn-lg">Voltar</a>
+
+</div>
 
 </body>
 </html>

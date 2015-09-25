@@ -53,7 +53,7 @@ public class RequirementController {
 	@Get
 	@Path("/showAllRequirements")
 	public void showAllRequirements() {
-		ArrayList<Requirement> requirements;
+		ArrayList<Requirement> requirements = null;
 		requirements = requirementDAO.loadAll();
 		result.include("requirements",requirements);
 	}
