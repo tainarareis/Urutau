@@ -26,7 +26,7 @@
 
 	<div class="container">
 
-		<c:forEach items="${requirements}" var="requirement">
+		<c:forEach items="${generics}" var="requirement">
 			<tr>
 				<div class="panel panel-default">
 					<div class="panel-body">
@@ -35,14 +35,42 @@
 								<input type="hidden" name="requirement.id" value="${requirement.id}">
 								<input type="submit" value="Verificar">
 						</form>
-
 						<br>
 					</div>
 				</div>
-
-
 			</tr>
 		</c:forEach>
+		
+		<c:forEach items="${useCases}" var="UseCase">
+			<tr>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						${useCase.title}
+						<form action="detailRequirement" class="form-signin" method="POST">
+								<input type="hidden" name="requirement.id" value="${requirement.id}">
+								<input type="submit" value="Verificar">
+						</form>
+						<br>
+					</div>
+				</div>
+			</tr>
+		</c:forEach>
+		
+		<c:forEach items="${userHistories}" var="UserHistory">
+			<tr>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						${userHistory.title}
+						<form action="detailRequirement" class="form-signin" method="POST">
+								<input type="hidden" name="requirement.id" value="${requirement.id}">
+								<input type="submit" value="Verificar">
+						</form>
+						<br>
+					</div>
+				</div>
+			</tr>
+		</c:forEach>
+		
 		<a href="." class="btn btn-info btn-lg">Voltar</a>
 
 	</div>
