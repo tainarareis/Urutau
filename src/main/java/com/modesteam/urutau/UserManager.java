@@ -13,6 +13,7 @@ public class UserManager implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	
 	private User userLogged;
 	
 	/**
@@ -38,4 +39,12 @@ public class UserManager implements Serializable {
 	public void setUserLogged(User userLogged) {
 		this.userLogged = userLogged;
 	}
+
+	public boolean isLogged(){
+		boolean isLogged = false;
+		isLogged = (userLogged != null);
+		return isLogged;
+	}
+
+
 }

@@ -6,6 +6,15 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.dao.IndexController;
+import com.modesteam.urutau.dao.SystemDAO;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.UserService;
+
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -132,4 +141,22 @@ public class UserController {
 		
 	}
 
+	@Post("/authenticate")
+    public void authenticateUser(User user) {
+        User user = userDao.authenticate(user.getLogin(), user.getPassword());
+
+        if (user != null) {
+            userSession.setUser(user);
+
+            result.redirectTo(IndexController.class).index();
+        } else {
+            result.include("error", "E-mail ou senha incorreta!").redirectTo(this).login();
+        }
+    }
+
+    @Get("/logout")
+    public void logout() {
+        userSession.logout();
+        result.redirectTo(this).login();
+    }
 }
