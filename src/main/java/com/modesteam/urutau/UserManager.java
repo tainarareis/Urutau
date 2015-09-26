@@ -26,7 +26,7 @@ public class UserManager implements Serializable {
 	}
 	
 	/**
-	 * Destroy userLogged
+	 * Destroy userLogged.Makes possible the logging out. 
 	 */
 	public void logout(){
 		setUserLogged(null);
@@ -45,6 +45,5 @@ public class UserManager implements Serializable {
 		isLogged = (userLogged != null);
 		return isLogged;
 	}
-
 
 }

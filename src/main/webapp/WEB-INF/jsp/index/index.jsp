@@ -96,7 +96,7 @@
 	            <c:forEach var="error" items="${errors}">
 		    		${error.message}<br />
 				</c:forEach>
-	            <form action="login" class="form-signin" method="POST">
+	            <form action="userAuthentication" class="form-signin" method="POST">
 					<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
 					<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
