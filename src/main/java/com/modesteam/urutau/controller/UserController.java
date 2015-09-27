@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.IndexController;
 import com.modesteam.urutau.dao.SystemDAO;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
@@ -23,10 +22,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserManager;
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.UserService;
+
 
 
 /**
@@ -101,21 +97,7 @@ public class UserController {
 	
 	}
 	
-	/**
-	 * Sets up the user and redirects him to two possible jsp pages
-	 * depending on the user kind.
-	 * @param user
-	 */
-	@Post
-	@Path("/login")
-	public void userAutentication(User user) {
-		// Verifies if exists an user with this login
-		if (!userService.existsUser(user.getLogin())) {
-			validator.add(new SimpleMessage(CATEGORY_ERROR, "Usuário inexistente no sistema!"));
-		} else {			
-			result.redirectTo(this).welcomeUser();
-		}
-	}
+	
 		
 	/**
 	 * Set the new first administrator login and password
@@ -141,22 +123,27 @@ public class UserController {
 		
 	}
 
-	@Post("/authenticate")
-    public void authenticateUser(User user) {
-        User user = userDao.authenticate(user.getLogin(), user.getPassword());
+	@Post("/userAuthentication")
+    public void authenticateUser(User userReceived) {
+        User user = userService.confirmateAuthentication(userReceived.getLogin(), userReceived.getPassword(),
+        		userReceived);
 
         if (user != null) {
-            userSession.setUser(user);
-
-            result.redirectTo(IndexController.class).index();
+            userManager.setUserLogged(user);
+            logger.info("The user"+ user.getLogin() + " is logged.");
+            result.redirectTo(UserController.class).welcomeUser();
+            logger.info("The user was found and is authenticated");
         } else {
-            result.include("error", "E-mail ou senha incorreta!").redirectTo(this).login();
+        	validator.add(new SimpleMessage(CATEGORY_ERROR, "Usuário inexistente no sistema!"));
+        	result.redirectTo(IndexController.class).index();
+            logger.info("The user wasn't found");
         }
+        validator.onErrorUsePageOf(IndexController.class).index();
     }
 
     @Get("/logout")
     public void logout() {
-        userSession.logout();
-        result.redirectTo(this).login();
+        userManager.logout();
+        result.redirectTo(IndexController.class).index();
     }
 }

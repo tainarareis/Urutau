@@ -92,16 +92,6 @@ public class UserDAO implements DaoInterface<User>{
 	}
 
 	
-	public User authenticateUser(String login, String password){
-		try {
-            Query query = manager.createQuery("from User where login = :login and password = :password");
-            query.setParameter("login", login);
-            query.setParameter("password", password);
-            return (User) query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 	
 	
     
