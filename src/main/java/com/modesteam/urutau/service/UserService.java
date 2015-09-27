@@ -1,17 +1,12 @@
 package com.modesteam.urutau.service;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
-import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.model.User;
 
@@ -21,8 +16,7 @@ public class UserService {
 	private final static Logger logger = LoggerFactory.getLogger(UserService.class);
 	
 	private final UserDAO userDAO;
-	private UserManager userLogged = null;
-
+	
 	public UserService() {
 		this(null);
 	}
@@ -80,37 +74,23 @@ public class UserService {
 		return userExistence;
 	}
 
-	public User confirmateAuthentication(String login, String password, User userReceived){
-
-		if (existsUser(login)){
-			logger.info("The login is" + login);
-			boolean correctPassword = isCorrectPassword(password);
-			if(correctPassword == true){
-				logger.info("The password is correct");	
-				return userReceived;
-			}else{
+	public User authenticate(String login, String password) {
+		User user = userDAO.get("login", login);
+		// if login exists
+		if (user != null) {
+			
+			boolean correctPassword = user.getPassword().equals(password);
+			if(correctPassword) {
+				return user;
+			} else {
 				logger.info("The password is wrong.");
 				return null;
 			}
-		}else{
+			
+		} else {
 			logger.info("The login informed doesn't exist at the system");
 			return null;
 		}
 	}
 
-	
-	/**
-	 * Verifies if the password inserted at the login moment is correct with the user login.
-	 * @param password
-	 * @return  true if the password is correct
-	 */
-	public boolean isCorrectPassword(String password) {
-		boolean correctPassword;
-		if(userDAO.get("password", password) != null) {
-			correctPassword = true;
-		} else {
-			correctPassword = false;
-		}
-		return correctPassword;
-	}
 }

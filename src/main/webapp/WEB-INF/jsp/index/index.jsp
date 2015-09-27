@@ -94,11 +94,14 @@
 	    	</div>
             <div class="col-xs-3">                 
 	            <c:forEach var="error" items="${errors}">
-		    		${error.message}<br />
+	            	<!-- Show only login errors -->
+	            	<c:if test="${error.category == 'loginError'}">
+		    			${error.message}<br />
+		    		</c:if>
 				</c:forEach>
 	            <form action="userAuthentication" class="form-signin" method="POST">
-					<input name="user.login" id="inputLogin" class="form-control" placeholder="Login" required>
-					<input name="user.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+					<input name="login" id="inputLogin" class="form-control" placeholder="Login" required>
+					<input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 				</form>              
 	            <br/>
@@ -111,7 +114,9 @@
 	 <div class="container">
 		<div class="col-md-6 col-md-offset-3">
 			<c:forEach var="error" items="${errors}">
-			    ${error.message}<br />
+            	<c:if test="${error.category == 'registerError'}">
+			    	${error.message}<br />
+			    </c:if>
 			</c:forEach>
 			<h3>Sign up</h3>
 			<form action="register" class="form-signin" method="POST">		

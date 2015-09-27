@@ -6,14 +6,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.modesteam.urutau.UserManager;
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.SystemDAO;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.UserService;
-
-
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -21,6 +13,11 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
+
+import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.UserService;
 
 
 
@@ -34,7 +31,8 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	private static final String CATEGORY_ERROR = "message";
+	private static final String LOGIN_ERROR = "loginError";
+	private static final String REGISTER_ERROR = "registerError";
 
 	private final Result result;
 	private final UserService userService;
@@ -60,8 +58,8 @@ public class UserController {
 	
 	/**
 	 * Method to register another user in system.
+	 * 
 	 * @param user is an user of model class.
-	 * @return
 	 * 
 	 */
 	@Post
@@ -73,32 +71,25 @@ public class UserController {
 		// Validate if any field is null
 		if(user.getEmail() == null || user.getLogin() == null || 
 				user.getName() == null || user.getPasswordVerify() == null) {
-				validator.add(new SimpleMessage(CATEGORY_ERROR, "Campo em branco!"));
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Campo em branco!"));
 		} else {			
 			//Verifies the existence the current login and email are already registered
 			if(!userService.existsField("login", user.getLogin())) {
-				validator.add(new SimpleMessage(CATEGORY_ERROR, "Login em uso!"));
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Login em uso!"));
 			} else if(!userService.existsField("email", user.getEmail())) {
-				validator.add(new SimpleMessage(CATEGORY_ERROR, "Email já utilizado"));
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Email já utilizado"));
 			} else if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
 				logger.info("User will be persisted, and page redirected");
 				userService.create(user);
 				result.redirectTo(this).showSignInSucess();
 			} else {
-				validator.add(new SimpleMessage(CATEGORY_ERROR, "As senhas não são compatíveis!"));
+				validator.add(new SimpleMessage(REGISTER_ERROR, "As senhas não são compatíveis!"));
 			}
 		}
 		// If happens any error of validation
 		validator.onErrorUsePageOf(IndexController.class).index();
 	}	
-	
-	@Get
-	public void login(){		
-	
-	}
-	
-	
-		
+			
 	/**
 	 * Set the new first administrator login and password
 	 */
@@ -112,6 +103,40 @@ public class UserController {
 		userService.update(logged);
 		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
+	/**
+	 * Authenticate user, putting him on session
+	 * 
+	 * @param login field of user
+	 * @param password secret word of user
+	 */
+	@Post("/userAuthentication")
+    public void authenticateUser(String login, String password) {
+        User user = userService.authenticate(login, password);
+
+        if (user != null) {
+            userManager.login(user);
+            logger.info("The user"+ user.getLogin() + " is logged.");
+            result.redirectTo(UserController.class).welcomeUser();
+            logger.info("The user was found and is authenticated");
+        } else {
+        	validator.add(new SimpleMessage(LOGIN_ERROR, "Senha ou login não conferem!"));
+        	validator.onErrorUsePageOf(IndexController.class).index();
+        	
+        	result.redirectTo(IndexController.class).index();
+            logger.info("The called user wasn't found");
+        }
+    }
+
+    @Get("/logout")
+    public void logout() {
+        userManager.logout();
+        result.redirectTo(IndexController.class).index();
+    }
+	
+	@View
+	public void login(){		
+	
+	}
 	
 	@View
 	public void welcomeUser() {
@@ -122,28 +147,4 @@ public class UserController {
 	public void showSignInSucess() {
 		
 	}
-
-	@Post("/userAuthentication")
-    public void authenticateUser(User userReceived) {
-        User user = userService.confirmateAuthentication(userReceived.getLogin(), userReceived.getPassword(),
-        		userReceived);
-
-        if (user != null) {
-            userManager.setUserLogged(user);
-            logger.info("The user"+ user.getLogin() + " is logged.");
-            result.redirectTo(UserController.class).welcomeUser();
-            logger.info("The user was found and is authenticated");
-        } else {
-        	validator.add(new SimpleMessage(CATEGORY_ERROR, "Usuário inexistente no sistema!"));
-        	result.redirectTo(IndexController.class).index();
-            logger.info("The user wasn't found");
-        }
-        validator.onErrorUsePageOf(IndexController.class).index();
-    }
-
-    @Get("/logout")
-    public void logout() {
-        userManager.logout();
-        result.redirectTo(IndexController.class).index();
-    }
 }
