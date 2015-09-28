@@ -97,12 +97,12 @@ public class UserControllerTest {
 		UserBuilder builder = new UserBuilder();
 		
 		User user = builder
-				.email("example@email.com")
-				.login("fulano")
-				.password("123456")
-				.passwordVerify("diff")
-				.name("Tester")
-				.build();
+					.email("example@email.com")
+					.login("fulano")
+					.password("123456")
+					.passwordVerify("diff")
+					.name("Tester")
+					.build();
 
 		mockAuthenticate(user.getLogin(), user.getPassword(), user );
 		
@@ -113,27 +113,30 @@ public class UserControllerTest {
 		
 		controller.authenticateUser("fulano","123456");
 	}
-
+	
+	/**
+	 * Throws an validation exception, not covarage by eclemma
+	 */
 	@Test(expected=ValidationException.class)
-	public void loginInvalid1(){
+	public void loginInvalid() {
 		UserBuilder builder = new UserBuilder();
 		
 		User user = builder
-				.email("example@email.com")
-				.login("fulano")
-				.password("123456")
-				.passwordVerify("diff")
-				.name("Tester")
-				.build();
+					.email("example@email.com")
+					.login("fulano")
+					.password("123456")
+					.passwordVerify("diff")
+					.name("Tester")
+					.build();
 
-		mockAuthenticate(user.getLogin(), user.getPassword(), null );
+		mockAuthenticate(user.getLogin(), user.getPassword(), null);
 		
 		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
 				mockUserService, mockUserManager, mockValidator);
 		
-		controller.authenticateUser("fulano","123456");
+		controller.authenticateUser(user.getLogin(), user.getPassword());
 	}
 	
 	private void mockAuthenticate(String login, String password, User returnValue) {

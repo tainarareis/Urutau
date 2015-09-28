@@ -119,11 +119,9 @@ public class UserController {
             result.redirectTo(UserController.class).welcomeUser();
             logger.info("The user was found and is authenticated");
         } else {
+        	logger.info("The called user wasn't found");
         	validator.add(new SimpleMessage(LOGIN_ERROR, "Senha ou login não conferem!"));
         	validator.onErrorUsePageOf(IndexController.class).index();
-        	
-        	result.redirectTo(IndexController.class).index();
-            logger.info("The called user wasn't found");
         }
     }
 
