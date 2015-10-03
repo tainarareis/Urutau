@@ -3,19 +3,18 @@ package com.modesteam.urutau.controller;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
-import com.modesteam.urutau.RequirementManager;
-import com.modesteam.urutau.dao.RequirementDAO;
-import com.modesteam.urutau.model.Requirement;
-import com.modesteam.urutau.model.UseCase;
-import com.modesteam.urutau.model.UserHistory;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+
+import com.modesteam.urutau.RequirementManager;
+import com.modesteam.urutau.dao.RequirementDAO;
+import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Storie;
+import com.modesteam.urutau.model.UseCase;
 
 @Controller
 public class RequirementController {
@@ -34,14 +33,14 @@ public class RequirementController {
 	}
 	@Post
 	@Path("/registerRequirement")
-	public void registerRequirement(Requirement requirement) {
+	public void registerRequirement(Artifact requirement) {
 		requirementDAO.saveGeneric(requirement);
 		result.redirectTo(this).registerRequirement();
 	}
 	
 	@Post
 	@Path("/registerUserHistory")
-	public void registerUserHistory(UserHistory userHistory) {
+	public void registerUserHistory(Storie userHistory) {
 		requirementDAO.saveUserHistory(userHistory);
 		result.redirectTo(this).registerRequirement();
 	}
@@ -56,9 +55,9 @@ public class RequirementController {
 	@Get
 	@Path("/showAllRequirements")
 	public void showAllRequirements() {
-		ArrayList<Requirement> generics = null;
-		ArrayList<Requirement> useCases = null;
-		ArrayList<Requirement> userHistories = null;
+		ArrayList<Artifact> generics = null;
+		ArrayList<Artifact> useCases = null;
+		ArrayList<Artifact> userHistories = null;
 		generics = requirementDAO.loadGenerics();
 		useCases = requirementDAO.loadUseCases();
 		userHistories = requirementDAO.loadUserHistories();
@@ -74,7 +73,7 @@ public class RequirementController {
 	
 	@Post
 	@Path("/detailRequirement")
-	public void detailRequirement(Requirement requirement) {
+	public void detailRequirement(Artifact requirement) {
 		requirement = requirementDAO.detail(requirement.getId());
 		requirementManager.setRequirement(requirement);
 		result.redirectTo(this).detailRequirement();

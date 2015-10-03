@@ -1,10 +1,9 @@
 package com.modesteam.urutau.model;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-public class UseCase extends Requirement {
+public class UseCase extends Artifact {
 	private String actors;
 
 	public String getActors() {

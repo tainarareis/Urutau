@@ -1,8 +1,5 @@
 package com.modesteam.urutau.model;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,15 +10,16 @@ import javax.persistence.TableGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Requirement {
-	@TableGenerator(name = "REQUIREMENT_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL")
+public class Artifact {
+	@TableGenerator(name = "ARTIFACT_GEN", table = "ID_GEN", 
+			pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL")
 	@Id
-	@GeneratedValue(generator = "REQUIREMENT_GEN", strategy = GenerationType.TABLE)
+	@GeneratedValue(generator = "ARTIFACT_GEN", strategy = GenerationType.TABLE)
 	private long id;
 	private String title;
 	private String description;
 	
-	public Requirement() {
+	public Artifact() {
 		super();
 	}
 	

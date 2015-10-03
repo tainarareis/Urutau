@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 
-import com.modesteam.urutau.model.Requirement;
+import com.modesteam.urutau.model.Artifact;
 
 @SessionScoped
 public class RequirementManager implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Requirement requirement;
+	private Artifact requirement;
 	
-	public Requirement getRequirement() {
+	public Artifact getRequirement() {
 		return requirement;
 	}
-	public void setRequirement(Requirement requirement) {
+	public void setRequirement(Artifact requirement) {
 		this.requirement = requirement;
 	}
 	
