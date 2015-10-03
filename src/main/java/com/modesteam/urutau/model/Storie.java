@@ -1,12 +1,21 @@
 package com.modesteam.urutau.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Storie extends Artifact {
 	private String history;
-	private String scenary;
-	private String discretion;
+
+	@ManyToMany
+	@JoinTable(name="User_Criteria", 
+		joinColumns = @JoinColumn(name="storie_id"), 
+		inverseJoinColumns = @JoinColumn(name="artifact_id"))
+	private List<AcceptanceCriteria> acceptanceCriteria;
 
 	public String getHistory() {
 		return history;
@@ -16,20 +25,13 @@ public class Storie extends Artifact {
 		this.history = history;
 	}
 
-	public String getScenary() {
-		return scenary;
+	public List<AcceptanceCriteria> getAcceptanceCriteria() {
+		return acceptanceCriteria;
 	}
 
-	public void setScenary(String scenary) {
-		this.scenary = scenary;
-	}
-
-	public String getDiscretion() {
-		return discretion;
-	}
-
-	public void setDiscretion(String discretion) {
-		this.discretion = discretion;
+	public void setAcceptanceCriteria(
+			List<AcceptanceCriteria> acceptanceCriteria) {
+		this.acceptanceCriteria = acceptanceCriteria;
 	}
 
 }

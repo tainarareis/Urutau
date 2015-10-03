@@ -1,5 +1,7 @@
 package com.modesteam.urutau.model;
 
+import java.util.List;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -52,6 +55,8 @@ public class User {
 	 * 1 - confirmed
 	 */
 	private int confirmed = 0;
+	@ManyToMany(mappedBy="artifact")
+	private List<Artifact> artifactsDelegates;
 
 	/**
 	 * Getter for "id"

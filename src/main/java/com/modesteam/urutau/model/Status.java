@@ -5,11 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class AcceptanceCriteria {
+public class Status {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String content;
+	private String name;
 
 	public Long getId() {
 		return id;
@@ -19,11 +19,12 @@ public class AcceptanceCriteria {
 		this.id = id;
 	}
 
-	public String getContent() {
-		return content;
+	public String getName() {
+		return name;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setName(String name) {
+		this.name = name;
 	}
+
 }

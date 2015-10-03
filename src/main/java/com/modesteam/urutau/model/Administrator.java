@@ -19,8 +19,8 @@ import javax.persistence.ManyToMany;
 public class Administrator extends User {
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "ConcernedAdministrator", joinColumns = @JoinColumn(name = "adm_id"), 
-			inverseJoinColumns = @JoinColumn(name = "new_adm_id"))
+	@JoinTable(name = "Concerned_Administrator", joinColumns = @JoinColumn(name = "administrator_id"), 
+			inverseJoinColumns = @JoinColumn(name = "delegated_administrator_id"))
 	private List<Administrator> corcernedAdministrator;
 
 	/**
