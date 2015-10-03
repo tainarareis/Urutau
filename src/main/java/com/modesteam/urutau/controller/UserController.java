@@ -3,79 +3,93 @@ package com.modesteam.urutau.controller;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.SystemDAO;
-import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.UserService;
+
+
+
 
 /**
  * 
- * Manage the users
+ * This controller have actions directly connect to user
  */
 @Controller
 public class UserController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	private static final String LOGIN_ERROR = "loginError";
+	private static final String REGISTER_ERROR = "registerError";
+
+	private final Result result;
+	private final UserService userService;
+	private final UserManager userManager;
+	private final Validator validator;
+
+	/*
+	 * CDI needs this
+	 */
+	public UserController() {
+		this(null, null, null, null);
+	}
+	
 	@Inject
-	private Result result;
-	@Inject
-	private SystemDAO systemDAO;
-	@Inject
-	private UserDAO userDAO;
-	@Inject
-	private UserManager userManager;
+	public UserController(Result result, 
+			UserService userService, UserManager userManager,
+			Validator validator) {
+		this.result = result;
+		this.userService = userService;
+		this.userManager = userManager;
+		this.validator = validator;
+	}
 	
 	/**
-	 * Create new user. If there is no user, create
-	 * the first administrator
+	 * Method to register another user in system.
+	 * 
+	 * @param user is an user of model class.
+	 * 
 	 */
 	@Post
 	@Path("/register")
 	public void register(User user) {
 		
-	}	
-	
-	@View
-	public void welcomeAdministrator() {
-		
-	}
-	
-	/**
-	 * Responsible for redirecting to the welcomeUser.jsp page.
-	 */
-	@Path("/welcomeUser")
-	public void welcomeUser() {
-		
-	}
-	
-	/**
-	 * Setts up the user and redirects him to two possible jsp pages
-	 * depending on the user kind.
-	 * @param user
-	 */
-	@Post
-	@Path("/login")
-	public void login(User user) {
-		if(systemDAO.isFirstAdministrator()){
-			result.redirectTo(this).firstAdministratorSettings();
-		} else {
-			result.redirectTo(this).welcomeUser();
+		logger.info("Initiate an register");
+
+		// Validate if any field is null
+		if(user.getEmail() == null || user.getLogin() == null || 
+				user.getName() == null || user.getPasswordVerify() == null) {
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Campo em branco!"));
+		} else {			
+			//Verifies the existence the current login and email are already registered
+			if(!userService.existsField("login", user.getLogin())) {
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Login em uso!"));
+			} else if(!userService.existsField("email", user.getEmail())) {
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Email já utilizado"));
+			} else if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
+				logger.info("User will be persisted, and page redirected");
+				userService.create(user);
+				result.redirectTo(this).showSignInSucess();
+			} else {
+				validator.add(new SimpleMessage(REGISTER_ERROR, "As senhas não são compatíveis!"));
+			}
 		}
-	}
-	
-	/**
-	 * Responsible for redirecting to the firstAdministratorSettings.jsp page.
-	 */	
-	@Path("/firstAdministratorSettings")
-	public void firstAdministratorSettings() {
-		
-	}
-	
+		// If happens any error of validation
+		validator.onErrorUsePageOf(IndexController.class).index();
+	}	
+			
 	/**
 	 * Set the new first administrator login and password
 	 */
@@ -86,8 +100,49 @@ public class UserController {
 		logged.setLogin(user.getLogin());
 		logged.setPassword(user.getPassword());
 		userManager.setUserLogged(logged);
-		userDAO.newUserSettings(logged);
-		result.redirectTo(this).welcomeAdministrator();
+		userService.update(logged);
+		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
+	/**
+	 * Authenticate user, putting him on session
+	 * 
+	 * @param login field of user
+	 * @param password secret word of user
+	 */
+	@Post("/userAuthentication")
+    public void authenticateUser(String login, String password) {
+        User user = userService.authenticate(login, password);
 
+        if (user != null) {
+            userManager.login(user);
+            logger.info("The user"+ user.getLogin() + " is logged.");
+            result.redirectTo(UserController.class).welcomeUser();
+            logger.info("The user was found and is authenticated");
+        } else {
+        	logger.info("The called user wasn't found");
+        	validator.add(new SimpleMessage(LOGIN_ERROR, "Senha ou login não conferem!"));
+        	validator.onErrorUsePageOf(IndexController.class).index();
+        }
+    }
+
+    @Get("/logout")
+    public void logout() {
+        userManager.logout();
+        result.redirectTo(IndexController.class).index();
+    }
+	
+	@View
+	public void login(){		
+	
+	}
+	
+	@View
+	public void welcomeUser() {
+		
+	}
+	
+	@View
+	public void showSignInSucess() {
+		
+	}
 }

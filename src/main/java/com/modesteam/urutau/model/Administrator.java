@@ -21,7 +21,6 @@ public class Administrator extends User {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "ConcernedAdministrator", joinColumns = @JoinColumn(name = "adm_id"), 
 			inverseJoinColumns = @JoinColumn(name = "new_adm_id"))
-	
 	private List<Administrator> corcernedAdministrator;
 
 	/**

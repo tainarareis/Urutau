@@ -11,11 +11,52 @@
 	margin: 2px;
 }
 
-.form-signin button{
+.form-signin button {
 	margin-left: 2px;
 }
 
+.form-input-user {
+	font-size: 20px;
+}
+
+.form-input-user input {
+	height: 50px;
+	width: 100%;
+	margin-bottom: 2px;
+	text-align: center;
+}
+
+.form-input-user button {
+	height: 100px;
+	width: 100%;
+	float: right;
+	margin-top: 5px;
+	font-size: 20px;
+}
+
 /* Any information */
-.info{
+.info {
 	color: #909090;
+}
+
+.layout-gradient {
+	background-attachment: scroll;
+	background: -webkit-radial-gradient(#CC6600, green, blue);
+	/* Safari 5.1 to 6.0 */
+	background: -o-radial-gradient(red, green, blue);
+	/* For Opera 11.6 to 12.0 */
+	background: -moz-radial-gradient(red, green, blue);
+	/* For Firefox 3.6 to 15 */
+	background: radial-gradient(#FFFF99, #FFCC00);
+	background-position: center center;
+	background-repeat: none;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+}
+
+.layout-gradient-col {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
