@@ -1,94 +1,99 @@
 package com.modesteam.urutau.dao;
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
-import com.modesteam.urutau.UserManager;
+import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.DaoInterface;
 
 /**
- *
+ * 
  * Accesses the database related to the user.
  */
 @RequestScoped
-public class UserDAO {
+public class UserDAO implements DaoInterface<User>{
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	@Inject
 	private EntityManager manager;
-	
-	/**
-	 * Make the user instance managed and persistent.
-	 * @param user
-	 */
-	public void add(User user){
-		manager.persist(user);
-	}
-	
-	/**
-	 * Method to verify if exist a user with same email or same login
-	 * @param user
-	 * @return 0 if the verification fails
-	 */
-	public int verifyUser(User user) {
-		String sqlLogin = "SELECT E.login FROM User E";
-		String sqlEmail = "SELECT E.email FROM User E";
-		Query queryLogin = manager.createQuery(sqlLogin);
-		Query queryEmail = manager.createQuery(sqlEmail);
-		List<String> login =  queryLogin.getResultList();
-		List<String> email =  queryEmail.getResultList();
-			for(String log : login){
-				if(log.equalsIgnoreCase(user.getLogin())==true) {
-					return 1;
-				}
-			}
-			for(String emailAux : email) {
-				if(emailAux.equalsIgnoreCase(user.getEmail())==true) {
-					return 2;
-				}
-			}
-		return 0;
-	}
-	
-	/**
-	 * Method to recover user from database.
-	 * @param user
-	 * @return
-	 */
-	public User find(User user){
-		return manager.find(User.class, user);
-	}
-
-	/**
-	 * Method to update user from database.
-	 * @param user
-	 */
-	public void update(User user) {
-		manager.merge(user);
 		
-	}
-
-	@Inject
-	private UserManager userManager;
-	
-	/**
-	 * Allows the creation of the user directly in database throughout the manager entity.
-	 * @param user
-	 */
+	@Override
 	public void create(User user) {
+		logger.info("An new user will be persist");
 		manager.persist(user);		
 	}
 	
+	@Override
+	public User find(Long id){
+		logger.info("Find an user with follow id: " +  id);
+		return manager.find(User.class, id);
+	}
 
-	/**
-	 * Merge the state of the given entity into the current persistence context.
-	 * @param user
-	 */
-	public void newUserSettings(User user) {
-		manager.merge(user);
+	@Override
+	public User get(String field, Object value) {
+		String sql = "SELECT user FROM User user";
+		
+		// Verifies if select have an criteria
+		boolean isGenericSelect = field != null && value != null;
+		
+		if(isGenericSelect) {
+			sql = sql + " WHERE user.".concat(field).concat("=:value");
+		} else {
+			// default sql string
+		}
+		
+		logger.info(sql);
+		
+		try {
+			Query query = manager.createQuery(sql);
+			
+			if(isGenericSelect) {
+				query.setParameter("value", value);
+			} else {
+				// without param
+			}
+			
+			return (User) query.getSingleResult();
+		} catch (NonUniqueResultException exception){
+			throw new NonUniqueResultException();
+		} catch (NoResultException exception) {
+			return null;
+		}
 	}
 	
+	@Override
+	public boolean destroy(User entity) {
+		try {
+			manager.remove(entity);
+			return true;
+		} catch (Exception exception) {
+			logger.error("Cant remove an entity");
+			return false;
+		} 
+	}
+
+	@Override
+	public boolean update(User entity) {
+		try {
+			manager.merge(entity);
+			return true;
+		} catch(Exception exception) {
+			logger.error("Cant update an entity");
+			return false;
+		}
+	}
+
+	
+	
+	
+    
 
 }

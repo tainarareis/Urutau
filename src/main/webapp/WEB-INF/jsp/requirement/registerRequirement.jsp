@@ -98,7 +98,6 @@
 			<input name="useCase.title" placeholder="Título" type="text">
 			<input name="useCase.description" placeholder="Descrição" type="text">
 			<input name="useCase.actors" placeholder="Atores" type="text">
-			
 			<input type="submit" value="Cadastrar">
 		</form>
 	</div>

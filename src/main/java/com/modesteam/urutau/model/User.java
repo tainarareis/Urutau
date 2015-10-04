@@ -1,5 +1,7 @@
 package com.modesteam.urutau.model;
 
+import java.util.List;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -8,7 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -24,7 +29,13 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String email;
+	@NotNull
+	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+	        +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+	        +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+	             message="{invalid.email}")
+	// ^font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
+	private String email; 
 	@NotNull
 	@Size(min = 3, max = 20)
 	private String name;
@@ -37,14 +48,15 @@ public class User {
 	@NotNull
 	@Size(min = 6, max = 20)
 	private String password;
-	@NotNull
-	@Size(min = 6, max = 20)
+	@Transient
 	private String passwordVerify;
 	/*
 	 * 0 - wait (default value)
 	 * 1 - confirmed
 	 */
 	private int confirmed = 0;
+	@ManyToMany(mappedBy="artifact")
+	private List<Artifact> artifactsDelegates;
 
 	/**
 	 * Getter for "id"

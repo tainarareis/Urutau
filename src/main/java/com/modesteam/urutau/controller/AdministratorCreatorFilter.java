@@ -7,13 +7,17 @@ import javax.persistence.EntityManager;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
-import com.modesteam.urutau.dao.SystemDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.model.Administrator;
+import com.modesteam.urutau.service.AdministratorService;
 
 /**
  * Realizes an filter in index request to create 
@@ -25,8 +29,12 @@ import com.modesteam.urutau.model.Administrator;
 @WebFilter("/")
 public class AdministratorCreatorFilter implements Filter {
 
+	private static final Logger logger = LoggerFactory.getLogger(AdministratorCreatorFilter.class);
+	
+	private static final String CHANGE_SETTINGS_VIEW = "/administrator/changeFirstSettings";
+	
 	@Inject
-	private SystemDAO systemDAO;
+	private AdministratorService administratorService;
 	
 	/**
 	 * @deprecated CDI eye only
@@ -35,8 +43,8 @@ public class AdministratorCreatorFilter implements Filter {
 	
 	}
 	
-	public AdministratorCreatorFilter(SystemDAO systemDAO) {
-		this.systemDAO = systemDAO;
+	public AdministratorCreatorFilter(AdministratorService administratorService) {
+		this.administratorService = administratorService;
 	}
 
 	/**
@@ -47,20 +55,26 @@ public class AdministratorCreatorFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		if(!systemDAO.existAdministrator()){
-			systemDAO.createFirstAdministrator();
-		} else {
+		if(administratorService.existAdministrator()){
 			// Admin yet created!
+			chain.doFilter(request, response);
+		} else {
+			logger.info("First admin will created");
+			administratorService.createFirstAdministrator();
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
+			logger.debug("Redirecting with "+ requestDispatcher + " to change settings");
+			requestDispatcher.forward(request, response);
 		}
-		chain.doFilter(request, response);
 	}
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		
 	}
 	
 	@Override
 	public void destroy() {
+		
 	}
 
 }
