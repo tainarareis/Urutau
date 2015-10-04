@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -15,9 +18,12 @@ import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
+import com.mysql.jdbc.log.Log;
 
 @Controller
 public class RequirementController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
 	
 	@Inject
 	private Result result;
@@ -31,6 +37,10 @@ public class RequirementController {
 	public void registerRequirement() {
 		
 	}
+	/**
+	 * 
+	 * @param requirement
+	 */
 	@Post
 	@Path("/registerRequirement")
 	public void registerRequirement(Artifact requirement) {
@@ -38,6 +48,10 @@ public class RequirementController {
 		result.redirectTo(this).registerRequirement();
 	}
 	
+	/**
+	 * 
+	 * @param userHistory
+	 */
 	@Post
 	@Path("/registerUserHistory")
 	public void registerUserHistory(Storie userHistory) {
@@ -45,6 +59,10 @@ public class RequirementController {
 		result.redirectTo(this).registerRequirement();
 	}
 	
+	/**
+	 * 
+	 * @param useCase
+	 */
 	@Post
 	@Path("/registerUseCase")
 	public void registerUseCase(UseCase useCase) {
@@ -61,16 +79,17 @@ public class RequirementController {
 		generics = requirementDAO.loadGenerics();
 		useCases = requirementDAO.loadUseCases();
 		userHistories = requirementDAO.loadUserHistories();
-		System.out.println(generics.get(1).getTitle());
-		System.out.println(useCases.get(1).getTitle());
-		System.out.println(userHistories.get(1).getTitle());
+		logger.info("load all requirements");
 		result.include("generics",generics);
 		result.include("useCases",useCases);
 		result.include("userHistories",userHistories);
 	}
 	
 
-	
+	/**
+	 * 
+	 * @param requirement
+	 */
 	@Post
 	@Path("/detailRequirement")
 	public void detailRequirement(Artifact requirement) {
@@ -82,8 +101,7 @@ public class RequirementController {
 	@Get
 	@Path("/detailRequirement")
 	public void detailRequirement() {
-		System.out.println(requirementManager.getRequirement().getTitle());
-		System.out.println(requirementManager.getRequirement().getId());
+		logger.info(requirementManager.getRequirement().getTitle());
 		result.include("requirement",requirementManager.getRequirement());
 	}
 

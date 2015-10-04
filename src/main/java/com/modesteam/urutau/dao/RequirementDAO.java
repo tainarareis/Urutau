@@ -26,7 +26,7 @@ import com.modesteam.urutau.model.Storie;
 @RequestScoped
 public abstract class RequirementDAO implements DaoInterface<Artifact>{
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
+	private static final Logger logger = LoggerFactory.getLogger(RequirementDAO.class);
 
 	@Inject
 	private EntityManager manager;
@@ -80,6 +80,7 @@ public abstract class RequirementDAO implements DaoInterface<Artifact>{
 	public Artifact find(long id) {
 		Artifact requirement;
 		requirement = manager.find(Artifact.class, id);
+		logger.info("Find an Artifact with follow id: " +  id);
 		return requirement;		
 	}
 	
