@@ -34,21 +34,21 @@ public class RequirementController {
 	@Post
 	@Path("/registerRequirement")
 	public void registerRequirement(Artifact requirement) {
-		requirementDAO.saveGeneric(requirement);
+		requirementDAO.create(requirement);
 		result.redirectTo(this).registerRequirement();
 	}
 	
 	@Post
 	@Path("/registerUserHistory")
 	public void registerUserHistory(Storie userHistory) {
-		requirementDAO.saveUserHistory(userHistory);
+		requirementDAO.create(userHistory);
 		result.redirectTo(this).registerRequirement();
 	}
 	
 	@Post
 	@Path("/registerUseCase")
 	public void registerUseCase(UseCase useCase) {
-		requirementDAO.saveUseCase(useCase);
+		requirementDAO.create(useCase);
 		result.redirectTo(this).registerRequirement();
 	}
 	
@@ -74,7 +74,7 @@ public class RequirementController {
 	@Post
 	@Path("/detailRequirement")
 	public void detailRequirement(Artifact requirement) {
-		requirement = requirementDAO.detail(requirement.getId());
+		requirement = requirementDAO.find(requirement.getId());
 		requirementManager.setRequirement(requirement);
 		result.redirectTo(this).detailRequirement();
 	}

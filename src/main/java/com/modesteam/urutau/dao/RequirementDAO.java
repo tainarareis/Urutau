@@ -7,27 +7,36 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.model.Administrator;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.UseCase;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.DaoInterface;
 import com.modesteam.urutau.model.Storie;
 
 
+
+/**
+ * 
+ * Accesses the database related to the Requirements.
+ */
 @RequestScoped
-public class RequirementDAO {
+public abstract class RequirementDAO implements DaoInterface<Artifact>{
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 
 	@Inject
 	private EntityManager manager;
 	
-	public void saveGeneric(Artifact requirement) {
-		manager.persist(requirement);
+	@Override
+	public void create(Artifact artifact) {
+		logger.info("An new artifact will be persist");
+		manager.persist(artifact);		
 	}
-	public void saveUserHistory(Storie userHistory) {
-		manager.persist(userHistory);
-	}
-	public void saveUseCase(UseCase useCase) {
-		manager.persist(useCase);
-	}
+	
 	public ArrayList<Artifact> loadAll() {
 		String sql = "SELECT r FROM Requirement r";
 		Query query = manager.createQuery(sql);
@@ -55,6 +64,7 @@ public class RequirementDAO {
 		requirements =(ArrayList<Artifact>) query.getResultList();
 		return requirements;
 	}
+	
 	public ArrayList<Artifact> loadUserHistories(){
 		String sql = "SELECT r FROM Requirement r WHERE actors = :actors "
 				+ "AND discretion <> :discretion";
@@ -65,7 +75,9 @@ public class RequirementDAO {
 		requirements =(ArrayList<Artifact>) query.getResultList();
 		return requirements;
 	}
-	public Artifact detail(long id) {
+	
+	
+	public Artifact find(long id) {
 		Artifact requirement;
 		requirement = manager.find(Artifact.class, id);
 		return requirement;		
