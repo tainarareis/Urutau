@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Storie;
 
 public class RequirementService {
 	private RequirementDAO requirementDAO;
@@ -26,5 +25,9 @@ public class RequirementService {
 
 	public ArrayList<Artifact> loadAll(String type) {
 		return requirementDAO.loadAll(type);
+	}
+
+	public Artifact detail(long id) {
+		return requirementDAO.find(id);
 	}
 }

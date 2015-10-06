@@ -55,7 +55,7 @@ public class User {
 	 * 1 - confirmed
 	 */
 	private int confirmed = 0;
-	@ManyToMany(mappedBy="artifact")
+	@ManyToMany(mappedBy="responsables")
 	private List<Artifact> artifactsDelegates;
 
 	/**

@@ -10,13 +10,16 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 
-import com.modesteam.urutau.RequirementManager;
-import com.modesteam.urutau.dao.RequirementDAO;
+import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.service.RequirementService;
 
+/**
+ * This class is responsable to manager simple operations of requirements!
+ * 
+ */
 @Controller
 public class RequirementController {
 	
@@ -33,32 +36,25 @@ public class RequirementController {
 		this.result = result;
 		this.requirementService = requirementService;
 	}
-
-	@Get
-	@Path("/registerRequirement")
-	public void registerRequirement() {
-		
-	}
 	
-	@Post
-	@Path("/registerRequirement")
+	@Post("/registerRequirement")
 	public void registerRequirement(Artifact requirement) {
 		requirementService.save(requirement);
-		result.redirectTo(this).registerRequirement();
+		result.redirectTo(this).register();
 	}
 	
 	@Post
 	@Path("/registerUserHistory")
 	public void registerUserHistory(Storie storie) {
 		requirementService.save(storie);
-		result.redirectTo(this).registerRequirement();
+		result.redirectTo(this).register();
 	}
 	
 	@Post
 	@Path("/registerUseCase")
 	public void registerUseCase(UseCase useCase) {
 		requirementService.save(useCase);
-		result.redirectTo(this).registerRequirement();
+		result.redirectTo(this).register();
 	}
 	
 	@Get
@@ -85,17 +81,16 @@ public class RequirementController {
 	@Post
 	@Path("/detailRequirement")
 	public void detailRequirement(Artifact requirement) {
-		requirement = requirementService.detail(requirement.getId());
-		requirementManager.setRequirement(requirement);
-		result.redirectTo(this).detailRequirement();
+		// rethink method
 	}
 	
-	@Get
-	@Path("/detailRequirement")
+	@View
 	public void detailRequirement() {
-		System.out.println(requirementManager.getRequirement().getTitle());
-		System.out.println(requirementManager.getRequirement().getId());
-		result.include("requirement",requirementManager.getRequirement());
+		
+	}
+	@View
+	public void register() {
+		
 	}
 
 }

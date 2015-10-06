@@ -32,6 +32,5 @@
 
 	<a href="." class="btn btn-info btn-lg">Voltar</a>
 
-	</div>
 </body>
 </html>

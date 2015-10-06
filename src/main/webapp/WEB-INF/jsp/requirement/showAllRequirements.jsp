@@ -27,7 +27,6 @@
 	<div class="container">
 
 		<c:forEach items="${generics}" var="requirement">
-			<tr>
 				<div class="panel panel-default">
 					<div class="panel-body">
 						${requirement.title}
@@ -38,11 +37,9 @@
 						<br>
 					</div>
 				</div>
-			</tr>
 		</c:forEach>
 		
 		<c:forEach items="${useCases}" var="UseCase">
-			<tr>
 				<div class="panel panel-default">
 					<div class="panel-body">
 						${useCase.title}
@@ -53,11 +50,9 @@
 						<br>
 					</div>
 				</div>
-			</tr>
 		</c:forEach>
 		
 		<c:forEach items="${userHistories}" var="UserHistory">
-			<tr>
 				<div class="panel panel-default">
 					<div class="panel-body">
 						${userHistory.title}
@@ -68,7 +63,6 @@
 						<br>
 					</div>
 				</div>
-			</tr>
 		</c:forEach>
 		
 		<a href="." class="btn btn-info btn-lg">Voltar</a>
