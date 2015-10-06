@@ -16,6 +16,8 @@ import br.com.caelum.vraptor.Result;
 import com.modesteam.urutau.RequirementManager;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Epic;
+import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.mysql.jdbc.log.Log;
@@ -45,6 +47,38 @@ public class RequirementController {
 	@Path("/registerRequirement")
 	public void registerRequirement(Artifact requirement) {
 		requirementDAO.create(requirement);
+		result.redirectTo(this).registerRequirement();
+	}
+	
+	@Get
+	@Path("/registerFeature")
+	public void registerFeature() {
+		
+	}
+	/**
+	 * 
+	 * @param feature
+	 */
+	@Post
+	@Path("/registerFeature")
+	public void registerFeature(Feature feature) {
+		requirementDAO.create(feature);
+		result.redirectTo(this).registerRequirement();
+	}
+	
+	@Get
+	@Path("/registerEpic")
+	public void registerEpic() {
+		
+	}
+	/**
+	 * 
+	 * @param epic
+	 */
+	@Post
+	@Path("/registerEpic")
+	public void registerEpic(Epic epic) {
+		requirementDAO.create(epic);
 		result.redirectTo(this).registerRequirement();
 	}
 	
