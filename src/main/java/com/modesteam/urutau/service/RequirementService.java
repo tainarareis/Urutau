@@ -1,6 +1,7 @@
 package com.modesteam.urutau.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,7 +24,7 @@ public class RequirementService {
 		requirementDAO.create(requirement);
 	}
 
-	public ArrayList<Artifact> loadAll(String type) {
+	public List<? extends Artifact> loadAll(String type) {
 		return requirementDAO.loadAll(type);
 	}
 

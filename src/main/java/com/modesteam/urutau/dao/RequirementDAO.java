@@ -30,14 +30,14 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	 * 
 	 * @return an Child of Artifact 
 	 */
-	public ArrayList<Artifact> loadAll(String type) {
+	public List<? extends Artifact> loadAll(String type) {
 		
 		logger.debug("Type is " + type);
 		
 		String sql = "SELECT requirement FROM "+ type +" requirement";
 		Query query = manager.createQuery(sql);
-		List<Artifact> requirements = query.getResultList();
 		
+		List<Artifact> requirements = query.getResultList();
 		return (ArrayList<Artifact>) requirements;
 	}
 	

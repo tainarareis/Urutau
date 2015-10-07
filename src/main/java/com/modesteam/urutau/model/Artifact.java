@@ -19,9 +19,9 @@ import javax.persistence.TableGenerator;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Artifact {
-	@TableGenerator(name = "ARTIFACT_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL")
+	@TableGenerator(name = "Artifact_Generator", table = "Id_Generator", pkColumnName = "generator_name", valueColumnName = "generator_val")
 	@Id
-	@GeneratedValue(generator = "ARTIFACT_GEN", strategy = GenerationType.TABLE)
+	@GeneratedValue(generator = "Artifact_Generator", strategy = GenerationType.TABLE)
 	private long id;
 	
 	@OneToOne(fetch = FetchType.LAZY, orphanRemoval=true, optional=false)
