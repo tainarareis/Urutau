@@ -12,6 +12,8 @@ import br.com.caelum.vraptor.Result;
 
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Epic;
+import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.service.RequirementService;
@@ -43,6 +45,44 @@ public class RequirementController {
 		result.redirectTo(this).register();
 	}
 	
+	@Get
+	@Path("/registerFeature")
+	public void registerFeature() {
+		
+	}
+
+	/**
+	 * 
+	 * @param feature
+	 */
+	@Post
+	@Path("/registerFeature")
+	public void registerFeature(Feature feature) {
+		requirementService.save(feature);
+		result.redirectTo(this).register();
+	}
+	
+	@Get
+	@Path("/registerEpic")
+	public void registerEpic() {
+		
+	}
+	
+	/**
+	 * 
+	 * @param epic
+	 */
+	@Post
+	@Path("/registerEpic")
+	public void registerEpic(Epic epic) {
+		requirementService.save(epic);
+		result.redirectTo(this).register();
+	}
+	
+	/**
+	 * 
+	 * @param userHistory
+	 */
 	@Post
 	@Path("/registerUserHistory")
 	public void registerUserHistory(Storie storie) {
@@ -50,6 +90,10 @@ public class RequirementController {
 		result.redirectTo(this).register();
 	}
 	
+	/**
+	 * 
+	 * @param useCase
+	 */
 	@Post
 	@Path("/registerUseCase")
 	public void registerUseCase(UseCase useCase) {
@@ -65,8 +109,8 @@ public class RequirementController {
 		ArrayList<Artifact> userHistories = null;	
 		// An new object generic		
 		//generics = requirementService.load();
-		useCases = requirementService.loadAll(UseCase.class.getName());
-		userHistories = requirementService.loadAll(Storie.class.getName());
+		useCases = (ArrayList<Artifact>) requirementService.loadAll(UseCase.class.getName());
+		userHistories = (ArrayList<Artifact>) requirementService.loadAll(Storie.class.getName());
 		// Usar logger!
 		System.out.println(generics.get(1).getTitle());
 		System.out.println(useCases.get(1).getTitle());
@@ -77,7 +121,10 @@ public class RequirementController {
 	}
 	
 
-	
+	/**
+	 * 
+	 * @param requirement
+	 */
 	@Post
 	@Path("/detailRequirement")
 	public void detailRequirement(Artifact requirement) {

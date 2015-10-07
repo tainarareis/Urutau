@@ -16,7 +16,10 @@ import org.slf4j.LoggerFactory;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.service.DaoInterface;
 
-
+/**
+ * 
+ * Accesses the database related to the Requirements.
+ */
 @RequestScoped
 public class RequirementDAO implements DaoInterface<Artifact> {
 	
@@ -65,6 +68,7 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 			return null;
 		}
 	}
+
 	@Override
 	public Artifact find(Long id) {
 		return manager.find(Artifact.class, id);
