@@ -1,6 +1,5 @@
 package com.modesteam.urutau.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,5 +29,21 @@ public class RequirementService {
 
 	public Artifact detail(long id) {
 		return requirementDAO.find(id);
+	}
+	/**
+	 * Returns an requirement getted by title that have an certly id
+	 * 
+	 * @param id unique
+	 * @param title name of Requirement, an usual identificator, but not unique
+	 * @return an requirement
+	 */
+	public Artifact getRequirement(int id, String title) {
+		Artifact requirement = requirementDAO.get("title", title);
+		
+		if (requirement.getId() == new Long(id)) {
+			return requirement;
+		} else {
+			throw new IllegalArgumentException("This requirement not exist");
+		}
 	}
 }

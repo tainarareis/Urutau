@@ -53,7 +53,7 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	public Artifact get(String field, Object value) {
 		// Select an child of artifact 
 		String sql = "SELECT requirement FROM "+ Artifact.class.getName() +" requirement"
-				+ " WHERE user." + field + "=:value";
+				+ " WHERE requirement." + field + "=:value";
 		
 		logger.info(sql);
 		

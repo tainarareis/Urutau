@@ -1,9 +1,13 @@
 package com.modesteam.urutau.controller;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 
 import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -27,6 +31,8 @@ import com.modesteam.urutau.service.RequirementService;
  */
 @Controller
 public class RequirementController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
 	
 	private final Result result;
 	
@@ -55,6 +61,27 @@ public class RequirementController {
 		
 		requirementService.save(requirement);
 		result.redirectTo(this).create();
+	}
+	
+	/**
+	 * Show an requirement that have an certly id and title 
+	 * 
+	 * @param id Unique attribute
+	 * @param title various requirement can have same title
+	 * 
+	 * @return {@link Artifact} requirement from database
+	 * 
+	 * @throws UnsupportedEncodingException invalid characters or decodes fails
+	 */
+	@Get
+	@Path("/requirement/{id}/{title}")
+	public Artifact show(int id, String title) throws UnsupportedEncodingException{
+		title = URLDecoder.decode(title, "utf-8");
+		
+		logger.info("Show requirement " + title);
+		
+		Artifact requirement = requirementService.getRequirement(id, title);
+		return requirement;
 	}
 	
 	@Get
@@ -116,20 +143,7 @@ public class RequirementController {
 	@Get
 	@Path("/showAllRequirements")
 	public void showAllRequirements() {
-		ArrayList<Artifact> generics = null;
-		ArrayList<Artifact> useCases = null;
-		ArrayList<Artifact> userHistories = null;	
-		// An new object generic		
-		//generics = requirementService.load();
-		useCases = (ArrayList<Artifact>) requirementService.loadAll(UseCase.class.getName());
-		userHistories = (ArrayList<Artifact>) requirementService.loadAll(Storie.class.getName());
-		// Usar logger!
-		System.out.println(generics.get(1).getTitle());
-		System.out.println(useCases.get(1).getTitle());
-		System.out.println(userHistories.get(1).getTitle());
-		result.include("generics",generics);
-		result.include("useCases",useCases);
-		result.include("userHistories",userHistories);
+		
 	}
 	
 
