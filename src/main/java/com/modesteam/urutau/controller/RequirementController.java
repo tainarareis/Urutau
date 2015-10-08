@@ -1,6 +1,7 @@
 package com.modesteam.urutau.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -10,12 +11,14 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 
+import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
+import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
 /**
@@ -25,24 +28,33 @@ import com.modesteam.urutau.service.RequirementService;
 @Controller
 public class RequirementController {
 	
-	private Result result;
+	private final Result result;
 	
-	private RequirementService requirementService;
+	private final UserManager userSession;
+	
+	private final RequirementService requirementService;
 	
 	public RequirementController() {
-		this(null, null);
+		this(null, null, null);
 	}
 	
 	@Inject
-	public RequirementController(Result result, RequirementService requirementService) {
+	public RequirementController(Result result, UserManager userSession, 
+			RequirementService requirementService) {
 		this.result = result;
+		this.userSession = userSession;
 		this.requirementService = requirementService;
 	}
 	
-	@Post("/registerRequirement")
-	public void registerRequirement(Artifact requirement) {
+	@Post
+	public void create(Artifact requirement) {
+		requirement.setDateOfCreation(new Date(System.currentTimeMillis()));
+		
+		User logged = userSession.getUserLogged();
+		requirement.setAuthor(logged);
+		
 		requirementService.save(requirement);
-		result.redirectTo(this).register();
+		result.redirectTo(this).create();
 	}
 	
 	@Get
@@ -59,7 +71,7 @@ public class RequirementController {
 	@Path("/registerFeature")
 	public void registerFeature(Feature feature) {
 		requirementService.save(feature);
-		result.redirectTo(this).register();
+		result.redirectTo(this).create();
 	}
 	
 	@Get
@@ -76,7 +88,7 @@ public class RequirementController {
 	@Path("/registerEpic")
 	public void registerEpic(Epic epic) {
 		requirementService.save(epic);
-		result.redirectTo(this).register();
+		result.redirectTo(this).create();
 	}
 	
 	/**
@@ -87,7 +99,7 @@ public class RequirementController {
 	@Path("/registerUserHistory")
 	public void registerUserHistory(Storie storie) {
 		requirementService.save(storie);
-		result.redirectTo(this).register();
+		result.redirectTo(this).create();
 	}
 	
 	/**
@@ -98,7 +110,7 @@ public class RequirementController {
 	@Path("/registerUseCase")
 	public void registerUseCase(UseCase useCase) {
 		requirementService.save(useCase);
-		result.redirectTo(this).register();
+		result.redirectTo(this).create();
 	}
 	
 	@Get
@@ -135,8 +147,10 @@ public class RequirementController {
 	public void detailRequirement() {
 		
 	}
+	
 	@View
-	public void register() {
+	@Get
+	public void create() {
 		
 	}
 

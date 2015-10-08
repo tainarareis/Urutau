@@ -33,7 +33,11 @@ public class UserManager implements Serializable {
 	}
 
 	public User getUserLogged() {
-		return userLogged;
+		if(userLogged == null) {
+			throw new NullPointerException("Don't have user in session!");
+		} else {
+			return userLogged;
+		}
 	}
 
 	public void setUserLogged(User userLogged) {

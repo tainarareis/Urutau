@@ -65,15 +65,17 @@
 		</select>
 	
 		<div id="generic" class="requirement-box">
-			<form action="registerRequirement" method="POST">
+			<form action="create" method="POST">
 				<input name="requirement.title" placeholder="Título" type="text">
+				<br/>
 				<input name="requirement.description" placeholder="Descrição" type="text">
+				<br/>
 				<input type="submit" value="Cadastrar">
 			</form>
 		</div>
 	
 		<div id="storie" class="requirement-box">
-			<form action="registerRequirement" method="POST">
+			<form action="create" method="POST">
 				<input name="storie.title" placeholder="Título" type="text">
 				<br/> 
 				<textarea name="storie.history" placeholder="Descrição">
@@ -86,7 +88,7 @@
 		</div>
 	
 		<div id="useCase" class="requirement-box">
-			<form action="registerRequirement" method="POST">
+			<form action="create" method="POST">
 				<input name="useCase.title" placeholder="Título" type="text">
 				<input name="useCase.description" placeholder="Descrição" type="text">
 				<input name="useCase.actors" placeholder="Atores" type="text">
