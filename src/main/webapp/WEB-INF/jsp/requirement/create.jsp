@@ -39,6 +39,8 @@
 			$("#generic").css('visibility', 'hidden');
 			$("#storie").css('visibility', 'hidden');
 			$("#useCase").css('visibility', 'hidden');
+			$("#epic").css('visibility', 'hidden');
+			$("#feature").css('visibility', 'hidden');
 			
 			if (option == "generic") {
 				$("#generic").css('visibility', 'visible');
@@ -46,6 +48,10 @@
 				$("#storie").css('visibility', 'visible');
 			} else if (option == "useCase") {
 				$("#useCase").css('visibility', 'visible');
+			} else if (option == "epic") {
+				$("#epic").css('visibility', 'visible');
+			} else if (option == "feature") {
+				$("#feature").css('visibility', 'visible');
 			} else {
 				// Do nothing
 			}
@@ -62,6 +68,8 @@
 			<option value="generic">Genérico</option>
 			<option value="storie">História de Usuário</option>
 			<option value="useCase">Caso de Uso</option>
+			<option value="epic">Épico</option>
+			<option value="feature">Feature</option>
 		</select>
 	
 		<div id="generic" class="requirement-box">
@@ -92,6 +100,24 @@
 				<input name="useCase.title" placeholder="Título" type="text">
 				<input name="useCase.description" placeholder="Descrição" type="text">
 				<input name="useCase.actors" placeholder="Atores" type="text">
+				<input type="submit" value="Cadastrar">
+			</form>
+		</div>
+		
+			<div id="epic" class="requirement-box">
+			<form action="create" method="POST">
+				<input name="epic.title" placeholder="Título" type="text">
+				<input name="epic.description" placeholder="Descrição" type="text">
+				<input name="epic.content" placeholder="Conteudo" type="text">
+				<input type="submit" value="Cadastrar">
+			</form>
+		</div>
+		
+			<div id="feature" class="requirement-box">
+			<form action="create" method="POST">
+				<input name="feature.title" placeholder="Título" type="text">
+				<input name="feature.description" placeholder="Descrição" type="text">
+				<input name="feature.content" placeholder="Conteudo" type="text">
 				<input type="submit" value="Cadastrar">
 			</form>
 		</div>
