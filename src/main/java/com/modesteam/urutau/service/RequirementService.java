@@ -46,4 +46,8 @@ public class RequirementService {
 			throw new IllegalArgumentException("This requirement not exist");
 		}
 	}
+	
+	public void excludeRequirement(Artifact requirement){
+		requirementDAO.destroy(requirement);
+	}
 }

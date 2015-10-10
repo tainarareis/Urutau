@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.junit.experimental.theories.Theories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
 /**
- * This class is responsable to manager simple operations of requirements!
+ * This class is responsible to manager simple operations of requirements!
  * 
  */
 @Controller
@@ -64,7 +65,7 @@ public class RequirementController {
 	}
 	
 	/**
-	 * Show an requirement that have an certly id and title 
+	 * Show a requirement that has a certain id and title 
 	 * 
 	 * @param id Unique attribute
 	 * @param title various requirement can have same title
@@ -157,6 +158,14 @@ public class RequirementController {
 		// rethink method
 	}
 	
+	@Post
+	@Path("/excludeRequirement")
+	public void excludeRequirement(Artifact requirement) {
+		requirementService.excludeRequirement(requirement);
+		result.redirectTo(this).showExclusionResult();
+		
+	}
+
 	@View
 	public void detailRequirement() {
 		
@@ -165,6 +174,12 @@ public class RequirementController {
 	@View
 	@Get
 	public void create() {
+		
+	}
+	
+	@View
+	@Get	
+	public void showExclusionResult(){
 		
 	}
 

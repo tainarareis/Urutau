@@ -5,3 +5,4 @@ out
 .metadata
 /target/
 /src/main/webapp/WEB-INF/classes/
+/bin/

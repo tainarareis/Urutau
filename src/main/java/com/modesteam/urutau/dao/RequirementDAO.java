@@ -91,4 +91,6 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 		manager.merge(entity);
 		return true;
 	}
+
+
 }
