@@ -15,6 +15,9 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.Message;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
@@ -41,16 +44,23 @@ public class RequirementController {
 	
 	private final RequirementService requirementService;
 	
+	private final Validator validator;
+	
+	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
+
+	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
+	
 	public RequirementController() {
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 	
 	@Inject
 	public RequirementController(Result result, UserManager userSession, 
-			RequirementService requirementService) {
+			RequirementService requirementService, Validator validator) {
 		this.result = result;
 		this.userSession = userSession;
 		this.requirementService = requirementService;
+		this.validator = validator; 
 	}
 	
 	@Post
@@ -161,8 +171,21 @@ public class RequirementController {
 	@Post
 	@Path("/excludeRequirement")
 	public void excludeRequirement(Artifact requirement) {
+		
+		long requirementId = requirement.getId();
+		
 		requirementService.excludeRequirement(requirement);
-		result.redirectTo(this).showExclusionResult();
+		
+		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementId);
+		
+		if(requirementExistence == false) {
+			logger.info("The requirement was succesfully excluded.");
+			result.redirectTo(this).showExclusionResult(requirement.getTitle());
+		}else {
+			logger.info("The requirement wasn't excluded yet.");
+			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Não foi possível excluir o requisito solicitado."));	
+			
+		}
 		
 	}
 
@@ -179,8 +202,28 @@ public class RequirementController {
 	
 	@View
 	@Get	
-	public void showExclusionResult(){
+	public void showExclusionResult(String requirementTitle) {
 		
 	}
+	
+	/**
+	 * Allows the modification of an unique artifact
+	 * @param artifact
+	 */
+	@Post
+	@Path("/modifyRequirement")
+	public void modifyRequirement(Artifact artifact) {		
+		 
+		boolean updateResult = requirementService.modifyRequirement(artifact);
+		
+		if(updateResult == true) {
+			result.redirectTo(this).detailRequirement(artifact);
+		} else {
+			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "Não foi possível alterar o requisito solicitado"));
+			result.redirectTo(this).detailRequirement(artifact);
+		}
+	}
+	
+	
 
 }

@@ -131,7 +131,7 @@ public class UserController {
     }
 	
 	@View
-	public void login(){		
+	public void login() {		
 	
 	}
 	

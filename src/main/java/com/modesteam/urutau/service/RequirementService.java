@@ -31,10 +31,10 @@ public class RequirementService {
 		return requirementDAO.find(id);
 	}
 	/**
-	 * Returns an requirement getted by title that have an certly id
+	 * Returns a requirement caught by title that have a certain id
 	 * 
 	 * @param id unique
-	 * @param title name of Requirement, an usual identificator, but not unique
+	 * @param title name of Requirement, an usual identifier, but not unique
 	 * @return an requirement
 	 */
 	public Artifact getRequirement(int id, String title) {
@@ -47,7 +47,34 @@ public class RequirementService {
 		}
 	}
 	
-	public void excludeRequirement(Artifact requirement){
+	/**
+	 * Method to communicate with the DAO
+	 * asking for the requirement exclusion from database.
+	 * @param requirement
+	 */
+	public void excludeRequirement(Artifact requirement) {
 		requirementDAO.destroy(requirement);
 	}
+	
+	/**
+	 * Verifies the existence of a requirement by its id
+	 * @param requirementId
+	 * @return true if the requirement exists
+	 */
+	public boolean verifyRequirementExistence(long requirementId) {
+		Artifact requirement = requirementDAO.get("id", requirementId);
+		
+		if (requirement == null) {
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
+	
+	public boolean modifyRequirement(Artifact artifact){
+		boolean updateResult = requirementDAO.update(artifact);		
+		return updateResult;
+	}
+	
 }

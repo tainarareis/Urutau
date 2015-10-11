@@ -30,10 +30,13 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	
 	/**
 	 * Get all requirements from type {@link Artifact}
-	 * 
+	 * @param type means the artifact type, in this case
+	 * represented by the name of the artifact table in database.
+	 * Possible values (tables): Epic, Feature, Storie, UseCase, Artifact.
 	 * @return an Child of Artifact 
 	 */
 	public List<? extends Artifact> loadAll(String type) {
+		
 		
 		logger.debug("Type is " + type);
 		
