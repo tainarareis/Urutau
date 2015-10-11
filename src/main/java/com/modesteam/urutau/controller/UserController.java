@@ -68,8 +68,11 @@ public class UserController {
 		
 		logger.info("Initiate an register");
 
-		// Validate if any field is null
-		if(user.getEmail() == null || user.getLogin() == null || 
+		if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
+			logger.info("User will be persisted, and page redirected");
+			userService.create(user);
+			result.redirectTo(this).showSignInSucess();
+		} else if(user.getEmail() == null || user.getLogin() == null || 
 				user.getName() == null || user.getPasswordVerify() == null) {
 				validator.add(new SimpleMessage(REGISTER_ERROR, "Campo em branco!"));
 		} else {			
@@ -77,11 +80,7 @@ public class UserController {
 			if(!userService.existsField("login", user.getLogin())) {
 				validator.add(new SimpleMessage(REGISTER_ERROR, "Login em uso!"));
 			} else if(!userService.existsField("email", user.getEmail())) {
-				validator.add(new SimpleMessage(REGISTER_ERROR, "Email já utilizado"));
-			} else if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
-				logger.info("User will be persisted, and page redirected");
-				userService.create(user);
-				result.redirectTo(this).showSignInSucess();
+				validator.add(new SimpleMessage(REGISTER_ERROR, "Email já utilizado"));			
 			} else {
 				validator.add(new SimpleMessage(REGISTER_ERROR, "As senhas não são compatíveis!"));
 			}
