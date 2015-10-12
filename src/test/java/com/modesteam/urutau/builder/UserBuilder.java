@@ -6,7 +6,7 @@ public class UserBuilder {
 	private String email;
 	private String login;
 	private String name;
-	private String lastname;
+	private String lastName;
 	private String password;
 	private String passwordVerify;
 	
@@ -26,7 +26,7 @@ public class UserBuilder {
 	}
 	
 	public UserBuilder lastName(String lastName){
-		this.lastname = lastName;
+		this.lastName = lastName;
 		return this;
 	}
 	
@@ -45,6 +45,7 @@ public class UserBuilder {
 		user.setEmail(email);
 		user.setLogin(login);
 		user.setName(name);
+		user.setLastName(lastName);
 		user.setPassword(password);
 		user.setPasswordVerify(passwordVerify);
 		return user;

@@ -1,6 +1,6 @@
 package com.modesteam.urutau.model;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class Artifact {
 	private Status status;
 	
 	/* Should be generate automatically */
-	private Date dateOfCreation;
+	private Calendar dateOfCreation;
 	
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany
@@ -68,11 +68,11 @@ public class Artifact {
 		this.description = description;
 	}
 
-	public Date getDateOfCreation() {
+	public Calendar getDateOfCreation() {
 		return dateOfCreation;
 	}
 
-	public void setDateOfCreation(Date dateOfCreation) {
+	public void setDateOfCreation(Calendar dateOfCreation) {
 		this.dateOfCreation = dateOfCreation;
 	}
 

@@ -71,7 +71,11 @@ public class RequirementService {
 		}
 		
 	}
-	
+	/**
+	 * Modifies an artifact characteristics 
+	 * @param artifact
+	 * @return
+	 */
 	public boolean modifyRequirement(Artifact artifact){
 		boolean updateResult = requirementDAO.update(artifact);		
 		return updateResult;

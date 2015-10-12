@@ -2,11 +2,11 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.junit.experimental.theories.Theories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +15,6 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -65,7 +64,12 @@ public class RequirementController {
 	
 	@Post
 	public void create(Artifact requirement) {
-		requirement.setDateOfCreation(new Date(System.currentTimeMillis()));
+		
+		Date currentDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentDate);
+		
+		requirement.setDateOfCreation(calendar);
 		
 		User logged = userSession.getUserLogged();
 		requirement.setAuthor(logged);
@@ -174,17 +178,19 @@ public class RequirementController {
 		
 		long requirementId = requirement.getId();
 		
+		logger.info("The requirement " +requirementId + "is solicitated for exclusion.");
+		
 		requirementService.excludeRequirement(requirement);
 		
 		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementId);
 		
-		if(requirementExistence == false) {
+		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
 			result.redirectTo(this).showExclusionResult(requirement.getTitle());
 		}else {
 			logger.info("The requirement wasn't excluded yet.");
 			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Não foi possível excluir o requisito solicitado."));	
-			
+			validator.onErrorForwardTo(this).showAllRequirements();
 		}
 		
 	}

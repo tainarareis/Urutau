@@ -40,6 +40,7 @@ public class UserControllerTest {
 				.password("123456")
 				.passwordVerify("123456")
 				.name("Tester")
+				.lastName("Sobrenome")
 				.build();
 		
 		mockIsExistsField(user.getLogin(), "login", true);
@@ -77,6 +78,7 @@ public class UserControllerTest {
 				.password("123456")
 				.passwordVerify("diff")
 				.name("Tester")
+				.lastName("Sobrenome")
 				.build();
 		
 		mockIsExistsField(user.getLogin(), "login", false);
@@ -102,6 +104,7 @@ public class UserControllerTest {
 					.password("123456")
 					.passwordVerify("diff")
 					.name("Tester")
+					.lastName("Sobrenome")
 					.build();
 
 		mockAuthenticate(user.getLogin(), user.getPassword(), user );
@@ -127,6 +130,7 @@ public class UserControllerTest {
 					.password("123456")
 					.passwordVerify("diff")
 					.name("Tester")
+					.lastName("Sobrenome")
 					.build();
 
 		mockAuthenticate(user.getLogin(), user.getPassword(), null);
