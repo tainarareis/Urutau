@@ -2,8 +2,10 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -99,6 +101,20 @@ public class RequirementController {
 		return requirement;
 	}
 	
+	/**
+	 * Used to present a requirement in the view.
+	 * @param id
+	 * @return a requirement. 
+	 */
+	@Get
+	public Artifact showRequirementById(int id){
+			
+		logger.info("Requirement id = " + id);
+		
+		Artifact requirement = requirementService.getRequirementById(id);
+		return requirement;
+	}
+	
 	@Get
 	@Path("/registerFeature")
 	public void registerFeature() {
@@ -157,9 +173,13 @@ public class RequirementController {
 	
 	@Get
 	@Path("/showAllRequirements")
-	public void showAllRequirements() {
-		
+	public List<? extends Artifact> showAllRequirements() {		
+		logger.info("Starting the requisition for all requirements");
+		List<? extends Artifact> requirements  = requirementService.loadAllRequirements();
+		System.out.println(requirements.size());		
+		return requirements;
 	}
+	
 	
 
 	/**

@@ -26,22 +26,22 @@
 
 	<div class="container">
 
-		<c:forEach items="${generics}" var="requirement">
+		<c:forEach items="${generics}" var="artifact">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						${requirement.title}
+						${aritfact.title}
 						<form action="detailRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
+								<input type="hidden" name="requirement.id" value="${artifact.id}">
 								<input type="submit" value="Verificar">
 						</form>
 						<br>
 						<form action="excludeRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
+								<input type="hidden" name="requirement.id" value="${artifact.id}">
 								<input type="submit" value="Excluir">
 						</form>						
 						<br>
 						<form action="modifyRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
+								<input type="hidden" name="requirement.id" value="${artifact.id}">
 								<input type="submit" value="Alterar">
 						</form>						
 						<br>
