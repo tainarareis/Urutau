@@ -18,7 +18,7 @@ import javax.persistence.TableGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Artifact {
+public abstract class  Artifact {
 	@TableGenerator(name = "Artifact_Generator", table = "Id_Generator", pkColumnName = "generator_name", valueColumnName = "generator_val")
 	@Id
 	@GeneratedValue(generator = "Artifact_Generator", strategy = GenerationType.TABLE)
@@ -91,4 +91,13 @@ public class Artifact {
 	public void setResponsables(List<User> responsables) {
 		this.responsables = responsables;
 	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	
 }

@@ -30,12 +30,11 @@ public class User {
 	@GeneratedValue
 	private Long id;
 	@NotNull
-	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-	        +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-	        +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-	             message="{invalid.email}")
+	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "{invalid.email}")
 	// ^font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
-	private String email; 
+	private String email;
 	@NotNull
 	@Size(min = 3, max = 20)
 	private String name;
@@ -51,11 +50,10 @@ public class User {
 	@Transient
 	private String passwordVerify;
 	/*
-	 * 0 - wait (default value)
-	 * 1 - confirmed
+	 * 0 - wait (default value) 1 - confirmed
 	 */
 	private int confirmed = 0;
-	@ManyToMany(mappedBy="responsables")
+	@ManyToMany(mappedBy = "responsables")
 	private List<Artifact> artifactsDelegates;
 
 	/**
@@ -203,4 +201,11 @@ public class User {
 		this.confirmed = confirmed;
 	}
 
+	public List<Artifact> getArtifactsDelegates() {
+		return artifactsDelegates;
+	}
+
+	public void setArtifactsDelegates(List<Artifact> artifactsDelegates) {
+		this.artifactsDelegates = artifactsDelegates;
+	}
 }
