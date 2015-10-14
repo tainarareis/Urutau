@@ -74,9 +74,9 @@
 	
 		<div id="generic" class="requirement-box">
 			<form action="create" method="POST">
-				<input name="requirement.title" placeholder="Título" type="text">
+				<input name="generic.title" placeholder="Título" type="text">
 				<br/>
-				<input name="requirement.description" placeholder="Descrição" type="text">
+				<input name="generic.description" placeholder="Descrição" type="text">
 				<br/>
 				<input type="submit" value="Cadastrar">
 			</form>

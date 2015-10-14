@@ -14,14 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.TableGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class  Artifact {
-	@TableGenerator(name = "Artifact_Generator", table = "Id_Generator", pkColumnName = "generator_name", valueColumnName = "generator_val")
+public abstract class Artifact {
 	@Id
-	@GeneratedValue(generator = "Artifact_Generator", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.TABLE)
 	private long id;
 	
 	@OneToOne(fetch = FetchType.LAZY, orphanRemoval=true, optional=false)
