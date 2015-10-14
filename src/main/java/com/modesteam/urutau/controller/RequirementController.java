@@ -176,10 +176,11 @@ public class RequirementController {
 	public List<? extends Artifact> showAllRequirements() {		
 		logger.info("Starting the requisition for all requirements");
 		List<? extends Artifact> requirements  = requirementService.loadAllRequirements();
-		System.out.println(requirements.size());		
+		System.out.println(requirements.size());	
+		result.include("artifact", requirements);
 		return requirements;
 	}
-	
+		
 	
 
 	/**

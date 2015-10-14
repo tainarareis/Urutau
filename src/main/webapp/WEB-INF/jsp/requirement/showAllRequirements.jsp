@@ -24,125 +24,24 @@
 <body>
 
 
-	<div class="container">
-
-		<c:forEach items="${generics}" var="artifact">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						${aritfact.title}
-						<form action="detailRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${artifact.id}">
-								<input type="submit" value="Verificar">
-						</form>
-						<br>
-						<form action="excludeRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${artifact.id}">
-								<input type="submit" value="Excluir">
-						</form>						
-						<br>
-						<form action="modifyRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${artifact.id}">
-								<input type="submit" value="Alterar">
-						</form>						
-						<br>
-					</div>
-				</div>
-		</c:forEach>
-		
-		<c:forEach items="${useCases}" var="UseCase">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						${useCase.title}
-						<form action="detailRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Verificar">
-						</form>
-						<br>
-						<form action="excludeRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Excluir">
-						</form>						
-						<br>
-						<form action="modifyRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Alterar">
-						</form>						
-						<br>
-					</div>
-				</div>
-		</c:forEach>
-		
-		<c:forEach items="${userHistories}" var="UserHistory">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						${userHistory.title}
-						<form action="detailRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Verificar">
-						</form>						
-						<br>
-						<form action="excludeRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Excluir">
-						</form>						
-						<br>
-						<form action="modifyRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Alterar">
-						</form>						
-						<br>							
-					</div>
-				</div>
-		</c:forEach>
-		
-		<c:forEach items="${epic}" var="epic">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						${epic.title}
-						<form action="detailRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Verificar">
-						</form>						
-						<br>
-						<form action="excludeRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Excluir">
-						</form>						
-						<br>
-						<form action="modifyRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Alterar">
-						</form>						
-						<br>							
-					</div>
-				</div>
-		</c:forEach>
-		
-		<c:forEach items="${feature}" var="feature">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						${feature.title}
-						<form action="detailRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Verificar">
-						</form>						
-						<br>
-						<form action="excludeRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Excluir">
-						</form>						
-						<br>
-						<form action="modifyRequirement" class="form-signin" method="POST">
-								<input type="hidden" name="requirement.id" value="${requirement.id}">
-								<input type="submit" value="Alterar">
-						</form>						
-						<br>							
-					</div>
-				</div>
-		</c:forEach>
+	<div>
+		<table id="tbArtifact" class="table table-striped">
+		  <thead>
+		  <tr>
+		  <th class="col-md-6" >Nome</th>
+		  </tr>
+		  </thead>
+		  <tbody id="bodyTbArtifact">
+		  <c:forEach items="${artifact}" var="artifact" >
+		  <tr>
+		  <td>${artifact.title}</td>
+		  </tr>
+		  </c:forEach>
+		  </tbody>
+		</table>
 		
 		<a href="." class="btn btn-info btn-lg">Voltar</a>
-
+		
 	</div>
 </body>
 </html>
