@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -32,9 +33,11 @@ import com.modesteam.urutau.service.RequirementService;
 
 /**
  * This class is responsible to manager simple operations of requirements!
- * 
+ * The systems operations are received by the path /requirement followed
+ * by the operation defined path.
  */
 @Controller
+@Path("/requirements")
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
@@ -91,7 +94,7 @@ public class RequirementController {
 	 * @throws UnsupportedEncodingException invalid characters or decodes fails
 	 */
 	@Get
-	@Path("/requirement/{id}/{title}")
+	@Path("/{id}/{title}")
 	public Artifact show(int id, String title) throws UnsupportedEncodingException{
 		title = URLDecoder.decode(title, "utf-8");
 		
@@ -193,21 +196,19 @@ public class RequirementController {
 		// rethink method
 	}
 	
-	@Post
-	@Path("/excludeRequirement")
-	public void excludeRequirement(Artifact requirement) {
+	@Delete
+	public void excludeRequirement(Long requirementId) {
 		
-		long requirementId = requirement.getId();
 		
 		logger.info("The requirement " +requirementId + "is solicitated for exclusion.");
 		
-		requirementService.excludeRequirement(requirement);
+		requirementService.excludeRequirement(requirementId);
 		
 		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementId);
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
-			result.redirectTo(this).showExclusionResult(requirement.getTitle());
+			result.redirectTo(this).showExclusionResult();
 		}else {
 			logger.info("The requirement wasn't excluded yet.");
 			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Não foi possível excluir o requisito solicitado."));	
@@ -229,7 +230,7 @@ public class RequirementController {
 	
 	@View
 	@Get	
-	public void showExclusionResult(String requirementTitle) {
+	public void showExclusionResult() {
 		
 	}
 	
