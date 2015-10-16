@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,31 +12,32 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Artifact {
-	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
-	private long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, orphanRemoval=true, optional=false)
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;
+
+	@ManyToOne
+	@JoinColumn(name="user_id")
 	private User author;
 
 	/* Optional relationship */
-	@OneToOne(fetch= FetchType.LAZY, orphanRemoval=false, optional=true)
+	@OneToOne(optional = true)
 	private Status status;
-	
-	/* Should be generate automatically */
-	private Calendar dateOfCreation;
-	
+
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany
-	@JoinTable(name="Artifacts_Delegates", 
-		joinColumns = @JoinColumn(name="artifact_id"), 
-		inverseJoinColumns = @JoinColumn(name="user_id"))
+	@JoinTable(name = "Artifacts_Delegates", joinColumns = @JoinColumn(name = "artifact_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> responsables;
+
+	/* Should be generate automatically */
+	private Calendar dateOfCreation;
 	
 	private String title;
 	private String description;
@@ -49,7 +49,7 @@ public abstract class Artifact {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	
 	public String getTitle() {
 		return title;
 	}
@@ -97,5 +97,5 @@ public abstract class Artifact {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+
 }

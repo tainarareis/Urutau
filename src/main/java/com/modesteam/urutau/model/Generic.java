@@ -1,8 +1,10 @@
 package com.modesteam.urutau.model;
 
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-public class Generic extends Artifact{
-
+@PrimaryKeyJoinColumn(name="id")
+public class Generic extends Artifact {
+	
 }

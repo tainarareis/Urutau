@@ -23,6 +23,7 @@ import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
+import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
@@ -63,7 +64,17 @@ public class RequirementController {
 	}
 	
 	@Post
-	public void create(Artifact requirement) {
+	public void createGeneric(Generic generic) {
+		create(generic);
+	}
+	
+	@Post
+	public void createUseCase(UseCase useCase) {
+		create(useCase);
+	}
+	
+	private void create(Artifact requirement) {
+		logger.info("Requirement will be persisted: " + requirement.getTitle());
 		
 		Date currentDate = new Date();
 		Calendar calendar = Calendar.getInstance();
@@ -75,6 +86,7 @@ public class RequirementController {
 		requirement.setAuthor(logged);
 		
 		requirementService.save(requirement);
+		
 		result.redirectTo(this).create();
 	}
 	

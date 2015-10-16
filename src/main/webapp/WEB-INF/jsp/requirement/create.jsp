@@ -73,7 +73,7 @@
 		</select>
 	
 		<div id="generic" class="requirement-box">
-			<form action="create" method="POST">
+			<form action="createGeneric" method="POST">
 				<input name="generic.title" placeholder="Título" type="text">
 				<br/>
 				<input name="generic.description" placeholder="Descrição" type="text">
@@ -83,7 +83,7 @@
 		</div>
 	
 		<div id="storie" class="requirement-box">
-			<form action="create" method="POST">
+			<form action="createStorie" method="POST">
 				<input name="storie.title" placeholder="Título" type="text">
 				<br/> 
 				<textarea name="storie.history" placeholder="Descrição">
@@ -96,7 +96,7 @@
 		</div>
 	
 		<div id="useCase" class="requirement-box">
-			<form action="create" method="POST">
+			<form action="createUseCase" method="POST">
 				<input name="useCase.title" placeholder="Título" type="text">
 				<input name="useCase.description" placeholder="Descrição" type="text">
 				<input name="useCase.actors" placeholder="Atores" type="text">
@@ -105,7 +105,7 @@
 		</div>
 		
 			<div id="epic" class="requirement-box">
-			<form action="create" method="POST">
+			<form action="createEpic" method="POST">
 				<input name="epic.title" placeholder="Título" type="text">
 				<input name="epic.description" placeholder="Descrição" type="text">
 				<input name="epic.content" placeholder="Conteudo" type="text">
@@ -114,7 +114,7 @@
 		</div>
 		
 			<div id="feature" class="requirement-box">
-			<form action="create" method="POST">
+			<form action="createFeature" method="POST">
 				<input name="feature.title" placeholder="Título" type="text">
 				<input name="feature.description" placeholder="Descrição" type="text">
 				<input name="feature.content" placeholder="Conteudo" type="text">

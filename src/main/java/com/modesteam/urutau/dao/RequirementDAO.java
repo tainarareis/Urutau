@@ -42,7 +42,7 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 		
 		String sql = "SELECT requirement FROM "+ type +" requirement";
 		Query query = manager.createQuery(sql);
-		
+
 		List<Artifact> requirements = query.getResultList();
 		return (ArrayList<Artifact>) requirements;
 	}

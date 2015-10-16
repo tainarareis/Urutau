@@ -1,5 +1,6 @@
 package com.modesteam.urutau.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -16,7 +17,12 @@ import javax.persistence.ManyToMany;
 
 @Entity
 @DiscriminatorValue(value = "2")
-public class Administrator extends User {
+public class Administrator extends User implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -999309067728796289L;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "Concerned_Administrator", joinColumns = @JoinColumn(name = "administrator_id"), 
