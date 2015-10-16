@@ -2,8 +2,10 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -31,9 +34,11 @@ import com.modesteam.urutau.service.RequirementService;
 
 /**
  * This class is responsible to manager simple operations of requirements!
- * 
+ * The systems operations are received by the path /requirement followed
+ * by the operation defined path.
  */
 @Controller
+@Path("/requirements")
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
@@ -101,13 +106,27 @@ public class RequirementController {
 	 * @throws UnsupportedEncodingException invalid characters or decodes fails
 	 */
 	@Get
-	@Path("/requirement/{id}/{title}")
+	@Path("/{id}/{title}")
 	public Artifact show(int id, String title) throws UnsupportedEncodingException{
 		title = URLDecoder.decode(title, "utf-8");
 		
 		logger.info("Show requirement " + title);
 		
 		Artifact requirement = requirementService.getRequirement(id, title);
+		return requirement;
+	}
+	
+	/**
+	 * Used to present a requirement in the view.
+	 * @param id
+	 * @return a requirement. 
+	 */
+	@Get
+	public Artifact showRequirementById(int id){
+			
+		logger.info("Requirement id = " + id);
+		
+		Artifact requirement = requirementService.getRequirementById(id);
 		return requirement;
 	}
 	
@@ -169,9 +188,14 @@ public class RequirementController {
 	
 	@Get
 	@Path("/showAllRequirements")
-	public void showAllRequirements() {
-		
+	public List<? extends Artifact> showAllRequirements() {		
+		logger.info("Starting the requisition for all requirements");
+		List<? extends Artifact> requirements  = requirementService.loadAllRequirements();
+		System.out.println(requirements.size());	
+		result.include("artifact", requirements);
+		return requirements;
 	}
+		
 	
 
 	/**
@@ -184,21 +208,19 @@ public class RequirementController {
 		// rethink method
 	}
 	
-	@Post
-	@Path("/excludeRequirement")
-	public void excludeRequirement(Artifact requirement) {
+	@Delete
+	public void excludeRequirement(Long requirementId) {
 		
-		long requirementId = requirement.getId();
 		
 		logger.info("The requirement " +requirementId + "is solicitated for exclusion.");
 		
-		requirementService.excludeRequirement(requirement);
+		requirementService.excludeRequirement(requirementId);
 		
 		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementId);
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
-			result.redirectTo(this).showExclusionResult(requirement.getTitle());
+			result.redirectTo(this).showExclusionResult();
 		}else {
 			logger.info("The requirement wasn't excluded yet.");
 			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Não foi possível excluir o requisito solicitado."));	
@@ -220,7 +242,7 @@ public class RequirementController {
 	
 	@View
 	@Get	
-	public void showExclusionResult(String requirementTitle) {
+	public void showExclusionResult() {
 		
 	}
 	

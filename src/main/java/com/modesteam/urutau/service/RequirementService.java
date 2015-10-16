@@ -4,11 +4,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
 
 public class RequirementService {
 	private RequirementDAO requirementDAO;
+	private static final Logger logger = LoggerFactory.getLogger(RequirementService.class);
 	
 	public RequirementService() {
 		this(null);
@@ -23,8 +27,8 @@ public class RequirementService {
 		requirementDAO.create(requirement);
 	}
 
-	public List<? extends Artifact> loadAll(String type) {
-		return requirementDAO.loadAll(type);
+	public List<? extends Artifact> loadAllRequirements() {
+		return requirementDAO.loadAllRequirements();
 	}
 
 	public Artifact detail(long id) {
@@ -35,7 +39,7 @@ public class RequirementService {
 	 * 
 	 * @param id unique
 	 * @param title name of Requirement, an usual identifier, but not unique
-	 * @return an requirement
+	 * @return a requirement
 	 */
 	public Artifact getRequirement(int id, String title) {
 		Artifact requirement = requirementDAO.get("title", title);
@@ -52,8 +56,13 @@ public class RequirementService {
 	 * asking for the requirement exclusion from database.
 	 * @param requirement
 	 */
-	public void excludeRequirement(Artifact requirement) {
-		requirementDAO.destroy(requirement);
+	public void excludeRequirement(Long requirementId) {
+		Artifact requirement = requirementDAO.find(requirementId);
+		if(requirement != null){
+			requirementDAO.destroy(requirement);
+		} else {
+			throw new IllegalArgumentException("This requirement not exist");
+		}
 	}
 	
 	/**
@@ -79,6 +88,25 @@ public class RequirementService {
 	public boolean modifyRequirement(Artifact artifact){
 		boolean updateResult = requirementDAO.update(artifact);		
 		return updateResult;
+	}
+
+	/**
+	 * Captures a unique requirement based on its id
+	 * @param id of the requirement
+	 * @return a requirement
+	 */
+	public Artifact getRequirementById(int id) {
+		
+		logger.info("Starting DAO search.");
+		
+		Artifact requirement = requirementDAO.get("id", id);
+		
+		if (requirement != null) {
+			logger.info("RequirementDAO returned zero requirements.");
+			return requirement;
+		} else {
+			throw new IllegalArgumentException("The requirement does not exist.");
+		}
 	}
 	
 }

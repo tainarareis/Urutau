@@ -29,22 +29,19 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	private EntityManager manager;
 	
 	/**
-	 * Get all requirements from type {@link Artifact}
-	 * @param type means the artifact type, in this case
+	 * Get all requirements from a specific Artifact subclass
+	 * @param artifactSubclass means the artifact type, in this case
 	 * represented by the name of the artifact table in database.
 	 * Possible values (tables): Epic, Feature, Storie, UseCase, Artifact.
 	 * @return an Child of Artifact 
 	 */
-	public List<? extends Artifact> loadAll(String type) {
+	public List<? extends Artifact> loadAllRequirements() {
 		
-		
-		logger.debug("Type is " + type);
-		
-		String sql = "SELECT requirement FROM "+ type +" requirement";
+		String sql = "SELECT ALL A FROM Artifact A";
 		Query query = manager.createQuery(sql);
-
-		List<Artifact> requirements = query.getResultList();
-		return (ArrayList<Artifact>) requirements;
+		
+		List<Artifact> requirementsList = query.getResultList();
+		return requirementsList;
 	}
 	
 	@Override
@@ -54,9 +51,10 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	
 	@Override
 	public Artifact get(String field, Object value) {
+		logger.debug("Field: " + field + ". Value: " + value);
 		// Select an child of artifact 
-		String sql = "SELECT requirement FROM "+ Artifact.class.getName() +" requirement"
-				+ " WHERE requirement." + field + "=:value";
+		String sql = "SELECT id FROM "+ Artifact.class.getName() +" requirement"
+				+ " WHERE requirement" + field + "=:value";
 		
 		logger.info(sql);
 		
