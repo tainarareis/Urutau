@@ -56,8 +56,13 @@ public class RequirementService {
 	 * asking for the requirement exclusion from database.
 	 * @param requirement
 	 */
-	public void excludeRequirement(Artifact requirement) {
-		requirementDAO.destroy(requirement);
+	public void excludeRequirement(Long requirementId) {
+		Artifact requirement = requirementDAO.find(requirementId);
+		if(requirement != null){
+			requirementDAO.destroy(requirement);
+		} else {
+			throw new IllegalArgumentException("This requirement not exist");
+		}
 	}
 	
 	/**

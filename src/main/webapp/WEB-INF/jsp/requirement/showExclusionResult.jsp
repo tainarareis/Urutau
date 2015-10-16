@@ -25,7 +25,7 @@
 
 	<div class="panel panel-default">
 		<div class="panel-body">
-			O requisito ${requirementTitle} foi excluído com sucesso. <br>
+			O requisito foi excluído com sucesso. <br>
 		</div>
 	</div>
 
