@@ -2,7 +2,6 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,10 +37,12 @@ import com.modesteam.urutau.service.RequirementService;
  * by the operation defined path.
  */
 @Controller
-@Path("/requirements")
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
+
+	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
+	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
 	
 	private final Result result;
 	
@@ -50,10 +51,6 @@ public class RequirementController {
 	private final RequirementService requirementService;
 	
 	private final Validator validator;
-	
-	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
-
-	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
 	
 	public RequirementController() {
 		this(null, null, null, null);
@@ -113,6 +110,7 @@ public class RequirementController {
 		logger.info("Show requirement " + title);
 		
 		Artifact requirement = requirementService.getRequirement(id, title);
+		
 		return requirement;
 	}
 	
@@ -190,14 +188,16 @@ public class RequirementController {
 	@Path("/showAllRequirements")
 	public List<? extends Artifact> showAllRequirements() {		
 		logger.info("Starting the requisition for all requirements");
+		
 		List<? extends Artifact> requirements  = requirementService.loadAllRequirements();
-		System.out.println(requirements.size());	
+		
+		logger.info("Have " + requirements.size() + "requirements");
+		
 		result.include("artifact", requirements);
+		
 		return requirements;
 	}
 		
-	
-
 	/**
 	 * 
 	 * @param requirement
@@ -228,23 +228,6 @@ public class RequirementController {
 		}
 		
 	}
-
-	@View
-	public void detailRequirement() {
-		
-	}
-	
-	@View
-	@Get
-	public void create() {
-		
-	}
-	
-	@View
-	@Get	
-	public void showExclusionResult() {
-		
-	}
 	
 	/**
 	 * Allows the modification of an unique artifact
@@ -263,7 +246,19 @@ public class RequirementController {
 			result.redirectTo(this).detailRequirement(artifact);
 		}
 	}
-	
-	
 
+	@View
+	public void detailRequirement() {
+		
+	}
+	
+	@View
+	public void create() {
+		
+	}
+	
+	@View
+	public void showExclusionResult() {
+		
+	}
 }

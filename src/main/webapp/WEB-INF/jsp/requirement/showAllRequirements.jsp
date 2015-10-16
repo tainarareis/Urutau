@@ -35,7 +35,7 @@
 		  	<c:forEach items="${artifact}" var="artifact" >
 		  		<tr>
 		  			<td>${artifact.title}</td>		  			
-		  			<td><a href="/detailRequirement" class="btn btn-info btn-lg">Detalhar</a></td>
+		  			<td><a href="${artifact.id}/${artifact.title}" class="btn btn-info btn-lg">Detalhar</a></td>
 		  			<td><a href="/modifyRequirement" class="btn btn-info btn-lg">Alterar</a></td>
 		  			<td>
 		  				<form action='excludeRequirement' method="post">		  					

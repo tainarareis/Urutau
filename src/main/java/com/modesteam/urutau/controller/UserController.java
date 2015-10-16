@@ -19,9 +19,6 @@ import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
 
-
-
-
 /**
  * 
  * This controller have actions directly connect to user

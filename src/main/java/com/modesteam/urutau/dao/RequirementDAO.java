@@ -51,10 +51,11 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	
 	@Override
 	public Artifact get(String field, Object value) {
-		logger.debug("Field: " + field + ". Value: " + value);
-		// Select an child of artifact 
-		String sql = "SELECT id FROM "+ Artifact.class.getName() +" requirement"
-				+ " WHERE requirement" + field + "=:value";
+		logger.debug("field." + field + "=" + value);
+		
+		// Select an child of artifact
+		String sql = "SELECT requirement FROM "+ Artifact.class.getName() +" requirement"
+				+ " WHERE requirement." + field + "=:value";
 		
 		logger.info(sql);
 		
