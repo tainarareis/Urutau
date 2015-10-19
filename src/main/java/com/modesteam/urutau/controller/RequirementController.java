@@ -43,6 +43,8 @@ public class RequirementController {
 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
+
+	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
 	private final Result result;
 	
@@ -209,10 +211,11 @@ public class RequirementController {
 	}
 	
 	@Delete
+	@Path("/excludeRequirement/{id}")
 	public void excludeRequirement(Long requirementId) {
 		
 		
-		logger.info("The requirement " +requirementId + "is solicitated for exclusion.");
+		logger.info("The requirement with the id " +requirementId + " is solicitated for exclusion.");
 		
 		requirementService.excludeRequirement(requirementId);
 		
@@ -229,23 +232,53 @@ public class RequirementController {
 		
 	}
 	
+	@Get
+	@Path("/editRequirement/{id}")
+	public Artifact requestRequirementEdition(Long requirementID) {
+		
+		logger.info("Starting the function requestRequirementEdition. The requirement id is: "+requirementID);
+		
+		//If to guarantee the parameter received isn't null
+		if(requirementID == null) {
+			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR, "Nenhum requisito foi passado como parâmetro."));
+			validator.onErrorForwardTo(RequirementController.class).showAllRequirements();
+		}else {		
+			boolean requirementExistence = requirementService.verifyRequirementExistence(requirementID);
+			
+			if(requirementExistence) {
+				Artifact requirement = requirementService.detail(requirementID);
+				result.include("artifact", requirement);			
+				return requirement;
+			} else {
+				logger.info("The requirement id is unknown.");
+				validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "Não é possível alterar"
+						+ " o requisito solicitado pois o mesmo não existe no sistema."));
+				result.redirectTo(this).showAllRequirements();		
+				return null;			
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Allows the modification of an unique artifact
-	 * @param artifact
+	 * @param 
 	 */
 	@Post
-	@Path("/modifyRequirement")
-	public void modifyRequirement(Artifact artifact) {		
-		 
-		boolean updateResult = requirementService.modifyRequirement(artifact);
+	public void modifyRequirement(Artifact requirement) {		
 		
-		if(updateResult == true) {
-			result.redirectTo(this).detailRequirement(artifact);
-		} else {
-			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "Não foi possível alterar o requisito solicitado"));
-			result.redirectTo(this).detailRequirement(artifact);
+		boolean updateResult = requirementService.modifyRequirement(requirement);
+		
+		if(updateResult){
+			logger.info("The update was sucessfully executed.");
+		}else{
+			logger.info("The update wasn't sucessfully executed.");
 		}
+		
+		result.redirectTo(this).showAllRequirements();
+	
 	}
+
 
 	@View
 	public void detailRequirement() {
