@@ -1,6 +1,8 @@
 package com.modesteam.urutau.builder;
 
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Epic;
+import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.User;
 
 public class ArtifactBuilder {
@@ -18,10 +20,17 @@ public class ArtifactBuilder {
 	}
 	
 	
-	public User build(){
-		Generic artifact = new Generic();
-		artifact.setTitle(title);
-		artifact.setDescription(description);
-		return artifact;
+	public Epic build(){
+		Epic epic = new Epic();
+		epic.setTitle(title);
+		epic.setDescription(description);
+		return epic;
+	}
+	
+	public Feature buildFeature(){
+		Feature feature = new Feature();
+		feature.setTitle(title);
+		feature.setDescription(description);
+		return feature;
 	}
 }
