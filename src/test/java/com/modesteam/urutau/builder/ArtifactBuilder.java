@@ -8,20 +8,27 @@ import com.modesteam.urutau.model.User;
 public class ArtifactBuilder {
 	private String title;
 	private String description;
+	private Long id;
 	
 	public ArtifactBuilder title(String title){
 		this.title = title;
 		return this;
 	}
 	
-	public ArtifactBuilder login(String description){
+	public ArtifactBuilder description(String description){
 		this.description = description;
 		return this;
 	}
 	
+	public ArtifactBuilder id(Long id) {
+		this.id = id;
+		return this;
+	}
 	
-	public Epic build(){
+	
+	public Epic buildEpic(){
 		Epic epic = new Epic();
+		epic.setId(id);
 		epic.setTitle(title);
 		epic.setDescription(description);
 		return epic;
@@ -29,8 +36,12 @@ public class ArtifactBuilder {
 	
 	public Feature buildFeature(){
 		Feature feature = new Feature();
+		feature.setId(id);
 		feature.setTitle(title);
 		feature.setDescription(description);
 		return feature;
 	}
+
+	
+
 }

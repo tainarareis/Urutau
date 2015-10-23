@@ -8,6 +8,12 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 
 import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.builder.ArtifactBuilder;
+import com.modesteam.urutau.builder.UserBuilder;
+import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Epic;
+import com.modesteam.urutau.model.Feature;
+import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
 public class RequirementsControllerTest {
@@ -32,11 +38,41 @@ public class RequirementsControllerTest {
 	
 	@Test
 	public void registerValidRequirement() {
+		ArtifactBuilder builderFeature = new ArtifactBuilder();
 		
+		Feature feature = builderFeature
+					.id(null)
+					.title("exemple")
+					.description("blabla")
+					.buildFeature();
+
+		mockAdd(feature);
 	}
 	
 	@Test
 	public void successfullyDeletedRequirement() {
+		ArtifactBuilder builderEpic = new ArtifactBuilder();
 		
+		Epic epic = builderEpic
+					.id(null)
+					.title("exemple")
+					.description("blabla")
+					.buildEpic();
+
+		mockAdd(epic);
+		mockRemove(null);
+		
+		
+	}
+	
+	
+	private void mockAdd(Artifact artifact){
+		mockArtifactService.save(artifact);
+		EasyMock.expectLastCall();
+	}
+	
+	private void mockRemove(Long id){
+		mockArtifactService.excludeRequirement(id);
+		EasyMock.expectLastCall();
 	}
 }
