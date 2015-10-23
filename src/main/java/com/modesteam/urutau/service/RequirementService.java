@@ -57,11 +57,15 @@ public class RequirementService {
 	 * @param requirement
 	 */
 	public void excludeRequirement(Long requirementId) {
-		Artifact requirement = requirementDAO.find(requirementId);
-		if(requirement != null){
-			requirementDAO.destroy(requirement);
+		if(requirementId==null){
+			logger.info("RequirementService cant find requirementID");
 		} else {
-			throw new IllegalArgumentException("This requirement not exist");
+			Artifact requirement = requirementDAO.find(requirementId);
+			if(requirement != null){
+				requirementDAO.destroy(requirement);
+			} else {
+				throw new IllegalArgumentException("This requirement not exist");
+			}
 		}
 	}
 	
@@ -71,11 +75,16 @@ public class RequirementService {
 	 * @return true if the requirement exists
 	 */
 	public boolean verifyRequirementExistence(long requirementId) {
+		
+		logger.info("Verifying the requirement existence in database.");
+		
 		Artifact requirement = requirementDAO.get("id", requirementId);
 		
 		if (requirement == null) {
+			logger.info("The requirement is null");
 			return false;
 		} else {
+			logger.info("The requirement isn't null");
 			return true;
 		}
 		
@@ -85,8 +94,8 @@ public class RequirementService {
 	 * @param artifact
 	 * @return
 	 */
-	public boolean modifyRequirement(Artifact artifact){
-		boolean updateResult = requirementDAO.update(artifact);		
+	public boolean modifyRequirement(Artifact requirement){		
+		boolean updateResult = requirementDAO.update(requirement);		
 		return updateResult;
 	}
 

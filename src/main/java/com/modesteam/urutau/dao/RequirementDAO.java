@@ -73,7 +73,11 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 
 	@Override
 	public Artifact find(Long id) {
-		return manager.find(Artifact.class, id);
+		logger.info("The Artifact id is:" +id);
+		Artifact artifact = manager.find(Artifact.class, id);
+		logger.info("The Artifact find is:" +artifact);
+		return artifact;
+		
 	}
 	
 	/**
