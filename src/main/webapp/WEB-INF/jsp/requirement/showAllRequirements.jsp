@@ -38,9 +38,9 @@
 		  			<td><a href="${artifact.id}/${artifact.title}" class="btn btn-info btn-lg">Detalhar</a></td>
 		  			<td><a href="/modifyRequirement" class="btn btn-info btn-lg">Alterar</a></td>
 		  			<td>
-		  				<form action='excludeRequirement' method="post">		  					
-		  					<input name='artifact.id' value=${artifact.id} type="hidden"/>
-		  					<button type="submit" name="_method" value="DELETE">Excluir</button>
+		  				<form action="excludeRequirement" method="POST">		  					
+		  					<input name='artifact.id' value="${artifact.id}" type="hidden"/>
+		  					<input type="submit" value="Excluir"/>
 		  				</form>
 		  			</td>		  				
 		  		</tr>

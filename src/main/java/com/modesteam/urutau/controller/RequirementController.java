@@ -184,8 +184,7 @@ public class RequirementController {
 		result.redirectTo(this).create();
 	}
 	
-	@Get
-	@Path("/showAllRequirements")
+	@Get("/showAll")
 	public List<? extends Artifact> showAllRequirements() {		
 		logger.info("Starting the requisition for all requirements");
 		
@@ -208,7 +207,7 @@ public class RequirementController {
 		// rethink method
 	}
 	
-	@Delete
+	@Post
 	public void excludeRequirement(Long requirementId) {
 		
 		
@@ -220,7 +219,7 @@ public class RequirementController {
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
-			result.redirectTo(this).showExclusionResult();
+			result.redirectTo(this).showAllRequirements();
 		}else {
 			logger.info("The requirement wasn't excluded yet.");
 			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Não foi possível excluir o requisito solicitado."));	
