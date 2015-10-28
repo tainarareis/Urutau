@@ -111,8 +111,7 @@ public class UserController {
 
         if (user != null) {
             userManager.login(user);
-            logger.info("The user"+ user.getLogin() + " is logged.");
-            result.redirectTo(UserController.class).welcomeUser();
+            result.redirectTo(UserController.class).home();
             logger.info("The user was found and is authenticated");
         } else {
         	logger.info("The called user wasn't found");
@@ -133,7 +132,8 @@ public class UserController {
 	}
 	
 	@View
-	public void welcomeUser() {
+	@Get("/home")
+	public void home() {
 		
 	}
 	
