@@ -294,6 +294,31 @@ public class RequirementController {
 	}
 	
 	@View
+	public void generic() {
+		
+	}
+	
+	@View
+	public void storie() {
+		
+	}
+	
+	@View
+	public void feature() {
+		
+	}
+	
+	@View
+	public void epic() {
+		
+	}
+	
+	@View
+	public void useCase() {
+		
+	}
+	
+	@View
 	public void showExclusionResult() {
 		
 	}
