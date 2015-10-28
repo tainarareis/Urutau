@@ -46,7 +46,7 @@
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
 				<li class="dropdown">
-					<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">Sr. ${logged.login}</a>
+					<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">Sr. ${userManager.userLogged.login}</a>
 					<ul id="top-menu-dropdown" class="dropdown-menu">
 						<li><a href="#">Perfil</a></li>
 						<li><a href="#">Configuration</a></li>
