@@ -54,28 +54,7 @@
 
 </head>
 <body>
-	<!-- Navigation -->
-	 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	 	<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Urutau</a>
-			</div>
-			<!-- Top Menu Items -->
-			<ul class="nav navbar-right top-nav">
-				<li class="dropdown">
-					<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">Sr. ${userManager.userLogged.login}</a>
-					<ul id="top-menu-dropdown" class="dropdown-menu">
-						<li><a href="#">Perfil</a></li>
-						<li><a href="#">Configuration</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> Log Out</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</nav>
-		
+	<%@ include file="/WEB-INF/layouts/header.jspf" %>
 	<div class="container">
 		<div class="collapse navbar-collapse navbar-ex1-collapse column-menu col-md-4 ">
 	        <ul class="list-unstyled pull-left">                    
