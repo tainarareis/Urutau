@@ -104,7 +104,7 @@ body{
 
 .create-requirement iframe {
 	padding: 20px;
-	border: 1px dashed #DCDCDC;
+	border: 0px;
 	height: 300px;
 }
 

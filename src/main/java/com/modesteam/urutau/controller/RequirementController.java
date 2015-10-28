@@ -130,62 +130,6 @@ public class RequirementController {
 		return requirement;
 	}
 	
-	@Get
-	@Path("/registerFeature")
-	public void registerFeature() {
-		
-	}
-
-	/**
-	 * 
-	 * @param feature
-	 */
-	@Post
-	@Path("/registerFeature")
-	public void registerFeature(Feature feature) {
-		requirementService.save(feature);
-		result.redirectTo(this).create();
-	}
-	
-	@Get
-	@Path("/registerEpic")
-	public void registerEpic() {
-		
-	}
-	
-	/**
-	 * 
-	 * @param epic
-	 */
-	@Post
-	@Path("/registerEpic")
-	public void registerEpic(Epic epic) {
-		requirementService.save(epic);
-		result.redirectTo(this).create();
-	}
-	
-	/**
-	 * 
-	 * @param userHistory
-	 */
-	@Post
-	@Path("/registerUserHistory")
-	public void registerUserHistory(Storie storie) {
-		requirementService.save(storie);
-		result.redirectTo(this).create();
-	}
-	
-	/**
-	 * 
-	 * @param useCase
-	 */
-	@Post
-	@Path("/registerUseCase")
-	public void registerUseCase(UseCase useCase) {
-		requirementService.save(useCase);
-		result.redirectTo(this).create();
-	}
-	
 	@Get("/showAll")
 	public List<? extends Artifact> showAllRequirements() {		
 		logger.info("Starting the requisition for all requirements");
@@ -194,7 +138,7 @@ public class RequirementController {
 		
 		logger.info("Have " + requirements.size() + "requirements");
 		
-		result.include("artifact", requirements);
+		result.include("requirements", requirements);
 		
 		return requirements;
 	}
