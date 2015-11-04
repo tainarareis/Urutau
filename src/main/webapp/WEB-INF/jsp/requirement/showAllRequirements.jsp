@@ -38,15 +38,9 @@
 		  			<td><a href="${artifact.id}/${artifact.title}" class="btn btn-info btn-lg">Detalhar</a></td>
 		  			<td><a href="editRequirement/${artifact.id}" class="btn btn-info btn-lg">Alterar</a></td>
 		  			<td>
-<<<<<<< HEAD
-		  				<form action="excludeRequirement" method="POST">		  					
-		  					<input name='artifact.id' value="${artifact.id}" type="hidden"/>
-		  					<input type="submit" value="Excluir"/>
-=======
 		  				<form action="<c:url value="excludeRequirement/${artifact.id}"/>" method="POST">		  					
 		  					<input name='artifact.id' value="${artifact.id}" type="hidden"/>
 		  					<button class="link" name="_method" value="DELETE">Excluir</button>
->>>>>>> 547854131832e38e934a4aae6071c053d84087b1
 		  				</form>
 		  			</td>		  				
 		  		</tr>
