@@ -69,7 +69,12 @@ public class RequirementController {
 	
 	@Post
 	public void createGeneric(Generic generic) {
-		create(generic);
+		
+		if(generic.getTitle().isEmpty()) {
+			logger.warn("The Requirement generic was not found in first function!");
+		} else {
+			create(generic);
+		}
 	}
 	
 	@Post

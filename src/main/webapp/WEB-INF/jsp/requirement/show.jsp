@@ -24,6 +24,10 @@
 		</p>
 	<h3>Description</h3>
 	<p>${artifact.description}</p>
-</div>
+
+	<h3>Content</h3>
+	<h2>test</h2>
+	<p>${artifact.content}</p>
+
 </body>
 </html>
