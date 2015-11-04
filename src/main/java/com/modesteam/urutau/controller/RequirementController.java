@@ -82,6 +82,16 @@ public class RequirementController {
 		create(feature);
 	}
 	
+	@Post
+	public void createUserStory(Storie storie) {
+		create(storie);
+	}
+	
+	@Post
+	public void createEpic(Epic epic) {
+		create(epic);
+	}
+	
 	private void create(Artifact requirement) {
 		logger.info("Requirement will be persisted: " + requirement.getTitle());
 		
