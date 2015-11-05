@@ -79,22 +79,42 @@ public class RequirementController {
 	
 	@Post
 	public void createUseCase(UseCase useCase) {
-		create(useCase);
+		
+		if(useCase.getTitle().isEmpty()) {
+			logger.warn("The Requirement UseCase was not found in first function!");
+		} else {
+			create(useCase);
+		}
 	}
 	
 	@Post
 	public void createFeature(Feature feature) {
-		create(feature);
+		
+		if(feature.getTitle().isEmpty()) {
+			logger.warn("The Requirement Feature was not found in first function!");
+		} else {
+			create(feature);
+		}
 	}
 	
 	@Post
 	public void createUserStory(Storie storie) {
-		create(storie);
+		
+		if(storie.getTitle().isEmpty()) {
+			logger.warn("The Requirement storie was not found in first function!");
+		} else {
+			create(storie);
+		}
 	}
 	
 	@Post
 	public void createEpic(Epic epic) {
-		create(epic);
+		
+		if(epic.getTitle().isEmpty()){
+			logger.warn("The Requirement epic was not found in first function!");
+		} else {
+			create(epic);
+		}
 	}
 	
 	private void create(Artifact requirement) {
