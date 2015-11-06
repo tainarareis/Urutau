@@ -112,18 +112,22 @@ public class RequirementsControllerTest {
 	}
 
 	@Test
-	public void successfullyDeletedRequirement() {
+	public void successfullyDeletedEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
 		
 		Epic epic = builderEpic
-					.id(null)
+					.id(1L)
 					.title("exemple")
 					.description("blabla")
 					.buildEpic();
 
+		mockService();
 		mockAdd(epic);
-		mockRemove(null);
-		
+		PowerMock.replayAll();
+		mockRemove(1L);
+		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
+																			mockArtifactService,mockValidator);
+		controllerMock.excludeRequirement(1L);
 		
 	}
 	
