@@ -26,7 +26,6 @@
 	<p>${artifact.description}</p>
 
 	<h3>Content</h3>
-	<h2>test</h2>
 	<p>${artifact.content}</p>
 
 </body>

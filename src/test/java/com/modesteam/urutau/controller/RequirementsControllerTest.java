@@ -3,6 +3,7 @@ package com.modesteam.urutau.controller;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
+import org.powermock.api.easymock.PowerMock;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
@@ -37,18 +38,24 @@ public class RequirementsControllerTest {
 	}
 	
 	@Test
-	public void registerValidRequirement() {
+	public void createValidFeature() {
 		ArtifactBuilder builderFeature = new ArtifactBuilder();
 		
 		Feature feature = builderFeature
-					.id(null)
+					.id(1L)
 					.title("exemple")
 					.description("blabla")
 					.buildFeature();
 
+		mockService();
 		mockAdd(feature);
+		PowerMock.replayAll();
+		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
+																			mockArtifactService,mockValidator);
+		controllerMock.createFeature(feature);
 	}
 	
+
 	@Test
 	public void successfullyDeletedRequirement() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
@@ -69,6 +76,11 @@ public class RequirementsControllerTest {
 	private void mockAdd(Artifact artifact){
 		mockArtifactService.save(artifact);
 		EasyMock.expectLastCall();
+	}
+	
+	private void mockService() {
+		User userMocked = EasyMock.createNiceMock(User.class);
+		EasyMock.expect(mockUserSession.getUserLogged()).andReturn(userMocked);
 	}
 	
 	private void mockRemove(Long id){
