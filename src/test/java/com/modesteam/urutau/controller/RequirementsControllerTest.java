@@ -55,6 +55,23 @@ public class RequirementsControllerTest {
 		controllerMock.createFeature(feature);
 	}
 	
+	@Test
+	public void createValidEpic() {
+		ArtifactBuilder builderEpic = new ArtifactBuilder();
+		
+		Epic epic = builderEpic
+					.id(1L)
+					.title("exemple")
+					.description("blabla")
+					.buildEpic();
+
+		mockService();
+		mockAdd(epic);
+		PowerMock.replayAll();
+		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
+																			mockArtifactService,mockValidator);
+		controllerMock.createEpic(epic);
+	}
 
 	@Test
 	public void successfullyDeletedRequirement() {
