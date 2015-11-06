@@ -58,6 +58,24 @@ public class RequirementsControllerTest {
 	}
 	
 	@Test
+	public void createInvalidFeature() {
+		ArtifactBuilder builderFeature = new ArtifactBuilder();
+		
+		Feature feature = builderFeature
+					.id(1L)
+					.title("exemple")
+					.description("blabla")
+					.buildFeature();
+
+		mockService();
+		mockAdd(feature);
+		PowerMock.replayAll();
+		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
+																			mockArtifactService,mockValidator);
+		controllerMock.createFeature(feature);
+	}
+	
+	@Test
 	public void createValidEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
 		

@@ -43,6 +43,7 @@ public class RequirementController {
 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
+	private static final String TITLE_ERROR = "TitleError";
 
 	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
@@ -80,10 +81,13 @@ public class RequirementController {
 	@Post
 	public void createUseCase(UseCase useCase) {
 		
-		if(useCase.getTitle().isEmpty()) {
-			logger.warn("The Requirement UseCase was not found in first function!");
-		} else {
+		if(useCase.getTitle() != null) {
 			create(useCase);
+		} else {
+			logger.warn("The Requirement UseCase was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
 		}
 	}
 	
