@@ -14,6 +14,8 @@ import com.modesteam.urutau.builder.UserBuilder;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
+import com.modesteam.urutau.model.Storie;
+import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
@@ -71,6 +73,42 @@ public class RequirementsControllerTest {
 		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
 																			mockArtifactService,mockValidator);
 		controllerMock.createEpic(epic);
+	}
+	
+	@Test
+	public void createValidStorie() {
+		ArtifactBuilder builderStorie = new ArtifactBuilder();
+		
+		Storie storie = builderStorie
+					.id(1L)
+					.title("exemple")
+					.description("blabla")
+					.buildStorie();
+
+		mockService();
+		mockAdd(storie);
+		PowerMock.replayAll();
+		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
+																			mockArtifactService,mockValidator);
+		controllerMock.createUserStory(storie);
+	}
+	
+	@Test
+	public void createValidUseCase() {
+		ArtifactBuilder builderUseCase = new ArtifactBuilder();
+		
+		UseCase useCase = builderUseCase
+					.id(1L)
+					.title("exemple")
+					.description("blabla")
+					.buildUseCase();
+
+		mockService();
+		mockAdd(useCase);
+		PowerMock.replayAll();
+		RequirementController controllerMock = new RequirementController(mockResult,mockUserSession,
+																			mockArtifactService,mockValidator);
+		controllerMock.createUseCase(useCase);
 	}
 
 	@Test
