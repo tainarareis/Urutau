@@ -71,10 +71,13 @@ public class RequirementController {
 	@Post
 	public void createGeneric(Generic generic) {
 		
-		if(generic.getTitle().isEmpty()) {
-			logger.warn("The Requirement generic was not found in first function!");
-		} else {
+		if(generic.getTitle() != null) {
 			create(generic);
+		} else {
+			logger.warn("The Requirement generic was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
 		}
 	}
 	
@@ -94,30 +97,39 @@ public class RequirementController {
 	@Post
 	public void createFeature(Feature feature) {
 		
-		if(feature.getTitle().isEmpty()) {
-			logger.warn("The Requirement Feature was not found in first function!");
-		} else {
+		if(feature.getTitle() != null) {
 			create(feature);
+		} else {
+			logger.warn("The Requirement Feature was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
 		}
 	}
 	
 	@Post
 	public void createUserStory(Storie storie) {
 		
-		if(storie.getTitle().isEmpty()) {
-			logger.warn("The Requirement storie was not found in first function!");
-		} else {
+		if(storie.getTitle() != null) {
 			create(storie);
+		} else {
+			logger.warn("The Requirement Storie was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
 		}
 	}
 	
 	@Post
 	public void createEpic(Epic epic) {
 		
-		if(epic.getTitle().isEmpty()){
-			logger.warn("The Requirement epic was not found in first function!");
-		} else {
+		if(epic.getTitle() != null) {
 			create(epic);
+		} else {
+			logger.warn("The Requirement Epic was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
 		}
 	}
 	
