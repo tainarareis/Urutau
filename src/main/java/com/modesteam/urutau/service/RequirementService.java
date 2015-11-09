@@ -57,15 +57,16 @@ public class RequirementService {
 	 * @param requirement
 	 */
 	public void excludeRequirement(Long requirementId) {
-		if(requirementId==null){
-			logger.info("RequirementService cant find requirementID");
-		} else {
+		if( requirementId != null ) {
 			Artifact requirement = requirementDAO.find(requirementId);
-			if(requirement != null){
+			
+			if(requirement != null) {
 				requirementDAO.destroy(requirement);
 			} else {
 				throw new IllegalArgumentException("This requirement not exist");
 			}
+		} else {
+			logger.info("RequirementService cant find requirementID");
 		}
 	}
 	

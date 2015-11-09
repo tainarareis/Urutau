@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -75,7 +74,7 @@ public class RequirementController {
 			create(generic);
 		} else {
 			logger.warn("The Requirement generic was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
         	validator.onErrorUsePageOf(RequirementController.class).create();
 			
 		}
@@ -88,7 +87,7 @@ public class RequirementController {
 			create(useCase);
 		} else {
 			logger.warn("The Requirement UseCase was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
         	validator.onErrorUsePageOf(RequirementController.class).create();
 			
 		}
@@ -101,7 +100,7 @@ public class RequirementController {
 			create(feature);
 		} else {
 			logger.warn("The Requirement Feature was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
         	validator.onErrorUsePageOf(RequirementController.class).create();
 			
 		}
@@ -114,7 +113,7 @@ public class RequirementController {
 			create(storie);
 		} else {
 			logger.warn("The Requirement Storie was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
         	validator.onErrorUsePageOf(RequirementController.class).create();
 			
 		}
@@ -127,7 +126,7 @@ public class RequirementController {
 			create(epic);
 		} else {
 			logger.warn("The Requirement Epic was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
         	validator.onErrorUsePageOf(RequirementController.class).create();
 			
 		}
@@ -233,24 +232,23 @@ public class RequirementController {
 	 * This method is used to delete one requirement
 	 * @param requirementId
 	 */
-	@Delete
+	@Get
 	@Path("/excludeRequirement/{id}")
-	public void excludeRequirement(Long requirementId) {
+	public void excludeRequirement(Long id) {
 		
+		logger.info("The requirement with the id " +id + " is solicitated for exclusion.");
 		
-		logger.info("The requirement with the id " +requirementId + " is solicitated for exclusion.");
+		requirementService.excludeRequirement(id);
 		
-		requirementService.excludeRequirement(requirementId);
-		
-		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementId);
+		boolean requirementExistence = requirementService.verifyRequirementExistence(id);
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
-			result.redirectTo(this).showAllRequirements();
-		}else {
+			result.redirectTo(UserController.class).home();
+		} else {
 			logger.info("The requirement wasn't excluded yet.");
-			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Não foi possível excluir o requisito solicitado."));	
-			validator.onErrorForwardTo(this).showAllRequirements();
+			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Requirement was not excluded!"));	
+			result.redirectTo(UserController.class).home();
 		}
 		
 	}

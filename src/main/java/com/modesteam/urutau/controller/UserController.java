@@ -65,7 +65,7 @@ public class UserController {
 		
 		logger.info("Initiate an register");
 
-		if(user.getPassword().equalsIgnoreCase(user.getPasswordVerify())) {
+		if(user.getPassword() == user.getPasswordVerify()) {
 			logger.info("User will be persisted, and page redirected");
 			userService.create(user);
 			result.redirectTo(this).showSignInSucess();

@@ -27,6 +27,6 @@
 
 	<h3>Content</h3>
 	<p>${artifact.content}</p>
-
+</div>
 </body>
 </html>
