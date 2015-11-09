@@ -3,6 +3,8 @@ package com.modesteam.urutau.builder;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
+import com.modesteam.urutau.model.Storie;
+import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 
 public class ArtifactBuilder {
@@ -41,6 +43,23 @@ public class ArtifactBuilder {
 		feature.setDescription(description);
 		return feature;
 	}
+	
+	public Storie buildStorie(){
+		Storie storie = new Storie();
+		storie.setId(id);
+		storie.setTitle(title);
+		storie.setDescription(description);
+		return storie;
+	}
+	
+	public UseCase buildUseCase(){
+		UseCase useCase = new UseCase();
+		useCase.setId(id);
+		useCase.setTitle(title);
+		useCase.setDescription(description);
+		return useCase;
+	}
+	
 
 	
 

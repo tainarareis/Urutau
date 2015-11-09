@@ -43,6 +43,7 @@ public class RequirementController {
 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
+	private static final String TITLE_ERROR = "TitleError";
 
 	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
@@ -69,12 +70,67 @@ public class RequirementController {
 	
 	@Post
 	public void createGeneric(Generic generic) {
-		create(generic);
+		
+		if(generic.getTitle() != null) {
+			create(generic);
+		} else {
+			logger.warn("The Requirement generic was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
+		}
 	}
 	
 	@Post
 	public void createUseCase(UseCase useCase) {
-		create(useCase);
+		
+		if(useCase.getTitle() != null) {
+			create(useCase);
+		} else {
+			logger.warn("The Requirement UseCase was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
+		}
+	}
+	
+	@Post
+	public void createFeature(Feature feature) {
+		
+		if(feature.getTitle() != null) {
+			create(feature);
+		} else {
+			logger.warn("The Requirement Feature was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
+		}
+	}
+	
+	@Post
+	public void createUserStory(Storie storie) {
+		
+		if(storie.getTitle() != null) {
+			create(storie);
+		} else {
+			logger.warn("The Requirement Storie was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
+		}
+	}
+	
+	@Post
+	public void createEpic(Epic epic) {
+		
+		if(epic.getTitle() != null) {
+			create(epic);
+		} else {
+			logger.warn("The Requirement Epic was not found in first function!");
+			validator.add(new SimpleMessage(TITLE_ERROR, "Titulo nulo!"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+			
+		}
 	}
 	
 	private void create(Artifact requirement) {
@@ -89,9 +145,29 @@ public class RequirementController {
 		User logged = userSession.getUserLogged();
 		requirement.setAuthor(logged);
 		
+		logger.info("Requesting for requirement service");
 		requirementService.save(requirement);
 		
-		result.redirectTo(this).create();
+		result.redirectTo(this).showCreationResult(requirement.getId());
+	}
+	
+	/**
+	 * Presents the informations about the result requirement's creation.
+	 * @param requirementId
+	 */
+	@Get
+	public void showCreationResult(long requirementId) {
+		
+		boolean isCreated = requirementService.verifyRequirementExistence(requirementId);
+		
+		logger.info("Showing the result of the creation");
+		
+		if(isCreated){
+			result.include("message", "O requisito foi cadastrado com sucesso.");
+		} else {			
+			result.include("message", "Não foi possível registrar o requisito solicitado."
+				+ "Por gentileza, tente novamente");
+		}
 	}
 	
 	/**
@@ -266,4 +342,5 @@ public class RequirementController {
 	public void showExclusionResult() {
 		
 	}
+	
 }
