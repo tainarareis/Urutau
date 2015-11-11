@@ -21,6 +21,7 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.exception.InvalidActionException;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
@@ -39,13 +40,14 @@ import com.modesteam.urutau.service.RequirementService;
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
-
+	
+	// Error categories 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
 	private static final String TITLE_ERROR = "TitleError";
-
 	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
+	// Injected objects
 	private final Result result;
 	
 	private final UserManager userSession;
@@ -69,89 +71,93 @@ public class RequirementController {
 	
 	@Post
 	public void createGeneric(Generic generic) {
-		
-		if(generic.getTitle() != null) {
-			create(generic);
-		} else {
-			logger.warn("The Requirement generic was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
+		validationBeforeCreation(generic);
+		create(generic);
 	}
 	
 	@Post
 	public void createUseCase(UseCase useCase) {
-		
-		if(useCase.getTitle() != null) {
-			create(useCase);
-		} else {
-			logger.warn("The Requirement UseCase was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
+		validationBeforeCreation(useCase);
+		create(useCase);
 	}
 	
 	@Post
 	public void createFeature(Feature feature) {
-		
-		if(feature.getTitle() != null) {
-			create(feature);
-		} else {
-			logger.warn("The Requirement Feature was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
+		validationBeforeCreation(feature);
+		create(feature);
 	}
 	
 	@Post
 	public void createUserStory(Storie storie) {
-		
-		if(storie.getTitle() != null) {
-			create(storie);
-		} else {
-			logger.warn("The Requirement Storie was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
+		validationBeforeCreation(storie);
+		create(storie);
 	}
-	
+
 	@Post
 	public void createEpic(Epic epic) {
-		
-		if(epic.getTitle() != null) {
-			create(epic);
-		} else {
+		validationBeforeCreation(epic);
+		create(epic);
+	}
+	
+	/**
+	 * Basic and generic validation of requirements
+	 * 
+	 * @param requirement to be persisted
+	 */
+	private void validationBeforeCreation(Artifact requirement) {
+		if (userSession.getUserLogged() == null) {
+			logger.warn("User try create requirement without an user logged");
+			
+			throw new InvalidActionException();
+			
+		} else if(requirement.getTitle() == null && requirement.getDescription() == null) {
 			logger.warn("The Requirement Epic was not found in first function!");
+			
 			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
         	validator.onErrorUsePageOf(RequirementController.class).create();
-			
 		}
 	}
 	
+	/**
+	 * Called by all methods that makes requirements creation,
+	 * this have basic implementation to persisted.
+	 * IMPORTANT: validate before call this method through by 
+	 * {@link #validationBeforeCreation()}
+	 * 
+	 * @param requirement to be persisted
+	 */
 	private void create(Artifact requirement) {
-		logger.info("Requirement will be persisted: " + requirement.getTitle());
+		logger.info("Try persist " + requirement.getTitle());
 		
-		Date currentDate = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(currentDate);
-		
+		Calendar calendar = getCurrentDate();
 		requirement.setDateOfCreation(calendar);
 		
 		User logged = userSession.getUserLogged();
 		requirement.setAuthor(logged);
 		
-		logger.info("Requesting for requirement service");
+		logger.info("Requesting persistence of requirement...");
+		
 		requirementService.save(requirement);
 		
 		result.redirectTo(this).showCreationResult(requirement.getId());
 	}
 	
 	/**
+	 * Get an instance of current date through of {@link Calendar}
+	 * 
+	 * @return current date
+	 */
+	private Calendar getCurrentDate() {
+		Date currentDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentDate);
+		
+		return calendar;
+	}
+
+	/**
 	 * Presents the informations about the result requirement's creation.
+	 * 
 	 * @param requirementId
 	 */
 	@Get
