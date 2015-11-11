@@ -142,6 +142,11 @@ public class UserController {
 	public void projectManager() {
 		
 	}
+	@View
+	@Get("/project")
+	public void project() {
+		
+	}
 	
 	@View
 	public void showSignInSucess() {
