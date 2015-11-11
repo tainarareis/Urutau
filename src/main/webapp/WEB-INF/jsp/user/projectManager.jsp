@@ -84,7 +84,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 		   			<h1 class="panel-title">
-		   				<i class="glyphicon glyphicon-list"></i> List of requirements 
+		   				<i class="glyphicon glyphicon-list"></i> Your projects 
 		   			</h1>
 				</div>
 				<a href="#" id="list-link">

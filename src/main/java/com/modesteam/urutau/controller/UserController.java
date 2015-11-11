@@ -111,7 +111,7 @@ public class UserController {
 
         if (user != null) {
             userManager.login(user);
-            result.redirectTo(UserController.class).home();
+            result.redirectTo(UserController.class).projectManager();
             logger.info("The user was found and is authenticated");
         } else {
         	logger.info("The called user wasn't found");
