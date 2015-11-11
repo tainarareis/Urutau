@@ -1,17 +1,37 @@
 package com.modesteam.urutau.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class UseCase extends Artifact {
-	private String actors;
+	@ManyToMany(cascade=CascadeType.PERSIST)
+	@JoinTable(name = "Actors", joinColumns = @JoinColumn(name = "useCaseID"), 
+		inverseJoinColumns = @JoinColumn(name = "actorID"))
+	private List<Actor> actors;
+	
+	@Transient
+	private String fakeActors;
 
-	public String getActors() {
+	public List<Actor> getActors() {
 		return actors;
 	}
 
-	public void setActors(String actors) {
+	public void setActors(List<Actor> actors) {
 		this.actors = actors;
 	}
 
+	public String getFakeActors() {
+		return fakeActors;
+	}
+
+	public void setFakeActors(String fakeActors) {
+		this.fakeActors = fakeActors;
+	}
 }

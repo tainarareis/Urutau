@@ -2,6 +2,7 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.exception.InvalidActionException;
+import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
@@ -77,7 +79,28 @@ public class RequirementController {
 	
 	@Post
 	public void createUseCase(UseCase useCase) {
+		
 		validationBeforeCreation(useCase);
+		
+		// Validate actors
+		if(useCase.getFakeActors() == null) {
+			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR, 
+					"Use case needs at least one author"));
+        	validator.onErrorUsePageOf(RequirementController.class).create();
+		} else {
+			// Separate each actors by ','
+			String fakeActors[] = useCase.getFakeActors().split(",");
+			List<Actor> actors = new ArrayList<Actor>();
+			
+			for(String actorName : fakeActors) {
+				Actor actor = new Actor();
+				actor.setName(actorName);
+				actors.add(actor);
+			}
+			
+			useCase.setActors(actors);
+		}
+		
 		create(useCase);
 	}
 	

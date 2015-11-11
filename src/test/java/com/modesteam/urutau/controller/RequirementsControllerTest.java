@@ -7,6 +7,7 @@ import org.powermock.api.easymock.PowerMock;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.builder.ArtifactBuilder;
@@ -112,9 +113,32 @@ public class RequirementsControllerTest {
 
 		UseCase useCase = builderUseCase.id(1L).title("Example")
 				.description("test unit").buildUseCase();
+		
+		useCase.setFakeActors("Customer");
 
 		mockAdd(useCase);
 		PowerMock.replayAll();
+		RequirementController controllerMock = new RequirementController(
+				mockResult, mockUserSession, mockArtifactService, mockValidator);
+		controllerMock.createUseCase(useCase);
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void createInvalidUseCasePassingActor() {
+		ArtifactBuilder builderUseCase = new ArtifactBuilder();
+
+		UseCase useCase = builderUseCase
+				.id(1L)
+				.title("Example")
+				.description("test unit")
+				.buildUseCase();
+		
+		// Force error
+		useCase.setFakeActors(null);
+
+		mockAdd(useCase);
+		PowerMock.replayAll();
+		
 		RequirementController controllerMock = new RequirementController(
 				mockResult, mockUserSession, mockArtifactService, mockValidator);
 		controllerMock.createUseCase(useCase);
