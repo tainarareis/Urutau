@@ -138,6 +138,12 @@ public class UserController {
 	}
 	
 	@View
+	@Get("/projectManager")
+	public void projectManager() {
+		
+	}
+	
+	@View
 	public void showSignInSucess() {
 		
 	}
