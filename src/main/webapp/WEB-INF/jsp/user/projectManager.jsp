@@ -69,29 +69,21 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-6">
-        	<div class="create-requirement panel panel-default">
-        		<div class="panel-heading">
-        			<h2 class="panel-title">
-        				<i class="glyphicon glyphicon-plus"></i> New project 
-        			</h2>
-        		</div>
-	            <iframe src="" name="frame-req" width="100%" height="100%"></iframe>
-	            <br/>
-  				<div class="panel-footer">
-					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-		   			<h1 class="panel-title">
-		   				<i class="glyphicon glyphicon-list"></i> Your projects 
-		   			</h1>
-				</div>
-				<a href="#" id="list-link">
-					<span class="glyphicon glyphicon-chevron-down"></span>
-				</a>
-				<div id="item-list"></div>
-			</div>
+        	<div class="panel panel-default">
+		    <div class="panel-heading"> Projetos </div>
+		    <div class="panel-body"> 
+		    <a href="<c:url value="/?"/>" target="frame-req" class="link-frame">
+		    project example 
+			</a>
+		    </div>
+		    </div>
+		    
+		    <!-- 	<c:forEach items="${projects}" var="project">     -->
+		    	<div class="panel-body"> projects names 
+		    	
+		    	
+		    	</div>
+		    <!-- 	</c:forEach> -->
       	</div>
 	</div>
 
