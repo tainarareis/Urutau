@@ -63,7 +63,7 @@ public class RequirementsControllerTest {
 		
 		Feature feature = builderFeature
 					.id(1L)
-					.title("exemple")
+					.title(null)
 					.description("blabla")
 					.buildFeature();
 

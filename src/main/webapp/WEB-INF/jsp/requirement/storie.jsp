@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div id="storie" class="requirement-box">
-			<form action="createStorie" method="POST">
+			<form action="createUserStory" method="POST">
 				<input  type="text" name="storie.title" placeholder="Title" class="form-control">
 				<label>Tell the Story:</label>
 				<textarea name="storie.history" class="form-control">
