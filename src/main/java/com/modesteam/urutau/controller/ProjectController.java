@@ -1,5 +1,7 @@
 package com.modesteam.urutau.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,10 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
@@ -71,9 +76,26 @@ public class ProjectController {
 		
 	}
 	
-	@Post
-	public void listProjects(){
+	/**
+	 * Show the projects that has a certain id and title 
+	 * 
+	 * @param id Unique attribute
+	 * @param title various projects can have same title
+	 * 
+	 * @return {@link Project} from database
+	 * 
+	 * @throws UnsupportedEncodingException invalid characters or decodes fails
+	 */
+	@Get
+	@Path("/{id}/{title}")
+	public Project show(int id, String title) throws UnsupportedEncodingException{
+		title = URLDecoder.decode(title, "utf-8");
 		
+		logger.info("Show project " + title);
+		
+		Project project = projectService.getProject(id, title);
+		
+		return project;
 	}
 	
 	@Post
