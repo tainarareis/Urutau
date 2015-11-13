@@ -32,7 +32,7 @@ public class ProjectController {
 	
 	private final UserManager userSession;
 	
-	private final RequirementService requirementService;
+	private final ProjectService projectService;
 	
 	private final Validator validator;
 	
