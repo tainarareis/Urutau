@@ -2,9 +2,6 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,17 +17,8 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.exception.InvalidActionException;
-import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Epic;
-import com.modesteam.urutau.model.Feature;
-import com.modesteam.urutau.model.Generic;
-import com.modesteam.urutau.model.Storie;
-import com.modesteam.urutau.model.UseCase;
-import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
 /**
@@ -46,139 +34,27 @@ public class RequirementController {
 	// Error categories 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
-	private static final String TITLE_ERROR = "TitleError";
 	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
 	// Injected objects
 	private final Result result;
-	
-	private final UserManager userSession;
 	
 	private final RequirementService requirementService;
 	
 	private final Validator validator;
 	
 	public RequirementController() {
-		this(null, null, null, null);
+		this(null, null, null);
 	}
 	
 	@Inject
-	public RequirementController(Result result, UserManager userSession, 
-			RequirementService requirementService, Validator validator) {
+	public RequirementController(Result result,
+		RequirementService requirementService, Validator validator) {
 		this.result = result;
-		this.userSession = userSession;
 		this.requirementService = requirementService;
 		this.validator = validator; 
 	}
-	
-	@Post
-	public void createGeneric(Generic generic) {
-		validationBeforeCreation(generic);
-		create(generic);
-	}
-	
-	@Post
-	public void createUseCase(UseCase useCase) {
-		
-		validationBeforeCreation(useCase);
-		
-		// Validate actors
-		if(useCase.getFakeActors() == null) {
-			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR, 
-					"Use case needs at least one author"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-		} else {
-			// Separate each actors by ','
-			String fakeActors[] = useCase.getFakeActors().split(",");
-			List<Actor> actors = new ArrayList<Actor>();
-			
-			for(String actorName : fakeActors) {
-				Actor actor = new Actor();
-				actor.setName(actorName);
-				actors.add(actor);
-			}
-			
-			useCase.setActors(actors);
-		}
-		
-		create(useCase);
-	}
-	
-	@Post
-	public void createFeature(Feature feature) {
-		validationBeforeCreation(feature);
-		create(feature);
-	}
-	
-	@Post
-	public void createUserStory(Storie storie) {
-		validationBeforeCreation(storie);
-		create(storie);
-	}
-
-	@Post
-	public void createEpic(Epic epic) {
-		validationBeforeCreation(epic);
-		create(epic);
-	}
-	
-	/**
-	 * Basic and generic validation of requirements
-	 * 
-	 * @param requirement to be persisted
-	 */
-	private void validationBeforeCreation(Artifact requirement) {
-		if (userSession.getUserLogged() == null) {
-			logger.warn("User try create requirement without an user logged");
-			
-			throw new InvalidActionException();
-			
-		} else if(requirement.getTitle() == null && requirement.getDescription() == null) {
-			logger.warn("The Requirement Epic was not found in first function!");
-			
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-		}
-	}
-	
-	/**
-	 * Called by all methods that makes requirements creation,
-	 * this have basic implementation to persisted.
-	 * IMPORTANT: validate before call this method through by 
-	 * {@link #validationBeforeCreation()}
-	 * 
-	 * @param requirement to be persisted
-	 */
-	private void create(Artifact requirement) {
-		logger.info("Try persist " + requirement.getTitle());
-		
-		Calendar calendar = getCurrentDate();
-		requirement.setDateOfCreation(calendar);
-		
-		User logged = userSession.getUserLogged();
-		requirement.setAuthor(logged);
-		
-		logger.info("Requesting persistence of requirement...");
-		
-		requirementService.save(requirement);
-		
-		result.redirectTo(this).showCreationResult(requirement.getId());
-	}
-	
-	/**
-	 * Get an instance of current date through of {@link Calendar}
-	 * 
-	 * @return current date
-	 */
-	private Calendar getCurrentDate() {
-		Date currentDate = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(currentDate);
-		
-		return calendar;
-	}
-
-	/**
+		/**
 	 * Presents the informations about the result requirement's creation.
 	 * 
 	 * @param requirementId
@@ -329,39 +205,8 @@ public class RequirementController {
 	
 	}
 
-
 	@View
 	public void detailRequirement() {
-		
-	}
-	
-	@View
-	public void create() {
-		
-	}
-	
-	@View
-	public void generic() {
-		
-	}
-	
-	@View
-	public void storie() {
-		
-	}
-	
-	@View
-	public void feature() {
-		
-	}
-	
-	@View
-	public void epic() {
-		
-	}
-	
-	@View
-	public void useCase() {
 		
 	}
 	
