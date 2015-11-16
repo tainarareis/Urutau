@@ -23,7 +23,7 @@ import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 
-public class RequirementsCreatorTest {
+public class RequirementCreatorTest {
 
 	private final Logger logger = Logger.getLogger(RequirementCreator.class);
 	

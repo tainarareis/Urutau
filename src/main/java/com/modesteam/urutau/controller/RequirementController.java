@@ -50,25 +50,6 @@ public class RequirementController {
 		this.requirementService = requirementService;
 		this.validator = validator; 
 	}
-		/**
-	 * Presents the informations about the result requirement's creation.
-	 * 
-	 * @param requirementId
-	 */
-	@Get
-	public void showCreationResult(long requirementId) {
-		
-		boolean isCreated = requirementService.verifyRequirementExistence(requirementId);
-		
-		logger.info("Showing the result of the creation");
-		
-		if(isCreated){
-			result.include("message", "O requisito foi cadastrado com sucesso.");
-		} else {			
-			result.include("message", "Não foi possível registrar o requisito solicitado."
-				+ "Por gentileza, tente novamente");
-		}
-	}
 	
 	/**
 	 * Show a requirement that has a certain id and title 
@@ -89,20 +70,6 @@ public class RequirementController {
 		
 		Artifact requirement = requirementService.getRequirement(id, title);
 		
-		return requirement;
-	}
-	
-	/**
-	 * Used to present a requirement in the view.
-	 * @param id
-	 * @return a requirement. 
-	 */
-	@Get
-	public Artifact showRequirementById(int id){
-			
-		logger.info("Requirement id = " + id);
-		
-		Artifact requirement = requirementService.getRequirementById(id);
 		return requirement;
 	}
 	
