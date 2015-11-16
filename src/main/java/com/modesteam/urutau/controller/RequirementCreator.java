@@ -20,7 +20,7 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.RequirementDAO;
-import com.modesteam.urutau.exception.InvalidActionException;
+import com.modesteam.urutau.exception.ActionException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
@@ -31,29 +31,23 @@ import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 
 /**
- * This is an concrete implementation of {@link EntityCreator} that uses an design pattern.
- * This class was born to reduce the coupling of {@link RequirementController}, 
+ * This is an concrete implementation of {@link EntityCreator}, part of pattern abstract factory 
+ * He was born to reduce the coupling of {@link RequirementController}, 
  * and increase your cohesion.
  */
 @Controller
 @Path("/requirement")
 public class RequirementCreator extends EntityCreator<Artifact> {
 
-	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
+	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
 	
-	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
-
+	// Error treatment
 	private static final String ERROR_FIELD = "errorField";
-	
 	private static final String ERROR_MESSAGE = "Title not be null.";
 	
 	private final Result result;
 	private final Validator validator;
 	private final UserManager userSession;
-	
-	public RequirementCreator() {
-		this(null, null, null, null);
-	}
 	
 	@Inject
 	public RequirementCreator(Result result, Validator validator, 
@@ -75,8 +69,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	public void createUseCase(UseCase useCase) {		
 		// Validate actors
 		if(useCase.getFakeActors() == null) {
-			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR, "Use case needs at least one author"));
-        	validator.onErrorUsePageOf(UserController.class).home();
+			validator.add(new SimpleMessage(ERROR_FIELD, "Use case needs at least one author"));
 		} else {
 			// Separate each actors by ','
 			String fakeActors[] = useCase.getFakeActors().split(",");
@@ -90,6 +83,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 			
 			useCase.setActors(actors);
 		}
+		
+    	validator.onErrorUsePageOf(UserController.class).home();
 		
 		save(useCase);
 	}
@@ -115,20 +110,19 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	 * @param requirement to be persisted
 	 */
 	@Override
-	public void validate(Artifact requirement) {
+	protected void validate(Artifact requirement) {
 		logger.info("Apply basic validate in requirement");
-		
-		if (userSession.getUserLogged() == null) {
-			logger.warn("User try create requirement without an user logged");
-			
-			throw new InvalidActionException();
-			
+				
+		if(userSession.getUserLogged() == null) {
+			logger.warn("User try create requirement without an user logged!");
+			throw new ActionException();			
 		} else if(requirement.getTitle() == null) {
-			logger.info("Title or description are wrong!");
+			logger.debug("Title or description are wrong!");
 			
 			validator.add(new SimpleMessage(ERROR_FIELD, ERROR_MESSAGE));
-        	validator.onErrorUsePageOf(UserController.class).home();
 		}
+		
+    	validator.onErrorUsePageOf(UserController.class).home();
 	}
 	
 	/**

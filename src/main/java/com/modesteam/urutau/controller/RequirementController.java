@@ -43,10 +43,6 @@ public class RequirementController {
 	
 	private final Validator validator;
 	
-	public RequirementController() {
-		this(null, null, null);
-	}
-	
 	@Inject
 	public RequirementController(Result result,
 		RequirementService requirementService, Validator validator) {

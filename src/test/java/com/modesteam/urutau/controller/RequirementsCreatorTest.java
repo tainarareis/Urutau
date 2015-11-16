@@ -1,5 +1,7 @@
 package com.modesteam.urutau.controller;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +13,8 @@ import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.builder.ArtifactBuilder;
+import com.modesteam.urutau.dao.RequirementDAO;
+import com.modesteam.urutau.exception.ActionException;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
@@ -18,23 +22,27 @@ import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.RequirementService;
 
-public class RequirementsControllerTest {
+public class RequirementsCreatorTest {
 
+	private final Logger logger = Logger.getLogger(RequirementCreator.class);
+	
 	private MockResult mockResult;
 	private UserManager mockUserSession;
 	private MockValidator mockValidator;
-	private RequirementService mockArtifactService;
+	private RequirementDAO mockDAO;
 
 	@Before
 	public void setup() {
+		// Catch all!
+		logger.setLevel(Level.DEBUG);
+		
 		// Mocks supported by vraptor
 		mockResult = new MockResult();
 		mockValidator = new MockValidator();
 
 		// System components
-		mockArtifactService = EasyMock.createMock(RequirementService.class);
+		mockDAO = EasyMock.createMock(RequirementDAO.class);
 		
 		mockUserSession = EasyMock.createMock(UserManager.class);
 		
@@ -53,8 +61,8 @@ public class RequirementsControllerTest {
  
 		mockAdd(feature);
 		PowerMock.replayAll();
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
 		controllerMock.createFeature(feature);
 	}
 	
@@ -67,8 +75,8 @@ public class RequirementsControllerTest {
  
 		mockAdd(generic);
 		PowerMock.replayAll();
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
 		controllerMock.createGeneric(generic);
 	}
 
@@ -86,9 +94,9 @@ public class RequirementsControllerTest {
 		
 		PowerMock.replayAll();
 		
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
-
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
+		
 		controllerMock.createEpic(epic);
 	}
 
@@ -102,8 +110,9 @@ public class RequirementsControllerTest {
 		mockAdd(storie);
 		PowerMock.replayAll();
 
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
+		
 		controllerMock.createUserStory(storie);
 	}
 
@@ -118,8 +127,9 @@ public class RequirementsControllerTest {
 
 		mockAdd(useCase);
 		PowerMock.replayAll();
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
+		
 		controllerMock.createUseCase(useCase);
 	}
 	
@@ -139,12 +149,57 @@ public class RequirementsControllerTest {
 		mockAdd(useCase);
 		PowerMock.replayAll();
 		
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
+		
 		controllerMock.createUseCase(useCase);
 	}
+	
+	@Test(expected=ActionException.class)
+	public void testWithInvalidUser() {
+		ArtifactBuilder builder = new ArtifactBuilder();
 
-	@Test
+		Generic generic = builder.id(1L).title("Example")
+				.description("test unit").buildGeneric();
+
+		mockAdd(generic);
+		
+		UserManager InvalidUserMock = new UserManager() {
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public User getUserLogged() {
+				return null;
+			}
+		};
+		
+		PowerMock.replayAll();
+		
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, InvalidUserMock);
+		controllerMock.createGeneric(generic);
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void testWithoutTitle() {
+		ArtifactBuilder builder = new ArtifactBuilder();
+
+		Generic generic = builder
+				.id(1L)
+				.title(null)
+				.description("test unit")
+				.buildGeneric();
+
+		mockAdd(generic);
+				
+		PowerMock.replayAll();
+		
+		RequirementCreator controllerMock = 
+				new RequirementCreator(mockResult, mockValidator, mockDAO, mockUserSession);
+		controllerMock.createGeneric(generic);
+	}
+
 	public void successfullyDeletedEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
 
@@ -154,21 +209,15 @@ public class RequirementsControllerTest {
 		mockAdd(epic);
 		PowerMock.replayAll();
 		
-		mockRemove(1L);
-		RequirementController controllerMock = new RequirementController(
-				mockResult, mockUserSession, mockArtifactService, mockValidator);
-		controllerMock.excludeRequirement(1L);
+//		mockRemove(1L);
+//		RequirementController controllerMock = new RequirementController(
+//				mockResult, mockUserSession, mockArtifactService, mockValidator);
+//		controllerMock.excludeRequirement(1L);
 
 	}
 
 	private void mockAdd(Artifact artifact) {
-		mockArtifactService.save(artifact);
-		EasyMock.expectLastCall();
-	}
-
-
-	private void mockRemove(Long id) {
-		mockArtifactService.excludeRequirement(id);
+		mockDAO.create(artifact);
 		EasyMock.expectLastCall();
 	}
 }

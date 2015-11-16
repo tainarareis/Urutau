@@ -11,17 +11,11 @@ public abstract class EntityCreator<Entity> {
 	 * 
 	 * @param entity 
 	 */
-	public void validate(Entity entity) {
-
-	}
+	protected void validate(Entity entity) {}
 
 	public void create(Entity entity) {
 		validate(entity);
 		dao.create(entity);
-	}
-
-	public DaoInterface<Entity> getDao() {
-		return dao;
 	}
 
 	public void setDao(DaoInterface<Entity> dao) {
