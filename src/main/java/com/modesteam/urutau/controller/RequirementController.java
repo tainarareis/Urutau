@@ -43,6 +43,10 @@ public class RequirementController {
 	
 	private final Validator validator;
 	
+	public RequirementController() {
+		this(null, null, null);
+	}
+	
 	@Inject
 	public RequirementController(Result result,
 		RequirementService requirementService, Validator validator) {
@@ -63,7 +67,7 @@ public class RequirementController {
 	 */
 	@Get
 	@Path("/{id}/{title}")
-	public Artifact show(int id, String title) throws UnsupportedEncodingException{
+	public Artifact show(int id, String title) throws UnsupportedEncodingException{	
 		title = URLDecoder.decode(title, "utf-8");
 		
 		logger.info("Show requirement " + title);

@@ -49,6 +49,10 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	private final Validator validator;
 	private final UserSession userSession;
 	
+	public RequirementCreator() {
+		this(null, null, null, null);
+	}
+	
 	@Inject
 	public RequirementCreator(Result result, Validator validator, 
 			RequirementDAO requirementDAO, UserSession userSession) {
