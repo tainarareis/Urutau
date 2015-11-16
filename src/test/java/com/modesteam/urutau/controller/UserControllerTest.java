@@ -8,7 +8,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.ValidationException;
 
-import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.UserBuilder;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
@@ -16,7 +16,7 @@ import com.modesteam.urutau.service.UserService;
 public class UserControllerTest {
 	private MockResult mockResult;
 	private UserService mockUserService;
-	private UserManager mockUserManager;
+	private UserSession mockUserSession;
 	private MockValidator mockValidator;
 
 	@Before
@@ -27,7 +27,7 @@ public class UserControllerTest {
 		
 		// Components of system
 		mockUserService = EasyMock.createMock(UserService.class);
-		mockUserManager = EasyMock.createMock(UserManager.class);
+		mockUserSession = EasyMock.createMock(UserSession.class);
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ public class UserControllerTest {
 		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult, mockUserService, 
-				mockUserManager, mockValidator);
+				mockUserSession, mockValidator);
 		
 		controller.register(user);
 	}
@@ -63,7 +63,7 @@ public class UserControllerTest {
 		User user = builder.build();
 
 		UserController controller = new UserController(mockResult, 
-				mockUserService, mockUserManager, mockValidator);
+				mockUserService, mockUserSession, mockValidator);
 		
 		controller.register(user);
 	}
@@ -89,7 +89,7 @@ public class UserControllerTest {
 		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
-				mockUserService, mockUserManager, mockValidator);
+				mockUserService, mockUserSession, mockValidator);
 		
 		controller.register(user);
 	}
@@ -112,7 +112,7 @@ public class UserControllerTest {
 		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
-				mockUserService, mockUserManager, mockValidator);
+				mockUserService, mockUserSession, mockValidator);
 		
 		controller.authenticateUser("fulano","123456");
 	}
@@ -138,7 +138,7 @@ public class UserControllerTest {
 		EasyMock.replay(mockUserService);
 
 		UserController controller = new UserController(mockResult,
-				mockUserService, mockUserManager, mockValidator);
+				mockUserService, mockUserSession, mockValidator);
 		
 		controller.authenticateUser(user.getLogin(), user.getPassword());
 	}

@@ -17,7 +17,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.exception.ActionException;
@@ -47,11 +47,11 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	
 	private final Result result;
 	private final Validator validator;
-	private final UserManager userSession;
+	private final UserSession userSession;
 	
 	@Inject
 	public RequirementCreator(Result result, Validator validator, 
-			RequirementDAO requirementDAO, UserManager userSession) {
+			RequirementDAO requirementDAO, UserSession userSession) {
 		this.result = result;
 		this.validator = validator;
 		this.userSession = userSession;

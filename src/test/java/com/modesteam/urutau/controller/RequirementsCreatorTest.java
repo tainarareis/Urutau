@@ -11,7 +11,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.ValidationException;
 
-import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.exception.ActionException;
@@ -28,7 +28,7 @@ public class RequirementsCreatorTest {
 	private final Logger logger = Logger.getLogger(RequirementCreator.class);
 	
 	private MockResult mockResult;
-	private UserManager mockUserSession;
+	private UserSession mockUserSession;
 	private MockValidator mockValidator;
 	private RequirementDAO mockDAO;
 
@@ -44,7 +44,7 @@ public class RequirementsCreatorTest {
 		// System components
 		mockDAO = EasyMock.createMock(RequirementDAO.class);
 		
-		mockUserSession = EasyMock.createMock(UserManager.class);
+		mockUserSession = EasyMock.createMock(UserSession.class);
 		
 		User userMock = EasyMock.createNiceMock(User.class);
 		
@@ -164,7 +164,7 @@ public class RequirementsCreatorTest {
 
 		mockAdd(generic);
 		
-		UserManager InvalidUserMock = new UserManager() {
+		UserSession InvalidUserMock = new UserSession() {
 			
 			private static final long serialVersionUID = 1L;
 
