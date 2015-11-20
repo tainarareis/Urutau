@@ -1,6 +1,9 @@
 package com.modesteam.urutau.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -14,7 +17,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserManager;
+import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
@@ -33,7 +36,7 @@ public class UserController {
 
 	private final Result result;
 	private final UserService userService;
-	private final UserManager userManager;
+	private final UserSession userSession;
 	private final Validator validator;
 
 	/*
@@ -45,11 +48,11 @@ public class UserController {
 	
 	@Inject
 	public UserController(Result result, 
-			UserService userService, UserManager userManager,
+			UserService userService, UserSession userSession,
 			Validator validator) {
 		this.result = result;
 		this.userService = userService;
-		this.userManager = userManager;
+		this.userSession = userSession;
 		this.validator = validator;
 	}
 	
@@ -63,39 +66,55 @@ public class UserController {
 	@Path("/register")
 	public void register(User user) {
 		
-		logger.info("Initiate an register");
+		logger.info("Initiate register");
+		
+		boolean haveInvalidField = user.getEmail() == null || user.getLogin() == null 
+				|| user.getName() == null || user.getPasswordVerify() == null 
+				|| user.getPassword() == null;
+		
+		List<SimpleMessage> errors = new ArrayList<SimpleMessage>();
 
-		if(user.getPassword() == user.getPasswordVerify()) {
-			logger.info("User will be persisted, and page redirected");
-			userService.create(user);
-			result.redirectTo(this).showSignInSucess();
-		} else if(user.getEmail() == null || user.getLogin() == null || 
-				user.getName() == null || user.getPasswordVerify() == null) {
-				validator.add(new SimpleMessage(REGISTER_ERROR, "Campo em branco!"));
-		} else {			
-			//Verifies the existence the current login and email are already registered
-			if(!userService.existsField("login", user.getLogin())) {
-				validator.add(new SimpleMessage(REGISTER_ERROR, "Login em uso!"));
-			} else if(!userService.existsField("email", user.getEmail())) {
-				validator.add(new SimpleMessage(REGISTER_ERROR, "Email já utilizado"));			
-			} else {
-				validator.add(new SimpleMessage(REGISTER_ERROR, "As senhas não são compatíveis!"));
-			}
+		if(haveInvalidField) {
+			
+			errors.add(new SimpleMessage(REGISTER_ERROR, "All fields are required"));
+
+		} else if(!validVerification(user.getPassword(), user.getPasswordVerify())) {
+			
+			errors.add(new SimpleMessage(REGISTER_ERROR, "Password are not equals!"));
+	
+		} else if(!userService.existsField("login", user.getLogin())) {
+		
+			errors.add(new SimpleMessage(REGISTER_ERROR, "Login is already in use."));
+		
+		} else if(!userService.existsField("email", user.getEmail())) {
+			
+			errors.add(new SimpleMessage(REGISTER_ERROR, "Email is already in use."));			
 		}
+		
+		validator.addAll(errors);
+		
 		// If happens any error of validation
 		validator.onErrorUsePageOf(IndexController.class).index();
+
+		userService.create(user);
+		
+		result.redirectTo(this).showSignInSucess();
 	}	
 			
+	private boolean validVerification(String password, String passwordVerify) {
+		return password == passwordVerify;
+	}
+
 	/**
 	 * Set the new first administrator login and password
 	 */
 	@Post
 	@Path("/administratorSettings")
 	public void administratorSettings(User user) {
-		User logged = userManager.getUserLogged();
+		User logged = userSession.getUserLogged();
 		logged.setLogin(user.getLogin());
 		logged.setPassword(user.getPassword());
-		userManager.setUserLogged(logged);
+		userSession.setUserLogged(logged);
 		userService.update(logged);
 		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
@@ -110,7 +129,7 @@ public class UserController {
         User user = userService.authenticate(login, password);
 
         if (user != null) {
-            userManager.login(user);
+            userSession.login(user);
             result.redirectTo(UserController.class).projectManager();
             logger.info("The user was found and is authenticated");
         } else {
@@ -122,7 +141,7 @@ public class UserController {
 
     @Get("/logout")
     public void logout() {
-        userManager.logout();
+        userSession.logout();
         result.redirectTo(IndexController.class).index();
     }
 	

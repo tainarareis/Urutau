@@ -24,9 +24,6 @@
 		</p>
 	<h3>Description</h3>
 	<p>${artifact.description}</p>
-
-	<h3>Content</h3>
-	<p>${artifact.content}</p>
 </div>
 </body>
 </html>

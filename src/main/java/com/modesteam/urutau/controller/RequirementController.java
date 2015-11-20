@@ -2,8 +2,6 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,15 +17,8 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Epic;
-import com.modesteam.urutau.model.Feature;
-import com.modesteam.urutau.model.Generic;
-import com.modesteam.urutau.model.Storie;
-import com.modesteam.urutau.model.UseCase;
-import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
 /**
@@ -39,134 +30,29 @@ import com.modesteam.urutau.service.RequirementService;
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
-
+	
+	// Error categories 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
-	private static final String TITLE_ERROR = "TitleError";
-
 	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
+	// Injected objects
 	private final Result result;
-	
-	private final UserManager userSession;
 	
 	private final RequirementService requirementService;
 	
 	private final Validator validator;
 	
 	public RequirementController() {
-		this(null, null, null, null);
+		this(null, null, null);
 	}
 	
 	@Inject
-	public RequirementController(Result result, UserManager userSession, 
-			RequirementService requirementService, Validator validator) {
+	public RequirementController(Result result,
+		RequirementService requirementService, Validator validator) {
 		this.result = result;
-		this.userSession = userSession;
 		this.requirementService = requirementService;
 		this.validator = validator; 
-	}
-	
-	@Post
-	public void createGeneric(Generic generic) {
-		
-		if(generic.getTitle() != null) {
-			create(generic);
-		} else {
-			logger.warn("The Requirement generic was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
-	}
-	
-	@Post
-	public void createUseCase(UseCase useCase) {
-		
-		if(useCase.getTitle() != null) {
-			create(useCase);
-		} else {
-			logger.warn("The Requirement UseCase was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
-	}
-	
-	@Post
-	public void createFeature(Feature feature) {
-		
-		if(feature.getTitle() != null) {
-			create(feature);
-		} else {
-			logger.warn("The Requirement Feature was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
-	}
-	
-	@Post
-	public void createUserStory(Storie storie) {
-		
-		if(storie.getTitle() != null) {
-			create(storie);
-		} else {
-			logger.warn("The Requirement Storie was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
-	}
-	
-	@Post
-	public void createEpic(Epic epic) {
-		
-		if(epic.getTitle() != null) {
-			create(epic);
-		} else {
-			logger.warn("The Requirement Epic was not found in first function!");
-			validator.add(new SimpleMessage(TITLE_ERROR, "Null title"));
-        	validator.onErrorUsePageOf(RequirementController.class).create();
-			
-		}
-	}
-	
-	private void create(Artifact requirement) {
-		logger.info("Requirement will be persisted: " + requirement.getTitle());
-		
-		Date currentDate = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(currentDate);
-		
-		requirement.setDateOfCreation(calendar);
-		
-		User logged = userSession.getUserLogged();
-		requirement.setAuthor(logged);
-		
-		logger.info("Requesting for requirement service");
-		requirementService.save(requirement);
-		
-		result.redirectTo(this).showCreationResult(requirement.getId());
-	}
-	
-	/**
-	 * Presents the informations about the result requirement's creation.
-	 * @param requirementId
-	 */
-	@Get
-	public void showCreationResult(long requirementId) {
-		
-		boolean isCreated = requirementService.verifyRequirementExistence(requirementId);
-		
-		logger.info("Showing the result of the creation");
-		
-		if(isCreated){
-			result.include("message", "O requisito foi cadastrado com sucesso.");
-		} else {			
-			result.include("message", "Não foi possível registrar o requisito solicitado."
-				+ "Por gentileza, tente novamente");
-		}
 	}
 	
 	/**
@@ -181,27 +67,13 @@ public class RequirementController {
 	 */
 	@Get
 	@Path("/{id}/{title}")
-	public Artifact show(int id, String title) throws UnsupportedEncodingException{
+	public Artifact show(int id, String title) throws UnsupportedEncodingException{	
 		title = URLDecoder.decode(title, "utf-8");
 		
 		logger.info("Show requirement " + title);
 		
 		Artifact requirement = requirementService.getRequirement(id, title);
 		
-		return requirement;
-	}
-	
-	/**
-	 * Used to present a requirement in the view.
-	 * @param id
-	 * @return a requirement. 
-	 */
-	@Get
-	public Artifact showRequirementById(int id){
-			
-		logger.info("Requirement id = " + id);
-		
-		Artifact requirement = requirementService.getRequirementById(id);
 		return requirement;
 	}
 	
@@ -300,39 +172,8 @@ public class RequirementController {
 	
 	}
 
-
 	@View
 	public void detailRequirement() {
-		
-	}
-	
-	@View
-	public void create() {
-		
-	}
-	
-	@View
-	public void generic() {
-		
-	}
-	
-	@View
-	public void storie() {
-		
-	}
-	
-	@View
-	public void feature() {
-		
-	}
-	
-	@View
-	public void epic() {
-		
-	}
-	
-	@View
-	public void useCase() {
 		
 	}
 	

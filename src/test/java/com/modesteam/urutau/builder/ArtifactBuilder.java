@@ -1,11 +1,10 @@
 package com.modesteam.urutau.builder;
 
-import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
+import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
-import com.modesteam.urutau.model.User;
 
 public class ArtifactBuilder {
 	private String title;
@@ -27,6 +26,13 @@ public class ArtifactBuilder {
 		return this;
 	}
 	
+	public Generic buildGeneric(){
+		Generic generic = new Generic();
+		generic.setId(id);
+		generic.setTitle(title);
+		generic.setDescription(description);
+		return generic;
+	}
 	
 	public Epic buildEpic(){
 		Epic epic = new Epic();
