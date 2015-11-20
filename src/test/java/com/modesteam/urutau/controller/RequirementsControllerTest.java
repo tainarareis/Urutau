@@ -35,7 +35,7 @@ public class RequirementsControllerTest {
 				
 		// System's components
 		mockArtifactService = EasyMock.createMock(RequirementService.class);
-		mockUserSession = EasyMock.createMock(UserManager.class);
+
 		
 	}
 	

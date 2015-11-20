@@ -10,9 +10,12 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.UserManager;
+
+import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.Controller;
@@ -35,23 +38,25 @@ public class ProjectController {
 	
 	private final Result result;
 	
-	private final UserManager userSession;
+	private final UserSession userSession;
 	
 	private final ProjectService projectService;
 	
 	private final Validator validator;
 	
+	
+	
 	@Inject
-	public ProjectController(Result result, UserManager userSession, 
-			RequirementService requirementService, Validator validator) {
+	public ProjectController(Result result, UserSession userSession, 
+			ProjectService projectService, Validator validator) {
 		this.result = result;
 		this.userSession = userSession;
-		this.requirementService = requirementService;
+		this.projectService = projectService;
 		this.validator = validator; 
 	}
 	
 	@Post
-	public void createProject(Projetc project){
+	public void createProject(Project project){
 		logger.info("Project will be persisted: " + project.getTitle());
 		
 		Date currentDate = new Date();
@@ -66,8 +71,7 @@ public class ProjectController {
 		logger.info("Requesting for project service");
 		projectService.save(project);
 		
-		result.redirectTo(this).showCreationResult(requirement.getId());
-	}
+		//result.redirectTo(this).showCreationResult(project.getId());
 		
 	}
 	
@@ -93,7 +97,7 @@ public class ProjectController {
 		
 		logger.info("Show project " + title);
 		
-		Project project = projectService.getProject(id, title);
+		Project project = projectService.detail(id);
 		
 		return project;
 	}
