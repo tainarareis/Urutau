@@ -1,15 +1,21 @@
 package com.modesteam.urutau.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Actor {
 	@Id
 	@GeneratedValue
-	String id;
-	String name;
+	private String id;
+	private String name;
+	
+	@ManyToMany(mappedBy = "actors")
+	private List<UseCase> useCases; 
 
 	public String getId() {
 		return id;
