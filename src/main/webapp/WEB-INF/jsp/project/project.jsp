@@ -18,12 +18,7 @@
 </head>
 <body>
 	<div class="requirement-box form-group">
-		<form action="createGeneric" method="POST">
-			<input name="generic.title" placeholder="Title" type="text" class="form-control" >
-			<input name="generic.title" placeholder="Methodology" type="text" class="form-control" >
-			<input name="generic.description" placeholder="Description" type="text" class="form-control" > 
-			<input type="submit" value="Add" class="btn btn-success btn-group-justified">
-		</form>
+		
 	</div>
 </body>
 </html>
