@@ -1,10 +1,10 @@
 package com.modesteam.urutau.controller;
 
-import com.modesteam.urutau.service.DaoInterface;
+import com.modesteam.urutau.service.GenericDAO;
 
 public abstract class EntityCreator<Entity> {
 
-	private DaoInterface<Entity> dao;
+	private GenericDAO<Entity> dao;
 	
 	/**
 	 * To override
@@ -18,7 +18,7 @@ public abstract class EntityCreator<Entity> {
 		dao.create(entity);
 	}
 
-	public void setDao(DaoInterface<Entity> dao) {
+	public void setDao(GenericDAO<Entity> dao) {
 		this.dao = dao;
 	}
 

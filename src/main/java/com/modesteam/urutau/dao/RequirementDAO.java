@@ -13,14 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.service.DaoInterface;
+import com.modesteam.urutau.service.GenericDAO;
 
 /**
- * 
+ * File Name: 
  * Accesses the database related to the Requirements.
  */
 @RequestScoped
-public class RequirementDAO implements DaoInterface<Artifact> {
+public class RequirementDAO extends GenericDAO<Artifact> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementDAO.class);
 	
@@ -36,23 +36,24 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 	 */
 	public List<? extends Artifact> loadAllRequirements() {
 		
-		String sql = "SELECT ALL A FROM Artifact A";
+		String sql = "SELECT ALL ARTIFACT FROM Artifact ARTIFACT";
 		Query query = manager.createQuery(sql);
 		
 		List<Artifact> requirementsList = query.getResultList();
 		return requirementsList;
 	}
 	
-	@Override
-	public void create(Artifact entity) {
-		manager.persist(entity);
-	}
 	
+	/**
+	 * Captures a single artifact if it exists in database
+	 * @param field - identifies the object, is used to search for it
+	 * @param value - object  
+	 */
 	@Override
 	public Artifact get(String field, Object value) {
 		logger.debug("field." + field + "=" + value);
 		
-		// Select an child of artifact
+		// Select a child of artifact
 		String sql = "SELECT requirement FROM "+ Artifact.class.getName() +" requirement"
 				+ " WHERE requirement." + field + "=:value";
 		
@@ -76,26 +77,6 @@ public class RequirementDAO implements DaoInterface<Artifact> {
 		Artifact artifact = manager.find(Artifact.class, id);
 		logger.info("The Artifact find is:" +artifact);
 		return artifact;
+	}
 		
-	}
-	
-	/**
-	 * Treat exception
-	 */
-	@Override
-	public boolean destroy(Artifact entity) {
-		manager.remove(entity);
-		return true;
-	}
-	
-	/**
-	 * Treat exception
-	 */
-	@Override
-	public boolean update(Artifact entity) {
-		manager.merge(entity);
-		return true;
-	}
-
-
 }

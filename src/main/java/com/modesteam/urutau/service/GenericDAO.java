@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
  */
 public abstract class GenericDAO<Entity> {
 	
-	private EntityManager entityManager;
+	protected EntityManager entityManager;
 	
 	/**
 	 * Get an entity from any attribute
@@ -31,7 +31,11 @@ public abstract class GenericDAO<Entity> {
 	 * @param entity to be persisted
 	 */
 	public void create(Entity entity){
-		entityManager.persist(entity);
+		try {
+			entityManager.persist(entity);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		} 
 	}	
 	
 	
@@ -41,8 +45,13 @@ public abstract class GenericDAO<Entity> {
 	 * @return false if any error occurs
 	 */
 	public boolean destroy(Entity entity){
-		entityManager.remove(entity);
-		return true;
+		try {
+			entityManager.remove(entity);
+			return true;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			return false;
+		} 
 	}	
 	
 	/**
@@ -51,8 +60,25 @@ public abstract class GenericDAO<Entity> {
 	 * @return false if any error occurs
 	 */
 	public boolean update(Entity entity){
-		entityManager.merge(entity);
-		return true;
+		try {
+			entityManager.merge(entity);
+			return true;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			return false;
+		} 
+	}
+	
+	/**
+	 * 
+	 * @param entityManager
+	 */
+	public void setEntityManager(EntityManager entityManager){
+		this.entityManager = entityManager;
+	}
+	
+	public EntityManager getEntityManager(){
+		return entityManager;
 	}
 	
 }

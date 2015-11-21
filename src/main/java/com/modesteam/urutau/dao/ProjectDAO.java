@@ -2,52 +2,71 @@ package com.modesteam.urutau.dao;
 
 import java.util.List;
 
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
-import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.service.DaoInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ProjectDAO implements DaoInterface{
+import com.modesteam.urutau.model.Project;
+import com.modesteam.urutau.service.GenericDAO;
+
+public class ProjectDAO extends GenericDAO<Project>{
+	
+	private static final Logger logger = LoggerFactory.getLogger(ProjectDAO.class);
 	
 	@Inject
-	private EntityManager manager;
+	private EntityManager manager;	
 
-	@Override
-	public void create(Object entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Object get(String field, Object value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object find(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean destroy(Object entity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(Object entity) {
-		// TODO Auto-generated method stub
-		return false;
+	public  ProjectDAO() {
+		super.setEntityManager(entityManager);
 	}
 	
-	public List<? extends Project> loadAll() {
-		//Needs to implement this method like requirementDAO
+	/**
+	 * Captures a single project if it exists in database
+	 * @param field - identifies the object, is used to search for it
+	 * @param value - object  
+	 */
+	@Override
+	public Project get(String field, Object value) {
+		logger.debug("field."+field + "value." +value);
+		
+		String sql = "SELECT project FROM " + Project.class.getName() + " project " 
+				+ "WHERE project."+ field + "=:value";
+				
+		logger.info(sql);
+		
+		try{
+			Query query = manager.createQuery(sql);
+			query.setParameter("value", value);
+			return (Project) query.getSingleResult();
+		} catch (NonUniqueResultException exception){
+			throw new NonUniqueResultException();
+		} catch (NoResultException exception) {
+			return null;
+		}
+	}
+
+	@Override
+	public Project find(Long id) {
+		entityManager.find(Project.class, id);
 		return null;
+	}
+
+	/**
+	 * Captures all projects existent in which the user has access
+	 * @return projects
+	 */
+	public List<? extends Project> loadAllProjects() {
+
+		String sql = "SELECT ALL PROJECT FROM Project PROJECT";
+		Query query = manager.createQuery(sql);		
+		List<Project> projectList = query.getResultList();
+		return projectList;
 	}
 
 }

@@ -18,6 +18,7 @@ public class ProjectService {
 	
 	public ProjectService() {
 		this(null);
+		
 	}
 
 	@Inject
@@ -30,7 +31,7 @@ public class ProjectService {
 	}
 
 	public List<? extends Project> loadAll() {
-		return projectDAO.loadAll();
+		return projectDAO.loadAllProjects();
 	}
 
 	public Project detail(long id) {
