@@ -44,8 +44,7 @@ public class RequirementsControllerTest {
 		PowerMock.replayAll();
 		mockRemove(1L);
 		RequirementController controllerMock = new RequirementController(mockResult, mockArtifactService,mockValidator);
-		controllerMock.excludeRequirement(1L);
-		
+		controllerMock.excludeRequirement(1L);		
 	}
 	
 	private void mockAdd(Artifact artifact){

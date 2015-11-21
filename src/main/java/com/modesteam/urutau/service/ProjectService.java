@@ -7,8 +7,10 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.dao.ProjectDAO;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Project;
 
 public class ProjectService {
 	private ProjectDAO projectDAO;
@@ -27,12 +29,12 @@ public class ProjectService {
 		projectDAO.create(project);
 	}
 
-	public List<? extends Project> loadAllProjects() {
-		return projectDAO.loadAllProjects();
+	public List<? extends Project> loadAll() {
+		return projectDAO.loadAll();
 	}
 
 	public Project detail(long id) {
-		return projectDAO.find(id);
+		return (Project) projectDAO.find(id);
 	}
 	
 	/**
@@ -42,7 +44,7 @@ public class ProjectService {
 	 */
 	public void excludeProject(Long projectId) {
 		if( projectId != null ) {
-			Project project = projectDAO.find(projectId);
+			Project project = (Project) projectDAO.find(projectId);
 			
 			if(project != null) {
 				projectDAO.destroy(project);

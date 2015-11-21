@@ -55,6 +55,8 @@ public class User {
 	private int confirmed = 0;
 	@ManyToMany(mappedBy = "responsables")
 	private List<Artifact> artifactsDelegates;
+	@ManyToMany(mappedBy = "members")
+	private List<Project> projectDelegates;
 
 	/**
 	 * Getter for "id"
