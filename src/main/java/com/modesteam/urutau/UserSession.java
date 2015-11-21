@@ -8,8 +8,8 @@ import javax.inject.Named;
 import com.modesteam.urutau.model.User;
 
 @SessionScoped
-@Named("userManager")
-public class UserManager implements Serializable {
+@Named("userSession")
+public class UserSession implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

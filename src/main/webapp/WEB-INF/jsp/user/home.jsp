@@ -95,7 +95,7 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-6">
-        	<div class="create-requirement panel panel-default">
+        	<div class="create create-requirement panel panel-default">
         		<div class="panel-heading">
         			<h2 class="panel-title">
         				<i class="glyphicon glyphicon-plus"></i> Create Requirement 
