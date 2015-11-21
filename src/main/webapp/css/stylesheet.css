@@ -102,7 +102,7 @@ body{
 	min-height: 100%;
 }
 
-.create-requirement iframe {
+.create iframe, form {
 	padding: 20px;
 	border: 0px;
 	height: 300px;
