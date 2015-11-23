@@ -10,6 +10,8 @@
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
+<link href="<c:url value='/css/sb-admin.css'/>" rel="stylesheet">
+
 <!-- Bootstrap min css -->
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
@@ -54,13 +56,14 @@
 
 </head>
 <body>
-	<%@ include file="/WEB-INF/layouts/header.jspf" %>
-	<div class="container">
-		<div class="collapse navbar-collapse navbar-ex1-collapse column-menu col-md-4 ">
-	        <ul class="list-unstyled pull-left">                    
-	            <li>
-	                <a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Add an requirement</a>
-	                <ul id="demo" class="collapse list-unstyled suboption">
+	
+		<%@ include file="/WEB-INF/layouts/header.jspf" %>
+		<div class="navbar-default sidebar role="navigation">
+        	<div class="sidebar-nav navbar-collapse">
+            	<ul class="nav" id="side-menu">                         
+	            	<li>
+	                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
+	                	<ul id="demo" class="collapse list-unstyled suboption">
 	                    <li>
 	                        <a href="<c:url value="/requirement/generic"/>" target="frame-req" class="link-frame">
 	                        	Generic Requirement
@@ -89,12 +92,13 @@
 	                </ul>
 	             </li>
 	             <li>
-	             	<a href="#" class="header-option">Other option</a>
+	             	<a href="#" class="header-option">More options</a>
 	             </li>            
 	        </ul>
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-6">
+       </div>    
+ 	</nav>
+        <div class="col-md-8">
         	<div class="create create-requirement panel panel-default">
         		<div class="panel-heading">
         			<h2 class="panel-title">
@@ -119,6 +123,5 @@
 				<div id="item-list"></div>
 			</div>
       	</div>
-	</div>
 </body>
 </html>
