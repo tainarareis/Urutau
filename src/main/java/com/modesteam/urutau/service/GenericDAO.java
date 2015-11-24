@@ -2,6 +2,9 @@ package com.modesteam.urutau.service;
 
 import javax.persistence.EntityManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * File Name: GenericDAO<Entity>
  * Purpose: Defines the methods common to DAO classes 
@@ -10,6 +13,7 @@ import javax.persistence.EntityManager;
 public abstract class GenericDAO<Entity> {
 	
 	protected EntityManager entityManager;
+	private static final Logger logger = LoggerFactory.getLogger(GenericDAO.class);
 	
 	/**
 	 * Get an entity from any attribute
@@ -47,6 +51,7 @@ public abstract class GenericDAO<Entity> {
 	public boolean destroy(Entity entity){
 		try {
 			entityManager.remove(entity);
+			logger.info("Successfully deleted.");
 			return true;
 		} catch (Exception exception) {
 			exception.printStackTrace();

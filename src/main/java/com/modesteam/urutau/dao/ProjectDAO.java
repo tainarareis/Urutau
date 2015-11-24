@@ -22,8 +22,13 @@ public class ProjectDAO extends GenericDAO<Project>{
 	@Inject
 	private EntityManager manager;	
 
-	public  ProjectDAO() {
-		super.setEntityManager(entityManager);
+	public ProjectDAO() {
+		
+	}
+	
+	@Inject
+	public ProjectDAO(EntityManager manager) {
+		super.setEntityManager(manager);
 	}
 	
 	/**

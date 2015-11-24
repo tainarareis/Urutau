@@ -25,10 +25,15 @@ public class ConfigurationDAO extends GenericDAO<Configuration>{
 	private static final Logger logger = LoggerFactory.getLogger(ConfigurationDAO.class);
 	
 	@Inject
-	private EntityManager entityManager;	
+	private EntityManager manager;
 	
 	public ConfigurationDAO() {
-		super.setEntityManager(entityManager);
+		
+	}
+	
+	@Inject
+	public ConfigurationDAO(EntityManager manager) {
+		super.setEntityManager(manager);
 	}
 	
 	@Override

@@ -22,10 +22,19 @@ import com.modesteam.urutau.service.GenericDAO;
 @RequestScoped
 public class RequirementDAO extends GenericDAO<Artifact> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(RequirementDAO.class);
+	private static final Logger logger = LoggerFactory.getLogger(RequirementDAO.class.getName());
 	
 	@Inject
 	private EntityManager manager;
+	
+	public RequirementDAO() {
+		
+	}
+	
+	@Inject
+	public RequirementDAO(EntityManager manager){
+		super.setEntityManager(manager);
+	}
 	
 	/**
 	 * Get all requirements from a specific Artifact subclass

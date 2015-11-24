@@ -18,12 +18,21 @@ import com.modesteam.urutau.service.GenericDAO;
  */
 @RequestScoped
 public class UserDAO extends GenericDAO<User>{
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	@Inject
 	private EntityManager manager;
+	
+	public UserDAO() {
 		
+	}
+	
+	@Inject
+	public UserDAO(EntityManager manager) {
+		super.setEntityManager(manager);
+	}
+	
 	
 	@Override
 	public User find(Long id){
