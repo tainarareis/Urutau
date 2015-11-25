@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
@@ -23,6 +24,7 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 /**
@@ -35,6 +37,8 @@ import br.com.caelum.vraptor.validator.Validator;
 public class ProjectController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
+	
+	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
 	private final Result result;
 	
@@ -55,21 +59,36 @@ public class ProjectController {
 		this.validator = validator; 
 	}
 	
+	/**
+	 *  Method for create one project with what gonna have
+	 *  requirements inside
+	 *  
+	 * @param project
+	 */
 	@Post
 	public void createProject(Project project){
+		
 		logger.info("Project will be persisted: " + project.getTitle());
 		
-		Date currentDate = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(currentDate);
+		if(project.getTitle() == null){
+			
+			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR,"The title cant be empty!"));
+			validator.onErrorForwardTo(ProjectController.class).createProject();
 		
-		project.setDateOfCreation(calendar);
+		} else {
 		
-		User logged = userSession.getUserLogged();
-		project.setAuthor(logged);
-		
-		logger.info("Requesting for project service");
-		projectService.save(project);
+			Date currentDate = new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(currentDate);
+			
+			project.setDateOfCreation(calendar);
+			
+			User logged = userSession.getUserLogged();
+			project.setAuthor(logged);
+			
+			logger.info("Requesting for project service");
+			projectService.save(project);
+		}
 		
 		//result.redirectTo(this).showCreationResult(project.getId());
 		
@@ -104,6 +123,12 @@ public class ProjectController {
 	
 	@Post
 	public void detailProject(){
+		
+	}
+	
+	@View
+	public void createProject(){
+		
 		
 	}
 
