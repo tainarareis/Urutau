@@ -39,6 +39,8 @@ public class ProjectController {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
+	private static final String PROJECT_EXCLUSION_ERROR = "projectModificationError";
+	
 	
 	private final Result result;
 	
@@ -93,10 +95,44 @@ public class ProjectController {
 		//result.redirectTo(this).showCreationResult(project.getId());
 		
 	}
-	
+	/**
+	 * Method for delete only one project 
+	 * @param id
+	 */
 	@Post
-	public void deleteProject(){
+	public void deleteProject(long id){
 		
+		if(projectService.detail(id)==null){
+			
+			logger.error("Project already unavailable");
+			result.redirectTo(UserController.class).home();
+			
+		} else {
+			//do nothing
+		}
+		
+		logger.info("The project with id " +id+" was solicitated for exclusion");
+		
+		projectService.excludeProject(id);
+		
+		Project project = projectService.detail(id);
+		
+		boolean projectExist;
+		
+		if(project.getTitle()==null){
+			projectExist = false;
+		} else {
+			projectExist = true;
+		}
+		
+		if(!projectExist){
+			logger.info("The project was succesfully excluded.");
+			result.redirectTo(UserController.class).home();
+		} else {
+			logger.info("The project wasn't excluded yet.");
+			validator.add(new SimpleMessage(PROJECT_EXCLUSION_ERROR, "Project was not excluded!"));	
+			result.redirectTo(UserController.class).home();
+		}
 	}
 	
 	/**

@@ -8,7 +8,6 @@ import org.powermock.api.easymock.PowerMock;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 
-import com.modesteam.urutau.UserManager;
 import com.modesteam.urutau.builder.ArtifactBuilder;
 import com.modesteam.urutau.builder.UserBuilder;
 import com.modesteam.urutau.model.Artifact;
@@ -22,7 +21,6 @@ import com.modesteam.urutau.service.RequirementService;
 public class RequirementsControllerTest {
 	
 	private MockResult mockResult;
-	private UserManager mockUserSession;
 	private MockValidator mockValidator;
 	private RequirementService mockArtifactService;
 	
@@ -43,11 +41,6 @@ public class RequirementsControllerTest {
 	private void mockAdd(Artifact artifact){
 		mockArtifactService.save(artifact);
 		EasyMock.expectLastCall();
-	}
-	
-	private void mockService() {
-		User userMocked = EasyMock.createNiceMock(User.class);
-		EasyMock.expect(mockUserSession.getUserLogged()).andReturn(userMocked);
 	}
 	
 	private void mockRemove(Long id){
