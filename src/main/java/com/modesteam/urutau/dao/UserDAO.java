@@ -10,25 +10,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.DaoInterface;
+import com.modesteam.urutau.service.GenericDAO;
 
 /**
  * 
  * Accesses the database related to the user.
  */
 @RequestScoped
-public class UserDAO implements DaoInterface<User>{
-	
+public class UserDAO extends GenericDAO<User>{
+
 	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	@Inject
 	private EntityManager manager;
+	
+	public UserDAO() {
 		
-	@Override
-	public void create(User user) {
-		logger.info("An new user will be persist");
-		manager.persist(user);		
 	}
+	
+	@Inject
+	public UserDAO(EntityManager manager) {
+		super.setEntityManager(manager);
+	}
+	
 	
 	@Override
 	public User find(Long id){
@@ -66,33 +70,5 @@ public class UserDAO implements DaoInterface<User>{
 		} catch (NoResultException exception) {
 			return null;
 		}
-	}
-	
-	@Override
-	public boolean destroy(User entity) {
-		try {
-			manager.remove(entity);
-			return true;
-		} catch (Exception exception) {
-			logger.error("Cant remove an entity");
-			return false;
-		} 
-	}
-
-	@Override
-	public boolean update(User entity) {
-		try {
-			manager.merge(entity);
-			return true;
-		} catch(Exception exception) {
-			logger.error("Cant update an entity");
-			return false;
-		}
-	}
-
-	
-	
-	
-    
-
+	}	
 }

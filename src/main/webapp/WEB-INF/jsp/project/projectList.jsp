@@ -25,11 +25,11 @@
 	$(document).ready(function(){
 		
 		$(".link-frame").click(function() {
-			$(".create-requirement").show("slow");
+			$(".create-project").show("slow");
 		});
 		
 		$("#cancel-create-req").click(function() {
-			$(".create-requirement").hide("slow");;
+			$(".create-project").hide("slow");;
 		});
 		
 		$("#list-link").click(function(){
@@ -57,59 +57,39 @@
 
 
 <body>
-
 	<%@ include file="/WEB-INF/layouts/header.jspf" %>
 	<div class="container">
 		<div class="collapse navbar-collapse navbar-ex1-collapse column-menu col-md-4 ">
-	       
-	                        <a href="<c:url value="/project"/>" target="frame-req" class="link-frame">
-	                        	New project
-	                        </a>
-	                   
+	        <button class="btn btn-default link-frame">New project</button>         
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-6">
-        	<div class="create-requirement panel panel-default">
+        	<div class="create create-project panel panel-default">
         		<div class="panel-heading">
         			<h2 class="panel-title">
         				<i class="glyphicon glyphicon-plus"></i> New project 
         			</h2>
         		</div>
-	            <iframe src="" name="frame-req" width="100%" height="100%"></iframe>
+		           <form action="createGeneric" method="POST">
+						<input name="project.title" placeholder="Title" type="text" class="form-control">
+						<br/>
+						<select class="form-control">
+							<option value="0" selected="selected">Processo de desenvolvimento</option>
+							<option value="1">Scrum</option>
+							<option value="2">Processo Unificado</option>
+							<option value="3">Generic</option>
+						</select>
+						<br/>
+						<input name="project.description" placeholder="Description" type="text" class="form-control">
+						<br/> 
+						<input type="submit" value="Add" class="btn btn-success btn-group-justified">
+					</form>
 	            <br/>
   				<div class="panel-footer">
 					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
 				</div>
 			</div>
-			
-			
-			
-			
-			</div>
-        <div class="col-md-2"></div>
-        <div class="col-md-6">
-        	<div class="panel panel-default">
-		    <div class="panel-heading"> Projetos </div>
-		    <div class="panel-body"> 
-		    <a href="<c:url value="/?"/>">
-		    project example 
-			</a>
-		    </div>
-		    </div>
-		    
-		    <!-- 	<c:forEach items="${projects}" var="project">     -->
-		    	<div class="panel-body"> projects names 
-		    	
-		    	
-		    	</div>
-		    <!-- 	</c:forEach> -->
-      	</div>
-			
-			
-			
-			
-      	</div>
+		</div>
 	</div>
-
 </body>
 </html>

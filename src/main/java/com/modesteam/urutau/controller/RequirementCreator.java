@@ -150,8 +150,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		logger.info("Requesting persistence of requirement...");
 		
 		create(requirement);
-		
-		result.redirectTo(UserController.class).home();
+		result.include("message", "Requirement succesfully registered.");
 	}
 	
 	/**
@@ -165,6 +164,11 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		calendar.setTime(currentDate);
 		
 		return calendar;
+	}
+	
+	@View
+	public void showCreationResult() {
+		
 	}
 
 	@View

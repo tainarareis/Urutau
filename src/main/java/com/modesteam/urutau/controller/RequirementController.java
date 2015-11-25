@@ -66,7 +66,7 @@ public class RequirementController {
 	 * @throws UnsupportedEncodingException invalid characters or decodes fails
 	 */
 	@Get
-	@Path("/{id}/{title}")
+	@Path("/showRequirement/{id}/{title}")
 	public Artifact show(int id, String title) throws UnsupportedEncodingException{	
 		title = URLDecoder.decode(title, "utf-8");
 		

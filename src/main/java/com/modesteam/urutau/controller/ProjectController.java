@@ -9,16 +9,6 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-import com.modesteam.urutau.UserSession;
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.ProjectService;
-import com.modesteam.urutau.service.RequirementService;
-
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -26,6 +16,12 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
+
+import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.Project;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.ProjectService;
 
 /**
  * This class is responsible to manager simple operations of projects!
