@@ -65,10 +65,32 @@ public class ProjectControllerTest {
 		controllerMock.createProject(project);
 	}
 	
+
+	@Test
+	public void deleteValidProject(){
+		ProjectBuilder projectBuilder = new ProjectBuilder();
+
+		Project project = projectBuilder.id(1L).title("Example")
+				.description("test unit").builProject();
+ 
+		mockAdd(project);
+		PowerMock.replayAll();
+		
+		mockRemove(1L);
+		
+		ProjectController controllerMock = 
+				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+		controllerMock.deleteProject(1L);
+	}
+	
 	private void mockAdd(Project project) {
 		mockService.save(project);
 		EasyMock.expectLastCall();
 	}
 	
+	private void mockRemove(Long id) {
+		mockService.excludeProject(id);
+		EasyMock.expectLastCall();
+	}
 
 }

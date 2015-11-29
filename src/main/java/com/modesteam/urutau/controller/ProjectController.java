@@ -103,28 +103,11 @@ public class ProjectController {
 	@Post
 	public void deleteProject(long id){
 		
-		if(projectService.detail(id)==null){
-			
-			logger.error("Project already unavailable");
-			result.redirectTo(UserController.class).home();
-			
-		} else {
-			//do nothing
-		}
-		
 		logger.info("The project with id " +id+" was solicitated for exclusion");
 		
 		projectService.excludeProject(id);
 		
-		Project project = projectService.detail(id);
-		
-		boolean projectExist;
-		
-		if(project.getTitle()==null){
-			projectExist = false;
-		} else {
-			projectExist = true;
-		}
+		boolean projectExist = projectService.verifyProjectExistence(id);
 		
 		if(!projectExist){
 			logger.info("The project was succesfully excluded.");

@@ -56,5 +56,26 @@ public class ProjectService {
 			logger.info("RequirementService cant find requirementID");
 		}
 	}
+	
+	/**
+	 * Verifies the existence of a project by its id
+	 * @param Id of an project
+	 * @return true if the project exists
+	 */
+	public boolean verifyProjectExistence(long Id) {
+		
+		logger.info("Verifying the requirement existence in database.");
+		
+		Project project = projectDAO.get("id", Id);
+		
+		if (project == null) {
+			logger.info("The project is null");
+			return false;
+		} else {
+			logger.info("The project isn't null");
+			return true;
+		}
+		
+	}
 
 }
