@@ -70,7 +70,7 @@
         				<i class="glyphicon glyphicon-plus"></i> New project 
         			</h2>
         		</div>
-		           <form action="createGeneric" method="POST">
+		           <form action="createProject" method="POST">
 						<input name="project.title" placeholder="Title" type="text" class="form-control">
 						<br/>
 						<select class="form-control">

@@ -46,7 +46,9 @@ public class ProjectController {
 	
 	private final Validator validator;
 	
-	
+	public ProjectController(){
+		this(null,null,null,null);
+	}
 	
 	@Inject
 	public ProjectController(Result result, UserSession userSession, 
@@ -63,7 +65,7 @@ public class ProjectController {
 	 *  
 	 * @param project
 	 */
-	@Post
+	@Post("/createProject")
 	public void createProject(Project project){
 		
 		logger.info("Project will be persisted: " + project.getTitle());
@@ -71,7 +73,6 @@ public class ProjectController {
 		if(project.getTitle() == null){
 			
 			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR,"The title cant be empty!"));
-			validator.onErrorForwardTo(ProjectController.class).createProject();
 		
 		} else {
 		
@@ -88,7 +89,7 @@ public class ProjectController {
 			projectService.save(project);
 		}
 		
-		//result.redirectTo(this).showCreationResult(project.getId());
+		result.redirectTo(UserController.class).projectManager();
 		
 	}
 	/**
@@ -158,9 +159,9 @@ public class ProjectController {
 		
 	}
 	
+	
 	@View
-	public void createProject(){
-		
+	public void showCreationResult() {
 		
 	}
 
