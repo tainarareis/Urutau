@@ -46,6 +46,10 @@ public class ProjectController {
 	
 	private final Validator validator;
 	
+	
+	/*
+	 * CDI needs this
+	 */
 	public ProjectController(){
 		this(null,null,null,null);
 	}
