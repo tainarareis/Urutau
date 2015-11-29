@@ -9,6 +9,7 @@ import org.powermock.api.easymock.PowerMock;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
+import com.modesteam.urutau.builder.ProjectBuilder;
 import com.modesteam.urutau.dao.ProjectDAO;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
@@ -55,7 +56,7 @@ public class ProjectControllerTest {
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 
 		Project project = projectBuilder.id(1L).title("Example")
-				.description("test unit").buildProject();
+				.description("test unit").builProject();
  
 		mockAdd(project);
 		PowerMock.replayAll();
