@@ -131,31 +131,27 @@ public class RequirementController {
 		
 		logger.info("Starting the function requestRequirementEdition. The requirement id is: "+requirementID);
 		
-		//If to guarantee the parameter received isn't null
-		if(requirementID == null) {
-			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR, "Nenhum requisito foi passado como parâmetro."));
-			validator.onErrorForwardTo(RequirementController.class).showAllRequirements();
-		}else {		
-			boolean requirementExistence = requirementService.verifyRequirementExistence(requirementID);
-			
-			if(requirementExistence) {
-				Artifact requirement = requirementService.detail(requirementID);
-				result.include("artifact", requirement);			
-				return requirement;
-			} else {
-				logger.info("The requirement id is unknown.");
-				validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "Não é possível alterar"
-						+ " o requisito solicitado pois o mesmo não existe no sistema."));
-				result.redirectTo(this).showAllRequirements();		
-				return null;			
-			}
+		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementID);
+		
+		//Verifies the acceptance of the requirement to proceed the requisition
+		if(requirementExistence) {
+			Artifact requirement = requirementService.detail(requirementID);
+			result.include("artifact", requirement);		
+			result.redirectTo(this).modifyRequirement(requirement);
+			return requirement;
+		} else {
+			logger.info("The requirement id informed is unknown.");
+			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
+					+ " edit an unknown requirement."));					
+			return null;			
 		}
-		return null;
+		
 	}
 	
 	/**
 	 * Allows the modification of an unique artifact
 	 * @param 
+	 * @return 
 	 */
 	@Post
 	public void modifyRequirement(Artifact requirement) {		
@@ -168,7 +164,7 @@ public class RequirementController {
 			logger.info("The update wasn't sucessfully executed.");
 		}
 		
-		result.redirectTo(this).showAllRequirements();
+		result.include("message", "Edition successfully executed.");
 	
 	}
 
