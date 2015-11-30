@@ -43,8 +43,9 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	
 	// Error treatment
 	private static final String ERROR_FIELD = "errorField";
-	private static final String ERROR_MESSAGE = "Title not be null.";
+	private static final String ERROR_MESSAGE = "Title should not be null.";
 	
+	//Objects to be injected
 	private final Result result;
 	private final Validator validator;
 	private final UserSession userSession;
@@ -58,39 +59,13 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 			RequirementDAO requirementDAO, UserSession userSession) {
 		this.result = result;
 		this.validator = validator;
-		this.userSession = userSession;
-		
+		this.userSession = userSession;		
 		super.setDao(requirementDAO);
 	}
-	
-
+		
 	@Post
 	public void createGeneric(Generic generic) {
 		save(generic);
-	}
-	
-	@Post
-	public void createUseCase(UseCase useCase) {		
-		// Validate actors
-		if(useCase.getFakeActors() == null) {
-			validator.add(new SimpleMessage(ERROR_FIELD, "Use case needs at least one author"));
-		} else {
-			// Separate each actors by ','
-			String fakeActors[] = useCase.getFakeActors().split(",");
-			List<Actor> actors = new ArrayList<Actor>();
-			
-			for(String actorName : fakeActors) {
-				Actor actor = new Actor();
-				actor.setName(actorName);
-				actors.add(actor);
-			}
-			
-			useCase.setActors(actors);
-		}
-		
-    	validator.onErrorUsePageOf(UserController.class).home();
-		
-		save(useCase);
 	}
 	
 	@Post
@@ -106,27 +81,6 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	@Post
 	public void createEpic(Epic epic) {
 		save(epic);
-	}
-	
-	/**
-	 * Basic and generic validation of requirements
-	 * 
-	 * @param requirement to be persisted
-	 */
-	@Override
-	protected void validate(Artifact requirement) {
-		logger.info("Apply basic validate in requirement");
-				
-		if(userSession.getUserLogged() == null) {
-			logger.warn("User try create requirement without an user logged!");
-			throw new ActionException();			
-		} else if(requirement.getTitle() == null) {
-			logger.debug("Title or description are wrong!");
-			
-			validator.add(new SimpleMessage(ERROR_FIELD, ERROR_MESSAGE));
-		}
-		
-    	validator.onErrorUsePageOf(UserController.class).home();
 	}
 	
 	/**
@@ -151,6 +105,67 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		
 		create(requirement);
 		result.include("message", "Requirement succesfully registered.");
+	}
+	
+	/**
+	 * Basic and generic validation of requirements
+	 * 
+	 * @param requirement to be persisted
+	 */
+	@Override
+	protected void validate(Artifact requirement) {
+		logger.info("Apply basic validate in requirement");
+				
+		if(userSession.getUserLogged() == null) {
+			logger.warn("User try create requirement without an user logged!");
+			throw new ActionException();			
+		} else if(requirement.getTitle() == null) {
+			logger.debug("Title or description are wrong!");
+			
+			validator.add(new SimpleMessage(ERROR_FIELD, ERROR_MESSAGE));
+		}
+		
+    	validator.onErrorUsePageOf(UserController.class).home();
+	}
+	
+	/**
+	 * Use case creation is more specific so this method
+	 * implementation is more robust than the others
+	 * @param useCase
+	 */
+	@Post
+	public void createUseCase(UseCase useCase) {		
+		
+		if(useCase.getFakeActors() != null) { //Main flow 
+			useCase = setUseCaseActors(useCase);
+		} else { //Alternative flow
+			validator.add(new SimpleMessage(ERROR_FIELD, "Use case needs at least one author"));
+		}
+		
+    	validator.onErrorUsePageOf(UserController.class).home();
+		
+		save(useCase);
+	}
+	
+	/**
+	 * Sets up a String containing all the actors
+	 * involved at the current use case. 
+	 * @param useCase
+	 */
+	private UseCase setUseCaseActors (UseCase useCase) {
+		
+		String fakeActors[] = useCase.getFakeActors().split(","); // Separating each actor by ','
+		List<Actor> actors = new ArrayList<Actor>();
+		
+		for(String actorName : fakeActors) {
+			Actor actor = new Actor();
+			actor.setName(actorName);
+			actors.add(actor);
+		}
+		
+		useCase.setActors(actors);
+		
+		return useCase;
 	}
 	
 	/**
