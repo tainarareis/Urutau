@@ -7,4 +7,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name="id")
 public class Generic extends Artifact {
 	
+	public Generic () {
+		super.setArtifactType("Generic");
+	}
+	
 }

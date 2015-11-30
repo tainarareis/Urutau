@@ -27,6 +27,10 @@ public abstract class Artifact {
 	@JoinColumn(name="user_id")
 	private User author;
 
+	@OneToOne(optional = true)
+	@JoinColumn(name="user_id")
+	private User lastModificationAuthor;
+	
 	/* Optional relationship */
 	@OneToOne(optional = true)
 	private Status status;
@@ -38,10 +42,12 @@ public abstract class Artifact {
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
+	private Calendar lastModificationDate;
 	
 	private String title;
 	private String description;
-
+	private String artifactType;
+	
 	public long getId() {
 		return id;
 	}
@@ -96,6 +102,30 @@ public abstract class Artifact {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public User getLastModificationAuthor() {
+		return lastModificationAuthor;
+	}
+
+	public void setLastModificationAuthor(User lastModificationAuthor) {
+		this.lastModificationAuthor = lastModificationAuthor;
+	}
+
+	public Calendar getLastModificationDate() {
+		return lastModificationDate;
+	}
+
+	public void setLastModificationDate(Calendar lastModificationDate) {
+		this.lastModificationDate = lastModificationDate;
+	}
+
+	public String getArtifactType() {
+		return artifactType;
+	}
+
+	public void setArtifactType(String artifactType) {
+		this.artifactType = artifactType;
 	}
 
 }

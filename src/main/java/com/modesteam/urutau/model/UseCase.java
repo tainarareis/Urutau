@@ -19,6 +19,10 @@ public class UseCase extends Artifact {
 	@Transient
 	private String fakeActors;
 
+	public UseCase () {
+		super.setArtifactType("UseCase");
+	}
+	
 	public List<Actor> getActors() {
 		return actors;
 	}

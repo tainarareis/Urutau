@@ -17,6 +17,10 @@ public class Storie extends Artifact {
 		inverseJoinColumns = @JoinColumn(name="artifact_id"))
 	private List<AcceptanceCriteria> acceptanceCriteria;
 
+	public Storie () {
+		super.setArtifactType("Storie");
+	}
+	
 	public String getHistory() {
 		return history;
 	}

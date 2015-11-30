@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 public class Epic extends Artifact {
 	private String content;
 
+	public Epic () {
+		super.setArtifactType("Epic");
+	}
+	
 	public String getContent() {
 		return content;
 	}
@@ -13,4 +17,5 @@ public class Epic extends Artifact {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
 }
