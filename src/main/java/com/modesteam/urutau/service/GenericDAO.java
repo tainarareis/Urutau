@@ -5,6 +5,8 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.model.Project;
+
 /**
  * File Name: GenericDAO<Entity>
  * Purpose: Defines the methods common to DAO classes 

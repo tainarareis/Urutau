@@ -9,15 +9,16 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.ProjectService;
@@ -33,6 +34,10 @@ public class ProjectController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
+	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
+	private static final String PROJECT_EXCLUSION_ERROR = "projectModificationError";
+	
+	
 	private final Result result;
 	
 	private final UserSession userSession;
@@ -42,6 +47,12 @@ public class ProjectController {
 	private final Validator validator;
 	
 	
+	/*
+	 * CDI needs this
+	 */
+	public ProjectController(){
+		this(null,null,null,null);
+	}
 	
 	@Inject
 	public ProjectController(Result result, UserSession userSession, 
@@ -52,29 +63,60 @@ public class ProjectController {
 		this.validator = validator; 
 	}
 	
-	@Post
+	/**
+	 *  Method for create one project with what gonna have
+	 *  requirements inside
+	 *  
+	 * @param project
+	 */
+	@Post("/createProject")
 	public void createProject(Project project){
+		
 		logger.info("Project will be persisted: " + project.getTitle());
 		
-		Date currentDate = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(currentDate);
+		if(project.getTitle() == null){
+			
+			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR,"The title cant be empty!"));
 		
-		project.setDateOfCreation(calendar);
+		} else {
 		
-		User logged = userSession.getUserLogged();
-		project.setAuthor(logged);
+			Date currentDate = new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(currentDate);
+			
+			project.setDateOfCreation(calendar);
+			
+			User logged = userSession.getUserLogged();
+			project.setAuthor(logged);
+			
+			logger.info("Requesting for project service");
+			projectService.save(project);
+		}
 		
-		logger.info("Requesting for project service");
-		projectService.save(project);
-		
-		//result.redirectTo(this).showCreationResult(project.getId());
+		result.redirectTo(UserController.class).projectManager();
 		
 	}
-	
+	/**
+	 * Method for delete only one project 
+	 * @param id
+	 */
 	@Post
-	public void deleteProject(){
+	public void deleteProject(long id){
 		
+		logger.info("The project with id " +id+" was solicitated for exclusion");
+		
+		projectService.excludeProject(id);
+		
+		boolean projectExist = projectService.verifyProjectExistence(id);
+		
+		if(!projectExist){
+			logger.info("The project was succesfully excluded.");
+			result.redirectTo(UserController.class).home();
+		} else {
+			logger.info("The project wasn't excluded yet.");
+			validator.add(new SimpleMessage(PROJECT_EXCLUSION_ERROR, "Project was not excluded!"));	
+			result.redirectTo(UserController.class).home();
+		}
 	}
 	
 	/**
@@ -101,6 +143,12 @@ public class ProjectController {
 	
 	@Post
 	public void detailProject(){
+		
+	}
+	
+	
+	@View
+	public void showCreationResult() {
 		
 	}
 
