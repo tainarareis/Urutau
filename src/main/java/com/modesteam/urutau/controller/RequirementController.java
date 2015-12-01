@@ -110,7 +110,7 @@ public class RequirementController {
 		
 		requirementService.excludeRequirement(id);
 		
-		boolean requirementExistence = requirementService.verifyRequirementExistence(id);
+		boolean requirementExistence = requirementService.verifyExistence(id);
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
@@ -121,12 +121,6 @@ public class RequirementController {
 			result.redirectTo(UserController.class).home();
 		}
 		
-	}
-	
-	@Get
-	@Path("/editRequirement/{id}")
-	public void editRequirement (Long id){
-		result.redirectTo(RequirementEditor.class).requestRequirementEdition(id);
 	}
 
 	@View

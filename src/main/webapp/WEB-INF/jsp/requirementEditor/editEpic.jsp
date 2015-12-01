@@ -16,7 +16,7 @@
 	<div id="epic" class="requirement-box">
 		<form action="editEpic" method="POST">
 			<input name="epic.title" class="form-control" placeholder="Title" type="text" value="${epic.title}">
-			<input name="epic.description" class="form-control" placeholder="Description" type="text" value=="${epic.description}">
+			<input name="epic.description" class="form-control" placeholder="Description" type="text" value="${epic.description}">
 			<input name="epic.content" class="form-control" placeholder="Content" type="text" value="${epic.content}">
 			<input type="submit" value="Add" class="btn btn-success btn-group-justified">
 		</form>
