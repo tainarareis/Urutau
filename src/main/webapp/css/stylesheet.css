@@ -115,3 +115,11 @@ body{
 .suboption {
 	margin-left: 20px;
 }
+
+.panel{
+	text-align: center;
+}
+
+.panel table{
+	text-align: left;
+}
