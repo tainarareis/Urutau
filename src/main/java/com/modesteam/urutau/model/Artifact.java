@@ -18,11 +18,6 @@ import javax.persistence.OneToOne;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Artifact {
-	
-	//List of constant artifact types
-	public enum ArtifactType{
-		EPIC, GENERIC, FEATURE, STORIE, USECASE;
-	}
 		
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

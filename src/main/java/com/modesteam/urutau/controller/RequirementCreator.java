@@ -23,7 +23,7 @@ import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.exception.ActionException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Artifact.ArtifactType;
+import com.modesteam.urutau.model.ArtifactType;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
