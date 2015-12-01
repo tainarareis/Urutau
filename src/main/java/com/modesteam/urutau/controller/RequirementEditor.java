@@ -12,7 +12,6 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
@@ -20,7 +19,6 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Artifact.ArtifactType;
-import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
@@ -58,21 +56,24 @@ public class RequirementEditor {
 	@Path("/edit/{requirementID}")
 	public void edit(Long requirementID) {
 		
-		logger.warn("Starting the function edit. The requirement id is: " + requirementID);
+		logger.trace("Starting the function edit. Requirement id is " + requirementID);
 		
-		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementID);
+		boolean requirementExistence = requirementService.verifyExistence(requirementID);
 		
-		//Verifies the acceptance of the requirement to proceed the requisition
+		// Verifies the acceptance of the requirement to proceed the requisition
 		if(requirementExistence) {
 			logger.info("The requirement exists in database");
+			
 			Artifact requirement = requirementService.detail(requirementID);
-			result.include("requirement", requirement);			
-			redirectToEditionPage(requirement, requirement.getArtifactType());
+			
+//			result.include("requirement", requirement);			
+			redirectToEditionPage(requirement, ArtifactType.EPIC);
 		} else {
 			logger.info("The requirement id informed is unknown.");
 			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
 					+ " edit an unknown requirement."));	
 		}
+		
 		validator.onErrorForwardTo(UserController.class).home();
 	}
 	
@@ -83,22 +84,24 @@ public class RequirementEditor {
 	 */
 	private void redirectToEditionPage(Artifact requirement, ArtifactType artifactType) {
 		logger.info("Starting the function redirectToEditionPage.");
+
+		logger.trace(requirement.toString());
 		
 		switch (artifactType) {
-		case GENERIC:
-			result.redirectTo(this).editGeneric((Generic) requirement);
-			break;
-		case EPIC:
-			logger.info("epic");
-			editEpic((Epic) requirement);
-			break;
-		case FEATURE:
-			result.redirectTo(this).editFeature((Feature) requirement);
-			break;
-		case STORIE:
-			result.redirectTo(this).editUserStory((Storie) requirement);
-		default:
-			break;
+			case GENERIC:
+				result.redirectTo(this).editGeneric((Generic) requirement);
+				break;
+			case EPIC:
+				result.include(requirement.toString(), requirement);
+				result.redirectTo(this).editEpic();
+				break;
+			case FEATURE:
+				result.redirectTo(this).editFeature((Feature) requirement);
+				break;
+			case STORIE:
+				result.redirectTo(this).editUserStory((Storie) requirement);
+			default:
+				break;
 		}
 		validator.onErrorForwardTo(UserController.class).home();
 	}
@@ -129,14 +132,9 @@ public class RequirementEditor {
 	
 	}
 	
-	@Put
-	public void editEpic(Epic epic) {
-		
-	}
-	
-	@Post
+	@Get
 	public void editEpic() {
-//		modifyRequirement(epic);
+		
 	}
 	
 	

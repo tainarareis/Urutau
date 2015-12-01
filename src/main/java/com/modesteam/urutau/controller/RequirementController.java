@@ -110,7 +110,7 @@ public class RequirementController {
 		
 		requirementService.excludeRequirement(id);
 		
-		boolean requirementExistence = requirementService.verifyRequirementExistence(id);
+		boolean requirementExistence = requirementService.verifyExistence(id);
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");

@@ -131,5 +131,10 @@ public abstract class Artifact {
 	public void setArtifactType(ArtifactType artifactType) {
 		this.artifactType = artifactType;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName().toLowerCase();
+	}
 
 }

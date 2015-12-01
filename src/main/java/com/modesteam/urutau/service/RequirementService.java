@@ -81,7 +81,7 @@ public class RequirementService {
 	 * @param requirementId
 	 * @return true if the requirement exists
 	 */
-	public boolean verifyRequirementExistence(long requirementId) {
+	public boolean verifyExistence(long requirementId) {
 		
 		logger.info("Verifying the requirement existence in database.");
 		
