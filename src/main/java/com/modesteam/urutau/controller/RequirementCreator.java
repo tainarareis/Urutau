@@ -23,6 +23,7 @@ import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.exception.ActionException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Artifact.ArtifactType;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
@@ -44,7 +45,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	// Error treatment
 	private static final String ERROR_FIELD = "errorField";
 	private static final String ERROR_MESSAGE = "Title should not be null.";
-	
+
 	//Objects to be injected
 	private final Result result;
 	private final Validator validator;
@@ -65,21 +66,25 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		
 	@Post
 	public void createGeneric(Generic generic) {
+		generic.setArtifactType(ArtifactType.GENERIC);
 		save(generic);
 	}
 	
 	@Post
 	public void createFeature(Feature feature) {
+		feature.setArtifactType(ArtifactType.FEATURE);
 		save(feature);
 	}
 	
 	@Post
 	public void createUserStory(Storie storie) {
+		storie.setArtifactType(ArtifactType.STORIE);
 		save(storie);
 	}
 
 	@Post
 	public void createEpic(Epic epic) {
+		epic.setArtifactType(ArtifactType.EPIC);
 		save(epic);
 	}
 	

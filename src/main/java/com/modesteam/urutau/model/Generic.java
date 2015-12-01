@@ -8,7 +8,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class Generic extends Artifact {
 	
 	public Generic () {
-		super.setArtifactType("Generic");
+		super.setArtifactType(ArtifactType.GENERIC);
 	}
 	
 }

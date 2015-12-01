@@ -20,7 +20,7 @@ public class UseCase extends Artifact {
 	private String fakeActors;
 
 	public UseCase () {
-		super.setArtifactType("UseCase");
+		super.setArtifactType(ArtifactType.USECASE);
 	}
 	
 	public List<Actor> getActors() {

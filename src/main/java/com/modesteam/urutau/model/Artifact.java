@@ -19,6 +19,11 @@ import javax.persistence.OneToOne;
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Artifact {
 	
+	//List of constant artifact types
+	public enum ArtifactType{
+		EPIC, GENERIC, FEATURE, STORIE, USECASE;
+	}
+		
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
@@ -28,7 +33,6 @@ public abstract class Artifact {
 	private User author;
 
 	@OneToOne(optional = true)
-	@JoinColumn(name="user_id")
 	private User lastModificationAuthor;
 	
 	/* Optional relationship */
@@ -46,7 +50,7 @@ public abstract class Artifact {
 	
 	private String title;
 	private String description;
-	private String artifactType;
+	private ArtifactType artifactType;
 	
 	public long getId() {
 		return id;
@@ -120,11 +124,11 @@ public abstract class Artifact {
 		this.lastModificationDate = lastModificationDate;
 	}
 
-	public String getArtifactType() {
+	public ArtifactType getArtifactType() {
 		return artifactType;
 	}
 
-	public void setArtifactType(String artifactType) {
+	public void setArtifactType(ArtifactType artifactType) {
 		this.artifactType = artifactType;
 	}
 

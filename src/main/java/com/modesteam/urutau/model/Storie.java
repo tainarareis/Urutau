@@ -18,7 +18,7 @@ public class Storie extends Artifact {
 	private List<AcceptanceCriteria> acceptanceCriteria;
 
 	public Storie () {
-		super.setArtifactType("Storie");
+		super.setArtifactType(ArtifactType.STORIE);
 	}
 	
 	public String getHistory() {

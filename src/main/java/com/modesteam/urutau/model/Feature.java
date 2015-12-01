@@ -13,7 +13,7 @@ public class Feature extends Artifact {
 
 	
 	public Feature () {
-		super.setArtifactType("Feature");
+		super.setArtifactType(ArtifactType.FEATURE);
 	}
 	
 	public String getContent() {

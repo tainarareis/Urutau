@@ -7,7 +7,7 @@ public class Epic extends Artifact {
 	private String content;
 
 	public Epic () {
-		super.setArtifactType("Epic");
+		super.setArtifactType(ArtifactType.EPIC);
 	}
 	
 	public String getContent() {

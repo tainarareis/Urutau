@@ -33,8 +33,6 @@ public class RequirementController {
 	
 	// Error categories 
 	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
-	private static final String REQUIREMENT_MODIFICATION_ERROR = "requirementModificationError";
-	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
 	
 	// Injected objects
 	private final Result result;
@@ -127,45 +125,8 @@ public class RequirementController {
 	
 	@Get
 	@Path("/editRequirement/{id}")
-	public Artifact requestRequirementEdition(Long requirementID) {
-		
-		logger.info("Starting the function requestRequirementEdition. The requirement id is: "+requirementID);
-		
-		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementID);
-		
-		//Verifies the acceptance of the requirement to proceed the requisition
-		if(requirementExistence) {
-			Artifact requirement = requirementService.detail(requirementID);
-			result.include("artifact", requirement);		
-			result.redirectTo(this).modifyRequirement(requirement);
-			return requirement;
-		} else {
-			logger.info("The requirement id informed is unknown.");
-			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
-					+ " edit an unknown requirement."));					
-			return null;			
-		}
-		
-	}
-	
-	/**
-	 * Allows the modification of an unique artifact
-	 * @param 
-	 * @return 
-	 */
-	@Post
-	public void modifyRequirement(Artifact requirement) {		
-		
-		boolean updateResult = requirementService.modifyRequirement(requirement);
-		
-		if(updateResult){
-			logger.info("The update was sucessfully executed.");
-		}else{
-			logger.info("The update wasn't sucessfully executed.");
-		}
-		
-		result.include("message", "Edition successfully executed.");
-	
+	public void editRequirement (Long id){
+		result.redirectTo(RequirementEditor.class).requestRequirementEdition(id);
 	}
 
 	@View
