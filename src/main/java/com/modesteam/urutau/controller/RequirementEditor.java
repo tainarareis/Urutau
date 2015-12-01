@@ -8,6 +8,15 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
+
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Artifact.ArtifactType;
@@ -18,15 +27,7 @@ import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
-import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
-import br.com.caelum.vraptor.validator.Validator;
-
 @Controller
-@Path("/requirementEditor")
 public class RequirementEditor {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
@@ -53,20 +54,20 @@ public class RequirementEditor {
 		this.requirementService = requirementService;
 	}
 	
-	
-	public void requestRequirementEdition(Long id) {
+	@Get
+	@Path("/edit/{requirementID}")
+	public void edit(Long requirementID) {
 		
-		logger.warn("Starting the function requestRequirementEdition. The requirement id is: "+id);
+		logger.warn("Starting the function edit. The requirement id is: " + requirementID);
 		
-		boolean requirementExistence = requirementService.verifyRequirementExistence(id);
+		boolean requirementExistence = requirementService.verifyRequirementExistence(requirementID);
 		
 		//Verifies the acceptance of the requirement to proceed the requisition
 		if(requirementExistence) {
 			logger.info("The requirement exists in database");
-			Artifact requirement = requirementService.detail(id);
+			Artifact requirement = requirementService.detail(requirementID);
 			result.include("requirement", requirement);			
-			result.redirectTo(this).redirectToEditionPage(requirement, requirement.getArtifactType());
-			
+			redirectToEditionPage(requirement, requirement.getArtifactType());
 		} else {
 			logger.info("The requirement id informed is unknown.");
 			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
@@ -89,7 +90,7 @@ public class RequirementEditor {
 			break;
 		case EPIC:
 			logger.info("epic");
-			result.redirectTo(this).editEpic((Epic) requirement);
+			editEpic((Epic) requirement);
 			break;
 		case FEATURE:
 			result.redirectTo(this).editFeature((Feature) requirement);
@@ -106,7 +107,6 @@ public class RequirementEditor {
 	 * Allows the modification of an unique requirement
 	 * @param requirement
 	 */
-	@Post
 	public void modifyRequirement(Artifact requirement) {		
 		logger.info("Starting the function modifyRequirement");
 		
@@ -125,26 +125,33 @@ public class RequirementEditor {
 		}
 		
 		result.include("message", "Edition successfully executed.");
+		result.redirectTo(UserController.class).home();
 	
 	}
 	
-	@Post
-	public void editEpic (Epic epic) {
-		modifyRequirement(epic);
+	@Put
+	public void editEpic(Epic epic) {
+		
 	}
 	
 	@Post
-	public void editFeature (Feature feature) {
+	public void editEpic() {
+//		modifyRequirement(epic);
+	}
+	
+	
+	@Post
+	public void editFeature(Feature feature) {
 		modifyRequirement(feature);
 	}
 	
 	@Post
-	public void editGeneric (Generic generic) {
+	public void editGeneric(Generic generic) {
 		modifyRequirement(generic);		
 	}
 	
 	@Post
-	public void editUserStory (Storie storie) {
+	public void editUserStory(Storie storie) {
 		modifyRequirement(storie);
 	}
 	

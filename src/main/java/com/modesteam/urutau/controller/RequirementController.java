@@ -122,12 +122,6 @@ public class RequirementController {
 		}
 		
 	}
-	
-	@Get
-	@Path("/editRequirement/{id}")
-	public void editRequirement (Long id){
-		result.redirectTo(RequirementEditor.class).requestRequirementEdition(id);
-	}
 
 	@View
 	public void detailRequirement() {

@@ -6,7 +6,7 @@
 <html>
 <body>
 	<div>
-		<table align=center class="table table-striped">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Title</th>
@@ -33,7 +33,7 @@
 			  				</a>
 			  			</td>
 			  			<td>
-			  				<a href="editRequirement/${requirement.id}" title="Edit">
+			  				<a href="edit/${requirement.id}" title="Edit">
 			  					<span class="glyphicon glyphicon-pencil"></span>
 			  				</a>
 			  			</td>

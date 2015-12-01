@@ -58,7 +58,7 @@
 <body>
 		<div class="row">	
 		<%@ include file="/WEB-INF/layouts/header.jspf" %>
-		<div class="navbar-default sidebar role="navigation">
+		<div class="navbar-default sidebar" role="navigation">
 		<div class="col-md-3">
         	<div class="sidebar-nav navbar-collapse">
             	<ul class="nav" id="side-menu">                         
@@ -98,7 +98,6 @@
 	        </ul>
         </div>
        </div>    
- 	</nav>
  	</div>
         <div class="col-md-8">
         	<div class="create create-requirement panel panel-default">
