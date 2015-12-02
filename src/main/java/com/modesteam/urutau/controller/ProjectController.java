@@ -79,10 +79,8 @@ public class ProjectController {
 			logger.debug("The title is null!");
 			
 			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR,"The title cant be empty!"));
-			validator.onErrorRedirectTo(UserController.class).projectManager();
-		
+			
 		} else {
-		
 			Date currentDate = new Date();
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(currentDate);
@@ -95,7 +93,7 @@ public class ProjectController {
 			logger.info("Requesting for project service");
 			projectService.save(project);
 		}
-		
+		validator.onErrorRedirectTo(UserController.class).projectManager();
 		result.redirectTo(UserController.class).projectManager();
 		
 	}
@@ -108,19 +106,19 @@ public class ProjectController {
 		
 		logger.info("The project with id " +id+" was solicitated for exclusion");
 		
-		projectService.excludeProject(id);
-		
 		boolean projectExist = projectService.verifyProjectExistence(id);
 		
 		if(!projectExist) {
-			logger.info("The project was succesfully excluded.");
-			result.redirectTo(UserController.class).home();
+			logger.info("The project already deleted or inexistent!");
+			validator.add(new SimpleMessage(PROJECT_EXCLUSION_ERROR, "Project already excluded!"));	
 		} else {
-			logger.info("The project wasn't excluded yet.");
-			validator.add(new SimpleMessage(PROJECT_EXCLUSION_ERROR, "Project was not excluded!"));	
-			result.redirectTo(UserController.class).home();
+			
+			logger.info("The project will be deleted");
+			projectService.excludeProject(id);
 		}
+			validator.onErrorRedirectTo(UserController.class).projectManager();
 	}
+			
 	
 	/**
 	 * Show the projects that has a certain id and title 

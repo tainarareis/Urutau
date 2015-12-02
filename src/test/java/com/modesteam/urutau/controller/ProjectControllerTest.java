@@ -87,12 +87,21 @@ public class ProjectControllerTest {
 	public void deleteValidProject(){
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 
-		Project project = projectBuilder.id(1L).title("Example Invalid")
-				.description("test unit").builProject();
- 
-		mockAdd(project);
+		mockExistence(1L, true);
+		mockRemove(1L);
+		EasyMock.replay(mockService);
 		PowerMock.replayAll();
 		
+		
+		ProjectController controllerMock = 
+				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+		controllerMock.deleteProject(1L);
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void deleteInvalidProject(){
+		
+		mockExistence(1L, false);
 		mockRemove(1L);
 		
 		ProjectController controllerMock = 
@@ -108,6 +117,10 @@ public class ProjectControllerTest {
 	private void mockRemove(Long id) {
 		mockService.excludeProject(id);
 		EasyMock.expectLastCall();
+	}
+	
+	private void mockExistence(Long id, boolean returnValue) {
+		EasyMock.expect(mockService.verifyProjectExistence(id)).andReturn(returnValue);
 	}
 
 }
