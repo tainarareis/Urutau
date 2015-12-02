@@ -18,8 +18,10 @@ import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.ProjectService;
 
+import br.com.caelum.vraptor.VRaptorException;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
 
 public class ProjectControllerTest {
 	
@@ -55,7 +57,22 @@ public class ProjectControllerTest {
 	public void createValidProject(){
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 
-		Project project = projectBuilder.id(1L).title("Example")
+		Project project = projectBuilder.id(1L).title("Example Valid")
+				.description("test unit").builProject();
+ 
+		mockAdd(project);
+		PowerMock.replayAll();
+		ProjectController controllerMock = 
+				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+		controllerMock.createProject(project);
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void createInvalidProject(){
+		
+		ProjectBuilder projectBuilder = new ProjectBuilder();
+
+		Project project = projectBuilder.id(1L).title(null)
 				.description("test unit").builProject();
  
 		mockAdd(project);
@@ -70,12 +87,21 @@ public class ProjectControllerTest {
 	public void deleteValidProject(){
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 
-		Project project = projectBuilder.id(1L).title("Example")
-				.description("test unit").builProject();
- 
-		mockAdd(project);
+		mockExistence(1L, true);
+		mockRemove(1L);
+		EasyMock.replay(mockService);
 		PowerMock.replayAll();
 		
+		
+		ProjectController controllerMock = 
+				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+		controllerMock.deleteProject(1L);
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void deleteInvalidProject(){
+		
+		mockExistence(1L, false);
 		mockRemove(1L);
 		
 		ProjectController controllerMock = 
@@ -91,6 +117,10 @@ public class ProjectControllerTest {
 	private void mockRemove(Long id) {
 		mockService.excludeProject(id);
 		EasyMock.expectLastCall();
+	}
+	
+	private void mockExistence(Long id, boolean returnValue) {
+		EasyMock.expect(mockService.verifyProjectExistence(id)).andReturn(returnValue);
 	}
 
 }
