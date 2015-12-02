@@ -43,8 +43,6 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
 	
-	// Error treatment
-	private static final String ERROR_FIELD = "errorField";
 	private static final String ERROR_MESSAGE = "Title should not be null.";
 
 	//Objects to be injected
@@ -130,7 +128,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		} else if(requirement.getTitle() == null) {
 			logger.debug("Title or description are wrong!");
 			
-			validator.add(new SimpleMessage(ERROR_FIELD, ERROR_MESSAGE));
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), ERROR_MESSAGE));
 		}
 		
     	validator.onErrorUsePageOf(UserController.class).home();
@@ -147,7 +145,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		if(useCase.getFakeActors() != null) { //Main flow 
 			useCase = setUseCaseActors(useCase);
 		} else { //Alternative flow
-			validator.add(new SimpleMessage(ERROR_FIELD, "Use case needs at least one author"));
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), 
+					"Use case needs at least one author"));
 		}
 		
     	validator.onErrorUsePageOf(UserController.class).home();

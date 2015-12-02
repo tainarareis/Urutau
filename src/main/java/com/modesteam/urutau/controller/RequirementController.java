@@ -19,6 +19,7 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.RequirementService;
 
 /**
@@ -30,9 +31,6 @@ import com.modesteam.urutau.service.RequirementService;
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
-	
-	// Error categories 
-	private static final String REQUIREMENT_EXCLUSION_ERROR = "requirementExclusionError";
 	
 	// Injected objects
 	private final Result result;
@@ -117,7 +115,8 @@ public class RequirementController {
 			result.redirectTo(UserController.class).home();
 		} else {
 			logger.info("The requirement wasn't excluded yet.");
-			validator.add(new SimpleMessage(REQUIREMENT_EXCLUSION_ERROR, "Requirement was not excluded!"));	
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), 
+					"Requirement was not excluded!"));	
 			result.redirectTo(UserController.class).home();
 		}
 		
