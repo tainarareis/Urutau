@@ -18,7 +18,7 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Artifact.ArtifactType;
+import com.modesteam.urutau.model.ArtifactType;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
@@ -52,6 +52,11 @@ public class RequirementEditor {
 		this.requirementService = requirementService;
 	}
 	
+	/**
+	 * Called when anyone wants edit an requirement
+	 * 
+	 * @param requirementID identifier of requirement to edit
+	 */
 	@Get
 	@Path("/edit/{requirementID}")
 	public void edit(Long requirementID) {
@@ -66,8 +71,7 @@ public class RequirementEditor {
 			
 			Artifact requirement = requirementService.detail(requirementID);
 			
-//			result.include("requirement", requirement);			
-			redirectToEditionPage(requirement, ArtifactType.EPIC);
+			redirectToEditionPage(requirement, requirement.getArtifactType());
 		} else {
 			logger.info("The requirement id informed is unknown.");
 			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
@@ -79,6 +83,7 @@ public class RequirementEditor {
 	
 	/**
 	 * Provides the redirecting to the requirement type edition page.
+	 * 
 	 * @param requirement
 	 * @param artifactType
 	 */
@@ -87,20 +92,27 @@ public class RequirementEditor {
 
 		logger.trace(requirement.toString());
 		
+
+		result.include(requirement.toString(), requirement);
+		
 		switch (artifactType) {
 			case GENERIC:
-				result.redirectTo(this).editGeneric((Generic) requirement);
+				result.redirectTo(this).editGeneric();
 				break;
 			case EPIC:
-				result.include(requirement.toString(), requirement);
 				result.redirectTo(this).editEpic();
 				break;
 			case FEATURE:
-				result.redirectTo(this).editFeature((Feature) requirement);
+				result.redirectTo(this).editFeature();
 				break;
 			case STORIE:
-				result.redirectTo(this).editUserStory((Storie) requirement);
+				result.redirectTo(this).editUserStory();
+				break;
+			case USECASE:
+				result.redirectTo(this).editUseCase();
+				break;
 			default:
+				result.redirectTo(UserController.class).home();
 				break;
 		}
 		validator.onErrorForwardTo(UserController.class).home();
@@ -121,15 +133,13 @@ public class RequirementEditor {
 		
 		boolean updateResult = requirementService.modifyRequirement(requirement);		
 		
-		if(updateResult){
+		if(updateResult) {
 			logger.info("The update was sucessfully executed.");
-		}else{
+		} else {
 			logger.info("The update wasn't sucessfully executed.");
 		}
 		
-		result.include("message", "Edition successfully executed.");
 		result.redirectTo(UserController.class).home();
-	
 	}
 	
 	@Get
@@ -137,20 +147,36 @@ public class RequirementEditor {
 		
 	}
 	
+	@Get
+	public void editGeneric() {
+		
+	}
+	
+	@Get
+	public void editFeature() {
+		
+	}
+	
+	@Get
+	public void editUseCase() {
+		
+	}
+	
+	@Get
+	public void editUserStory() {
+		
+	}
 	
 	@Post
 	public void editFeature(Feature feature) {
-		modifyRequirement(feature);
 	}
 	
 	@Post
 	public void editGeneric(Generic generic) {
-		modifyRequirement(generic);		
 	}
 	
 	@Post
 	public void editUserStory(Storie storie) {
-		modifyRequirement(storie);
 	}
 	
 	/**

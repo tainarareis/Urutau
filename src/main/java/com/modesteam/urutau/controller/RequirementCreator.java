@@ -30,6 +30,7 @@ import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.FieldMessage;
 
 /**
  * This is an concrete implementation of {@link EntityCreator}, part of pattern abstract factory 
@@ -109,7 +110,9 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		logger.info("Requesting persistence of requirement...");
 		
 		create(requirement);
-		result.include("message", "Requirement succesfully registered.");
+		
+		result.include(FieldMessage.SUCCESS.toString(), "Requirement succesfully registered.");
+		result.nothing();
 	}
 	
 	/**
