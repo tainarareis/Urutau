@@ -50,7 +50,7 @@ public class ProjectController {
 	/*
 	 * CDI needs this
 	 */
-	public ProjectController(){
+	public ProjectController() {
 		this(null,null,null,null);
 	}
 	
@@ -70,13 +70,16 @@ public class ProjectController {
 	 * @param project
 	 */
 	@Post("/createProject")
-	public void createProject(Project project){
+	public void createProject(Project project) {
 		
 		logger.info("Project will be persisted: " + project.getTitle());
 		
-		if(project.getTitle() == null){
+		if(project.getTitle() == null) {
+			
+			logger.debug("The title is null!");
 			
 			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR,"The title cant be empty!"));
+			validator.onErrorRedirectTo(UserController.class).projectManager();
 		
 		} else {
 		
@@ -101,7 +104,7 @@ public class ProjectController {
 	 * @param id
 	 */
 	@Post
-	public void deleteProject(long id){
+	public void deleteProject(long id) {
 		
 		logger.info("The project with id " +id+" was solicitated for exclusion");
 		
@@ -109,7 +112,7 @@ public class ProjectController {
 		
 		boolean projectExist = projectService.verifyProjectExistence(id);
 		
-		if(!projectExist){
+		if(!projectExist) {
 			logger.info("The project was succesfully excluded.");
 			result.redirectTo(UserController.class).home();
 		} else {
@@ -131,7 +134,7 @@ public class ProjectController {
 	 */
 	@Get
 	@Path("/{id}/{title}")
-	public Project show(int id, String title) throws UnsupportedEncodingException{
+	public Project show(int id, String title) throws UnsupportedEncodingException {
 		title = URLDecoder.decode(title, "utf-8");
 		
 		logger.info("Show project " + title);
@@ -142,7 +145,7 @@ public class ProjectController {
 	}
 	
 	@Post
-	public void detailProject(){
+	public void detailProject() {
 		
 	}
 	
