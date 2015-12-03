@@ -1,0 +1,100 @@
+@import url(https://fonts.googleapis.com/css?family=Signika);
+
+header {
+	text-align: center;
+	color: #FFF;
+	background-attachment: scroll;
+	background: -webkit-radial-gradient(#CC6600, green, blue);
+	/* Safari 5.1 to 6.0 */
+	background: -o-radial-gradient(red, green, blue);
+	/* For Opera 11.6 to 12.0 */
+	background: -moz-radial-gradient(red, green, blue);
+	/* For Firefox 3.6 to 15 */
+	background: radial-gradient(#FFFF99, #FFCC00);
+	background-position: center center;
+	background-repeat: none;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+}
+
+header .intro-text .intro-lead-in {
+	margin-bottom: 25px;
+	font-family: 'Signika', sans-serif;
+	font-size: 42px;
+	line-height: 50px;
+	color: #2E2E2E;
+}
+
+@media ( min-width :768px) {
+	header .intro-text {
+		padding-top: 100px;
+		padding-bottom: 250px;
+	}
+}
+
+section {
+	padding: 50px 0;
+}
+
+section h2.section-heading {
+	margin-top: 0;
+	margin-bottom: 15px;
+	font-size: 40px;
+}
+
+section h3.section-subheading {
+	margin-bottom: 75px;
+	text-transform: none;
+	font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial,
+		sans-serif;
+	font-size: 16px;
+	font-style: italic;
+	font-weight: 400;
+}
+
+.btn-xl {
+	padding: 20px 40px;
+	border-color: #199EFF;
+	border-radius: 3px;
+	text-transform: uppercase;
+	font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 700;
+	color: #fff;
+	background-color: #199EFF;
+}
+
+.btn-xl:hover, .btn-xl:focus, .btn-xl:active, .btn-xl.active, .open .dropdown-toggle.btn-xl
+	{
+	border-color: #f6bf01;
+	color: #fff;
+	background-color: #fec503;
+}
+
+.btn-xl:active, .btn-xl.active, .open .dropdown-toggle.btn-xl {
+	background-image: none;
+}
+
+.btn-xl.disabled, .btn-xl[disabled], fieldset[disabled] .btn-xl, .btn-xl.disabled:hover,
+	.btn-xl[disabled]:hover, fieldset[disabled] .btn-xl:hover, .btn-xl.disabled:focus,
+	.btn-xl[disabled]:focus, fieldset[disabled] .btn-xl:focus, .btn-xl.disabled:active,
+	.btn-xl[disabled]:active, fieldset[disabled] .btn-xl:active, .btn-xl.disabled.active,
+	.btn-xl[disabled].active, fieldset[disabled] .btn-xl.active {
+	border-color: #199EFF;
+	background-color: #199EFF;
+}
+
+.btn-xl .badge {
+	color: #199EFF;
+	background-color: #fff;
+}
+
+.home-section {
+	margin-bottom: 100px;
+}
+
+#contact {
+	background-color: #BDBDBD;
+}
