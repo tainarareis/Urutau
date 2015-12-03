@@ -110,7 +110,7 @@ public class RequirementControllerTest {
 		RequirementController controller = new RequirementController(mockResult,
 				mockService, mockValidator);
 		
-		controller.showAllRequirements();
+		controller.showAll();
 	}
 	
 	public void showAllRequirements() {

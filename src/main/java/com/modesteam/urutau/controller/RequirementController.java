@@ -74,7 +74,7 @@ public class RequirementController {
 	}
 	
 	@Get("/showAll")
-	public List<? extends Artifact> showAllRequirements() {		
+	public List<? extends Artifact> showAll() {		
 		logger.info("Starting the requisition for all requirements");
 		
 		List<? extends Artifact> requirements  = requirementService.loadAllRequirements();

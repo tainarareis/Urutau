@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,23 +34,14 @@
 			$(".create-requirement").hide("slow");;
 		});
 		
-		$("#list-link").click(function(){
-			var listOfItems = $("#item-list");
-			
-			if(listOfItems.is(":empty")) {
-				$.ajax({
-				     url:"showAll",
-				     type:"GET",
-				     success:function(result){
-				        listOfItems.html(result);
-				     }
-				});
-				
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-up"></span>');
-			} else {
-				listOfItems.empty();
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-down"></span>');
-			}
+		var requirements = $(".requirements");
+		
+		$.ajax({
+		     url:"showAll",
+		     type:"GET",
+		     success:function(result){
+		    	 requirements.html(result);
+		     }
 		});
 	});
 </script>
@@ -93,8 +85,11 @@
 		                </ul>
 			             </li>
 			             <li>
-			             	<a href="#" class="header-option">More options</a>
-			             </li>            
+			             	<a href="#" class="header-option">Settings</a>
+			             </li>
+			             <li>
+			             	<a href="#" class="header-option">Activity</a>
+			             </li>
 			        </ul>
 		        </div>
 	       	</div>    
@@ -118,11 +113,8 @@
 		   				<i class="glyphicon glyphicon-list"></i> List of requirements 
 		   			</h1>
 				</div>
-				<div class="panel-body">
-					<a href="#" id="list-link">
-						<span class="glyphicon glyphicon-chevron-down"></span>
-					</a>
-					<div id="item-list"></div>
+				<div class="panel-body requirements">
+					
 				</div>
 			</div>
       	</div>
