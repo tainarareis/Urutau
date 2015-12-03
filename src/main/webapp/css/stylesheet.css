@@ -4,6 +4,13 @@ body{
   min-height: 600px;
 }
 
+/*
+* Into index it is overwrite
+*/
+header {
+	padding-bottom: 100px;
+}
+
 .container {
 	text-align: center;
 }
