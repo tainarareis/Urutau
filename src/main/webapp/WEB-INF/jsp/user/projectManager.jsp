@@ -21,75 +21,57 @@
 
 
 <script type="text/javascript">
-	// when page load
+	// when page loads
 	$(document).ready(function(){
 		
 		$(".link-frame").click(function() {
 			$(".create-project").show("slow");
 		});
 		
-		$("#cancel-create-req").click(function() {
+		$("#cancel-create-project").click(function() {
 			$(".create-project").hide("slow");;
 		});
 		
-		$("#list-link").click(function(){
-			var listOfItems = $("#item-list");
-			
-			if(listOfItems.is(":empty")) {
-				$.ajax({
-				     url:"showAll",
-				     type:"GET",
-				     success:function(result){
-				        listOfItems.html(result);
-				     }
-				});
-				
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-up"></span>');
-			} else {
-				listOfItems.empty();
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-down"></span>');
-			}
-		});
 	});
 </script>
-
 </head>
 
-
 <body>
-	<%@ include file="/WEB-INF/layouts/header.jspf" %>
-	<div class="container">
-		<div class="collapse navbar-collapse navbar-ex1-collapse column-menu col-md-4 ">
-	        <button class="btn btn-default link-frame">New project</button>         
-        </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-6">
+
+	<div class="row">	
+		<%@ include file="/WEB-INF/layouts/header.jspf" %>
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="col-md-3">
+	        	<div class="sidebar-nav navbar-collapse">
+	            	<ul class="nav" id="side-menu">                         
+	               	   <li>
+	                        <a href="<c:url value="/project/createProject"/>" target="frame-project" class="link-frame">
+	                        	Create project
+	                        </a>
+	                    </li>
+	                    <c:forEach items="${projects}" var="project">
+						<li> 
+							${project.title}
+						</li>
+						</c:forEach>	        	   
+			     	</ul>
+			     </div>
+			</div>
+		</div>
+		<div class="col-md-8">
         	<div class="create create-project panel panel-default">
         		<div class="panel-heading">
         			<h2 class="panel-title">
-        				<i class="glyphicon glyphicon-plus"></i> New project 
+        				<i class="glyphicon glyphicon-plus"></i> Create Project 
         			</h2>
         		</div>
-		           <form action="createProject" method="POST">
-						<input name="project.title" placeholder="Title" type="text" class="form-control">
-						<br/>
-						<select class="form-control">
-							<option value="0" selected="selected">Processo de desenvolvimento</option>
-							<option value="1">Scrum</option>
-							<option value="2">Processo Unificado</option>
-							<option value="3">Generic</option>
-						</select>
-						<br/>
-						<input name="project.description" placeholder="Description" type="text" class="form-control">
-						<br/> 
-						<input type="submit" value="Add" class="btn btn-success btn-group-justified">
-					</form>
+	            <iframe src="" name="frame-project" width="100%" height="100%"></iframe>
 	            <br/>
-  				<div class="panel-footer">
+	            <div class="panel-footer">
 					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>	
 </body>
 </html>

@@ -147,6 +147,10 @@ public class ProjectController {
 		
 	}
 	
+	@View
+	public void createProject() {
+		
+	}
 	
 	@View
 	public void showCreationResult() {

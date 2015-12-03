@@ -57,32 +57,32 @@
 		            	<li>
 		                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
 		                	<ul id="demo" class="collapse list-unstyled suboption">
-		                    <li>
-		                        <a href="<c:url value="/requirement/generic"/>" target="frame-req" class="link-frame">
-		                        	Generic Requirement
-		                        </a>
-		                    </li>
-		                    <li>
-		                        <a href="<c:url value="/requirement/storie"/>" target="frame-req" class="link-frame">
-		                        	User Story
-		                        </a>
-		                    </li>
-		                    <li>
-		                        <a href="<c:url value="/requirement/feature"/>" target="frame-req" class="link-frame">
-		                        	Feature
-		                        </a>
-		                    </li>
-		                    <li>
-		                       <a href="<c:url value="/requirement/epic"/>" target="frame-req" class="link-frame">
-		                       		Epic
-		                       	</a>
-		                    </li>
-		                    <li>
-		                        <a href="<c:url value="/requirement/useCase"/>" target="frame-req" class="link-frame">
-		                        	Use Case
-		                        </a>
-		                    </li>                                                      
-		                </ul>
+			                    <li>
+			                        <a href="<c:url value="/requirement/generic"/>" target="frame-req" class="link-frame">
+			                        	Generic Requirement
+			                        </a>
+			                    </li>
+			                    <li>
+			                        <a href="<c:url value="/requirement/storie"/>" target="frame-req" class="link-frame">
+			                        	User Story
+			                        </a>
+			                    </li>
+			                    <li>
+			                        <a href="<c:url value="/requirement/feature"/>" target="frame-req" class="link-frame">
+			                        	Feature
+			                        </a>
+			                    </li>
+			                    <li>
+			                       <a href="<c:url value="/requirement/epic"/>" target="frame-req" class="link-frame">
+			                       		Epic
+			                       	</a>
+			                    </li>
+			                    <li>
+			                        <a href="<c:url value="/requirement/useCase"/>" target="frame-req" class="link-frame">
+			                        	Use Case
+			                        </a>
+			                    </li>                                                      
+		                	</ul>
 			             </li>
 			             <li>
 			             	<a href="#" class="header-option">Settings</a>
