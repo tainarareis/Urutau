@@ -10,6 +10,8 @@
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
+<link href="<c:url value='/css/sb-admin.css'/>" rel="stylesheet">
+
 <!-- Bootstrap min css -->
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
@@ -19,7 +21,7 @@
 <!-- Bootstrap Core -->
 <script src="<c:url value='/js/bootstrap.min.js'/>"></script>
 
-
+<script type="text/javascript">
 <script type="text/javascript">
 	// when page loads
 	$(document).ready(function(){
@@ -32,6 +34,24 @@
 			$(".create-project").hide("slow");;
 		});
 		
+		$("#list-link").click(function(){
+			var listOfItems = $("#item-list");
+			
+			if(listOfItems.is(":empty")) {
+				$.ajax({
+				     url:"/project/showAll",
+				     type:"GET",
+				     success:function(result){
+				        listOfItems.html(result);
+				     }
+				});
+				
+				$("#list-link").html('<span class="glyphicon glyphicon-chevron-up"></span>');
+			} else {
+				listOfItems.empty();
+				$("#list-link").html('<span class="glyphicon glyphicon-chevron-down"></span>');
+			}
+		});
 	});
 </script>
 </head>
@@ -49,11 +69,12 @@
 	                        	Create project
 	                        </a>
 	                    </li>
-	                    <c:forEach items="${projects}" var="project">
-						<li> 
-							${project.title}
-						</li>
-						</c:forEach>	        	   
+	                    <li>
+	                    	<a href="" id="list-link">
+								Choose a project
+							</a>
+							<div id="item-list"></div>
+	                    </li>	                	                       	   
 			     	</ul>
 			     </div>
 			</div>
@@ -68,7 +89,7 @@
 	            <iframe src="" name="frame-project" width="100%" height="100%"></iframe>
 	            <br/>
 	            <div class="panel-footer">
-					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
+					<button id="cancel-create-project" class="btn btn-warning">Cancel</button>
 				</div>
 			</div>
 		</div>

@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -140,6 +141,22 @@ public class ProjectController {
 		Project project = projectService.detail(id);
 		
 		return project;
+	}
+	
+	/**
+	 * Gives all the existent projects in database.
+	 * @return projects
+	 */
+	@Get
+	@Path("/project/showAll")
+	public List<? extends Project> showAll() {		
+		logger.info("Function showAll");
+		
+		List<? extends Project> projects = projectService.loadAll();
+		
+		result.include("projects", projects);
+		
+		return projects;
 	}
 	
 	@Post
