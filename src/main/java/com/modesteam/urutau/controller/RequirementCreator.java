@@ -119,7 +119,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	 * @param requirement to be persisted
 	 */
 	@Override
-	protected void validate(Artifact requirement) {
+	public void validate(Artifact requirement) {
 		logger.info("Apply basic validate in requirement");
 				
 		if(userSession.getUserLogged() == null) {
