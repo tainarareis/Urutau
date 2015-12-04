@@ -133,6 +133,7 @@ public class RequirementEditor {
 		
 		boolean updateResult = requirementService.modifyRequirement(requirement);		
 		
+		
 		if(updateResult) {
 			logger.info("The update was sucessfully executed.");
 		} else {

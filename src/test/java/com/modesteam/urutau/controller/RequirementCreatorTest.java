@@ -133,6 +133,9 @@ public class RequirementCreatorTest {
 		controllerMock.createUseCase(useCase);
 	}
 	
+	/**
+	 * Verifies if a requirement with invalid actors can be saved
+	 */
 	@Test(expected=ValidationException.class)
 	public void createInvalidUseCasePassingActor() {
 		ArtifactBuilder builderUseCase = new ArtifactBuilder();
@@ -155,6 +158,9 @@ public class RequirementCreatorTest {
 		controllerMock.createUseCase(useCase);
 	}
 	
+	/**
+	 * Verifies if a requirement with an invalid user can be created.
+	 */
 	@Test(expected=ActionException.class)
 	public void testWithInvalidUser() {
 		ArtifactBuilder builder = new ArtifactBuilder();
@@ -181,6 +187,9 @@ public class RequirementCreatorTest {
 		controllerMock.createGeneric(generic);
 	}
 	
+	/**
+	 * Verifies if a requirement without an obligatory attribute can be created.
+	 */
 	@Test(expected=ValidationException.class)
 	public void testWithoutTitle() {
 		ArtifactBuilder builder = new ArtifactBuilder();
@@ -216,6 +225,10 @@ public class RequirementCreatorTest {
 
 	}
 
+	/**
+	 * Mocks DAO create method
+	 * @param artifact
+	 */
 	private void mockAdd(Artifact artifact) {
 		mockDAO.create(artifact);
 		EasyMock.expectLastCall();

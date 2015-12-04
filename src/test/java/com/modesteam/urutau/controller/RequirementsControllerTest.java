@@ -25,7 +25,7 @@ public class RequirementsControllerTest {
 		// Mocks supported by vraptor
 		mockResult = new MockResult();
 		mockValidator = new MockValidator();
-				
+  		
 		// System's components
 		mockArtifactService = EasyMock.createMock(RequirementService.class);		
 	}
