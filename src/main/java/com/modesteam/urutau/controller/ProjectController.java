@@ -2,6 +2,7 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -20,8 +22,10 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.Metodology;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.ProjectService;
 
 /**
@@ -34,10 +38,6 @@ import com.modesteam.urutau.service.ProjectService;
 public class ProjectController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
-	
-	private static final String NULL_INFORMATION_ERROR = "nullInformationError";
-	private static final String PROJECT_EXCLUSION_ERROR = "projectModificationError";
-	
 	
 	private final Result result;
 	
@@ -70,7 +70,7 @@ public class ProjectController {
 	 *  
 	 * @param project
 	 */
-	@Post("/createProject")
+	@Post
 	public void createProject(Project project) {
 		
 		logger.info("Project will be persisted: " + project.getTitle());
@@ -79,8 +79,8 @@ public class ProjectController {
 			
 			logger.debug("The title is null!");
 			
-			validator.add(new SimpleMessage(NULL_INFORMATION_ERROR,"The title cant be empty!"));
-			
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(),
+					"The title cant be empty!"));
 		} else {
 			Date currentDate = new Date();
 			Calendar calendar = Calendar.getInstance();
@@ -91,13 +91,30 @@ public class ProjectController {
 			User logged = userSession.getUserLogged();
 			project.setAuthor(logged);
 			
-			logger.info("Requesting for project service");
+			logger.info("Trying save project...");
+			
 			projectService.save(project);
 		}
-		validator.onErrorRedirectTo(UserController.class).projectManager();
-		result.redirectTo(UserController.class).projectManager();
 		
+		validator.onErrorRedirectTo(ProjectController.class).index();
+		result.nothing();
 	}
+	
+	/**
+	 * Load an list of metodology to show in an select field.
+	 * Result will include {@link List} of metodology's names
+	 */
+	@Get
+	public void createProject() {
+		List<String> metodologies = new ArrayList<String>();
+		
+		for(Metodology metodology : Metodology.values()){
+			metodologies.add(metodology.getName());
+		}
+		
+		result.include("metodologies", metodologies); 
+	}
+	
 	/**
 	 * Method for delete only one project 
 	 * @param id
@@ -111,13 +128,13 @@ public class ProjectController {
 		
 		if(!projectExist) {
 			logger.info("The project already deleted or inexistent!");
-			validator.add(new SimpleMessage(PROJECT_EXCLUSION_ERROR, "Project already excluded!"));	
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Project already excluded!"));	
 		} else {
 			
 			logger.info("The project will be deleted");
 			projectService.excludeProject(id);
 		}
-			validator.onErrorRedirectTo(UserController.class).projectManager();
+			validator.onErrorRedirectTo(ProjectController.class).index();
 	}
 			
 	
@@ -165,13 +182,17 @@ public class ProjectController {
 	}
 	
 	@View
-	public void createProject() {
-		
-	}
-	
-	@View
 	public void showCreationResult() {
 		
 	}
-
+	
+	/**
+	 * Load only if user is logged
+	 * 
+	 */
+	@View
+	@Path(value = "/", priority=Path.HIGH)
+	public void index() {
+		
+	}
 }

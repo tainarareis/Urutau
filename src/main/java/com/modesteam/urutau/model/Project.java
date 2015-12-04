@@ -11,21 +11,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 
 @Entity
 public class Project {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	private String title;
 	private String description;
-	
+	private String metodology;
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User author;
 
 	/* Artifact can be delegated to one or more persons */
@@ -56,6 +55,14 @@ public class Project {
 		return description;
 	}
 
+	public String getMetodology() {
+		return metodology;
+	}
+
+	public void setMetodology(String metodology) {
+		this.metodology = metodology;
+	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -83,5 +90,5 @@ public class Project {
 	public void setDateOfCreation(Calendar dateOfCreation) {
 		this.dateOfCreation = dateOfCreation;
 	}
-	
+
 }

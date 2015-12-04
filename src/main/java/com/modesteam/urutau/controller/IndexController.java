@@ -21,10 +21,10 @@ public class IndexController {
 	@Inject
 	private Result result;
 	
-	@Path("/")
+	@Path(value = "/", priority=Path.HIGHEST)
 	public void index() {
 		if(userSession.isLogged()) {
-			result.forwardTo(UserController.class).home();
+			result.forwardTo(ProjectController.class).index();
 		} else {
 			// redirect to real index
 		}

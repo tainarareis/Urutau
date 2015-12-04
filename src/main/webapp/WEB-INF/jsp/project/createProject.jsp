@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +18,15 @@
 		<form action="createProject" method="POST">
 			<input name="project.title" placeholder="Title" type="text" class="form-control">
 			<br/>
-			<select class="form-control">
-				<option value="0" selected="selected">Development Processs</option>
-				<option value="Scrum">Scrum</option>
-				<option value="Rational Unified Process">Rational Unified Process</option>
-				<option value="Generic">Generic</option>
+			<select class="form-control" name="project.metodology">
+				<c:forEach items="${metodologies}" var="metodology">
+					<c:if test="${metodology == 'Generic'}">
+						<option value="${metodology}" selected="selected">${metodology}</option>
+					</c:if>
+					<c:if test="${metodology != 'Generic'}">
+						<option value="${metodology}">${metodology}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 			<br/>
 			<input name="project.description" placeholder="Description" type="text" class="form-control">
