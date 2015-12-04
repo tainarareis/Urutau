@@ -26,32 +26,6 @@
 	// when page loads
 	$(document).ready(function(){
 		
-		$(".link-frame").click(function() {
-			$(".create-project").show("slow");
-		});
-		
-		$("#cancel-create-project").click(function() {
-			$(".create-project").hide("slow");;
-		});
-		
-		$("#list-link").click(function(){
-			var listOfItems = $("#item-list");
-			
-			if(listOfItems.is(":empty")) {
-				$.ajax({
-				     url:"/project/showAll",
-				     type:"GET",
-				     success:function(result){
-				        listOfItems.html(result);
-				     }
-				});
-				
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-up"></span>');
-			} else {
-				listOfItems.empty();
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-down"></span>');
-			}
-		});
 	});
 </script>
 </head>
@@ -63,18 +37,25 @@
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="col-md-3">
 	        	<div class="sidebar-nav navbar-collapse">
-	            	<ul class="nav" id="side-menu">                         
+	            	<ul class="nav" id="side-menu">
 	               	   <li>
 	                        <a href="<c:url value="/project/createProject"/>" target="frame-project" class="link-frame">
 	                        	Create project
 	                        </a>
 	                    </li>
 	                    <li>
-	                    	<a href="" id="list-link">
-								Choose a project
-							</a>
-							<div id="item-list"></div>
-	                    </li>	                	                       	   
+                    		<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
+                    		
+							<ul id="demo" class="collapse list-unstyled suboption">
+								<c:forEach items="${projectTitles}" var="title">
+				                    <li>
+				                        <a href="">
+				                        	${title}
+				                        </a>
+				                    </li>
+			                    </c:forEach>                                
+		                	</ul>
+	                    </li>                       	   
 			     	</ul>
 			     </div>
 			</div>

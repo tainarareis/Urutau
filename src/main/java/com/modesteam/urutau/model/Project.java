@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Project {
@@ -22,14 +24,18 @@ public class Project {
 	private String title;
 	private String description;
 	private String metodology;
+	
+	@OneToMany
+	private List<Artifact> requirements;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User author;
 
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany
-	@JoinTable(name = "Project_Delegates", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "Project_Delegates", joinColumns = @JoinColumn(name = "project_id"), 
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> members;
 
 	/* Should be generate automatically */
@@ -91,4 +97,11 @@ public class Project {
 		this.dateOfCreation = dateOfCreation;
 	}
 
+	public List<Artifact> getRequirements() {
+		return requirements;
+	}
+
+	public void setRequirements(List<Artifact> requirements) {
+		this.requirements = requirements;
+	}
 }

@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -55,7 +56,8 @@ public class User {
 	private int confirmed = 0;
 	@ManyToMany(mappedBy = "responsables")
 	private List<Artifact> artifactsDelegates;
-	@ManyToMany(mappedBy = "members")
+
+	@ManyToMany(mappedBy = "members", fetch=FetchType.EAGER)
 	private List<Project> projectDelegates;
 
 	/**
@@ -209,5 +211,13 @@ public class User {
 
 	public void setArtifactsDelegates(List<Artifact> artifactsDelegates) {
 		this.artifactsDelegates = artifactsDelegates;
+	}
+
+	public List<Project> getProjectDelegates() {
+		return projectDelegates;
+	}
+
+	public void setProjectDelegates(List<Project> projectDelegates) {
+		this.projectDelegates = projectDelegates;
 	}
 }

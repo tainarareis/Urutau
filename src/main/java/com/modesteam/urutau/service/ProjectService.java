@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.ProjectDAO;
-import com.modesteam.urutau.dao.RequirementDAO;
-import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
 
 public class ProjectService {
@@ -77,5 +75,4 @@ public class ProjectService {
 		}
 		
 	}
-
 }

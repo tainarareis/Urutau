@@ -193,6 +193,12 @@ public class ProjectController {
 	@View
 	@Path(value = "/", priority=Path.HIGH)
 	public void index() {
+		List<String> projectTitles = new ArrayList<String>();
 		
+		for(Project project : userSession.getUserLogged().getProjectDelegates()) {
+			projectTitles.add(project.getTitle());
+		}
+		
+		result.include("projects", projectTitles);
 	}
 }
