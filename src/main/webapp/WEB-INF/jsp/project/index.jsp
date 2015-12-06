@@ -10,6 +10,8 @@
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
+<link href="<c:url value='/css/sb-admin.css'/>" rel="stylesheet">
+
 <!-- Bootstrap min css -->
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
@@ -29,34 +31,32 @@
 </head>
 
 <body>
-
+	<%@ include file="/WEB-INF/layouts/header.jspf" %>
 	<div class="row">	
-		<%@ include file="/WEB-INF/layouts/header.jspf" %>
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="col-md-3">
 	        	<div class="sidebar-nav navbar-collapse">
-	            	<ul class="nav" id="side-menu">
-	               	   <li>
-	                        <a href="<c:url value="/project/createProject"/>" target="frame-project" class="link-frame">
-	                        	Create project
-	                        </a>
-	                    </li>
-	                    <li>
-                    		<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Projects</a>
-							<ul id="demo" class="collapse list-unstyled suboption">
-								<c:forEach items="${projects}" var="project">
-				                    <li>
-				                        <a href="#">
-				                        	${project.title}
-				                        </a>
-				                    </li>
-			                    </c:forEach>                                
-		                	</ul>
-	                    </li>                       	   
-			     	</ul>
-			     </div>
+		        	<ul class="nav" id="side-menu">                         
+			            	<li>
+			                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Projects</a>
+			                	<ul id="demo" class="collapse list-unstyled suboption">
+			                 		<c:forEach items="${projects}" var="project">
+					                    <li>
+					                        <a href="${project.projectID}-${project.title}" target="frame-req" class="link-frame">
+					                        	${project.title}
+					                        </a>
+					                    </li>
+				                    </c:forEach>                                                       
+			                	</ul>
+				             </li>
+				             <li>
+				             	<a href="#" class="header-option">Create Project</a>
+				             </li>            
+				        </ul>
+				    </div>
+				</div>
 			</div>
-		</div>
+		
 		<div class="col-md-8">
         	<div class="create create-project panel panel-default">
         		<div class="panel-heading">
@@ -71,6 +71,7 @@
 				</div>
 			</div>
 		</div>
+		
 	</div>	
 </body>
 </html>

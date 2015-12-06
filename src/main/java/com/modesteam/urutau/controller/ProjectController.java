@@ -223,5 +223,9 @@ public class ProjectController {
 		// Owner is member too
 		project.getMembers().add(logged);
 	}
-
+	
+	@View
+	public void home(){
+		
+	}
 }
