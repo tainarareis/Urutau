@@ -95,7 +95,13 @@ public class UserService {
 		
 		return user;
 	}
-
+	
+	/**
+	 * Get user reference
+	 *  
+	 * @param userID identifier
+	 * @return user logged, uses into userSession
+	 */
 	public User reloadFromDB(Long userID) {
 		return userDAO.getReference(userID);
 	}

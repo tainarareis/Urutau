@@ -26,7 +26,7 @@ public class ProjectBuilder {
 	
 	public Project builProject(){
 		Project project = new Project();
-		project.setId(id);
+		project.setProjectID(id);
 		project.setTitle(title);
 		project.setDescription(description);
 		return project;

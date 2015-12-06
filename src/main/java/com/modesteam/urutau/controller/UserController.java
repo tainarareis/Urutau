@@ -20,6 +20,7 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.UserService;
 
 /**
@@ -31,9 +32,6 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	private static final String LOGIN_ERROR = "loginError";
-	private static final String REGISTER_ERROR = "registerError";
-
 	private final Result result;
 	private final UserService userService;
 	private final UserSession userSession;
@@ -76,19 +74,19 @@ public class UserController {
 
 		if(haveInvalidField) {
 			
-			errors.add(new SimpleMessage(REGISTER_ERROR, "All fields are required"));
+			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "All fields are required"));
 
 		} else if(!validVerification(user.getPassword(), user.getPasswordVerify())) {
 			
-			errors.add(new SimpleMessage(REGISTER_ERROR, "Password are not equals!"));
+			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Password are not equals!"));
 	
 		} else if(!userService.existsField("login", user.getLogin())) {
 		
-			errors.add(new SimpleMessage(REGISTER_ERROR, "Login is already in use."));
+			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Login is already in use."));
 		
 		} else if(!userService.existsField("email", user.getEmail())) {
 			
-			errors.add(new SimpleMessage(REGISTER_ERROR, "Email is already in use."));			
+			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Email is already in use."));			
 		}
 		
 		validator.addAll(errors);
@@ -134,7 +132,7 @@ public class UserController {
             logger.info("The user was found and is authenticated");
         } else {
         	logger.info("The called user wasn't found");
-        	validator.add(new SimpleMessage(LOGIN_ERROR, "Senha ou login não conferem!"));
+        	validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Senha ou login não conferem!"));
         	validator.onErrorUsePageOf(IndexController.class).index();
         }
     }

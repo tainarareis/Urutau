@@ -71,9 +71,14 @@ public class UserDAO extends GenericDAO<User>{
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Get user instance from db
+	 * 
+	 * @param userID
+	 * @return
+	 */
 	public User getReference(Long userID) {
-		logger.info("userID is "+userID);
 		return manager.getReference(User.class, userID);
 	}
 }

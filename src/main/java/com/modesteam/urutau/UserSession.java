@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.modesteam.urutau.model.User;
 
 @SessionScoped
@@ -12,6 +15,8 @@ import com.modesteam.urutau.model.User;
 public class UserSession implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
 	
 	private User userLogged;
 
@@ -38,9 +43,26 @@ public class UserSession implements Serializable {
 	public void setUserLogged(User userLogged) {
 		this.userLogged = userLogged;
 	}
-
+	
+	/**
+	 * Verifies any user in session
+	 * 
+	 * @return true if user is logged
+	 */
 	public boolean isLogged(){
-		boolean isLogged =  (userLogged != null);
+		boolean isLogged =  true;
+		
+		// verifies through if and possible nullpointerexception
+		try {
+			if(userLogged.getUserID() == null){
+				isLogged = false;
+			}
+		}catch(NullPointerException npe) {
+			isLogged = false;
+		}
+		
+		logger.info("User is logged?" + isLogged);
+		
 		return isLogged;
 	}
 

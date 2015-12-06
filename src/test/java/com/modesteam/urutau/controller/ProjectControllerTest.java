@@ -7,21 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-import com.modesteam.urutau.UserSession;
-import com.modesteam.urutau.builder.ArtifactBuilder;
-import com.modesteam.urutau.builder.ProjectBuilder;
-import com.modesteam.urutau.dao.ProjectDAO;
-import com.modesteam.urutau.dao.RequirementDAO;
-import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Feature;
-import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.ProjectService;
-
-import br.com.caelum.vraptor.VRaptorException;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.ValidationException;
+
+import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.builder.ProjectBuilder;
+import com.modesteam.urutau.model.Project;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.service.ProjectService;
+import com.modesteam.urutau.service.UserService;
 
 public class ProjectControllerTest {
 	
@@ -31,6 +26,8 @@ public class ProjectControllerTest {
 	private UserSession mockUserSession;
 	private MockValidator mockValidator;
 	private ProjectService mockService;
+
+	private UserService mockUserService;
 	
 	
 	@Before
@@ -43,7 +40,9 @@ public class ProjectControllerTest {
 		mockValidator = new MockValidator();
 
 		// System components
-		mockService = (ProjectService) EasyMock.createMock(ProjectService.class);
+		mockService = EasyMock.createMock(ProjectService.class);
+		
+		mockUserService = EasyMock.createMock(UserService.class);
 		
 		mockUserSession = EasyMock.createMock(UserSession.class);
 		
@@ -63,7 +62,7 @@ public class ProjectControllerTest {
 		mockAdd(project);
 		PowerMock.replayAll();
 		ProjectController controllerMock = 
-				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+				new ProjectController(mockResult, mockUserSession, mockService, mockUserService, mockValidator);
 		controllerMock.createProject(project);
 	}
 	
@@ -78,7 +77,7 @@ public class ProjectControllerTest {
 		mockAdd(project);
 		PowerMock.replayAll();
 		ProjectController controllerMock = 
-				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+				new ProjectController(mockResult, mockUserSession, mockService, mockUserService, mockValidator);
 		controllerMock.createProject(project);
 	}
 	
@@ -94,7 +93,7 @@ public class ProjectControllerTest {
 		
 		
 		ProjectController controllerMock = 
-				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+				new ProjectController(mockResult, mockUserSession, mockService, mockUserService, mockValidator);
 		controllerMock.deleteProject(1L);
 	}
 	
@@ -105,7 +104,7 @@ public class ProjectControllerTest {
 		mockRemove(1L);
 		
 		ProjectController controllerMock = 
-				new ProjectController(mockResult, mockUserSession, mockService, mockValidator);
+				new ProjectController(mockResult, mockUserSession, mockService, mockUserService, mockValidator);
 		controllerMock.deleteProject(1L);
 	}
 	

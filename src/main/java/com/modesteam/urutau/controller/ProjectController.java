@@ -86,20 +86,7 @@ public class ProjectController {
 			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(),
 					"The title cant be empty!"));
 		} else {
-			Date currentDate = new Date();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(currentDate);
-			
-			project.setDateOfCreation(calendar);
-			
-			User logged = userSession.getUserLogged();
-			
-			logged = userService.reloadFromDB(logged.getUserID());
-
-			project.setAuthor(logged);
-			
-			// Owner is member too
-			project.getMembers().add(logged);
+			insertBasicInformation(project);
 			
 			logger.info("Trying save project...");			
 			
@@ -201,7 +188,7 @@ public class ProjectController {
 	 * 
 	 */
 	@Get
-	@Path(value = "/home", priority=Path.HIGH)
+	@Path(value = "/", priority=Path.HIGH)
 	public void index() {
 		List<Project> projects = new ArrayList<Project>();
 		
@@ -213,4 +200,28 @@ public class ProjectController {
 		
 		result.include("projects", projects);
 	}
+	
+
+	/**
+	 * Setting basic fields programmatically
+	 *  
+	 * @param project soon persisted
+	 */
+	private void insertBasicInformation(Project project) {
+		Date currentDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentDate);
+		
+		project.setDateOfCreation(calendar);
+		
+		User logged = userSession.getUserLogged();
+		
+		logged = userService.reloadFromDB(logged.getUserID());
+
+		project.setAuthor(logged);
+		
+		// Owner is member too
+		project.getMembers().add(logged);
+	}
+
 }
