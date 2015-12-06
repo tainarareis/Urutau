@@ -1,7 +1,9 @@
 package com.modesteam.urutau.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -29,12 +31,14 @@ public class User {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Long userID;
+	
 	@NotNull
 	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
 			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "{invalid.email}")
-	// ^font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
+			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", 
+			message = "{invalid.email}")
+	// ^ font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
 	private String email;
 	@NotNull
 	@Size(min = 3, max = 20)
@@ -55,27 +59,20 @@ public class User {
 	 */
 	private int confirmed = 0;
 	@ManyToMany(mappedBy = "responsables")
-	private List<Artifact> artifactsDelegates;
-
-	@ManyToMany(mappedBy = "members", fetch=FetchType.EAGER)
-	private List<Project> projectDelegates;
-
-	/**
-	 * Getter for "id"
-	 * 
-	 * @return Long - the user id
+	private List<Artifact> artifactsDelegates = new ArrayList<Artifact>();
+	
+	/*
+	 * All projects that user is integrated
 	 */
-	public Long getId() {
-		return id;
+	@ManyToMany(mappedBy="members", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	private List<Project> projects = new ArrayList<Project>();
+
+	public Long getUserID() {
+		return userID;
 	}
 
-	/**
-	 * Sets up the user id
-	 * 
-	 * @param id
-	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserID(Long userID) {
+		this.userID = userID;
 	}
 
 	/**
@@ -213,11 +210,11 @@ public class User {
 		this.artifactsDelegates = artifactsDelegates;
 	}
 
-	public List<Project> getProjectDelegates() {
-		return projectDelegates;
+	public List<Project> getProjects() {
+		return projects;
 	}
 
-	public void setProjectDelegates(List<Project> projectDelegates) {
-		this.projectDelegates = projectDelegates;
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
 	}
 }

@@ -70,5 +70,10 @@ public class UserDAO extends GenericDAO<User>{
 		} catch (NoResultException exception) {
 			return null;
 		}
-	}	
+	}
+
+	public User getReference(Long userID) {
+		logger.info("userID is "+userID);
+		return manager.getReference(User.class, userID);
+	}
 }

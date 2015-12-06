@@ -76,21 +76,28 @@ public class UserService {
 
 	public User authenticate(String login, String password) {
 		User user = userDAO.get("login", login);
+		
 		// if login exists
 		if (user != null) {
 			
 			boolean correctPassword = user.getPassword().equals(password);
+			// Get user with all attributes
 			if(correctPassword) {
-				return user;
+				
 			} else {
 				logger.info("The password is wrong.");
-				return null;
+				user = null;
 			}
 			
 		} else {
 			logger.info("The login informed doesn't exist at the system");
-			return null;
 		}
+		
+		return user;
+	}
+
+	public User reloadFromDB(Long userID) {
+		return userDAO.getReference(userID);
 	}
 
 }

@@ -36,7 +36,8 @@ public abstract class Artifact {
 
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany
-	@JoinTable(name = "Artifacts_Delegates", joinColumns = @JoinColumn(name = "artifact_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "Artifacts_Delegates", joinColumns = @JoinColumn(name = "artifact_id"), 
+		inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> responsables;
 
 	/* Should be generate automatically */

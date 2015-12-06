@@ -2,7 +2,6 @@ package com.modesteam.urutau.dao;
 
 import java.util.List;
 
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,7 +11,9 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.model.Administrator;
 import com.modesteam.urutau.model.Project;
+import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.GenericDAO;
 
 public class ProjectDAO extends GenericDAO<Project>{
@@ -73,5 +74,4 @@ public class ProjectDAO extends GenericDAO<Project>{
 		List<Project> projectList = query.getResultList();
 		return projectList;
 	}
-
 }

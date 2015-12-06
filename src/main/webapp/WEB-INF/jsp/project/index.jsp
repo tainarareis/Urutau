@@ -10,8 +10,6 @@
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
-<link href="<c:url value='/css/sb-admin.css'/>" rel="stylesheet">
-
 <!-- Bootstrap min css -->
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
@@ -44,13 +42,12 @@
 	                        </a>
 	                    </li>
 	                    <li>
-                    		<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
-                    		
+                    		<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Projects</a>
 							<ul id="demo" class="collapse list-unstyled suboption">
-								<c:forEach items="${projectTitles}" var="title">
+								<c:forEach items="${projects}" var="project">
 				                    <li>
-				                        <a href="">
-				                        	${title}
+				                        <a href="#">
+				                        	${project.title}
 				                        </a>
 				                    </li>
 			                    </c:forEach>                                

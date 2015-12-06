@@ -27,6 +27,7 @@ import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.ProjectService;
+import com.modesteam.urutau.service.UserService;
 
 /**
  * This class is responsible to manager simple operations of projects!
@@ -44,22 +45,25 @@ public class ProjectController {
 	private final UserSession userSession;
 	
 	private final ProjectService projectService;
+
+	private final UserService userService;
 	
 	private final Validator validator;
-	
+
 	
 	/*
 	 * CDI needs this
 	 */
 	public ProjectController() {
-		this(null,null,null,null);
+		this(null,null,null,null, null);
 	}
 	
 	@Inject
 	public ProjectController(Result result, UserSession userSession, 
-			ProjectService projectService, Validator validator) {
+			ProjectService projectService, UserService userService, Validator validator) {
 		this.result = result;
 		this.userSession = userSession;
+		this.userService = userService;
 		this.projectService = projectService;
 		this.validator = validator; 
 	}
@@ -89,9 +93,15 @@ public class ProjectController {
 			project.setDateOfCreation(calendar);
 			
 			User logged = userSession.getUserLogged();
+			
+			logged = userService.reloadFromDB(logged.getUserID());
+
 			project.setAuthor(logged);
 			
-			logger.info("Trying save project...");
+			// Owner is member too
+			project.getMembers().add(logged);
+			
+			logger.info("Trying save project...");			
 			
 			projectService.save(project);
 		}
@@ -190,15 +200,17 @@ public class ProjectController {
 	 * Load only if user is logged
 	 * 
 	 */
-	@View
-	@Path(value = "/", priority=Path.HIGH)
+	@Get
+	@Path(value = "/home", priority=Path.HIGH)
 	public void index() {
-		List<String> projectTitles = new ArrayList<String>();
+		List<Project> projects = new ArrayList<Project>();
 		
-		for(Project project : userSession.getUserLogged().getProjectDelegates()) {
-			projectTitles.add(project.getTitle());
+		for(Project project : userSession.getUserLogged().getProjects()) {
+			projects.add(project);
 		}
 		
-		result.include("projects", projectTitles);
+		logger.info("Have " + projects.size());
+		
+		result.include("projects", projects);
 	}
 }

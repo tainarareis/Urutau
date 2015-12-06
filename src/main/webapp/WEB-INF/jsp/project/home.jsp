@@ -36,31 +36,12 @@
 		
 		var requirements = $(".requirements");
 				
-				$.ajax({
-				     url:"showAll",
-				     type:"GET",
-				     success:function(result){
-				    	 requirements.html(result);
-				     }});
-		
-		$("#list-link").click(function(){
-			var listOfItems = $("#item-list");
-			
-			if(listOfItems.is(":empty")) {
-				$.ajax({
-				     url:"showAll",
-				     type:"GET",
-				     success:function(result){
-				        listOfItems.html(result);
-				     }
-				});
-				
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-up"></span>');
-			} else {
-				listOfItems.empty();
-				$("#list-link").html('<span class="glyphicon glyphicon-chevron-down"></span>');
-			}
-		});
+		$.ajax({
+		     url:"showAll",
+		     type:"GET",
+		     success:function(result){
+		    	 requirements.html(result);
+		     }});
 	});
 </script>
 

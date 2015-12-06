@@ -57,8 +57,10 @@ public class ProjectService {
 	
 	/**
 	 * Verifies the existence of a project by its id
+	 * 
 	 * @param Id of an project
 	 * @return true if the project exists
+	 * 
 	 */
 	public boolean verifyProjectExistence(long Id) {
 		

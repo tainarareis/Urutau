@@ -1,8 +1,10 @@
 package com.modesteam.urutau.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,34 +21,34 @@ public class Project {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private long projectID;
 
 	private String title;
 	private String description;
 	private String metodology;
 	
 	@OneToMany
-	private List<Artifact> requirements;
+	private List<Artifact> requirements = new ArrayList<Artifact>();
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@ManyToOne
+	@JoinColumn(name = "userID")
 	private User author;
 
 	/* Artifact can be delegated to one or more persons */
-	@ManyToMany
-	@JoinTable(name = "Project_Delegates", joinColumns = @JoinColumn(name = "project_id"), 
-			inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> members;
+	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID"), 
+    	inverseJoinColumns = @JoinColumn(name = "userID"))
+	private List<User> members = new ArrayList<User>();
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
 
-	public long getId() {
-		return id;
+	public long getProjectID() {
+		return projectID;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setProjectID(long projectID) {
+		this.projectID = projectID;
 	}
 
 	public String getTitle() {
