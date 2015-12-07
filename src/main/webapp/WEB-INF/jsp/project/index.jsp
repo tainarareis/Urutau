@@ -10,8 +10,6 @@
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
-<link href="<c:url value='/css/sb-admin.css'/>" rel="stylesheet">
-
 <!-- Bootstrap min css -->
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
@@ -22,10 +20,17 @@
 <script src="<c:url value='/js/bootstrap.min.js'/>"></script>
 
 <script type="text/javascript">
-<script type="text/javascript">
 	// when page loads
 	$(document).ready(function(){
+		$(".create").hide(); 
 		
+		$("#cancel-create-project").click(function(){
+			$(".create").hide("slow");
+		});
+		
+		$("#create-link").click(function(){
+			$(".create").show("slow");
+		});
 	});
 </script>
 </head>
@@ -37,8 +42,10 @@
 			<div class="col-md-3">
 	        	<div class="sidebar-nav navbar-collapse">
 		        	<ul class="nav" id="side-menu">                         
-			            	<li>
-			                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Projects</a>
+			            	<li id="projects">
+			                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">
+			                		Projects
+			                	</a>
 			                	<ul id="demo" class="collapse list-unstyled suboption">
 			                 		<c:forEach items="${projects}" var="project">
 					                    <li>
@@ -50,7 +57,7 @@
 			                	</ul>
 				             </li>
 				             <li>
-				             	<a href="#" class="header-option">Create Project</a>
+				             	<a href="#" class="header-option" id="create-link">Create Project</a>
 				             </li>            
 				        </ul>
 				    </div>
@@ -64,7 +71,27 @@
         				<i class="glyphicon glyphicon-plus"></i> Create Project 
         			</h2>
         		</div>
-	            <iframe src="" name="frame-project" width="100%" height="100%"></iframe>
+	            <div id=create-project class="project-box">
+					<form action="project/createProject" method="POST">
+						<input name="project.title" placeholder="Title" type="text" class="form-control">
+						<br/>
+						<select class="form-control" name="project.metodology">
+							<c:forEach items="${metodologies}" var="metodology">
+								<c:if test="${metodology == 'Generic'}">
+									<option value="${metodology}" selected="selected">${metodology}</option>
+								</c:if>
+								<c:if test="${metodology != 'Generic'}">
+									<option value="${metodology}">${metodology}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+						<br/>
+						<input name="project.description" placeholder="Description" type="text" class="form-control">
+						<br/> 
+						<input type="submit" id="add-project" class="btn btn-success btn-group-justified" value="Add"/>
+					</form>
+			        <br/>		
+				</div>
 	            <br/>
 	            <div class="panel-footer">
 					<button id="cancel-create-project" class="btn btn-warning">Cancel</button>

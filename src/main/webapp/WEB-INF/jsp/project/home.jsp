@@ -11,8 +11,6 @@
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
-<link href="<c:url value='/css/sb-admin.css'/>" rel="stylesheet">
-
 <!-- Bootstrap min css -->
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 
@@ -25,7 +23,6 @@
 <script type="text/javascript">
 	// when page load
 	$(document).ready(function(){
-		
 		$(".link-frame").click(function() {
 			$(".create-requirement").show("slow");
 		});

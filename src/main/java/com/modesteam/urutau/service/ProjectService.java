@@ -31,10 +31,6 @@ public class ProjectService {
 	public List<? extends Project> loadAll() {
 		return projectDAO.loadAllProjects();
 	}
-
-	public Project detail(long id) {
-		return (Project) projectDAO.find(id);
-	}
 	
 	/**
 	 * Method to communicate with the DAO
@@ -76,5 +72,20 @@ public class ProjectService {
 			return true;
 		}
 		
+	}
+
+	public Project show(Long id, String title) {
+		 Project project = projectDAO.find(id);
+		 Long idFromOperationGetTitle = projectDAO.get("title", title).getProjectID();
+		 boolean validURL = project.getProjectID() == idFromOperationGetTitle;
+		 
+		 if(!validURL) {
+			project = null;
+		 } else {
+			 logger.debug("Valid url, returning project");
+		 }
+		 
+		 return project;
+		 
 	}
 }

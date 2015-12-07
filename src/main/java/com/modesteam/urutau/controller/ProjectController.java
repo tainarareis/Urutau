@@ -72,10 +72,12 @@ public class ProjectController {
 	 *  Method for create one project with what gonna have
 	 *  requirements inside
 	 *  
-	 * @param project
+	 * @param project to be persisted
+	 * 
+	 * @throws UnsupportedEncodingException when show is requested 
 	 */
 	@Post
-	public void createProject(Project project) {
+	public void createProject(Project project) throws UnsupportedEncodingException {
 		
 		logger.info("Project will be persisted: " + project.getTitle());
 		
@@ -94,23 +96,12 @@ public class ProjectController {
 		}
 		
 		validator.onErrorRedirectTo(ProjectController.class).index();
-		result.nothing();
+		
+		logger.warn("Project id is " + project.getProjectID());
+		
+		result.redirectTo(this).home((int)project.getProjectID(), project.getTitle());
 	}
 	
-	/**
-	 * Load an list of metodology to show in an select field.
-	 * Result will include {@link List} of metodology's names
-	 */
-	@Get
-	public void createProject() {
-		List<String> metodologies = new ArrayList<String>();
-		
-		for(Metodology metodology : Metodology.values()){
-			metodologies.add(metodology.getName());
-		}
-		
-		result.include("metodologies", metodologies); 
-	}
 	
 	/**
 	 * Method for delete only one project 
@@ -146,13 +137,14 @@ public class ProjectController {
 	 * @throws UnsupportedEncodingException invalid characters or decodes fails
 	 */
 	@Get
-	@Path("/{id}/{title}")
-	public Project show(int id, String title) throws UnsupportedEncodingException {
+	@Path("/{id}-{title}")
+	public Project home(int id, String title) throws UnsupportedEncodingException {
 		title = URLDecoder.decode(title, "utf-8");
 		
 		logger.info("Show project " + title);
 		
-		Project project = projectService.detail(id);
+		// Project id is an integer
+		Project project = projectService.show(new Long(id), title);
 		
 		return project;
 	}
@@ -184,23 +176,60 @@ public class ProjectController {
 	}
 	
 	/**
-	 * Load only if user is logged
-	 * 
+	 * Load an list of metodology to show in an select field.
+	 * Result will include {@link List} of metodology's names.
+	 * Restricted to users, logic of flux controll is into
+	 * {@link IndexController}
 	 */
 	@Get
 	@Path(value = "/", priority=Path.HIGH)
 	public void index() {
+		// Loads enum with metodology names to populate 
+		loadProjectTypes();
+		
 		List<Project> projects = new ArrayList<Project>();
 		
 		for(Project project : userSession.getUserLogged().getProjects()) {
 			projects.add(project);
 		}
 		
-		logger.info("Have " + projects.size());
+		logger.info("Have " + projects.size() +" projects");
 		
 		result.include("projects", projects);
 	}
 	
+
+	@View
+	public void home(){
+ 
+	}
+	
+	/**
+	 * Called only by ajax
+	 */
+	@Get
+	public void reloadProjects() {
+		User logged = userSession.getUserLogged();
+		
+		logged = userService.reloadFromDB(logged.getUserID());
+		
+		userSession.setUserLogged(logged);
+	}
+	
+	/**
+	 * Load enum {@link Metodology} in string to field select
+	 * into project create
+	 * 
+	 */
+	private void loadProjectTypes() {
+		List<String> metodologies = new ArrayList<String>();
+		
+		for(Metodology metodology : Metodology.values()){
+			metodologies.add(metodology.getName());
+		}
+		
+		result.include("metodologies", metodologies);
+	}
 
 	/**
 	 * Setting basic fields programmatically
@@ -223,9 +252,5 @@ public class ProjectController {
 		// Owner is member too
 		project.getMembers().add(logged);
 	}
-	
-	@View
-	public void home(){
-		
-	}
+
 }
