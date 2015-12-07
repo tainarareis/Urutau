@@ -1,5 +1,7 @@
 package com.modesteam.urutau.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
@@ -53,7 +55,7 @@ public class ProjectControllerTest {
 	}
 	
 	@Test
-	public void createValidProject(){
+	public void createValidProject() throws UnsupportedEncodingException{
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 
 		Project project = projectBuilder.id(1L).title("Example Valid")
@@ -67,7 +69,7 @@ public class ProjectControllerTest {
 	}
 	
 	@Test(expected=ValidationException.class)
-	public void createInvalidProject(){
+	public void createInvalidProject() throws UnsupportedEncodingException{
 		
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 

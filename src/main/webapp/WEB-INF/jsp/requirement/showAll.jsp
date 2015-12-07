@@ -28,8 +28,10 @@
 			  				 <fmt:formatDate value="${requirement.dateOfCreation.time}" pattern="dd/MM/yyyy"/>
 			  			</td>
 			  			<td>
-		  				  <button type="button" class="glyphicon glyphicon-eye-open" data-toggle="modal" data-target="#myModal-${requirement.id}">
-		  					</button>
+			  			<a href="showRequirement/${requirement.id}/${requirement.title}" title="Show"  
+			  				data-toggle="modal" data-target="#myModal-${requirement.id}">
+				        	<span class="glyphicon glyphicon-eye-open"></span>
+				        </a>
 		  					
 		  					<div class="modal fade" id="myModal-${requirement.id}"  tabindex="-1" role="dialog">
 							    <div class="modal-dialog">
@@ -37,7 +39,9 @@
 							      <!-- Modal content-->
 							      <div class="modal-content">
 							        <div class="modal-header">
-							          <button type="button" class="close" data-dismiss="modal">&times;</button>
+							          <a href="showRequirement/${requirement.id}/${requirement.title}" title="Show">
+							          	<span class="glyphicon glyphicon-eye-open"></span>
+							          </a>
 							          <h4 class="modal-title">${requirement.title} <br> By ${requirement.author.name} in 
 										<fmt:formatDate value="${requirement.dateOfCreation.time}" type="date" dateStyle="short" />
 							          </h4>

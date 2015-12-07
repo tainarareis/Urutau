@@ -28,7 +28,7 @@
 		});
 		
 		$("#cancel-create-req").click(function() {
-			$(".create-requirement").hide("slow");;
+			$(".create-requirement").hide("slow");
 		});
 		
 		var requirements = $(".requirements");
@@ -38,7 +38,7 @@
 		     type:"GET",
 		     success:function(result){
 		    	 requirements.html(result);
-		     }});
+	     }});
 	});
 </script>
 
@@ -82,6 +82,12 @@
 			             </li>
 			             <li>
 			             	<a href="#" class="header-option">More options</a>
+			             </li>
+			             <li>
+							<a href="#" class="header-option">Settings</a>
+			             </li>
+			             <li>
+			             	<a href="#" class="header-option">Activity</a>
 			             </li>            
 			        </ul>
 		        </div>
@@ -89,33 +95,35 @@
  		</div>
  		
         <div class="col-md-8">
-        	<div class="create create-requirement panel panel-default">
-        		<div class="panel-heading">
-        			<h2 class="panel-title">
-        				<i class="glyphicon glyphicon-plus"></i> Create Requirement 
-        			</h2>
-        		</div>
-	            <iframe src="" name="frame-req" width="100%" height="100%"></iframe>
-	            <br/>
-  				<div class="panel-footer">
-					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-		   			<h1 class="panel-title">
-		   				<i class="glyphicon glyphicon-list"></i> List of requirements 
-		   			</h1>
-				</div>
+         	<div class="create create-requirement panel panel-default">
+         		<div class="panel-heading">
+         			<h2 class="panel-title">
+         				<i class="glyphicon glyphicon-plus"></i> Create Requirement 
+         			</h2>
+         		</div>
+ 	            
+ 	            <iframe name="frame-req" width="100%" height="100%">
+ 	            
+ 	            </iframe>
+ 	            
+ 	            <br/>
+   				<div class="panel-footer">
+ 					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
+ 				</div>
+ 			</div>
+ 			<div class="panel panel-default">
+ 				<div class="panel-heading">
+ 		   			<h1 class="panel-title">
+ 		   				<i class="glyphicon glyphicon-list"></i> List of requirements 
+ 		   			</h1>
+ 				</div>
 				<div class="panel-body">
-					<a href="#" id="list-link">
-						<span class="glyphicon glyphicon-chevron-down"></span>
-					</a>
 					<div id="item-list"></div>
-				</div>
-			</div>
-      	</div>
-      	
-   	</div>
-</body>
-</html>
+				<div class="panel-body requirements">					
+ 				</div>
+ 			</div>
+       	</div>
+ 		</div>
+ </div>
+ </body>
+ </html>

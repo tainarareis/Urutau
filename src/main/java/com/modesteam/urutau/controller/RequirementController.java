@@ -112,12 +112,12 @@ public class RequirementController {
 		
 		if(!requirementExistence) {
 			logger.info("The requirement was succesfully excluded.");
-			result.redirectTo(UserController.class).home();
+			result.nothing();
 		} else {
 			logger.info("The requirement wasn't excluded yet.");
 			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), 
 					"Requirement was not excluded!"));	
-			result.redirectTo(UserController.class).home();
+			result.nothing();
 		}
 		
 	}
