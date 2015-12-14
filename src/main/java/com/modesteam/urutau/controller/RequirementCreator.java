@@ -20,17 +20,19 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.RequirementDAO;
-import com.modesteam.urutau.exception.ActionException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.ArtifactType;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
+import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.ErrorMessage;
 import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.service.ProjectService;
 
 /**
  * This is an concrete implementation of {@link EntityCreator}, part of pattern abstract factory 
@@ -42,24 +44,31 @@ import com.modesteam.urutau.model.system.FieldMessage;
 public class RequirementCreator extends EntityCreator<Artifact> {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
-	
-	private static final String ERROR_MESSAGE = "Title should not be null.";
+
+	private static final String PROJECT_ERROR_MESSAGE = "Project id was not passed!";
 
 	//Objects to be injected
 	private final Result result;
 	private final Validator validator;
 	private final UserSession userSession;
+	private final ProjectService projectService;
 	
 	public RequirementCreator() {
-		this(null, null, null, null);
+		this(null, null, null, null, null);
 	}
 	
+	/**
+	 * The Superclass {@link EntityCreator} requires an DAO to work
+	 */
 	@Inject
 	public RequirementCreator(Result result, Validator validator, 
-			RequirementDAO requirementDAO, UserSession userSession) {
+			RequirementDAO requirementDAO, UserSession userSession, 
+			ProjectService projectService) {
 		this.result = result;
 		this.validator = validator;
-		this.userSession = userSession;		
+		this.userSession = userSession;
+		this.projectService = projectService;
+		// superclass needs an DAO
 		super.setDao(requirementDAO);
 	}
 		
@@ -99,11 +108,15 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		
 		logger.info("Try persist " + requirement.getTitle());
 		
+		// Setting current date
 		Calendar calendar = getCurrentDate();
 		requirement.setDateOfCreation(calendar);
 		
-		User logged = userSession.getUserLogged();
-		requirement.setAuthor(logged);
+		// Setting author
+		settingOwner(requirement);
+		
+		// Setting project
+		settingProject(requirement);
 		
 		logger.info("Requesting persistence of requirement...");
 		
@@ -113,6 +126,34 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		result.nothing();
 	}
 	
+	/**
+	 * Setting owner({@link User}) of Requirement
+	 *  
+	 * @param requirement inserted by form
+	 */
+	private void settingOwner(Artifact requirement) {
+		User logged = userSession.getUserLogged();
+		
+		assert(logged == null);
+		
+		requirement.setAuthor(logged);		
+	}
+	
+	/**
+	 * Setting project of Requirement
+	 *  	 
+	 * @param requirement inserted by form
+	 */
+	private void settingProject(Artifact requirement) {
+		Long projectID = requirement.getProjectID();
+		
+		assert(projectID == null);
+
+		// Load by id
+		Project associatedProject = projectService.load(projectID);
+		requirement.setProject(associatedProject);
+	}
+
 	/**
 	 * Basic and generic validation of requirements
 	 * 
@@ -124,11 +165,16 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 				
 		if(userSession.getUserLogged() == null) {
 			logger.warn("User try create requirement without an user logged!");
-			throw new ActionException();			
-		} else if(requirement.getTitle() == null) {
-			logger.debug("Title or description are wrong!");
 			
-			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), ERROR_MESSAGE));
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), ErrorMessage.USER_NOT_LOGGED.toString()));
+		} else if(requirement.getTitle() == null) {
+			logger.warn("Requirement title is null...");
+			
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), ErrorMessage.USER_NOT_LOGGED.toString()));
+		} else if(requirement.getProjectID() == null) {
+			logger.warn("ProjectID is null!");
+			
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), PROJECT_ERROR_MESSAGE));
 		}
 		
     	validator.onErrorUsePageOf(UserController.class).home();

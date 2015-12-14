@@ -3,11 +3,13 @@ package com.modesteam.urutau.service;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.ProjectDAO;
+import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Project;
 
 public class ProjectService {
@@ -44,7 +46,7 @@ public class ProjectService {
 			if(project != null) {
 				projectDAO.destroy(project);
 			} else {
-				throw new IllegalArgumentException("This project not exist");
+				throw new SystemBreakException("This project not exist");
 			}
 		} else {
 			logger.info("RequirementService cant find requirementID");
@@ -59,18 +61,21 @@ public class ProjectService {
 	 * 
 	 */
 	public boolean verifyProjectExistence(long Id) {
-		
 		logger.info("Verifying the requirement existence in database.");
 		
 		Project project = projectDAO.get("id", Id);
 		
+		boolean projectExists;
+		
 		if (project == null) {
 			logger.info("The project is null");
-			return false;
+			projectExists = false;
 		} else {
 			logger.info("The project isn't null");
-			return true;
+			projectExists = true;
 		}
+		
+		return projectExists;
 		
 	}
 
@@ -87,5 +92,32 @@ public class ProjectService {
 		 
 		 return project;
 		 
+	}
+	/**
+	 * Load an project by id
+	 * 
+	 * @param projectID identifier of project
+	 * @return existence project
+	 * 
+	 * @throws SystemBreakException 
+	 */
+	public Project load(Long projectID) {
+		assert(projectID == null);
+		
+		Project loaded = null;
+		
+		logger.info("Search projectID" + projectID);
+		
+		if(verifyProjectExistence(projectID)){
+			try {
+				loaded = projectDAO.get("projectID", projectID);
+			} catch(NoResultException noResultException) {
+				throw new SystemBreakException("Maybe this project do not exist!");
+			}
+		} else {
+			logger.trace("Do not found any project");
+		}
+		
+		return loaded;
 	}
 }

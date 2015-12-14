@@ -22,10 +22,10 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.Metodology;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.model.system.Metodology;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
 

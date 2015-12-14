@@ -51,6 +51,7 @@ public class ProjectDAO extends GenericDAO<Project>{
 		} catch (NonUniqueResultException exception){
 			throw new NonUniqueResultException();
 		} catch (NoResultException exception) {
+			logger.trace("No result was throw into " + this.getClass().getName());
 			return null;
 		}
 	}

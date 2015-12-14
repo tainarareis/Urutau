@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -26,6 +27,14 @@ public abstract class Artifact {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User author;
+
+	// Project associated
+	@ManyToOne
+	@JoinColumn(name="project_id")
+	private Project project;
+	
+	@Transient
+	private Long projectID;
 
 	@OneToOne(optional = true)
 	private User lastModificationAuthor;
@@ -86,6 +95,22 @@ public abstract class Artifact {
 
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Long getProjectID() {
+		return projectID;
+	}
+
+	public void setProjectID(Long projectID) {
+		this.projectID = projectID;
 	}
 
 	public List<User> getResponsables() {

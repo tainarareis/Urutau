@@ -31,8 +31,19 @@
 			$(".create-requirement").hide("slow");
 		});
 		
+		$(".link-frame").click(function(event) {
+			event.preventDefault();
+			$.ajax({
+			     url: $(this).attr("href"),
+			     type:"GET",
+			     success:function(result){
+			    	 $(".create-frame").html(result);
+			    	 
+		     }});
+		});
+		
 		var requirements = $(".requirements");
-				
+		
 		$.ajax({
 		     url:"showAll",
 		     type:"GET",
@@ -54,27 +65,27 @@
 		                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
 		                	<ul id="demo" class="collapse list-unstyled suboption">
 		                    <li>
-		                        <a href="<c:url value="/requirement/generic"/>" target="frame-req" class="link-frame">
+		                        <a href="<c:url value="/requirement/generic"/>" class="link-frame">
 		                        	Generic Requirement
 		                        </a>
 		                    </li>
 		                    <li>
-		                        <a href="<c:url value="/requirement/storie"/>" target="frame-req" class="link-frame">
+		                        <a href="<c:url value="/requirement/storie"/>" class="link-frame">
 		                        	User Story
 		                        </a>
 		                    </li>
 		                    <li>
-		                        <a href="<c:url value="/requirement/feature"/>" target="frame-req" class="link-frame">
+		                        <a href="<c:url value="/requirement/feature"/>" class="link-frame">
 		                        	Feature
 		                        </a>
 		                    </li>
 		                    <li>
-		                       <a href="<c:url value="/requirement/epic"/>" target="frame-req" class="link-frame">
+		                       <a href="<c:url value="/requirement/epic"/>" class="link-frame">
 		                       		Epic
 		                       	</a>
 		                    </li>
 		                    <li>
-		                        <a href="<c:url value="/requirement/useCase"/>" target="frame-req" class="link-frame">
+		                        <a href="<c:url value="/requirement/useCase"/>" class="link-frame">
 		                        	Use Case
 		                        </a>
 		                    </li>                                                      
@@ -102,9 +113,9 @@
          			</h2>
          		</div>
  	            
- 	            <iframe name="frame-req" width="100%" height="100%">
- 	            
- 	            </iframe>
+ 	          	<div class="create-frame">
+ 	          	
+ 	          	</div>
  	            
  	            <br/>
    				<div class="panel-footer">
