@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div id="feature" class="requirement-box">
-		<form action="createFeature" method="POST">
+		<form action="requirement/createFeature" method="POST">
 			<input name="feature.projectID" type="hidden" value="${projectID}">
 			<input name="feature.title" class="form-control" placeholder="Title" type="text">
 			<input name="feature.description" class="form-control" placeholder="Description" type="text">

@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="requirement-box form-group">
-		<form action="createGeneric" method="POST">
+		<form action="requirement/createGeneric" method="POST">
 			<input name="generic.projectID" type="hidden" value="${projectID}">
 			<input name="generic.title" placeholder="Title" type="text" class="form-control" >
 			<input name="generic.description" placeholder="Description" type="text" class="form-control" > 

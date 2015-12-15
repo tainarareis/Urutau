@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div id="useCase" class="requirement-box">
-		<form action="createUseCase" method="POST">
+		<form action="requirement/createUseCase" method="POST">
 			<input name="useCase.projectID" type="hidden" value="${projectID}">
 			<input name="useCase.title" class="form-control" placeholder="Title" type="text">
 			<input name="useCase.description" class="form-control" placeholder="Description" type="text">

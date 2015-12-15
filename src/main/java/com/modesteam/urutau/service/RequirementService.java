@@ -2,7 +2,6 @@ package com.modesteam.urutau.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,10 +26,6 @@ public class RequirementService {
 
 	public void save(Artifact requirement) {
 		requirementDAO.create(requirement);
-	}
-
-	public List<? extends Artifact> loadAllRequirements() {
-		return requirementDAO.loadAllRequirements();
 	}
 
 	public Artifact detail(long id) {

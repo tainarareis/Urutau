@@ -72,14 +72,16 @@ public class RequirementController {
 		
 		return requirement;
 	}
-	
-	@Get("/showAll")
-	public List<? extends Artifact> showAll() {		
+	/**
+	 * View showAll can be used later to get requirements by ajax
+	 * @return
+	 */
+	@Deprecated
+	public List<? extends Artifact> showAll() {
 		logger.info("Starting the requisition for all requirements");
 		
-		List<? extends Artifact> requirements  = requirementService.loadAllRequirements();
-		
-		logger.info("Have " + requirements.size() + "requirements");
+		// Here was a method that took all the requirements
+		List<? extends Artifact> requirements = null;
 		
 		result.include("requirements", requirements);
 		

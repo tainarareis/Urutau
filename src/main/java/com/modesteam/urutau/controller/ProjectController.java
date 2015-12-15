@@ -50,7 +50,6 @@ public class ProjectController {
 	
 	private final Validator validator;
 
-	
 	/*
 	 * CDI needs this
 	 */
@@ -143,7 +142,7 @@ public class ProjectController {
 		
 		logger.info("Show project " + title);
 		
-		// Project id is an integer
+		// Project id is a integer
 		Project project = projectService.show(new Long(id), title);
 		
 		return project;

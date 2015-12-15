@@ -1,7 +1,5 @@
 package com.modesteam.urutau.dao;
 
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -34,22 +32,6 @@ public class RequirementDAO extends GenericDAO<Artifact> {
 	@Inject
 	public RequirementDAO(EntityManager manager){
 		super.setEntityManager(manager);
-	}
-	
-	/**
-	 * Get all requirements from a specific Artifact subclass
-	 * @param artifactSubclass means the artifact type, in this case
-	 * represented by the name of the artifact table in database.
-	 * Possible values (tables): Epic, Feature, Storie, UseCase, Artifact.
-	 * @return an Child of Artifact 
-	 */
-	public List<? extends Artifact> loadAllRequirements() {
-		
-		String sql = "SELECT ALL ARTIFACT FROM Artifact ARTIFACT";
-		Query query = manager.createQuery(sql);
-		
-		List<Artifact> requirementsList = query.getResultList();
-		return requirementsList;
 	}
 	
 	

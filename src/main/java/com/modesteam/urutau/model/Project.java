@@ -27,8 +27,8 @@ public class Project {
 	private String description;
 	private String metodology;
 	
-	@OneToMany
-	private List<Artifact> requirements = new ArrayList<Artifact>();
+	@OneToMany(mappedBy="project")
+	private List<Artifact> requirements;
 
 	@ManyToOne
 	@JoinColumn(name = "userID")
