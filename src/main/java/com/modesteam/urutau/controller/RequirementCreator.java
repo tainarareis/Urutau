@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
@@ -46,6 +47,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
 
 	private static final String PROJECT_ERROR_MESSAGE = "Project id was not passed!";
+
+	private static final String PROJECT_ID_INPUT_VALUE = "projectID";
 
 	//Objects to be injected
 	private final Result result;
@@ -94,6 +97,26 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	public void createEpic(Epic epic) {
 		epic.setArtifactType(ArtifactType.EPIC);
 		save(epic);
+	}
+	
+	/**
+	 * Use case creation is more specific so this method
+	 * implementation is more robust than the others
+	 * @param useCase
+	 */
+	@Post
+	public void createUseCase(UseCase useCase) {		
+		
+		if(useCase.getFakeActors() != null) { //Main flow 
+			useCase = setUseCaseActors(useCase);
+		} else { //Alternative flow
+			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), 
+					"Use case needs at least one author"));
+		}
+		
+    	validator.onErrorUsePageOf(UserController.class).home();
+		
+		save(useCase);
 	}
 	
 	/**
@@ -181,26 +204,6 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	}
 	
 	/**
-	 * Use case creation is more specific so this method
-	 * implementation is more robust than the others
-	 * @param useCase
-	 */
-	@Post
-	public void createUseCase(UseCase useCase) {		
-		
-		if(useCase.getFakeActors() != null) { //Main flow 
-			useCase = setUseCaseActors(useCase);
-		} else { //Alternative flow
-			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), 
-					"Use case needs at least one author"));
-		}
-		
-    	validator.onErrorUsePageOf(UserController.class).home();
-		
-		save(useCase);
-	}
-	
-	/**
 	 * Sets up a String containing all the actors
 	 * involved at the current use case. 
 	 * @param useCase
@@ -238,29 +241,55 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	public void showCreationResult() {
 		
 	}
-
+	
+	/**
+	 * This projectID is a reference of the project 
+	 * which the requirement will be created. 
+	 * All part of url is created through a javascript into home.jsp, 
+	 * projectID number will be included into view page to fill a input hidden.
+	 * 
+	 * @param projectID Truly is an Long number, converted into script to 
+	 * be changed foward to Long again.
+	 */
 	@View
-	public void generic() {
-		
+	@Get("generic/{projectID}")
+	public void generic(String projectID) {
+		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
 	
+	/**
+	 * See {@link RequirementCreator#generic(String)}
+	 */
 	@View
-	public void storie() {
-		
+	@Get("storie/{projectID}")
+	public void storie(String projectID) {
+		result.include(PROJECT_ID_INPUT_VALUE, projectID);		
 	}
 	
+	/**
+	 * See {@link RequirementCreator#generic(String)}
+	 */
 	@View
-	public void feature() {
-		
+	@Get("feature/{projectID}")
+	public void feature(String projectID) {
+		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
 	
+	/**
+	 * See {@link RequirementCreator#generic(String)}
+	 */
 	@View
-	public void epic() {
-		
+	@Get("epic/{projectID}")
+	public void epic(String projectID) {
+		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
 	
+	/**
+	 * See {@link RequirementCreator#generic(String)}
+	 */
 	@View
-	public void useCase() {
-		
+	@Get("useCase/{projectID}")
+	public void useCase(String projectID) {
+		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
 }

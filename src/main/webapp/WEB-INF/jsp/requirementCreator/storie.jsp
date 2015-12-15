@@ -14,8 +14,9 @@
 </head>
 <body>
 	<div id="storie" class="requirement-box">
-			<form action="createUserStory" method="POST">
-				<input  type="text" name="storie.title" placeholder="Title" class="form-control">
+			<form action="createUserStory" method="POST">		
+				<input name="storie.projectID" type="hidden" value="${projectID}">
+				<input type="text" name="storie.title" placeholder="Title" class="form-control">
 				<label>Tell the Story:</label>
 				<textarea name="storie.history" class="form-control">
 				

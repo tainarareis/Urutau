@@ -15,6 +15,7 @@
 <body>
 	<div id="epic" class="requirement-box">
 		<form action="createEpic" method="POST">
+			<input name="epic.projectID" type="hidden" value="${projectID}">
 			<input name="epic.title" class="form-control" placeholder="Title" type="text">
 			<input name="epic.description" class="form-control" placeholder="Description" type="text">
 			<input name="epic.content" class="form-control" placeholder="Content" type="text">

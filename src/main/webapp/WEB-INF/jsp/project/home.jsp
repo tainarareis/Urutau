@@ -7,7 +7,7 @@
 <head>
 
 <meta charset="utf-8">
-<title>Home</title>
+<title>${project.title}</title>
 
 <link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 
@@ -32,9 +32,18 @@
 		});
 		
 		$(".link-frame").click(function(event) {
+			// Cancel redirect
 			event.preventDefault();
+			
+			/* Link of page that call an GET method. 
+			 * Example: 
+			 *	 link - requirement/generic
+			 *	 method on Requirement: public Long generic(Long projectID)
+			 */
+			requirementFormUrl = $(this).attr("href")+'/${project.projectID}';
+
 			$.ajax({
-			     url: $(this).attr("href"),
+			     url: requirementFormUrl,
 			     type:"GET",
 			     success:function(result){
 			    	 $(".create-frame").html(result);
