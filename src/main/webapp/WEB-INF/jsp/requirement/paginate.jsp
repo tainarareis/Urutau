@@ -6,6 +6,12 @@
 <html>
 <body>
 	<div>
+		<div class="panel-heading">
+   			<h1 class="panel-title">
+   				<i class="glyphicon glyphicon-list"></i> Last requirements 
+   			</h1>
+		</div>
+				
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -72,6 +78,14 @@
 		  		</c:forEach>
 		  	</tbody>
 		 </table>
+		 <div>
+ 		 	<a onclick="previous()">
+		 		<i class="glyphicon glyphicon-backward"></i>
+		 	</a>
+		 	<a onclick="next()">
+		 		<i class="glyphicon glyphicon-forward"></i>
+		 	</a>
+		 </div>
 	</div>
 </body>
 </html>

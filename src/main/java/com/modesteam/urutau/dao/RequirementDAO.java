@@ -1,5 +1,7 @@
 package com.modesteam.urutau.dao;
 
+import java.util.List;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -68,6 +70,30 @@ public class RequirementDAO extends GenericDAO<Artifact> {
 		Artifact artifact = manager.find(Artifact.class, id);
 		logger.info("The Artifact find is:" +artifact);
 		return artifact;
+	}
+	
+	/**
+	 * Get into project, your requirements from firstResult until the sum of maxResult
+	 *  
+	 * @return list of {@link Artifact} that contain only an delimited quantity of results
+	 */
+	public List<Artifact> getIntoProjectInInterval(Long projectID, int firstResult, int maxResult) {
+		logger.info("Get requirement between " + firstResult + " and " 
+				+ (firstResult+maxResult));
+		
+		String sql = "SELECT requirement FROM "+ Artifact.class.getName() + " requirement "
+				+ "JOIN FETCH  requirement.project project WHERE project.projectID=:projectID";
+
+		Query query = manager.createQuery(sql);
+		query.setParameter("projectID", projectID);
+		
+		query.setFirstResult(firstResult);
+		query.setMaxResults(maxResult);
+		
+		List<Artifact> results = query.getResultList();
+		logger.info("Number of results is " + results.size());
+		
+		return results; 
 	}
 		
 }

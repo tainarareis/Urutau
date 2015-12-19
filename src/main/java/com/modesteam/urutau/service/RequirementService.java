@@ -2,6 +2,7 @@ package com.modesteam.urutau.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -118,6 +119,20 @@ public class RequirementService {
 		} else {
 			throw new IllegalArgumentException("The requirement does not exist.");
 		}
+	}
+	/**
+	 * Get the list of requirement into defined interval
+	 * 
+	 * @param projectID belongs to current project
+	 * @param quantity number of results search
+	 * @param page current index of page
+	 * 
+	 * @return an List of {@link Artifact} delimited through quantity and page. 
+	 */
+	public List<Artifact> recover(long projectID, int quantity, int page) {
+		int firstResult = quantity * page;
+		
+		return requirementDAO.getIntoProjectInInterval(projectID, firstResult, quantity);
 	}
 	
 }

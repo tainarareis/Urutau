@@ -31,6 +31,8 @@ import com.modesteam.urutau.service.RequirementService;
 public class RequirementController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
+
+	private static final int DEFAULT_PAGINATION_SIZE = 5;
 	
 	// Injected objects
 	private final Result result;
@@ -72,6 +74,22 @@ public class RequirementController {
 		
 		return requirement;
 	}
+	
+	/**
+	 * Paginate requirements into home page of projects
+	 * 
+	 * @param page, current page 
+	 * 
+	 * @return List of {@link Artifact} to be easy display into home page of a project
+	 */
+	@Get("{projectID}/paginate/{page}")
+	public void paginate(int projectID, int page) {
+		List<Artifact> requirements = requirementService
+				.recover(projectID, DEFAULT_PAGINATION_SIZE, page);
+		
+		result.include("requirements", requirements);
+	}
+	
 	/**
 	 * View showAll can be used later to get requirements by ajax
 	 * @return
