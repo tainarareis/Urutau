@@ -108,16 +108,16 @@ public class ProjectService {
 		
 		logger.info("Search projectID" + projectID);
 		
-		if(verifyProjectExistence(projectID)){
 			try {
-				loaded = projectDAO.get("projectID", projectID);
+				if(verifyProjectExistence(projectID)){
+					loaded = projectDAO.get("projectID", projectID);
+				} else {
+					logger.trace("Do not found any project");
+				}
 			} catch(NoResultException noResultException) {
 				throw new SystemBreakException("Maybe this project do not exist!");
 			}
-		} else {
-			logger.trace("Do not found any project");
-		}
-		
+			
 		return loaded;
 	}
 }

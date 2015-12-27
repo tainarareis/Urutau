@@ -20,69 +20,21 @@
 <!-- Bootstrap Core -->
 <script src="<c:url value='/js/bootstrap.min.js'/>"></script>
 
+<!-- Self page scripts -->
 <script type="text/javascript">
-	// when page load
-	$(document).ready(function() {
-		$(".link-frame").click(function() {
-			$(".create-requirement").show("slow");
-		});
-		
-		$("#cancel-create-req").click(function() {
-			$(".create-requirement").hide("slow");
-		});
-		
-		$(".link-frame").click(function(event) {
-			// Cancel redirect
-			event.preventDefault();
-			
-			/* Link of page that call an GET method. 
-			 * Example: 
-			 *	 link - requirement/generic
-			 *	 method on Requirement: public Long generic(Long projectID)
-			 */
-			requirementFormUrl = $(this).attr("href")+'/${project.projectID}';
+	/*
+	 * The follow script file needs page variable to work
+	 */
+	currentProjectID = ${project.projectID};
+	
+	var page = {projectID: currentProjectID, number:0};
 
-			$.ajax({
-			     url: requirementFormUrl,
-			     type:"GET",
-			     success:function(result){
-			    	 $(".create-frame").html(result);
-			    	 
-		     }});
-		});
-	});
-	
-	var page = 0;
-	
 	window.onload = function(event) {
 		paginate();
 	}
-	
-	function paginate() {
-		var requirements = $(".requirements");
-		
-		currentPaginate = "${project.projectID}/paginate/" + page;
-		
-		$.ajax({
-		     url: currentPaginate,
-		     type:"GET",
-		     success:function(result){
-		    	 requirements.html(result);
-	     }});
-	}
-	
-	function next() {
-		page += 1;
-		
-		paginate();
-	}
-	
-	function previous() {
-		page -= 1;
-		
-		paginate();
-	}
 </script>
+
+<script src="<c:url value='/js/project/home.js'/>"/></script>
 
 </head>
 <body>
