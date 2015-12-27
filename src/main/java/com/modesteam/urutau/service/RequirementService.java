@@ -1,7 +1,6 @@
 package com.modesteam.urutau.service;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +31,7 @@ public class RequirementService {
 	public Artifact detail(long id) {
 		return requirementDAO.find(id);
 	}
+	
 	/**
 	 * Returns a requirement caught by title that have a certain id
 	 * 
@@ -40,13 +40,14 @@ public class RequirementService {
 	 * @return a requirement
 	 */
 	public Artifact getRequirement(int id, String title) throws UnsupportedEncodingException {
+		assert(id < 0 || title == null);
+		
 		Artifact requirement = requirementDAO.find(new Long(id));
 		
-		String decodeTitle = URLDecoder.decode(requirement.getTitle(), "utf-8");
-		
-		logger.info(decodeTitle + " is equals to " + title);
-		
-		if (decodeTitle.equals(title)) {
+		logger.info("Decoded title is " + title);
+
+		// Compares decoded title with instance of database
+		if (requirement.getTitle().equalsIgnoreCase(title)) {
 			return requirement;
 		} else {
 			throw new IllegalArgumentException("This requirement not exist");

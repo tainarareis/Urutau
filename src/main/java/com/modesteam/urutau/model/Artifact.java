@@ -1,5 +1,8 @@
 package com.modesteam.urutau.model;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.List;
 
@@ -54,6 +57,11 @@ public abstract class Artifact {
 	private Calendar lastModificationDate;
 	
 	private String title;
+
+	@Transient
+	// Generated from title
+	private String encodedTitle;
+	
 	private String description;
 	private ArtifactType artifactType;
 	
@@ -71,6 +79,15 @@ public abstract class Artifact {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getEncodedTitle() throws UnsupportedEncodingException {
+		setEncodedTitle(title);
+		return encodedTitle;
+	}
+
+	public void setEncodedTitle(String encodedTitle) throws UnsupportedEncodingException {
+		this.encodedTitle = URLEncoder.encode(encodedTitle, StandardCharsets.UTF_8.toString());
 	}
 
 	public String getDescription() {

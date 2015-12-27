@@ -34,7 +34,7 @@
 			  				 <fmt:formatDate value="${requirement.dateOfCreation.time}" pattern="dd/MM/yyyy"/>
 			  			</td>
 			  			<td>
-			  			<a href="showRequirement/${requirement.id}/${requirement.title}" title="Show"  
+			  			<a href="show/${requirement.id}/${requirement.encodedTitle}" title="Show"  
 			  				data-toggle="modal" data-target="#myModal-${requirement.id}">
 				        	<span class="glyphicon glyphicon-eye-open"></span>
 				        </a>
@@ -45,11 +45,12 @@
 							      <!-- Modal content-->
 							      <div class="modal-content">
 							        <div class="modal-header">
-							          <a href="showRequirement/${requirement.id}/${requirement.title}" title="Show">
-							          	<span class="glyphicon glyphicon-eye-open"></span>
-							          </a>
-							          <h4 class="modal-title">${requirement.title} <br> By ${requirement.author.name} in 
+							          <h4 class="modal-title">
+							          	${requirement.title}
+							          	<br/>
+								        <small>By ${requirement.author.name} in 
 										<fmt:formatDate value="${requirement.dateOfCreation.time}" type="date" dateStyle="short" />
+										</small>
 							          </h4>
 							        </div>
 							        <div class="modal-body">

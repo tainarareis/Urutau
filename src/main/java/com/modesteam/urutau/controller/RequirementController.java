@@ -2,6 +2,7 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,13 +65,14 @@ public class RequirementController {
 	 * @throws UnsupportedEncodingException invalid characters or decodes fails
 	 */
 	@Get
-	@Path("/showRequirement/{id}/{title}")
-	public Artifact show(int id, String title) throws UnsupportedEncodingException{	
-		title = URLDecoder.decode(title, "utf-8");
+	@Path("/show/{id}/{title}")
+	public Artifact show(int id, String title) throws UnsupportedEncodingException {
+		String decodedTitle = URLDecoder.decode(title, 
+				StandardCharsets.UTF_8.toString());
 		
 		logger.info("Show requirement " + title);
 		
-		Artifact requirement = requirementService.getRequirement(id, title);
+		Artifact requirement = requirementService.getRequirement(id, decodedTitle);
 		
 		return requirement;
 	}
