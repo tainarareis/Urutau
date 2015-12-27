@@ -4,16 +4,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-<style type="text/css">
-.form-control {
-	margin-bottom: 10px;
-}
-</style>
 </head>
 <body>
-	<div id="storie" class="requirement-box">
+	<div class="modal-content" >
+		<div class="modal-header">
+	    	<h4><i class="glyphicon glyphicon-plus"></i> Storie</h4>
+	    </div> 
+		<div id="storie" class="requirement-box">
 			<form action="requirement/createUserStory" method="POST">		
 				<input name="storie.projectID" type="hidden" value="${projectID}">
 				<input type="text" name="storie.title" placeholder="Title" class="form-control">
@@ -25,5 +22,6 @@
 				<input type="submit" value="Add" class="btn btn-success btn-group-justified">
 			</form>
 		</div>
+	</div>
 </body>
 </html>

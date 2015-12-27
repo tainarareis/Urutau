@@ -48,34 +48,39 @@
 		                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
 		                	<ul id="demo" class="collapse list-unstyled suboption">
 		                    <li>
-		                        <a href="<c:url value="/requirement/generic"/>" class="link-frame">
+		                        <a href="<c:url value="/requirement/generic"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
 		                        	Generic Requirement
 		                        </a>
 		                    </li>
 		                    <li>
-		                        <a href="<c:url value="/requirement/storie"/>" class="link-frame">
+		                        <a href="<c:url value="/requirement/storie"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
 		                        	User Story
 		                        </a>
 		                    </li>
 		                    <li>
-		                        <a href="<c:url value="/requirement/feature"/>" class="link-frame">
+		                        <a href="<c:url value="/requirement/feature"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
 		                        	Feature
 		                        </a>
 		                    </li>
 		                    <li>
-		                       <a href="<c:url value="/requirement/epic"/>" class="link-frame">
+		                       <a href="<c:url value="/requirement/epic"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
 		                       		Epic
 		                       	</a>
 		                    </li>
 		                    <li>
-		                        <a href="<c:url value="/requirement/useCase"/>" class="link-frame">
+		                        <a href="<c:url value="/requirement/useCase"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
 		                        	Use Case
 		                        </a>
 		                    </li>                                                      
 		                </ul>
 			             </li>
 			             <li>
-			             	<a href="#" class="header-option">More options</a>
+			             	<a href="#" class="header-option">Kanban</a>
 			             </li>
 			             <li>
 							<a href="#" class="header-option">Settings</a>
@@ -84,6 +89,11 @@
 			             	<a href="#" class="header-option">Activity</a>
 			             </li>            
 			        </ul>
+			        <div class="modal fade" id="create-r-modal"  tabindex="-1" role="dialog">
+						<div class="modal-dialog" id="r-form">
+							
+						</div>
+					</div>
 		        </div>
 	       	</div>    
  		</div>

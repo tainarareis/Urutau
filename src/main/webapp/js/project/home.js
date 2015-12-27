@@ -4,18 +4,8 @@
  * 
  */
 $(document).ready(function() {
-	$(".link-frame").click(function() {
-		$(".create-requirement").show("slow");
-	});
-	
-	$("#cancel-create-req").click(function() {
-		$(".create-requirement").hide("slow");
-	});
-	
-	$(".link-frame").click(function(event) {
-		// Cancel redirect
-		event.preventDefault();
-		
+	$(".link-create-r-modal").click(function() {
+
 		/* Link of page that call an GET method. 
 		 * Example: 
 		 *	 link - requirement/generic
@@ -26,8 +16,8 @@ $(document).ready(function() {
 		$.ajax({
 		     url: requirementFormUrl,
 		     type:"GET",
-		     success:function(result){
-		    	 $(".create-frame").html(result);
+		     success:function(result) {
+		    	 $("#r-form").html(result);
 		    	 
 	     }});
 	});
