@@ -115,11 +115,24 @@
  					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
  				</div>
  			</div>
+ 			
+ 			<!-- Renderize message of success -->
+			<c:if test="${message-success ne 0}">
+ 				<div class="panel panel-success">
+	 				<div class="panel-body bg-success">
+	 					${message-success}
+	 					<button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</c:if>
+ 			
  			<div class="panel panel-default">
  				<div class="panel-body">
-				<div class="panel-body requirements">
-					
-				</div>
+					<div class="panel-body requirements">
+						
+					</div>
  				</div>
        		</div>
  		</div>

@@ -1,5 +1,6 @@
 package com.modesteam.urutau.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +22,7 @@ import br.com.caelum.vraptor.validator.Validator;
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.RequirementDAO;
+import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.ArtifactType;
@@ -126,6 +128,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	 * {@link #validate()}
 	 * 
 	 * @param requirement to be persisted
+	 * @throws UnsupportedEncodingException 
+	 * @throws NumberFormatException 
 	 */
 	private void save(Artifact requirement) {
 		
@@ -144,9 +148,19 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		logger.info("Requesting persistence of requirement...");
 		
 		create(requirement);
-		
-		result.include(FieldMessage.SUCCESS.toString(), "Requirement succesfully registered.");
-		result.nothing();
+	
+		try {
+			Project currentProject = requirement.getProject();
+			// Show success message
+			result.include(FieldMessage.SUCCESS.toString(), 
+					"Requirement added with sucessful!");		
+			
+			// Warning! Treat this cast
+			result.redirectTo(ProjectController.class)
+				.home((int) currentProject.getProjectID(), currentProject.getTitle());
+		} catch (NumberFormatException | UnsupportedEncodingException e) {
+			throw new SystemBreakException();
+		}
 	}
 	
 	/**

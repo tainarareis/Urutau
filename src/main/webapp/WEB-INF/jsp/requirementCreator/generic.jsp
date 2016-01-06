@@ -15,7 +15,7 @@
 				<input name="generic.projectID" type="hidden" value="${projectID}">
 				<input name="generic.title" placeholder="Title" type="text" class="form-control" >
 				<input name="generic.description" placeholder="Description" type="text" class="form-control" > 
-				<input type="submit" value="Add" class="btn btn-success btn-group-justified">
+				<input type="submit" value="Add" class="btn btn-success btn-group-justified submit-req">
 			</form>
 		</div>
 	</div>

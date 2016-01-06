@@ -81,8 +81,10 @@ public class RequirementDAO extends GenericDAO<Artifact> {
 		logger.info("Get requirement between " + firstResult + " and " 
 				+ (firstResult+maxResult));
 		
-		String sql = "SELECT requirement FROM "+ Artifact.class.getName() + " requirement "
-				+ "JOIN FETCH  requirement.project project WHERE project.projectID=:projectID";
+		String sql = "SELECT requirement FROM "+ Artifact.class.getName() + " requirement"
+				+ " JOIN FETCH  requirement.project project"
+				+ " WHERE project.projectID=:projectID"
+				+ " ORDER BY requirement.dateOfCreation DESC";
 
 		Query query = manager.createQuery(sql);
 		query.setParameter("projectID", projectID);

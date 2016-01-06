@@ -12,14 +12,18 @@ $(document).ready(function() {
 		 *	 method on Requirement: public Long generic(Long projectID)
 		 */
 		requirementFormUrl = $(this).attr("href") + "/" +page.projectID;
-
+		
 		$.ajax({
 		     url: requirementFormUrl,
 		     type:"GET",
 		     success:function(result) {
 		    	 $("#r-form").html(result);
-		    	 
 	     }});
+	});
+	
+	$(".btn-add-requirement").click(function(event) {
+		event.preventDefalt();
+		location.reload();
 	});
 });
 
