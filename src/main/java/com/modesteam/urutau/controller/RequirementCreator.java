@@ -151,9 +151,9 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	
 		try {
 			Project currentProject = requirement.getProject();
+			
 			// Show success message
-			result.include(FieldMessage.SUCCESS.toString(), 
-					"Requirement added with sucessful!");		
+			result.include(FieldMessage.SUCCESS.toString(), "Requirement added with sucessful!");
 			
 			// Warning! Treat this cast
 			result.redirectTo(ProjectController.class)

@@ -20,11 +20,6 @@ $(document).ready(function() {
 		    	 $("#r-form").html(result);
 	     }});
 	});
-	
-	$(".btn-add-requirement").click(function(event) {
-		event.preventDefalt();
-		location.reload();
-	});
 });
 
 /**
