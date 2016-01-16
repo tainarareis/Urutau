@@ -65,7 +65,7 @@ public class ProjectControllerTest {
 		PowerMock.replayAll();
 		ProjectController controllerMock = 
 				new ProjectController(mockResult, mockUserSession, mockService, mockUserService, mockValidator);
-		controllerMock.createProject(project);
+		controllerMock.create(project);
 	}
 	
 	@Test(expected=ValidationException.class)
@@ -80,7 +80,7 @@ public class ProjectControllerTest {
 		PowerMock.replayAll();
 		ProjectController controllerMock = 
 				new ProjectController(mockResult, mockUserSession, mockService, mockUserService, mockValidator);
-		controllerMock.createProject(project);
+		controllerMock.create(project);
 	}
 	
 

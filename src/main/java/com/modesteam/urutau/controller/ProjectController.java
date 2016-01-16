@@ -22,10 +22,11 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.FieldMessage;
-import com.modesteam.urutau.model.system.Metodology;
+import com.modesteam.urutau.model.system.MetodologyEnum;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
 
@@ -34,11 +35,12 @@ import com.modesteam.urutau.service.UserService;
  * The systems operations are received by the path /requirement followed
  * by the operation defined path.
  */
-
 @Controller
 public class ProjectController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
+
+	private static final int INVALID_METODOLOGY_CODE = -1;
 	
 	private final Result result;
 	
@@ -76,7 +78,8 @@ public class ProjectController {
 	 * @throws UnsupportedEncodingException when show is requested 
 	 */
 	@Post
-	public void createProject(Project project) throws UnsupportedEncodingException {
+	@Path("/project/create")
+	public void create(Project project) throws UnsupportedEncodingException {
 		
 		logger.info("Project will be persisted: " + project.getTitle());
 		
@@ -216,15 +219,15 @@ public class ProjectController {
 	}
 	
 	/**
-	 * Load enum {@link Metodology} in string to field select
+	 * Load enum {@link MetodologyEnum} in string to field select
 	 * into project create
 	 * 
 	 */
 	private void loadProjectTypes() {
 		List<String> metodologies = new ArrayList<String>();
 		
-		for(Metodology metodology : Metodology.values()){
-			metodologies.add(metodology.getName());
+		for(MetodologyEnum metodology : MetodologyEnum.values()) {
+			metodologies.add(metodology.toString());
 		}
 		
 		result.include("metodologies", metodologies);
@@ -236,20 +239,74 @@ public class ProjectController {
 	 * @param project soon persisted
 	 */
 	private void insertBasicInformation(Project project) {
+		insertDate(project);
+
+		insertAuthor(project);
+		
+		setMetodologyCode(project);
+	}
+	
+	/**
+	 * From metodology name, set metodology code
+	 *  
+	 * @param project to be persisted
+	 */
+	private void setMetodologyCode(Project project) {
+		String projectMetodologyName = project.getMetodology();
+		
+		logger.info("Metodology choose was " + projectMetodologyName);
+		
+		int metodologyCode = INVALID_METODOLOGY_CODE;
+		
+		for(MetodologyEnum metodology : MetodologyEnum.values()) {
+			
+			if(metodology.refersTo(projectMetodologyName)) {
+				
+				metodologyCode = metodology.getId();
+				logger.debug("So, id of metodology choose are " + metodologyCode);
+				
+				// Stop loop
+				break;
+				
+			} else {
+				// Keep searching
+			}
+		}
+		
+		// Setting metodology code or throw an exception
+		if(metodologyCode != INVALID_METODOLOGY_CODE) {
+			project.setMetodologyCode(metodologyCode);
+		} else {
+			throw new SystemBreakException("Any metodology was found!");
+		}
+	}
+
+	/**
+	 * Set current user logged like author
+	 * 
+	 * @param project to be created
+	 */
+	private void insertAuthor(Project project) {
+		User logged = userSession.getUserLogged();		
+		logged = userService.reloadFromDB(logged.getUserID());
+
+		project.setAuthor(logged);
+
+		// Owner is member too
+		project.getMembers().add(logged);
+	}
+
+	/**
+	 * Format date with current value
+	 * 
+	 * @param project to be persisted
+	 */
+	private void insertDate(Project project) {
 		Date currentDate = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(currentDate);
 		
 		project.setDateOfCreation(calendar);
-		
-		User logged = userSession.getUserLogged();
-		
-		logged = userService.reloadFromDB(logged.getUserID());
-
-		project.setAuthor(logged);
-		
-		// Owner is member too
-		project.getMembers().add(logged);
 	}
 
 }

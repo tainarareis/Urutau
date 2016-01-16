@@ -1,14 +1,10 @@
 package com.modesteam.urutau.model.system;
 
-public enum Metodology {
-	GENERIC(1, "Generic"), 
-	SCRUM(2, "Scrum"), 
-	UNIFIED_PROCESS(3, "Unified process");
+public class Metodology {
+	private int id;
+	private String name;
 
-	private final int id;
-	private final String name;
-
-	private Metodology(final int id, final String name) {
+	public Metodology(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -17,7 +13,15 @@ public enum Metodology {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

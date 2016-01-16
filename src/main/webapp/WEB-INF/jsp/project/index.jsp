@@ -72,7 +72,7 @@
         			</h2>
         		</div>
 	            <div id=create-project class="project-box">
-					<form action="project/createProject" method="POST">
+					<form action="project/create" method="POST">
 						<input name="project.title" placeholder="Title" type="text" class="form-control">
 						<br/>
 						<select class="form-control" name="project.metodology">

@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Project {
@@ -25,8 +26,12 @@ public class Project {
 
 	private String title;
 	private String description;
-	private String metodology;
 	
+	@Transient
+	private String metodology;
+	// Only this are persisted
+	private int metodologyCode;
+
 	@OneToMany(mappedBy="project")
 	private List<Artifact> requirements;
 
@@ -63,6 +68,10 @@ public class Project {
 		return description;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String getMetodology() {
 		return metodology;
 	}
@@ -71,8 +80,12 @@ public class Project {
 		this.metodology = metodology;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public int getMetodologyCode() {
+		return metodologyCode;
+	}
+
+	public void setMetodologyCode(int metodologyCode) {
+		this.metodologyCode = metodologyCode;
 	}
 
 	public User getAuthor() {
