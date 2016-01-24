@@ -46,38 +46,53 @@
 	            	<li>
 	                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
 	                	<ul id="demo" class="collapse list-unstyled suboption">
-	                    <li>
-	                        <a href="<c:url value="/requirement/generic"/>" class="link-create-r-modal" 
-	                        	data-toggle="modal" data-target="#create-r-modal">
-	                        	Generic Requirement
-	                        </a>
-	                    </li>
-	                    <li>
-	                        <a href="<c:url value="/requirement/storie"/>" class="link-create-r-modal" 
-	                        	data-toggle="modal" data-target="#create-r-modal">
-	                        	User Story
-	                        </a>
-	                    </li>
-	                    <li>
-	                        <a href="<c:url value="/requirement/feature"/>" class="link-create-r-modal" 
-	                        	data-toggle="modal" data-target="#create-r-modal">
-	                        	Feature
-	                        </a>
-	                    </li>
-	                    <li>
-	                       <a href="<c:url value="/requirement/epic"/>" class="link-create-r-modal" 
-	                        	data-toggle="modal" data-target="#create-r-modal">
-	                       		Epic
-	                       	</a>
-	                    </li>
-	                    <li>
-	                        <a href="<c:url value="/requirement/useCase"/>" class="link-create-r-modal" 
-	                        	data-toggle="modal" data-target="#create-r-modal">
-	                        	Use Case
-	                        </a>
-	                    </li>                                                      
-	                </ul>
-		             </li>
+	                    <c:if test="${project.isGeneric()}">
+		                    <li>
+		                        <a href="<c:url value="/requirement/generic"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
+		                        	Generic Requirement
+		                        </a>
+		                    </li>
+	                   	</c:if>
+	                    
+	                    <c:if test="c">
+		                    <li>
+		                        <a href="<c:url value="/requirement/storie"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
+		                        	User Story
+		                        </a>
+		                    </li>
+	                    </c:if>
+	                    
+	                    <c:if test="${project.isGeneric() || project.isScrum()}">
+		                    <li>
+		                        <a href="<c:url value="/requirement/feature"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
+		                        	Feature
+		                        </a>
+		                    </li>
+	                    </c:if>
+	                    
+	                    <c:if test="${project.isGeneric() || project.isScrum()}">
+		                    <li>
+		                       <a href="<c:url value="/requirement/epic"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
+		                       		Epic
+		                       	</a>
+		                    </li>
+	                    </c:if>
+	 
+	                    <c:if test="${project.isGeneric() || project.isUP()}">
+		                    <li>
+		                        <a href="<c:url value="/requirement/useCase"/>" class="link-create-r-modal" 
+		                        	data-toggle="modal" data-target="#create-r-modal">
+		                        	Use Case
+		                        </a>
+		                    </li>
+		                </c:if>
+	                	</ul>
+		            </li>
+		             
 		             <li>
 		             	<a href="#" class="header-option">Kanban</a>
 		             </li>

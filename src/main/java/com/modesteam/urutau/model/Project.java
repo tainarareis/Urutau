@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.modesteam.urutau.model.system.MetodologyEnum;
+
 @Entity
 public class Project {
 
@@ -118,5 +120,17 @@ public class Project {
 
 	public void setRequirements(List<Artifact> requirements) {
 		this.requirements = requirements;
+	}
+	
+	public boolean isScrum() {
+		return MetodologyEnum.SCRUM.getId() == metodologyCode;
+	}
+	
+	public boolean isUP() {
+		return MetodologyEnum.UNIFIED_PROCESS.getId() == metodologyCode;
+	}
+	
+	public boolean isGeneric() {
+		return MetodologyEnum.GENERIC.getId() == metodologyCode;
 	}
 }
