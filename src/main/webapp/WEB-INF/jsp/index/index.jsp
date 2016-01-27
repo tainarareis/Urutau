@@ -136,7 +136,7 @@
         </div>
     </section>
     
-    <%@ include file="/WEB-INF/layouts/footer.jspf"%>
+    <%@ include file="/WEB-INF/layouts/footer.jsp"%>
     
 </body>
 

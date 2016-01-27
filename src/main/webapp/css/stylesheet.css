@@ -1,19 +1,27 @@
 @CHARSET "UTF-8";
 
-body{
-  min-height: 600px;
+html,body {
+    height: 100%
 }
 
-/*
-* Into index it is overwrite
-*/
+/* Into index it is overwrite */
 header {
 	padding-bottom: 100px;
 }
 
-.container {
-	text-align: center;
+#wrap {
+	min-height: 80%;	
 }
+
+footer {
+	padding: 50px;
+}
+
+footer .copyright {
+	color: #000;
+	font-size: 20px;
+}
+
 
 .form-control {
 	margin-bottom: 10px;
@@ -107,15 +115,6 @@ header {
 	font-size: 20px;
 }
 
-footer {
-	background-color: #2E2E2E;
-	padding: 50px;
-}
-
-footer .copyright {
-	color: #FFF;
-	font-size: 20px;
-}
 
 .create-requirement {
 	display: none;
