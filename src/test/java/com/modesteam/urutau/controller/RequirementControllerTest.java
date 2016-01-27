@@ -68,7 +68,7 @@ public class RequirementControllerTest {
 		
 		RequirementController controllerMock = 
 				new RequirementController(mockResult, mockService, mockValidator);
-		controllerMock.excludeRequirement(1L);
+		controllerMock.delete(1L);
 	}
 	
 	@Test
@@ -118,7 +118,7 @@ public class RequirementControllerTest {
 	}
 
 	private void mockRemove(Long id) {
-		mockService.excludeRequirement(id);
+		mockService.delete(id);
 		EasyMock.expectLastCall();
 	}
 

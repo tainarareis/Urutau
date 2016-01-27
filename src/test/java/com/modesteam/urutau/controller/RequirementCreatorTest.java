@@ -18,12 +18,16 @@ import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
+import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.ProjectService;
 
 public class RequirementCreatorTest {
+
+	private static final long FAKE_PROJECT_ID = 777L;
+	private static final long FAKE_REQUIREMENT_ID = 333L;
 
 	private final Logger logger = Logger.getLogger(RequirementCreator.class);
 	
@@ -57,13 +61,16 @@ public class RequirementCreatorTest {
 	public void createValidFeature() {
 		ArtifactBuilder builderFeature = new ArtifactBuilder();
 
+		Project projectBelong = createMockProject();
+		
 		Feature feature = builderFeature
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildFeature();
- 
+		
+		mockProjectLoad(projectBelong);
 		mockAdd(feature);
 		PowerMock.replayAll();
 		RequirementCreator controllerMock = 
@@ -75,14 +82,16 @@ public class RequirementCreatorTest {
 	@Test
 	public void createValidGeneric() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-
+		Project projectBelong = createMockProject();
+		
 		Generic generic = builder
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildGeneric();
- 
+		
+		mockProjectLoad(projectBelong);
 		mockAdd(generic);
 		PowerMock.replayAll();
 		RequirementCreator controllerMock = 
@@ -94,15 +103,17 @@ public class RequirementCreatorTest {
 	@Test
 	public void createValidEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
-
+		Project projectBelong = createMockProject();
+		
 		Epic epic = builderEpic
-					.id(1L)
+					.id(FAKE_REQUIREMENT_ID)
 					.title("Example")
 					.description("test unit")
-					.projectID(1L)
+					.projectID(FAKE_PROJECT_ID)
 					.buildEpic();
 
 		mockAdd(epic);
+		mockProjectLoad(projectBelong);
 		
 		PowerMock.replayAll();
 		
@@ -116,17 +127,20 @@ public class RequirementCreatorTest {
 	@Test
 	public void createValidStorie() {
 		ArtifactBuilder builderStorie = new ArtifactBuilder();
-
+		
+		Project projectBelong = createMockProject();
+		
 		Storie storie = builderStorie
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildStorie();
-
+		
+		mockProjectLoad(projectBelong);
 		mockAdd(storie);
 		PowerMock.replayAll();
-
+		
 		RequirementCreator controllerMock = 
 				new RequirementCreator(mockResult, mockValidator, mockDAO,
 						mockUserSession, mockProjectService);
@@ -137,16 +151,18 @@ public class RequirementCreatorTest {
 	@Test
 	public void createValidUseCase() {
 		ArtifactBuilder builderUseCase = new ArtifactBuilder();
-
+		Project projectBelong = createMockProject();
+		
 		UseCase useCase = builderUseCase
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildUseCase();
 		
 		useCase.setFakeActors("Customer");
-
+		
+		mockProjectLoad(projectBelong);
 		mockAdd(useCase);
 		PowerMock.replayAll();
 		RequirementCreator controllerMock = 
@@ -164,10 +180,10 @@ public class RequirementCreatorTest {
 		ArtifactBuilder builderUseCase = new ArtifactBuilder();
 
 		UseCase useCase = builderUseCase
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildUseCase();
 		
 		// Force error
@@ -189,16 +205,17 @@ public class RequirementCreatorTest {
 	@Test(expected=ValidationException.class)
 	public void testWithInvalidUser() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-
+		Project projectBelong = createMockProject();
+		
 		Generic generic = builder
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildGeneric();
 
+		mockProjectLoad(projectBelong);
 		mockAdd(generic);
-		
 		UserSession InvalidUserMock = new UserSession() {
 			
 			private static final long serialVersionUID = 1L;
@@ -224,16 +241,17 @@ public class RequirementCreatorTest {
 	@Test(expected=ValidationException.class)
 	public void testWithoutTitle() {
 		ArtifactBuilder builder = new ArtifactBuilder();
+		Project projectBelong = createMockProject();
 
 		Generic generic = builder
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title(null)
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildGeneric();
 
+		mockProjectLoad(projectBelong);
 		mockAdd(generic);
-				
 		PowerMock.replayAll();
 		
 		RequirementCreator controllerMock = 
@@ -247,20 +265,28 @@ public class RequirementCreatorTest {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
 
 		Epic epic = builderEpic
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
-				.projectID(1L)
+				.projectID(FAKE_PROJECT_ID)
 				.buildEpic();
 
 		mockAdd(epic);
 		PowerMock.replayAll();
 		
-//		mockRemove(1L);
+//		mockRemove(FAKE_REQUIREMENT_ID);
 //		RequirementController controllerMock = new RequirementController(
 //				mockResult, mockUserSession, mockArtifactService, mockValidator);
-//		controllerMock.excludeRequirement(1L);
+//		controllerMock.excludeRequirement(FAKE_REQUIREMENT_ID);
 
+	}
+	
+	private Project createMockProject() {
+		Project projectBelong = new Project();
+		projectBelong.setProjectID(FAKE_PROJECT_ID);
+		projectBelong.setTitle("Simple test");
+
+		return projectBelong;
 	}
 
 	/**
@@ -270,5 +296,11 @@ public class RequirementCreatorTest {
 	private void mockAdd(Artifact artifact) {
 		mockDAO.create(artifact);
 		EasyMock.expectLastCall();
+	}
+	
+	private void mockProjectLoad(Project project) {
+		EasyMock.expect(mockProjectService.load(project.getProjectID()))
+			.andReturn(project).anyTimes();
+		EasyMock.replay(mockProjectService);
 	}
 }

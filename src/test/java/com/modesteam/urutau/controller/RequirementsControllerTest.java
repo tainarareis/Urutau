@@ -44,7 +44,7 @@ public class RequirementsControllerTest {
 		PowerMock.replayAll();
 		mockRemove(1L);
 		RequirementController controllerMock = new RequirementController(mockResult, mockArtifactService,mockValidator);
-		controllerMock.excludeRequirement(1L);		
+		controllerMock.delete(1L);		
 	}
 	
 	private void mockAdd(Artifact artifact){
@@ -53,7 +53,7 @@ public class RequirementsControllerTest {
 	}
 	
 	private void mockRemove(Long id){
-		mockArtifactService.excludeRequirement(id);
+		mockArtifactService.delete(id);
 		EasyMock.expectLastCall();
 	}
 }

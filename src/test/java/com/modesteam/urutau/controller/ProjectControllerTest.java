@@ -17,6 +17,7 @@ import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ProjectBuilder;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.MetodologyEnum;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
 
@@ -60,6 +61,8 @@ public class ProjectControllerTest {
 
 		Project project = projectBuilder.id(1L).title("Example Valid")
 				.description("test unit").builProject();
+		
+		project.setMetodology(MetodologyEnum.GENERIC.toString());
  
 		mockAdd(project);
 		PowerMock.replayAll();
@@ -86,8 +89,6 @@ public class ProjectControllerTest {
 
 	@Test
 	public void deleteValidProject(){
-		ProjectBuilder projectBuilder = new ProjectBuilder();
-
 		mockExistence(1L, true);
 		mockRemove(1L);
 		EasyMock.replay(mockService);

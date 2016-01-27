@@ -152,6 +152,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		try {
 			Project currentProject = requirement.getProject();
 			
+			logger.debug("Project ID is " + currentProject.getProjectID());
+			
 			// Show success message
 			result.include(FieldMessage.SUCCESS.toString(), "Requirement added with sucessful!");
 			
@@ -188,6 +190,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 
 		// Load by id
 		Project associatedProject = projectService.load(projectID);
+		logger.debug("Id is " + associatedProject.getProjectID());
 		requirement.setProject(associatedProject);
 	}
 
