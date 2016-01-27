@@ -21,7 +21,6 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
-import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
@@ -101,7 +100,7 @@ public class ProjectController {
 		
 		logger.warn("Project id is " + project.getProjectID());
 		
-		result.redirectTo(this).home((int)project.getProjectID(), project.getTitle());
+		result.redirectTo(this).show((int)project.getProjectID(), project.getTitle());
 	}
 	
 	
@@ -140,7 +139,7 @@ public class ProjectController {
 	 */
 	@Get
 	@Path("/{id}-{title}")
-	public Project home(int id, String title) throws UnsupportedEncodingException {
+	public Project show(int id, String title) throws UnsupportedEncodingException {
 		title = URLDecoder.decode(title, "utf-8");
 		
 		logger.info("Show project " + title);
@@ -166,16 +165,7 @@ public class ProjectController {
 		
 		return projects;
 	}
-	
-	@Post
-	public void detailProject() {
 		
-	}
-	
-	@View
-	public void showCreationResult() {
-		
-	}
 	
 	/**
 	 * Load an list of metodology to show in an select field.
@@ -201,11 +191,6 @@ public class ProjectController {
 	}
 	
 
-	@View
-	public void home(){
- 
-	}
-	
 	/**
 	 * Called only by ajax
 	 */
@@ -308,5 +293,4 @@ public class ProjectController {
 		
 		project.setDateOfCreation(calendar);
 	}
-
 }

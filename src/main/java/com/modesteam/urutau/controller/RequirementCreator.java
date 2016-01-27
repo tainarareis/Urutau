@@ -157,7 +157,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 			
 			// Warning! Treat this cast
 			result.redirectTo(ProjectController.class)
-				.home((int) currentProject.getProjectID(), currentProject.getTitle());
+				.show((int) currentProject.getProjectID(), currentProject.getTitle());
 		} catch (NumberFormatException | UnsupportedEncodingException e) {
 			throw new SystemBreakException();
 		}
