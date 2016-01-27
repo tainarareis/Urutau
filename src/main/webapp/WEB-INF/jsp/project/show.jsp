@@ -32,6 +32,7 @@
 	window.onload = function(event) {
 		paginate();
 	}
+
 </script>
 
 <script src="<c:url value='/js/project/home.js'/>"/></script>
@@ -139,21 +140,24 @@
 					</div>
 				</div>
 			</c:if>
-
-			<c:if test="${requirements || requirements.size()>0}">
-				<div class="panel panel-default">
-					<div class="panel-body">
-					<div class="panel-body requirements">
-						
-					</div>
-					</div>
-	      		</div>
-      		</c:if>
-      		
-      		<!-- Reverse of up -->
-      		<c:if test="${ !requirements || !requirements.size() > 0 }">
-      			<h2 class="text-center">Anyone requirement yet!</h2>
-      		</c:if>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<c:choose>
+					<c:when test="${!project.isEmpty()}">
+						<div class="panel-body requirements">
+									
+				    	</div>	
+					</c:when>
+					<c:otherwise>
+		      			<h2 class="text-center">
+		      				<span class="glyphicon glyphicon-info-sign"></span>
+		      				Anyone requirement yet!
+		      			</h2>	
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+	  		
 		</div>
 </body>
 </html>

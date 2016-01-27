@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
@@ -107,28 +106,18 @@ public class RequirementController {
 		
 		return requirements;
 	}
-		
-	/**
-	 * 
-	 * @param requirement
-	 */
-	@Post
-	@Path("/detailRequirement")
-	public void detailRequirement(Artifact requirement) {
-		// rethink method
-	}
 	
 	/**
 	 * This method is used to delete one requirement
 	 * @param requirementId
 	 */
 	@Get
-	@Path("/excludeRequirement/{id}")
-	public void excludeRequirement(Long id) {
+	@Path("/delete/{id}")
+	public void delete(Long id) {
 		
 		logger.info("The requirement with the id " +id + " is solicitated for exclusion.");
 		
-		requirementService.excludeRequirement(id);
+		requirementService.delete(id);
 		
 		boolean requirementExistence = requirementService.verifyExistence(id);
 		

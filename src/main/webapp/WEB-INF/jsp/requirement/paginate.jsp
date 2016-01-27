@@ -71,7 +71,7 @@
 			  				</a>
 			  			</td>
 			  			<td>
-			  				<a href="excludeRequirement/${requirement.id}" title="Delete">
+			  				<a href="delete/${requirement.id}" title="Delete">
 			  					<span class="glyphicon glyphicon-remove"></span>
 			  				</a>
 			  			</td>		  				

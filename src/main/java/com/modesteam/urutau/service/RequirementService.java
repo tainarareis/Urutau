@@ -59,7 +59,7 @@ public class RequirementService {
 	 * asking for the requirement exclusion from database.
 	 * @param requirement
 	 */
-	public void excludeRequirement(Long requirementId) {
+	public void delete(Long requirementId) {
 		if( requirementId != null ) {
 			Artifact requirement = requirementDAO.find(requirementId);
 			

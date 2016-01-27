@@ -50,6 +50,9 @@ public class Project {
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
 
+	@Transient
+	private boolean isEmpty;
+
 	public long getProjectID() {
 		return projectID;
 	}
@@ -132,5 +135,13 @@ public class Project {
 	
 	public boolean isGeneric() {
 		return MetodologyEnum.GENERIC.getId() == metodologyCode;
+	}
+
+	public boolean isEmpty() {
+		return requirements.isEmpty();
+	}
+
+	public void setEmpty(boolean isEmpty) {
+		this.isEmpty = isEmpty;
 	}
 }
