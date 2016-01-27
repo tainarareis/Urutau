@@ -38,7 +38,9 @@
 
 </head>
 <body>
+	
 	<%@ include file="/WEB-INF/layouts/header.jspf" %>
+	
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="col-md-3">
         	<div class="sidebar-nav navbar-collapse">
@@ -55,7 +57,7 @@
 		                    </li>
 	                   	</c:if>
 	                    
-	                    <c:if test="c">
+	                    <c:if test="${project.isGeneric() || project.isScrum()}">
 		                    <li>
 		                        <a href="<c:url value="/requirement/storie"/>" class="link-create-r-modal" 
 		                        	data-toggle="modal" data-target="#create-r-modal">
@@ -120,10 +122,6 @@
         			</h2>
         		</div>
 	            
-	          	<div class="create-frame">
-	          	
-	          	</div>
-	            
 	            <br/>
   				<div class="panel-footer">
 					<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
@@ -131,24 +129,31 @@
 			</div>
 			
 			<!-- Renderize message of success -->
-		<c:if test="${message-success ne 0}">
-				<div class="panel panel-success">
- 				<div class="panel-body bg-success">
- 					${message-success}
- 					<button type="button" class="close" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+			<c:if test="${message-success ne 0}">
+					<div class="panel panel-success">
+	 				<div class="panel-body bg-success">
+	 					${message-success}
+	 					<button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
 				</div>
-			</div>
-		</c:if>
-			
-			<div class="panel panel-default">
-				<div class="panel-body">
-				<div class="panel-body requirements">
-					
-				</div>
-				</div>
-      		</div>
+			</c:if>
+
+			<c:if test="${requirements || requirements.size()>0}">
+				<div class="panel panel-default">
+					<div class="panel-body">
+					<div class="panel-body requirements">
+						
+					</div>
+					</div>
+	      		</div>
+      		</c:if>
+      		
+      		<!-- Reverse of up -->
+      		<c:if test="${ !requirements || !requirements.size() > 0 }">
+      			<h2 class="text-center">Anyone requirement yet!</h2>
+      		</c:if>
 		</div>
 </body>
 </html>
