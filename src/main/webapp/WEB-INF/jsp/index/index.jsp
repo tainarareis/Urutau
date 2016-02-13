@@ -64,7 +64,7 @@
 	 <div class="container">
 		<div class="col-md-6 col-md-offset-3">
 			<c:forEach var="error" items="${errors}">
-            	<c:if test="${error.category == 'registerError'}">
+            	<c:if test="${error.category == 'error-message'}">
 			    	<span class="error">${error.message}</span> <br />
 			    </c:if>
 			</c:forEach>

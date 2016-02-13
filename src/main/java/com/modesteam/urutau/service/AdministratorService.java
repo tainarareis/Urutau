@@ -72,12 +72,7 @@ public class AdministratorService {
 	 */
 	public boolean existAdministrator() {
 		logger.debug("Verifying existence of administrator...");
-
-		// Verifies if any user exist
-		if (userDAO.get(null, null) == null) {
-			return false;
-		} else {
-			return true;
-		}
+		
+		return userDAO.hasAnyRegister();
 	}
 }

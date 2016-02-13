@@ -42,34 +42,31 @@ public class UserDAO extends GenericDAO<User>{
 
 	@Override
 	public User get(String field, Object value) {
-		String sql = "SELECT user FROM User user";
-		
-		// Verifies if select have an criteria
-		boolean isGenericSelect = field != null && value != null;
-		
-		if(isGenericSelect) {
-			sql = sql + " WHERE user.".concat(field).concat("=:value");
-		} else {
-			// default sql string
-		}
+		String sql = "SELECT user FROM User user WHERE user."+field+"=:value";
 		
 		logger.info(sql);
 		
 		try {
-			Query query = manager.createQuery(sql);
-			
-			if(isGenericSelect) {
-				query.setParameter("value", value);
-			} else {
-				// without param
-			}
-			
+			Query query = manager.createQuery(sql);	
+			query.setParameter("value", value);
 			return (User) query.getSingleResult();
-		} catch (NonUniqueResultException exception){
+		} catch (NonUniqueResultException exception) {
 			throw new NonUniqueResultException();
 		} catch (NoResultException exception) {
 			return null;
 		}
+	}
+	
+	/**
+	 * Verifies if have some user registred
+	 * 
+	 * @return true if some user exists
+	 */
+	public boolean hasAnyRegister() {
+		String sql = "SELECT user FROM " + User.class.getName() + " user";
+		Query query = manager.createQuery(sql);
+		
+		return !query.getResultList().isEmpty();
 	}
 	
 	/**

@@ -7,5 +7,5 @@ package com.modesteam.urutau.model.system;
  */
 public final class FieldMessage {
 	public static final String SUCCESS = "message-success"; 
-	public static final String ERROR = "message-error";
+	public static final String ERROR = "error-message";
 }
