@@ -122,7 +122,7 @@ public class RequirementEditor {
 	 * Allows the modification of an unique requirement
 	 * @param requirement
 	 */
-	public void modifyRequirement(Artifact requirement) {		
+	public void update(Artifact requirement) {		
 		logger.info("Starting the function modifyRequirement");
 		
 		//Setting the current date and current user 
@@ -131,7 +131,7 @@ public class RequirementEditor {
 		User loggedUser = userSession.getUserLogged();
 		requirement.setLastModificationAuthor(loggedUser);
 		
-		boolean updateResult = requirementService.modifyRequirement(requirement);		
+		boolean updateResult = requirementService.update(requirement);		
 		
 		
 		if(updateResult) {

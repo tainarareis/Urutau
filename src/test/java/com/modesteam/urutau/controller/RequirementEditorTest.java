@@ -1,15 +1,15 @@
 package com.modesteam.urutau.controller;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
-import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
@@ -21,18 +21,16 @@ import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
 
 public class RequirementEditorTest {
 	
 	private final Logger logger = Logger.getLogger(ProjectController.class);
 	
-	private MockResult mockResult;
-	private UserSession mockUserSession;
-	private MockValidator mockValidator;
-	private RequirementService mockService;
+	private MockResult result;
+	private UserSession userSession;
+	private MockValidator validator;
+	private RequirementService requirementService;
 	private ArtifactBuilder artifactBuilder = new ArtifactBuilder();
-	private RequirementDAO mockDAO;
 	
 	@Before
 	public void setUp() {
@@ -40,21 +38,17 @@ public class RequirementEditorTest {
 		logger.setLevel(Level.DEBUG);
 		
 		// Mocks supported by vraptor
-		mockResult = new MockResult();
-		mockValidator = new MockValidator();
+		result = new MockResult();
+		validator = new MockValidator();
 
 		// System components
-		mockService = EasyMock.createMock(RequirementService.class);
+		requirementService = mock(RequirementService.class);
 		
-		mockUserSession = EasyMock.createMock(UserSession.class);
+		userSession = mock(UserSession.class);
 		
-		mockDAO = EasyMock.createMock(RequirementDAO.class);
+		User userMock = mock(User.class);
 		
-		User userMock = EasyMock.createNiceMock(User.class);
-		
-		EasyMock.expect(mockUserSession.getUserLogged()).andReturn(userMock).anyTimes();
-		EasyMock.replay(mockUserSession);
-		
+		when(userSession.getUserLogged()).thenReturn(userMock);		
 	}
 	
 	/**
@@ -70,23 +64,12 @@ public class RequirementEditorTest {
 							.description("Valid Description")
 							.buildEpic();
 		
-		mockAdd(epic);
+		doNothingWhenEdit(epic);
 		
-		//Editing the epic
-		epic.setId(15L);
-		epic.setTitle("New Title");
-		epic.setDescription("New Description");
-		 
-		mockEdit(epic);
+		RequirementEditor controller = new RequirementEditor(result, 
+				validator, userSession, requirementService);
 		
-		//Change all mocks object and classes maintained by PowerMock to replay mode.
-		PowerMock.replayAll();
-		
-		RequirementEditor controller = new RequirementEditor(mockResult, 
-				mockValidator, mockUserSession, mockService);
-		
-		controller.modifyRequirement(epic);
-		
+		controller.update(epic);
 	}
 
 	
@@ -103,22 +86,12 @@ public class RequirementEditorTest {
 				.description("Valid Description")
 				.buildGeneric();
 		
-		mockAdd(generic);
+		doNothingWhenEdit(generic);
+				
+		RequirementEditor controller = new RequirementEditor(result, 
+				validator, userSession, requirementService);
 		
-		//Editing the generic requirement
-		generic.setId(15L);
-		generic.setTitle("New Title");
-		generic.setDescription("New Description");
-		 
-		mockEdit(generic);
-		
-		//Change all mocks object and classes maintained by PowerMock to replay mode.
-		PowerMock.replayAll();
-		
-		RequirementEditor controller = new RequirementEditor(mockResult, 
-				mockValidator, mockUserSession, mockService);
-		
-		controller.modifyRequirement(generic);
+		controller.update(generic);
 		
 	}
 	
@@ -135,22 +108,12 @@ public class RequirementEditorTest {
 				.description("Valid Description")
 				.buildFeature();
 		
-		mockAdd(feature);
+		doNothingWhenEdit(feature);
 		
-		//Editing the epic
-		feature.setId(30L);
-		feature.setTitle("New Title");
-		feature.setDescription("New Description");
-		 
-		mockEdit(feature);
+		RequirementEditor controller = new RequirementEditor(result, 
+				validator, userSession, requirementService);
 		
-		//Change all mocks object and classes maintained by PowerMock to replay mode.
-		PowerMock.replayAll();
-		
-		RequirementEditor controller = new RequirementEditor(mockResult, 
-				mockValidator, mockUserSession, mockService);
-		
-		controller.modifyRequirement(feature);
+		controller.update(feature);
 		
 	}
 	
@@ -168,22 +131,12 @@ public class RequirementEditorTest {
 				.description("Valid Description")
 				.buildUseCase();
 		
-		mockAdd(useCase);
+		doNothingWhenEdit(useCase);
 		
-		//Editing the use case
-		useCase.setId(150L);
-		useCase.setTitle("New Title");
-		useCase.setDescription("New Description");
-		 
-		mockEdit(useCase);
+		RequirementEditor controller = new RequirementEditor(result, 
+				validator, userSession, requirementService);
 		
-		//Change all mocks object and classes maintained by PowerMock to replay mode.
-		PowerMock.replayAll();
-		
-		RequirementEditor controller = new RequirementEditor(mockResult, 
-				mockValidator, mockUserSession, mockService);
-		
-		controller.modifyRequirement(useCase);
+		controller.update(useCase);
 		
 	}
 	
@@ -200,41 +153,21 @@ public class RequirementEditorTest {
 				.description("Valid Description")
 				.buildStorie();
 		
-		mockAdd(storie);
+		doNothingWhenEdit(storie);
 		
-		//Editing the storie
-		storie.setId(120L);
-		storie.setTitle("New Title");
-		storie.setDescription("New Description");
-		 
-		mockEdit(storie);
+		RequirementEditor controller = new RequirementEditor(result, 
+				validator, userSession, requirementService);
 		
-		//Change all mocks object and classes maintained by PowerMock to replay mode.
-		PowerMock.replayAll();
-		
-		RequirementEditor controller = new RequirementEditor(mockResult, 
-				mockValidator, mockUserSession, mockService);
-		
-		controller.modifyRequirement(storie);
+		controller.update(storie);
 		
 	}
 	
 	
 	/**
-	 * Mocks DAO create method
+	 * Mocks update method
 	 * @param artifact
 	 */
-	private void mockAdd(Artifact artifact) {
-		mockDAO.create(artifact);
-		EasyMock.expectLastCall();
-	}
-	
-	/**
-	 * Mocks DAO update method
-	 * @param requirement
-	 */
-	private void mockEdit(Artifact requirement) {
-		mockDAO.update(requirement);
-		EasyMock.expectLastCall();
+	private void doNothingWhenEdit(Artifact artifact) {
+		when(requirementService.update(artifact)).thenReturn(true);
 	}
 }
