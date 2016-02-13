@@ -1,18 +1,15 @@
 package com.modesteam.urutau.controller;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
-
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
@@ -22,14 +19,19 @@ import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.RequirementService;
 
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+
 public class RequirementControllerTest {
+
+	private static final Long FAKE_REQUIREMENT_ID = 1L;
 
 	private final Logger logger = Logger.getLogger(RequirementController.class);
 	
-	private MockResult mockResult;
-	private UserSession mockUserSession;
-	private MockValidator mockValidator;
-	private RequirementService mockService;
+	private MockResult result;
+	private UserSession userSession;
+	private MockValidator validator;
+	private RequirementService requirementService;
 
 	@Before
 	public void setup() {
@@ -37,18 +39,17 @@ public class RequirementControllerTest {
 		logger.setLevel(Level.DEBUG);
 		
 		// Mocks supported by vraptor
-		mockResult = new MockResult();
-		mockValidator = new MockValidator();
+		result = new MockResult();
+		validator = new MockValidator();
 
 		// System components
-		mockService = EasyMock.createMock(RequirementService.class);
+		requirementService = mock(RequirementService.class);
 		
-		mockUserSession = EasyMock.createMock(UserSession.class);
+		userSession = mock(UserSession.class);
 		
-		User userMock = EasyMock.createNiceMock(User.class);
+		User userMock = mock(User.class);
 		
-		EasyMock.expect(mockUserSession.getUserLogged()).andReturn(userMock).anyTimes();
-		EasyMock.replay(mockUserSession);
+		when(userSession.getUserLogged()).thenReturn(userMock);
 	}
 	
 	@Test
@@ -56,74 +57,48 @@ public class RequirementControllerTest {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
 
 		Epic epic = builderEpic
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
 				.buildEpic();
 
-		mockAdd(epic);
-		PowerMock.replayAll();
+		doNothingWhenSave(epic);
 		
-		mockRemove(1L);
+		doNothingWhenRemoveById(FAKE_REQUIREMENT_ID);
 		
 		RequirementController controllerMock = 
-				new RequirementController(mockResult, mockService, mockValidator);
-		controllerMock.delete(1L);
+				new RequirementController(result, requirementService, validator);
+		
+		controllerMock.delete(FAKE_REQUIREMENT_ID);
 	}
-	
+
 	@Test
 	public void validShow() throws UnsupportedEncodingException {
 		ArtifactBuilder builder = new ArtifactBuilder();
 		Generic genericRequirement = builder
-				.id(1L)
+				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
 				.description("test unit")
 				.buildGeneric();
 		
-		EasyMock.expect(mockService.getRequirement(1, "Example")).andReturn(genericRequirement);
+		mockShow(genericRequirement);
 		
-		RequirementController controller = new RequirementController(mockResult,
-				mockService, mockValidator);
+		RequirementController controller = 
+				new RequirementController(result, requirementService, validator);
 		
 		controller.show(1, genericRequirement.getTitle());
 	}
 	
-	@Test
-	public void validShowAll() throws UnsupportedEncodingException{
-		ArtifactBuilder builder = new ArtifactBuilder();
-		Generic genericRequirement = builder
-				.id(1L)
-				.title("Example")
-				.description("test unit")
-				.buildGeneric();
-		
-		final List<Artifact> requirements = new ArrayList<Artifact>();
-		
-		requirements.add(genericRequirement);
-		
-		mockService = new RequirementService(){
-			public java.util.List<? extends Artifact> loadAllRequirements() {
-				return requirements;
-			};
-		};
-		
-		RequirementController controller = new RequirementController(mockResult,
-				mockService, mockValidator);
-		
-		controller.showAll();
+	private void mockShow(Generic genericRequirement) throws UnsupportedEncodingException {
+		when(requirementService.getRequirement((int) genericRequirement.getId(), genericRequirement.getTitle()))
+			.thenReturn(genericRequirement);
+	}
+
+	private void doNothingWhenRemoveById(Long id) {
+		doNothing().when(requirementService).delete(id);;
 	}
 	
-	public void showAllRequirements() {
-		
-	}
-
-	private void mockRemove(Long id) {
-		mockService.delete(id);
-		EasyMock.expectLastCall();
-	}
-
-	private void mockAdd(Artifact artifact) {
-		mockService.save(artifact);
-		EasyMock.expectLastCall();
+	private void doNothingWhenSave(Artifact requirement) {
+		doNothing().when(requirementService).save(requirement);
 	}
 }

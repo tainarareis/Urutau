@@ -1,15 +1,13 @@
 package com.modesteam.urutau.controller;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
-
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
@@ -24,6 +22,10 @@ import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.ProjectService;
 
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
+
 public class RequirementCreatorTest {
 
 	private static final long FAKE_PROJECT_ID = 777L;
@@ -31,37 +33,37 @@ public class RequirementCreatorTest {
 
 	private final Logger logger = Logger.getLogger(RequirementCreator.class);
 	
-	private MockResult mockResult;
-	private UserSession mockUserSession;
-	private MockValidator mockValidator;
-	private RequirementDAO mockDAO;
-	private ProjectService mockProjectService;
+	private MockResult result;
+	private UserSession userSession;
+	private MockValidator validator;
+	private RequirementDAO requirementDAO;
+	private ProjectService projectService;
+	private Project ownedProject;
 
 	@Before
 	public void setup() {
-		// Catch all!
+		// Catch all..
 		logger.setLevel(Level.DEBUG);
 		
 		// Mocks supported by vraptor
-		mockResult = new MockResult();
-		mockValidator = new MockValidator();
+		result = new MockResult();
+		validator = new MockValidator();
 
 		// System components
-		mockDAO = EasyMock.createMock(RequirementDAO.class);
-		mockUserSession = EasyMock.createMock(UserSession.class);
-		mockProjectService = EasyMock.createMock(ProjectService.class);
+		requirementDAO = mock(RequirementDAO.class);
+		userSession = mock(UserSession.class);
+		projectService = mock(ProjectService.class);
 		
-		User userMock = EasyMock.createNiceMock(User.class);
+		User userMock = mock(User.class);
 		
-		EasyMock.expect(mockUserSession.getUserLogged()).andReturn(userMock).anyTimes();
-		EasyMock.replay(mockUserSession);
+		when(userSession.getUserLogged()).thenReturn(userMock);
+		
+		ownedProject = createMockProject();
 	}
 
 	@Test
 	public void createValidFeature() {
 		ArtifactBuilder builderFeature = new ArtifactBuilder();
-
-		Project projectBelong = createMockProject();
 		
 		Feature feature = builderFeature
 				.id(FAKE_REQUIREMENT_ID)
@@ -70,19 +72,19 @@ public class RequirementCreatorTest {
 				.projectID(FAKE_PROJECT_ID)
 				.buildFeature();
 		
-		mockProjectLoad(projectBelong);
-		mockAdd(feature);
-		PowerMock.replayAll();
+		mockWhenProjectLoad(ownedProject);
+		
+		doNothingWhenCreate(feature);
+		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+		
 		controllerMock.createFeature(feature);
 	}
 	
 	@Test
 	public void createValidGeneric() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		Project projectBelong = createMockProject();
 		
 		Generic generic = builder
 				.id(FAKE_REQUIREMENT_ID)
@@ -91,19 +93,19 @@ public class RequirementCreatorTest {
 				.projectID(FAKE_PROJECT_ID)
 				.buildGeneric();
 		
-		mockProjectLoad(projectBelong);
-		mockAdd(generic);
-		PowerMock.replayAll();
+		mockWhenProjectLoad(ownedProject);
+		
+		doNothingWhenCreate(generic);
+
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+		
 		controllerMock.createGeneric(generic);
 	}
 
 	@Test
 	public void createValidEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
-		Project projectBelong = createMockProject();
 		
 		Epic epic = builderEpic
 					.id(FAKE_REQUIREMENT_ID)
@@ -112,14 +114,12 @@ public class RequirementCreatorTest {
 					.projectID(FAKE_PROJECT_ID)
 					.buildEpic();
 
-		mockAdd(epic);
-		mockProjectLoad(projectBelong);
-		
-		PowerMock.replayAll();
+		mockWhenProjectLoad(ownedProject);
+
+		doNothingWhenCreate(epic);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
 		
 		controllerMock.createEpic(epic);
 	}
@@ -127,9 +127,7 @@ public class RequirementCreatorTest {
 	@Test
 	public void createValidStorie() {
 		ArtifactBuilder builderStorie = new ArtifactBuilder();
-		
-		Project projectBelong = createMockProject();
-		
+				
 		Storie storie = builderStorie
 				.id(FAKE_REQUIREMENT_ID)
 				.title("Example")
@@ -137,13 +135,12 @@ public class RequirementCreatorTest {
 				.projectID(FAKE_PROJECT_ID)
 				.buildStorie();
 		
-		mockProjectLoad(projectBelong);
-		mockAdd(storie);
-		PowerMock.replayAll();
+		mockWhenProjectLoad(ownedProject);
+		
+		doNothingWhenCreate(storie);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO,
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
 		
 		controllerMock.createUserStory(storie);
 	}
@@ -151,7 +148,6 @@ public class RequirementCreatorTest {
 	@Test
 	public void createValidUseCase() {
 		ArtifactBuilder builderUseCase = new ArtifactBuilder();
-		Project projectBelong = createMockProject();
 		
 		UseCase useCase = builderUseCase
 				.id(FAKE_REQUIREMENT_ID)
@@ -162,12 +158,11 @@ public class RequirementCreatorTest {
 		
 		useCase.setFakeActors("Customer");
 		
-		mockProjectLoad(projectBelong);
-		mockAdd(useCase);
-		PowerMock.replayAll();
+		mockWhenProjectLoad(ownedProject);
+		doNothingWhenCreate(useCase);
+		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -188,13 +183,12 @@ public class RequirementCreatorTest {
 		
 		// Force error
 		useCase.setFakeActors(null);
-
-		mockAdd(useCase);
-		PowerMock.replayAll();
+		
+		mockWhenProjectLoad(ownedProject);
+		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -205,7 +199,6 @@ public class RequirementCreatorTest {
 	@Test(expected=ValidationException.class)
 	public void testWithInvalidUser() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		Project projectBelong = createMockProject();
 		
 		Generic generic = builder
 				.id(FAKE_REQUIREMENT_ID)
@@ -213,25 +206,14 @@ public class RequirementCreatorTest {
 				.description("test unit")
 				.projectID(FAKE_PROJECT_ID)
 				.buildGeneric();
-
-		mockProjectLoad(projectBelong);
-		mockAdd(generic);
-		UserSession InvalidUserMock = new UserSession() {
-			
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public User getUserLogged() {
-				return null;
-			}
-		};
 		
-		PowerMock.replayAll();
+		UserSession invalidSessionMock = createInvaliUserSession();
 		
+		mockWhenLoadProjectBy(generic.getId());
+				
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						InvalidUserMock, mockProjectService);
-
+				new RequirementCreator(result, validator, requirementDAO, invalidSessionMock, projectService);
+		
 		controllerMock.createGeneric(generic);
 	}
 	
@@ -241,7 +223,7 @@ public class RequirementCreatorTest {
 	@Test(expected=ValidationException.class)
 	public void testWithoutTitle() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		Project projectBelong = createMockProject();
+		
 
 		Generic generic = builder
 				.id(FAKE_REQUIREMENT_ID)
@@ -250,57 +232,54 @@ public class RequirementCreatorTest {
 				.projectID(FAKE_PROJECT_ID)
 				.buildGeneric();
 
-		mockProjectLoad(projectBelong);
-		mockAdd(generic);
-		PowerMock.replayAll();
+		mockWhenProjectLoad(ownedProject);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(mockResult, mockValidator, mockDAO, 
-						mockUserSession, mockProjectService);
+				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
 		
 		controllerMock.createGeneric(generic);
 	}
 
-	public void successfullyDeletedEpic() {
-		ArtifactBuilder builderEpic = new ArtifactBuilder();
-
-		Epic epic = builderEpic
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildEpic();
-
-		mockAdd(epic);
-		PowerMock.replayAll();
+	private Project createMockProject() {
+		Project ownedProject = mock(Project.class);
 		
-//		mockRemove(FAKE_REQUIREMENT_ID);
-//		RequirementController controllerMock = new RequirementController(
-//				mockResult, mockUserSession, mockArtifactService, mockValidator);
-//		controllerMock.excludeRequirement(FAKE_REQUIREMENT_ID);
+		when(ownedProject.getProjectID()).thenReturn(FAKE_PROJECT_ID);
+		when(ownedProject.getTitle()).thenReturn("Simple test");
 
+		return ownedProject;
 	}
 	
-	private Project createMockProject() {
-		Project projectBelong = new Project();
-		projectBelong.setProjectID(FAKE_PROJECT_ID);
-		projectBelong.setTitle("Simple test");
-
-		return projectBelong;
+//	private Project createMockProject() {
+//		Project ownedProject = new Project();
+//		
+//		ownedProject.setProjectID(FAKE_PROJECT_ID);
+//		ownedProject.setTitle("Simple test");
+//
+//		return ownedProject;
+//	}
+	
+	private void mockWhenLoadProjectBy(long id) {
+		when(projectService.load(id)).thenReturn(ownedProject);
 	}
 
+	private UserSession createInvaliUserSession() {
+		UserSession invalidUserMock = mock(UserSession.class);
+		when(invalidUserMock.getUserLogged()).thenReturn(null);
+		
+		return invalidUserMock;
+	}
+
+	
 	/**
 	 * Mocks DAO create method
+	 * 
 	 * @param artifact
 	 */
-	private void mockAdd(Artifact artifact) {
-		mockDAO.create(artifact);
-		EasyMock.expectLastCall();
+	private void doNothingWhenCreate(Artifact artifact) {
+		doNothing().when(requirementDAO).create(artifact);
 	}
 	
-	private void mockProjectLoad(Project project) {
-		EasyMock.expect(mockProjectService.load(project.getProjectID()))
-			.andReturn(project).anyTimes();
-		EasyMock.replay(mockProjectService);
+	private void mockWhenProjectLoad(Project project) {
+		when(projectService.load(project.getProjectID())).thenReturn(project);
 	}
 }

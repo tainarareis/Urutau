@@ -140,10 +140,11 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		requirement.setDateOfCreation(calendar);
 		
 		// Setting author
-		settingOwner(requirement);
+		requirement.setAuthor(getCurrentAuthor());
 		
 		// Setting project
-		settingProject(requirement);
+		final Long projectID = requirement.getProjectID();
+		requirement.setProject(getCurrentProject(projectID));
 		
 		logger.info("Requesting persistence of requirement...");
 		
@@ -166,32 +167,33 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	}
 	
 	/**
-	 * Setting owner({@link User}) of Requirement
+	 * Get owner({@link User}) of Requirement
 	 *  
 	 * @param requirement inserted by form
+	 * @return 
 	 */
-	private void settingOwner(Artifact requirement) {
+	private User getCurrentAuthor() {
 		User logged = userSession.getUserLogged();
 		
 		assert(logged == null);
 		
-		requirement.setAuthor(logged);		
+		return logged;
 	}
 	
 	/**
 	 * Setting project of Requirement
 	 *  	 
 	 * @param requirement inserted by form
+	 * @return 
 	 */
-	private void settingProject(Artifact requirement) {
-		Long projectID = requirement.getProjectID();
+	private Project getCurrentProject(final Long projectID) {
 		
 		assert(projectID == null);
 
 		// Load by id
-		Project associatedProject = projectService.load(projectID);
-		logger.debug("Id is " + associatedProject.getProjectID());
-		requirement.setProject(associatedProject);
+		Project referedProject = projectService.load(projectID);
+		
+		return referedProject;
 	}
 
 	/**
@@ -200,7 +202,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	 * @param requirement to be persisted
 	 */
 	@Override
-	public void validate(Artifact requirement) {
+	public void validate(final Artifact requirement) {
 		logger.info("Apply basic validate in requirement");
 				
 		if(userSession.getUserLogged() == null) {

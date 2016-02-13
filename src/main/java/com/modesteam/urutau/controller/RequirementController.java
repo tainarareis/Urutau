@@ -92,22 +92,6 @@ public class RequirementController {
 	}
 	
 	/**
-	 * View showAll can be used later to get requirements by ajax
-	 * @return
-	 */
-	@Deprecated
-	public List<? extends Artifact> showAll() {
-		logger.info("Starting the requisition for all requirements");
-		
-		// Here was a method that took all the requirements
-		List<? extends Artifact> requirements = null;
-		
-		result.include("requirements", requirements);
-		
-		return requirements;
-	}
-	
-	/**
 	 * This method is used to delete one requirement
 	 * @param requirementId
 	 */
