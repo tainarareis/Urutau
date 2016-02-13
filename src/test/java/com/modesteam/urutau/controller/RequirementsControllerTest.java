@@ -1,23 +1,23 @@
 package com.modesteam.urutau.controller;
 
-import org.easymock.EasyMock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
+
+import com.modesteam.urutau.builder.ArtifactBuilder;
+import com.modesteam.urutau.model.Epic;
+import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
-
-import com.modesteam.urutau.builder.ArtifactBuilder;
-import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Epic;
-import com.modesteam.urutau.service.RequirementService;
 
 public class RequirementsControllerTest {
 	
 	private MockResult mockResult;
 	private MockValidator mockValidator;
-	private RequirementService mockArtifactService;
+	private RequirementService requirementService;
 	
 	
 	@Before
@@ -27,7 +27,7 @@ public class RequirementsControllerTest {
 		mockValidator = new MockValidator();
   		
 		// System's components
-		mockArtifactService = EasyMock.createMock(RequirementService.class);		
+		requirementService = mock(RequirementService.class);		
 	}
 
 	@Test
@@ -39,21 +39,15 @@ public class RequirementsControllerTest {
 					.title("exemple")
 					.description("blabla")
 					.buildEpic();
+		
+		doNothingWhenRemoveBy(epic.getId());
 
-		mockAdd(epic);
-		PowerMock.replayAll();
-		mockRemove(1L);
-		RequirementController controllerMock = new RequirementController(mockResult, mockArtifactService,mockValidator);
+		RequirementController controllerMock = new RequirementController(mockResult, requirementService, mockValidator);
+	
 		controllerMock.delete(1L);		
 	}
 	
-	private void mockAdd(Artifact artifact){
-		mockArtifactService.save(artifact);
-		EasyMock.expectLastCall();
-	}
-	
-	private void mockRemove(Long id){
-		mockArtifactService.delete(id);
-		EasyMock.expectLastCall();
+	private void doNothingWhenRemoveBy(long id) {
+		doNothing().when(requirementService).delete(id);
 	}
 }
