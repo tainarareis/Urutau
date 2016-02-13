@@ -1,12 +1,12 @@
 package com.modesteam.urutau.builder;
 
 import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.UseCase;
 
 public class ProjectBuilder {
 	
 	private String title;
 	private String description;
+	private String metodologyName;
 	private Long id;
 	
 	public ProjectBuilder title(String title){
@@ -23,12 +23,18 @@ public class ProjectBuilder {
 		this.id = id;
 		return this;
 	}
+
+	public ProjectBuilder metodology(String metodologyName) {
+		this.metodologyName = metodologyName;
+		return this;
+	}
 	
 	public Project builProject(){
 		Project project = new Project();
 		project.setProjectID(id);
 		project.setTitle(title);
 		project.setDescription(description);
+		project.setMetodology(metodologyName);
 		return project;
 	}
 
