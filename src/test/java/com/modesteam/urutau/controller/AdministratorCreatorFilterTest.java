@@ -2,6 +2,8 @@ package com.modesteam.urutau.controller;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.*;
+
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,37 +29,42 @@ public class AdministratorCreatorFilterTest {
 	public void setUp() throws ServletException, IOException{
 		logger.setLevel(Level.DEBUG);
 		
-		this.request = EasyMock.createNiceMock(ServletRequest.class);
-		this.response = EasyMock.createNiceMock(ServletResponse.class);
+		this.request = mock(ServletRequest.class);
+		this.response = mock(ServletResponse.class);
 		
-		EasyMock.expect(request.getRequestDispatcher("/administrator/changeFirstSettings"))
-			.andReturn(EasyMock.createMock(RequestDispatcher.class));
+		when(request.getRequestDispatcher("/administrator/changeFirstSettings"))
+			.thenReturn(EasyMock.createMock(RequestDispatcher.class));
 		
-		EasyMock.replay(request);
-		
-		this.chain = EasyMock.createNiceMock(FilterChain.class);
-		this.administratorService = EasyMock.createNiceMock(AdministratorService.class);
+		this.chain = mock(FilterChain.class);
+		this.administratorService = mock(AdministratorService.class);
 	}
 
 	@Test
 	public void testDoFilterNoAdminRegistered() throws IOException, ServletException {
-		mockadministratorService(false);
+		mockExistenceOfAdministratorWith(false);
+		
+		doNothingWhenCreateFirst();
+		
 		AdministratorCreatorFilter filter = new AdministratorCreatorFilter(administratorService);
 		filter.doFilter(request, response, chain);
 	}
 
 	@Test
 	public void testDoFilterWithAdminRegistered() throws IOException, ServletException {
-		mockadministratorService(true);
+		mockExistenceOfAdministratorWith(false);
+		
+		doNothingWhenCreateFirst();
+		
 		AdministratorCreatorFilter filter = new AdministratorCreatorFilter(administratorService);
 		filter.doFilter(request, response, chain);
 	}
-	
-	private void mockadministratorService(boolean existAdministrator) {
-		EasyMock.expect(administratorService.existAdministrator()).andReturn(existAdministrator);
-		administratorService.createFirstAdministrator();
-		EasyMock.expectLastCall().asStub();
-		EasyMock.replay(administratorService);
-	}
 
+	private void mockExistenceOfAdministratorWith(boolean condition) {
+		when(administratorService.existAdministrator()).thenReturn(condition);
+	}
+	
+	private void doNothingWhenCreateFirst() {
+		doNothing().when(administratorService).createFirst();
+	}
+	
 }

@@ -1,13 +1,13 @@
 package com.modesteam.urutau.controller;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-
-import br.com.caelum.vraptor.util.test.MockResult;
 
 import com.modesteam.urutau.builder.UserBuilder;
 import com.modesteam.urutau.model.User;
@@ -15,24 +15,28 @@ import com.modesteam.urutau.model.system.Configuration;
 import com.modesteam.urutau.service.AdministratorService;
 import com.modesteam.urutau.service.ConfigurationService;
 
+import br.com.caelum.vraptor.util.test.MockResult;
+
 public class AdministratorControllerTest {
 	
 	private static final String ADMINISTRATOR_DATA = "admin";
 	
-	private MockResult mockResult;
-	private AdministratorService mockAdminService;
-	private ConfigurationService mockConfigService;
+	private MockResult result;
+	private AdministratorService adminService;
+	private ConfigurationService configService;
 
 	@Before
 	public void setUp() {
-		this.mockResult = new MockResult();
-		this.mockAdminService = EasyMock.createNiceMock(AdministratorService.class);
-		this.mockConfigService = EasyMock.createNiceMock(ConfigurationService.class);
+		result = new MockResult();
+		
+		adminService = mock(AdministratorService.class);
+		configService = mock(ConfigurationService.class);
 	}
 	
 	@Test
 	public void testChangeFirstSettings() {
 		UserBuilder builder = new UserBuilder();
+		
 		User user = builder
 			.login(ADMINISTRATOR_DATA)
 			.email(ADMINISTRATOR_DATA)
@@ -44,7 +48,7 @@ public class AdministratorControllerTest {
 		mockConfigureNew(user);
 		
 		AdministratorController controller = 
-				new AdministratorController(mockResult, mockAdminService, mockConfigService);
+				new AdministratorController(result, adminService, configService);
 		
 		controller.changeFirstSettings(user);
 	}
@@ -60,21 +64,16 @@ public class AdministratorControllerTest {
 		
 		mockPutConfiguration(configuration);
 		
-		AdministratorController controller = new AdministratorController(mockResult, 
-							mockAdminService, mockConfigService);
+		AdministratorController controller = new AdministratorController(result, adminService, configService);
 		
 		controller.changeSecondSettings(configurations);
 	}
 
 	private void mockPutConfiguration(Configuration configuration) {
-		mockConfigService.put(configuration);
-		EasyMock.expectLastCall().asStub();
-		EasyMock.replay(mockConfigService);
+		doNothing().when(configService).put(configuration);
 	}
 
 	private void mockConfigureNew(User user) {
-		mockAdminService.configureNew(user);
-		EasyMock.expectLastCall().asStub();
-		EasyMock.replay(mockAdminService);
+		doNothing().when(adminService).configureNew(user);
 	}
 }

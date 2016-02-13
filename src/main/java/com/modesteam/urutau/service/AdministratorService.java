@@ -46,7 +46,7 @@ public class AdministratorService {
 	 * If no account has been found in DB, the system will create
 	 * an administrator with the login and password "admin".
 	 */
-	public void createFirstAdministrator() {
+	public void createFirst() {
 		logger.info("Creating first administrator");
 		
 		Administrator administrator = new Administrator();

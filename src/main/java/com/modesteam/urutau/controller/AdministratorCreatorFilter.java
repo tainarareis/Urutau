@@ -60,7 +60,7 @@ public class AdministratorCreatorFilter implements Filter {
 			chain.doFilter(request, response);
 		} else {
 			logger.info("First admin will created");
-			administratorService.createFirstAdministrator();
+			administratorService.createFirst();
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
 			logger.debug("Redirecting with "+ requestDispatcher + " to change settings");
 			requestDispatcher.forward(request, response);
