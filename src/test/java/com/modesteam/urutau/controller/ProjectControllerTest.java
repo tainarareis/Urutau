@@ -56,7 +56,7 @@ public class ProjectControllerTest {
 	}
 	
 	@Test
-	public void createValidProject() throws UnsupportedEncodingException{
+	public void createValidProject() throws UnsupportedEncodingException, CloneNotSupportedException{
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 
 		Project project = projectBuilder.id(1L).title("Example Valid")
@@ -72,7 +72,7 @@ public class ProjectControllerTest {
 	}
 	
 	@Test(expected=ValidationException.class)
-	public void createInvalidProject() throws UnsupportedEncodingException{
+	public void createInvalidProject() throws UnsupportedEncodingException, CloneNotSupportedException{
 		
 		ProjectBuilder projectBuilder = new ProjectBuilder();
 

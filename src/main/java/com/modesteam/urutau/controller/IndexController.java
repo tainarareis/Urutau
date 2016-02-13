@@ -23,8 +23,7 @@ public class IndexController {
 	
 	/**
 	 * Control flux of index. If user are logged, redirect to project index,
-	 *  else redirect to real index!
-	 *  
+	 *  else redirect to real index! 
 	 */
 	@Path(value = "/", priority=Path.HIGHEST)
 	public void index() {

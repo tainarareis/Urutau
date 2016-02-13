@@ -38,7 +38,7 @@ public class UserService {
 	 * @param user
 	 * @return false if the verification fails
 	 */
-	public boolean canBeUsed(String attributeName, Object value) {
+	public boolean canBeUsed(final String attributeName, final Object value) {
 		boolean valueNotUsed = false;
 		
 		try{

@@ -4,17 +4,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.ProjectDAO;
+import com.modesteam.urutau.exception.DataBaseCorrupted;
 import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Project;
 
 public class ProjectService {
 	private ProjectDAO projectDAO;
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
+	private static final String TITLE_ATTRIBUTE_NAME = "title";
 	
 	public ProjectService() {
 		this(null);
@@ -119,5 +122,25 @@ public class ProjectService {
 			}
 			
 		return loaded;
+	}
+	
+	/**
+	 * See if title can be used
+	 * 
+	 * @param projectTitle
+	 * @return
+	 */
+	public boolean canBeUsed(final String projectTitle) {
+		boolean valueNotUsed = false;
+		try{
+			if(projectDAO.get(TITLE_ATTRIBUTE_NAME, projectTitle) == null) {
+				valueNotUsed = true;
+			}
+		} catch (NonUniqueResultException exception) {
+			throw new DataBaseCorrupted(this.getClass().getSimpleName() 
+					+ " returns twice " + TITLE_ATTRIBUTE_NAME + " equals");
+		} 
+		
+		return valueNotUsed;
 	}
 }

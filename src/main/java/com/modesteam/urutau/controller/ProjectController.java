@@ -12,6 +12,14 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.model.Project;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.model.system.MetodologyEnum;
+import com.modesteam.urutau.service.ProjectService;
+import com.modesteam.urutau.service.UserService;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -20,20 +28,6 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
-import com.modesteam.urutau.UserSession;
-import com.modesteam.urutau.exception.SystemBreakException;
-import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.model.system.FieldMessage;
-import com.modesteam.urutau.model.system.MetodologyEnum;
-import com.modesteam.urutau.service.ProjectService;
-import com.modesteam.urutau.service.UserService;
-
-/**
- * This class is responsible to manager simple operations of projects!
- * The systems operations are received by the path /requirement followed
- * by the operation defined path.
- */
 @Controller
 public class ProjectController {
 	
@@ -51,8 +45,8 @@ public class ProjectController {
 	
 	private final Validator validator;
 
-	/*
-	 * CDI needs this
+	/**
+	 * @deprecated CDI eye only
 	 */
 	public ProjectController() {
 		this(null,null,null,null, null);
@@ -74,33 +68,39 @@ public class ProjectController {
 	 *  
 	 * @param project to be persisted
 	 * 
-	 * @throws UnsupportedEncodingException when show is requested 
+	 * @throws UnsupportedEncodingException when show is requested
+	 * @throws CloneNotSupportedException 
+	 *  
 	 */
 	@Post
 	@Path("/project/create")
-	public void create(Project project) throws UnsupportedEncodingException {
-		
-		logger.info("Project will be persisted: " + project.getTitle());
+	public void create(Project project) throws UnsupportedEncodingException, CloneNotSupportedException {
+
+		Project basicProject = null;
+
+		logger.info("Project will be persisted have name " + project.getTitle());
 		
 		if(project.getTitle() == null) {
-			
 			logger.debug("The title is null!");
 			
-			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(),
-					"The title cant be empty!"));
-		} else {
-			insertBasicInformation(project);
+			validator.add(new SimpleMessage(FieldMessage.ERROR, "The title cant be empty"));
+		} else if(!projectService.canBeUsed(project.getTitle())) {
+			// projects can not have the same titles
+			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Title already used");
+			validator.add(error);
 			
+		} else {
+			basicProject = retriveWithBasicInformation(project);
+
 			logger.info("Trying save project...");			
 			
-			projectService.save(project);
+			projectService.save(basicProject);
 		}
 		
 		validator.onErrorRedirectTo(ProjectController.class).index();
 		
-		logger.warn("Project id is " + project.getProjectID());
-		
-		result.redirectTo(this).show((int)project.getProjectID(), project.getTitle());
+		result.redirectTo(this).show((int) basicProject.getProjectID(), 
+				basicProject.getTitle());
 	}
 	
 	
@@ -222,13 +222,22 @@ public class ProjectController {
 	 * Setting basic fields programmatically
 	 *  
 	 * @param project soon persisted
+	 * @return 
+	 * @throws CloneNotSupportedException 
 	 */
-	private void insertBasicInformation(Project project) {
-		insertDate(project);
-
-		insertAuthor(project);
+	private Project retriveWithBasicInformation(final Project project) throws CloneNotSupportedException {
+		Project basicProject = project.clone();
 		
-		setMetodologyCode(project);
+		basicProject.setDateOfCreation(getCurrentDate());
+		
+		User author = getCurrentUser();
+		basicProject.setAuthor(author);
+		basicProject.getMembers().add(author);
+
+		int metodologyCode = selectMetodologyCode(project.getMetodology());
+		basicProject.setMetodologyCode(metodologyCode);
+		
+		return basicProject;
 	}
 	
 	/**
@@ -236,19 +245,18 @@ public class ProjectController {
 	 *  
 	 * @param project to be persisted
 	 */
-	private void setMetodologyCode(Project project) {
-		String projectMetodologyName = project.getMetodology();
+	private int selectMetodologyCode(String name) {
 		
-		logger.info("Metodology choose was " + projectMetodologyName);
+		logger.info("Metodology choose was " + name);
 		
 		int metodologyCode = INVALID_METODOLOGY_CODE;
 		
 		for(MetodologyEnum metodology : MetodologyEnum.values()) {
 			
-			if(metodology.refersTo(projectMetodologyName)) {
+			if(metodology.refersTo(name)) {
 				
 				metodologyCode = metodology.getId();
-				logger.debug("So, id of metodology choose are " + metodologyCode);
+				logger.debug("Metodology choose have code " + metodologyCode);
 				
 				// Stop loop
 				break;
@@ -258,39 +266,33 @@ public class ProjectController {
 			}
 		}
 		
-		// Setting metodology code or throw an exception
-		if(metodologyCode != INVALID_METODOLOGY_CODE) {
-			project.setMetodologyCode(metodologyCode);
-		} else {
-			throw new SystemBreakException("Any metodology was found!");
-		}
+		return metodologyCode;
 	}
 
 	/**
 	 * Set current user logged like author
 	 * 
 	 * @param project to be created
+	 * @return 
 	 */
-	private void insertAuthor(Project project) {
+	private User getCurrentUser() {
 		User logged = userSession.getUserLogged();		
 		logged = userService.reloadFromDB(logged.getUserID());
 
-		project.setAuthor(logged);
-
-		// Owner is member too
-		project.getMembers().add(logged);
+		return logged;
 	}
 
 	/**
 	 * Format date with current value
 	 * 
 	 * @param project to be persisted
+	 * @return 
 	 */
-	private void insertDate(Project project) {
+	private Calendar getCurrentDate() {
 		Date currentDate = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(currentDate);
 		
-		project.setDateOfCreation(calendar);
+		return calendar;
 	}
 }

@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 import com.modesteam.urutau.model.system.MetodologyEnum;
 
 @Entity
-public class Project {
+public class Project implements Cloneable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,6 +52,11 @@ public class Project {
 
 	@Transient
 	private boolean isEmpty;
+	
+	@Override
+	public Project clone() throws CloneNotSupportedException {
+		return (Project) super.clone();
+	}
 
 	public long getProjectID() {
 		return projectID;
