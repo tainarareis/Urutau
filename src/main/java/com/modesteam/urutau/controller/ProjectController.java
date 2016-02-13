@@ -200,7 +200,7 @@ public class ProjectController {
 		
 		logged = userService.reloadFromDB(logged.getUserID());
 		
-		userSession.setUserLogged(logged);
+		userSession.reload(logged);
 	}
 	
 	/**

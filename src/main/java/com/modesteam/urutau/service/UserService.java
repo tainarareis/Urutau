@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.UserDAO;
+import com.modesteam.urutau.exception.DataBaseCorrupted;
 import com.modesteam.urutau.model.User;
 
 @RequestScoped
@@ -37,17 +38,19 @@ public class UserService {
 	 * @param user
 	 * @return false if the verification fails
 	 */
-	public boolean existsField(String field, Object value) {
-		logger.info("Verification of field");
+	public boolean canBeUsed(String attributeName, Object value) {
+		boolean valueNotUsed = false;
+		
 		try{
-			if(userDAO.get(field, value) != null){
-				return false;
-			} else {
-				return true;
+			if(userDAO.get(attributeName, value) == null) {
+				valueNotUsed = true;
 			}
-		} catch (NonUniqueResultException exception){
-			return false;
-		}
+		} catch (NonUniqueResultException exception) {
+			throw new DataBaseCorrupted(this.getClass().getSimpleName() 
+					+ " returns twice " + attributeName + " equals");
+		} 
+		
+		return valueNotUsed;
 	}
 
 	

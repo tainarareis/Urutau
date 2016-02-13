@@ -75,18 +75,20 @@ public class UserController {
 		if (registerValidator.hasNullField()) {
 			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "All fields are required");
 			errors.add(error);
-		} else if (registerValidator.validPasswordConfirmation()) { 
+		} else if (!registerValidator.validPasswordConfirmation()) { 
 			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Password are not equals");
 			errors.add(error);
-		} else if(!userService.existsField(LOGIN_ATTRIBUTE, user.getLogin())) {
+		} else if(!userService.canBeUsed(LOGIN_ATTRIBUTE, user.getLogin())) {
 			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Login is already in use");
 			errors.add(error);
-		} else if(!userService.existsField(EMAIL_ATTRIBUTE, user.getEmail())) {
+		} else if(!userService.canBeUsed(EMAIL_ATTRIBUTE, user.getEmail())) {
 			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Email is already in use");
 			errors.add(error);
 		}
 		
 		validator.addAll(errors);
+		
+		logger.debug("Number of errors are " + errors.size());
 		
 		// If happens any error of validation
 		validator.onErrorUsePageOf(IndexController.class).index();

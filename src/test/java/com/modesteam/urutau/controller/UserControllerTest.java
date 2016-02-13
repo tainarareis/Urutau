@@ -1,17 +1,19 @@
 package com.modesteam.urutau.controller;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.UserBuilder;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.UserService;
+
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
 
 public class UserControllerTest {
 	private MockResult mockResult;
@@ -28,6 +30,9 @@ public class UserControllerTest {
 		// Components of system
 		mockUserService = EasyMock.createMock(UserService.class);
 		mockUserSession = EasyMock.createMock(UserSession.class);
+
+
+		Logger.getLogger(UserController.class).setLevel(Level.DEBUG);
 	}
 	
 	@Test
@@ -150,7 +155,7 @@ public class UserControllerTest {
 
 	
 	private void mockIsExistsField(Object value, String field, Boolean returnValue) {
-		EasyMock.expect(mockUserService.existsField(field, value)).andReturn(returnValue);
+		EasyMock.expect(mockUserService.canBeUsed(field, value)).andReturn(returnValue);
 	}
 	
 	private void mockAdd(User user){
