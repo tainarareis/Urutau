@@ -8,6 +8,7 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.User;
 
 @SessionScoped
@@ -26,22 +27,14 @@ public class UserSession implements Serializable {
 	 * @param user to be save in session
 	 */
 	public void login(User user){
-		setUserLogged(user);
+		this.userLogged = user;
 	}
 	
 	/**
 	 * Destroy userLogged.Makes possible the logging out. 
 	 */
 	public void logout(){
-		setUserLogged(null);
-	}
-
-	public User getUserLogged() {
-		return userLogged;
-	}
-
-	public void setUserLogged(User userLogged) {
-		this.userLogged = userLogged;
+		this.userLogged = null;
 	}
 	
 	/**
@@ -65,5 +58,22 @@ public class UserSession implements Serializable {
 		
 		return isLogged;
 	}
+	
+	/**
+	 * Reload session
+	 *  
+	 * @param logged user to be reloaded
+	 */
+	public void reload(User logged) {
+		if(logged.getUserID() == userLogged.getUserID()) {
+			logout();
+			login(userLogged);
+		} else {
+			throw new SystemBreakException();
+		}
+	}
 
+	public User getUserLogged() {
+		return userLogged;
+	}
 }

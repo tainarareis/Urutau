@@ -5,18 +5,7 @@ package com.modesteam.urutau.model.system;
  * post request.
  * 
  */
-public enum FieldMessage {
-	SUCCESS("message-success"), 
-	ERROR("message-error");
-	
-	private final String fieldName;
-    
-	private FieldMessage(final String fieldName) {
-		this.fieldName = fieldName;
-	}
-
-	@Override
-	public String toString() {
-		return fieldName;
-	}	
+public final class FieldMessage {
+	public static final String SUCCESS = "message-success"; 
+	public static final String ERROR = "message-error";
 }

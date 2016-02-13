@@ -22,6 +22,7 @@ import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.UserService;
+import com.modesteam.urutau.service.validator.RegisterValidator;
 
 /**
  * 
@@ -31,6 +32,10 @@ import com.modesteam.urutau.service.UserService;
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	private static final String LOGIN_ATTRIBUTE = "login";
+
+	private static final String EMAIL_ATTRIBUTE = "email";
 	
 	private final Result result;
 	private final UserService userService;
@@ -45,9 +50,8 @@ public class UserController {
 	}
 	
 	@Inject
-	public UserController(Result result, 
-			UserService userService, UserSession userSession,
-			Validator validator) {
+	public UserController(Result result, UserService userService, 
+			UserSession userSession, Validator validator) {
 		this.result = result;
 		this.userService = userService;
 		this.userSession = userSession;
@@ -58,35 +62,28 @@ public class UserController {
 	 * Method to register another user in system.
 	 * 
 	 * @param user is an user of model class.
-	 * 
 	 */
 	@Post
 	@Path("/register")
 	public void register(User user) {
-		
 		logger.info("Initiate register");
 		
-		boolean haveInvalidField = user.getEmail() == null || user.getLogin() == null 
-				|| user.getName() == null || user.getPasswordVerify() == null 
-				|| user.getPassword() == null;
+		RegisterValidator registerValidator = new RegisterValidator(user);
 		
 		List<SimpleMessage> errors = new ArrayList<SimpleMessage>();
 
-		if(haveInvalidField) {
-			
-			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "All fields are required"));
-
-		} else if(!validVerification(user.getPassword(), user.getPasswordVerify())) {
-			
-			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Password are not equals!"));
-	
-		} else if(!userService.existsField("login", user.getLogin())) {
-		
-			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Login is already in use."));
-		
-		} else if(!userService.existsField("email", user.getEmail())) {
-			
-			errors.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Email is already in use."));			
+		if (registerValidator.hasNullField()) {
+			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "All fields are required");
+			errors.add(error);
+		} else if (registerValidator.validPasswordConfirmation()) { 
+			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Password are not equals");
+			errors.add(error);
+		} else if(!userService.existsField(LOGIN_ATTRIBUTE, user.getLogin())) {
+			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Login is already in use");
+			errors.add(error);
+		} else if(!userService.existsField(EMAIL_ATTRIBUTE, user.getEmail())) {
+			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Email is already in use");
+			errors.add(error);
 		}
 		
 		validator.addAll(errors);
@@ -97,10 +94,6 @@ public class UserController {
 		userService.create(user);
 		
 		result.redirectTo(this).showSignInSucess();
-	}	
-			
-	private boolean validVerification(String password, String passwordVerify) {
-		return password == passwordVerify;
 	}
 
 	/**
@@ -112,7 +105,7 @@ public class UserController {
 		User logged = userSession.getUserLogged();
 		logged.setLogin(user.getLogin());
 		logged.setPassword(user.getPassword());
-		userSession.setUserLogged(logged);
+		userSession.login(logged);
 		userService.update(logged);
 		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
