@@ -11,78 +11,86 @@ import org.slf4j.LoggerFactory;
  * @param <Entity>
  */
 public abstract class GenericDAO<Entity> {
-	
-	protected EntityManager entityManager;
 	private static final Logger logger = LoggerFactory.getLogger(GenericDAO.class);
 	
+	/* Used to logger when he register a exception */
+	private static final String EXCEPTION_MESSAGE = "When use some method, "+ GenericDAO.class.getSimpleName() 
+			+" was thrown this message";
+
+	private  EntityManager entityManager;
+		
 	/**
 	 * Get an entity from any attribute
+	 * 
 	 * @param param is any attribute of Entity
 	 * @return to be found
 	 */
-	public abstract Entity get(String field, Object value);
-	
-	
-	/**
-	 * Search an Entity
-	 * @param id identifier of Entity
-	 * @return what is found
-	 */
-	public abstract Entity find(Long id);
+	public abstract Entity get(final String field, final Object value);
 	
 	/**
 	 * Persist an Entity
 	 * @param entity to be persisted
 	 */
-	public void create(Entity entity){
+	public boolean create(final Entity entity) {
+		boolean objectCreated = false;
+		
 		try {
 			entityManager.persist(entity);
+			objectCreated = true;
 		} catch (Exception exception) {
-			exception.printStackTrace();
-		} 
+			logger.warn(EXCEPTION_MESSAGE, exception);
+		}
+		
+		return objectCreated;
 	}	
 	
 	
 	/**
 	 * Removes everything
+	 * 
 	 * @param Entity to remove
 	 * @return false if any error occurs
 	 */
-	public boolean destroy(Entity entity){
+	public boolean destroy(final Entity entity) {
+		boolean objectDestroyed = false;
+		
 		try {
 			entityManager.remove(entity);
-			logger.info("Successfully deleted.");
-			return true;
+			objectDestroyed = true;
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			return false;
+			logger.warn(EXCEPTION_MESSAGE, exception);
 		} 
+		
+		return objectDestroyed;
 	}	
 	
 	/**
 	 * Update an entity
+	 * 
 	 * @param entity to be merge with database
 	 * @return false if any error occurs
 	 */
-	public boolean update(Entity entity){
+	public boolean update(final Entity entity) {
+		boolean updateCompleted = false; 
+		
 		try {
 			entityManager.merge(entity);
-			return true;
+			updateCompleted = true;
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			return false;
+			logger.warn(EXCEPTION_MESSAGE, exception);
 		} 
+		
+		return updateCompleted;
 	}
 	
 	/**
-	 * 
 	 * @param entityManager
 	 */
-	public void setEntityManager(EntityManager entityManager){
+	public void setEntityManager(final EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 	
-	public EntityManager getEntityManager(){
+	public EntityManager getEntityManager() {
 		return entityManager;
 	}
 	
