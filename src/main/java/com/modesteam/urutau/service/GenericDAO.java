@@ -17,7 +17,7 @@ public abstract class GenericDAO<Entity> {
 	private static final String EXCEPTION_MESSAGE = "When use some method, "+ GenericDAO.class.getSimpleName() 
 			+" was thrown this message";
 
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 		
 	/**
 	 * Creates a new instance of User into database

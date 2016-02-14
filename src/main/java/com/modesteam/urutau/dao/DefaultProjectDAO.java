@@ -24,6 +24,10 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 		
 	}
 	
+	/**
+	 * To inject manager into GenericDAO is required {@link Inject} annotation
+	 */
+	@Inject
 	public DefaultProjectDAO(EntityManager manager) {
 		super.setEntityManager(manager);
 	}
@@ -50,7 +54,7 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 		} catch (NonUniqueResultException exception){
 			throw new NonUniqueResultException();
 		} catch (NoResultException exception) {
-			exception.printStackTrace();
+			logger.debug("Any project was found", exception);
 		}
 		
 		return project;

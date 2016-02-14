@@ -30,6 +30,10 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 		this(null);
 	}	
 	
+	/**
+	 * To inject manager into GenericDAO is required {@link Inject} annotation
+	 */
+	@Inject
 	public DefaultUserDAO(EntityManager manager) {
 		super.setEntityManager(manager);
 	}

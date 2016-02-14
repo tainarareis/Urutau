@@ -20,6 +20,9 @@ public class DefaultConfigurationDAO extends GenericDAO<Configuration> implement
 		
 	}
 	
+	/**
+	 * To inject manager into GenericDAO is required {@link Inject} annotation
+	 */
 	@Inject
 	public DefaultConfigurationDAO(EntityManager manager) {
 		super.setEntityManager(manager);

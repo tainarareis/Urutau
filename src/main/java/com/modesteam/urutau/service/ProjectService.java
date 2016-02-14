@@ -15,12 +15,14 @@ import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Project;
 
 public class ProjectService {
-	private ProjectDAO projectDAO;
+	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 	private static final String TITLE_ATTRIBUTE_NAME = "title";
 	private static final String ID_PARAMETER = "projectID";
 	private static final int INVALID_ID = -1;
 	private static final String TITLE_FIELD = "title";
+	
+	private ProjectDAO projectDAO;
 	
 	public ProjectService() {
 		this(null);

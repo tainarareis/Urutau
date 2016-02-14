@@ -77,7 +77,7 @@ public class ProjectController {
 	public void create(Project project) throws UnsupportedEncodingException, CloneNotSupportedException {
 
 		Project basicProject = null;
-
+		logger.info("ProjectInstance is " + projectService);
 		logger.info("Project will be persisted have name " + project.getTitle());
 		
 		if(project.getTitle() == null) {

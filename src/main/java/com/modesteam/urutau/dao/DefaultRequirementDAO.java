@@ -29,6 +29,10 @@ public class DefaultRequirementDAO extends GenericDAO<Artifact> implements Requi
 	
 	}
 	
+	/**
+	 * To inject manager into GenericDAO is required {@link Inject} annotation
+	 */
+	@Inject
 	public DefaultRequirementDAO(EntityManager manager){
 		super.setEntityManager(manager);
 	}
