@@ -11,14 +11,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
-import br.com.caelum.vraptor.validator.Validator;
-
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.RequirementDAO;
@@ -35,7 +27,16 @@ import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.ErrorMessage;
 import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.service.GenericDAO;
 import com.modesteam.urutau.service.ProjectService;
+
+import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
 
 /**
  * This is an concrete implementation of {@link EntityCreator}, part of pattern abstract factory 
@@ -74,7 +75,7 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		this.userSession = userSession;
 		this.projectService = projectService;
 		// superclass needs an DAO
-		super.setDao(requirementDAO);
+//		super.setDao(dao);
 	}
 		
 	@Post

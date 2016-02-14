@@ -82,7 +82,12 @@ public class RequirementService {
 		
 		logger.info("Verifying the requirement existence in database.");
 		
-		Artifact requirement = requirementDAO.get("id", requirementId);
+		Artifact requirement = null;
+		try {
+			requirement = requirementDAO.get("id", requirementId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if (requirement == null) {
 			logger.info("The requirement is null");
@@ -111,7 +116,13 @@ public class RequirementService {
 		
 		logger.info("Starting DAO search.");
 		
-		Artifact requirement = requirementDAO.get("id", id);
+		Artifact requirement = null;
+		
+		try {
+			requirement = requirementDAO.get("id", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if (requirement != null) {
 			logger.info("RequirementDAO returned zero requirements.");
@@ -132,7 +143,7 @@ public class RequirementService {
 	public List<Artifact> recover(long projectID, int quantity, int page) {
 		int firstResult = quantity * page;
 		
-		return requirementDAO.getIntoProjectInInterval(projectID, firstResult, quantity);
+		return requirementDAO.getRequirementBetweenInterval(projectID, firstResult, quantity);
 	}
 	
 }

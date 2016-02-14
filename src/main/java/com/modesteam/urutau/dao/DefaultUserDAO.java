@@ -35,18 +35,6 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 	}
 	
 	/**
-	 * Verifies if have some user registred
-	 * 
-	 * @return true if some user exists
-	 */
-	public boolean hasAnyRegister() {
-		String sql = "SELECT user FROM " + User.class.getName() + " user";
-		Query query = manager.createQuery(sql);
-		
-		return !query.getResultList().isEmpty();
-	}
-	
-	/**
 	 * Gets user instance from DB
 	 * 
 	 * @param userID
@@ -54,6 +42,14 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 	 */
 	public User find(final Long userID) {
 		return manager.getReference(User.class, userID);
+	}
+	
+	@Override
+	public boolean hasAnyRegister() {
+		String sql = "SELECT user FROM " + User.class.getName() + " user";
+		Query query = manager.createQuery(sql);
+		
+		return !query.getResultList().isEmpty();
 	}
 
 	@Override

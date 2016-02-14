@@ -22,4 +22,9 @@ public interface UserDAO {
 	boolean update(final User user);
 	
 	boolean destroy(final User user);
+	
+	/**
+	 * Verifies if database have some User
+	 */
+	boolean hasAnyRegister();
 }

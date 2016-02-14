@@ -48,6 +48,8 @@ public class UserService {
 		} catch (NonUniqueResultException exception) {
 			throw new DataBaseCorrupted(this.getClass().getSimpleName() 
 					+ " returns twice " + attributeName + " equals");
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		} 
 		
 		return valueNotUsed;
@@ -68,17 +70,28 @@ public class UserService {
 	 * @return
 	 */
 	public boolean existsUser(String login) {
-		boolean userExistence;
-		if(userDAO.get("login", login) != null) {
-			userExistence = true;
-		} else {
-			userExistence = false;
+		boolean userExistence = false;
+		
+		try {
+			if(userDAO.get("login", login) != null) {
+				userExistence = true;
+			} else {
+				userExistence = false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 		return userExistence;
 	}
 
 	public User authenticate(String login, String password) {
-		User user = userDAO.get("login", login);
+		User user = null;
+		try {
+			user = userDAO.get("login", login);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		// if login exists
 		if (user != null) {
@@ -106,7 +119,7 @@ public class UserService {
 	 * @return user logged, uses into userSession
 	 */
 	public User reloadFromDB(Long userID) {
-		return userDAO.getReference(userID);
+		return userDAO.find(userID);
 	}
 
 }

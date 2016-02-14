@@ -31,7 +31,13 @@ public class AdministratorService {
 	public void configureNew(User userUp) {
 		logger.info("Initiation of configuration!");
 		
-		User administratorDefault = userDAO.get("login", DEFAULT_ADMIN_DATA);
+		User administratorDefault = null;
+		
+		try {
+			administratorDefault = userDAO.get("login", DEFAULT_ADMIN_DATA);
+		} catch(Exception exception){
+			exception.printStackTrace();
+		}
 		
 		administratorDefault.setEmail(userUp.getEmail());
 		administratorDefault.setLastName(userUp.getLastName());

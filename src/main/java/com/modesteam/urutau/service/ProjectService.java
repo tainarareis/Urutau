@@ -18,6 +18,9 @@ public class ProjectService {
 	private ProjectDAO projectDAO;
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 	private static final String TITLE_ATTRIBUTE_NAME = "title";
+	private static final String ID_PARAMETER = "projectID";
+	private static final int INVALID_ID = -1;
+	private static final String TITLE_FIELD = "title";
 	
 	public ProjectService() {
 		this(null);
@@ -33,8 +36,8 @@ public class ProjectService {
 		projectDAO.create(project);
 	}
 
-	public List<? extends Project> loadAll() {
-		return projectDAO.loadAllProjects();
+	public List<Project> loadAll() {
+		return projectDAO.loadAll();
 	}
 	
 	/**
@@ -63,10 +66,16 @@ public class ProjectService {
 	 * @return true if the project exists
 	 * 
 	 */
-	public boolean verifyProjectExistence(long Id) {
+	public boolean verifyProjectExistence(long id) {
 		logger.info("Verifying the requirement existence in database.");
 		
-		Project project = projectDAO.get("id", Id);
+		Project project = null;
+		
+		try {
+			project = projectDAO.get(ID_PARAMETER, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		boolean projectExists;
 		
@@ -79,22 +88,28 @@ public class ProjectService {
 		}
 		
 		return projectExists;
-		
 	}
 
 	public Project show(Long id, String title) {
-		 Project project = projectDAO.find(id);
-		 Long idFromOperationGetTitle = projectDAO.get("title", title).getProjectID();
-		 boolean validURL = project.getProjectID() == idFromOperationGetTitle;
+		Project project = projectDAO.find(id);
 		 
-		 if(!validURL) {
+		Long idOfProject = new Long(INVALID_ID);
+		
+		try {
+			idOfProject = projectDAO.get(TITLE_FIELD, title).getProjectID();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 
+		boolean validURL = project.getProjectID() == idOfProject;
+		 
+		if(!validURL) {
 			project = null;
-		 } else {
-			 logger.debug("Valid url, returning project");
-		 }
+		} else {
+			logger.debug("Valid url, should return project");
+		}
 		 
-		 return project;
-		 
+		return project; 
 	}
 	/**
 	 * Load an project by id
@@ -119,6 +134,8 @@ public class ProjectService {
 				}
 			} catch(NoResultException noResultException) {
 				throw new SystemBreakException("Maybe this project do not exist!");
+			} catch (Exception exception) {
+				exception.printStackTrace();
 			}
 			
 		return loaded;
@@ -132,6 +149,7 @@ public class ProjectService {
 	 */
 	public boolean canBeUsed(final String projectTitle) {
 		boolean valueNotUsed = false;
+		
 		try{
 			if(projectDAO.get(TITLE_ATTRIBUTE_NAME, projectTitle) == null) {
 				valueNotUsed = true;
@@ -139,6 +157,8 @@ public class ProjectService {
 		} catch (NonUniqueResultException exception) {
 			throw new DataBaseCorrupted(this.getClass().getSimpleName() 
 					+ " returns twice " + TITLE_ATTRIBUTE_NAME + " equals");
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		} 
 		
 		return valueNotUsed;

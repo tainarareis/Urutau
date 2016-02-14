@@ -1,50 +1,23 @@
 package com.modesteam.urutau.dao;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.modesteam.urutau.model.Administrator;
-import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.Configuration;
-import com.modesteam.urutau.service.GenericDAO;
 
 /**
- * Class responsible to ensure/allow administrator interaction 	
- * through the database management information about Administrators
+ * Data Access Object for the Configuration
  */
-@RequestScoped
-public class ConfigurationDAO extends GenericDAO<Configuration>{
+public interface ConfigurationDAO {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ConfigurationDAO.class);
+	/**
+	 * Creates a new instance of configuration
+	 */
+	boolean create(Configuration config);
 	
-	@Inject
-	private EntityManager manager;
-	
-	public ConfigurationDAO() {
+	/**
+	 * Gets a object instance that have a field with certain value
+	 */
+	Configuration get(String field, Object value) throws Exception;
 		
-	}
+	boolean update(Configuration config);
 	
-	@Inject
-	public ConfigurationDAO(EntityManager manager) {
-		super.setEntityManager(manager);
-	}
-	
-	@Override
-	public Configuration find(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Configuration get(String field, Object value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	boolean destroy(Configuration config);
 }
