@@ -23,13 +23,13 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 	/* Value used to get by field */
 	private static final String FIELD_VALUE = "value";
 
+	@Inject
 	private EntityManager manager;
 		
 	protected DefaultUserDAO() {
 		this(null);
 	}	
 	
-	@Inject
 	public DefaultUserDAO(EntityManager manager) {
 		super.setEntityManager(manager);
 	}
