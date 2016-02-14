@@ -17,19 +17,12 @@ public abstract class GenericDAO<Entity> {
 	private static final String EXCEPTION_MESSAGE = "When use some method, "+ GenericDAO.class.getSimpleName() 
 			+" was thrown this message";
 
-	private  EntityManager entityManager;
+	protected EntityManager entityManager;
 		
 	/**
-	 * Get an entity from any attribute
+	 * Creates a new instance of User into database
 	 * 
-	 * @param param is any attribute of Entity
-	 * @return to be found
-	 */
-	public abstract Entity get(final String field, final Object value);
-	
-	/**
-	 * Persist an Entity
-	 * @param entity to be persisted
+	 * @return true if operation do not throw any exception
 	 */
 	public boolean create(final Entity entity) {
 		boolean objectCreated = false;
