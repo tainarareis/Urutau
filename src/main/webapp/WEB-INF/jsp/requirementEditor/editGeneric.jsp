@@ -17,7 +17,7 @@
 		<form action="editEpic" method="POST">
 			<input name="epic.title" class="form-control" placeholder="Title" type="text" value="${generic.title}">
 			<input name="epic.description" class="form-control" placeholder="Description" type="text" value="${generic.description}">
-			<input type="submit" value="Add" class="btn btn-success btn-group-justified">
+			<input type="submit" value="Save" class="btn btn-success btn-group-justified">
 		</form>
 	</div>
 </body>

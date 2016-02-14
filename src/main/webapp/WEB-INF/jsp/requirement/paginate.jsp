@@ -34,42 +34,20 @@
 			  				 <fmt:formatDate value="${requirement.dateOfCreation.time}" pattern="dd/MM/yyyy"/>
 			  			</td>
 			  			<td>
-			  			<a href="show/${requirement.id}/${requirement.encodedTitle}" title="Show"  
-			  				data-toggle="modal" data-target="#myModal-${requirement.id}">
-				        	<span class="glyphicon glyphicon-eye-open"></span>
-				        </a>
-		  					
-		  					<div class="modal fade" id="myModal-${requirement.id}"  tabindex="-1" role="dialog">
-							    <div class="modal-dialog">
-							    
-							      <!-- Modal content-->
-							      <div class="modal-content">
-							        <div class="modal-header">
-							          <h4 class="modal-title">
-							          	${requirement.title}
-							          	<br/>
-								        <small>By ${requirement.author.name} in 
-										<fmt:formatDate value="${requirement.dateOfCreation.time}" type="date" dateStyle="short" />
-										</small>
-							          </h4>
-							        </div>
-							        <div class="modal-body">
-							          <p>${requirement.description}</p>
-							        </div>
-							        <div class="modal-footer">
-							          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							        </div>
-							      </div>
-							      
-							    </div>
-							  </div>
-
+				  			<a href="show/${requirement.id}/${requirement.encodedTitle}" title="Show"  
+				  				data-toggle="modal" data-target="#modal-show-${requirement.id}">
+					        	<span class="glyphicon glyphicon-eye-open"></span>
+					        </a>
 			  			</td>
+				        	<!-- contains modal to show requirement -->
+		  					<%@ include file="show.jspf" %>
 			  			<td>
-			  				<a href="edit/${requirement.id}" title="Edit">
+			  				<a href="edit/${requirement.id}" title="Edit"
+			  				data-toggle="modal" data-target="#modal-edit-${requirement.id}">
 			  					<span class="glyphicon glyphicon-pencil"></span>
 			  				</a>
 			  			</td>
+			  				<%@ include file="edit.jspf" %>
 			  			<td>
 			  				<a href="delete/${requirement.id}" title="Delete">
 			  					<span class="glyphicon glyphicon-remove"></span>

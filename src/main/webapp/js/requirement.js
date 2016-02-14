@@ -1,5 +1,5 @@
 /** 
- * This script controls some functions into home 
+ * This script controls some functions into 
  * page of projects.
  * 
  */
