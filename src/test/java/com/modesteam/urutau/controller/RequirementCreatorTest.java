@@ -1,6 +1,5 @@
 package com.modesteam.urutau.controller;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,7 +10,6 @@ import org.junit.Test;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
-import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
@@ -21,6 +19,7 @@ import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.service.ProjectService;
+import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
@@ -36,7 +35,7 @@ public class RequirementCreatorTest {
 	private MockResult result;
 	private UserSession userSession;
 	private MockValidator validator;
-	private RequirementDAO requirementDAO;
+	private RequirementService requirementService;
 	private ProjectService projectService;
 	private Project ownedProject;
 
@@ -50,7 +49,7 @@ public class RequirementCreatorTest {
 		validator = new MockValidator();
 
 		// System components
-		requirementDAO = mock(RequirementDAO.class);
+		requirementService = mock(RequirementService.class);
 		userSession = mock(UserSession.class);
 		projectService = mock(ProjectService.class);
 		
@@ -77,7 +76,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(feature);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createFeature(feature);
 	}
@@ -98,7 +97,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(generic);
 
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createGeneric(generic);
 	}
@@ -119,7 +118,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(epic);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createEpic(epic);
 	}
@@ -140,7 +139,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(storie);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createUserStory(storie);
 	}
@@ -162,7 +161,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -188,7 +187,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -208,11 +207,9 @@ public class RequirementCreatorTest {
 				.buildGeneric();
 		
 		UserSession invalidSessionMock = createInvaliUserSession();
-		
-		mockWhenLoadProjectBy(generic.getId());
 				
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, invalidSessionMock, projectService);
+				new RequirementCreator(result, validator, invalidSessionMock, projectService, requirementService);
 		
 		controllerMock.createGeneric(generic);
 	}
@@ -235,7 +232,7 @@ public class RequirementCreatorTest {
 		mockWhenProjectLoad(ownedProject);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementDAO, userSession, projectService);
+				new RequirementCreator(result, validator, userSession, projectService, requirementService);
 		
 		controllerMock.createGeneric(generic);
 	}
@@ -248,19 +245,6 @@ public class RequirementCreatorTest {
 
 		return ownedProject;
 	}
-	
-//	private Project createMockProject() {
-//		Project ownedProject = new Project();
-//		
-//		ownedProject.setProjectID(FAKE_PROJECT_ID);
-//		ownedProject.setTitle("Simple test");
-//
-//		return ownedProject;
-//	}
-	
-	private void mockWhenLoadProjectBy(long id) {
-		when(projectService.load(id)).thenReturn(ownedProject);
-	}
 
 	private UserSession createInvaliUserSession() {
 		UserSession invalidUserMock = mock(UserSession.class);
@@ -268,7 +252,6 @@ public class RequirementCreatorTest {
 		
 		return invalidUserMock;
 	}
-
 	
 	/**
 	 * Mocks DAO create method
@@ -276,7 +259,7 @@ public class RequirementCreatorTest {
 	 * @param artifact
 	 */
 	private void doNothingWhenCreate(Artifact artifact) {
-		doNothing().when(requirementDAO).create(artifact);
+		when(requirementService.create(artifact)).thenReturn(true);
 	}
 	
 	private void mockWhenProjectLoad(Project project) {

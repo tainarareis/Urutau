@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.RequirementDAO;
+import com.modesteam.urutau.dao.EntityCreator;
 import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
@@ -27,8 +27,8 @@ import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.ErrorMessage;
 import com.modesteam.urutau.model.system.FieldMessage;
-import com.modesteam.urutau.service.GenericDAO;
 import com.modesteam.urutau.service.ProjectService;
+import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -39,13 +39,14 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 /**
- * This is an concrete implementation of {@link EntityCreator}, part of pattern abstract factory 
+ * This is an concrete implementation of {@link EntityCreator}, 
+ * part of pattern abstract factory 
  * He was born to reduce the coupling of {@link RequirementController}, 
  * and increase your cohesion.
  */
 @Controller
 @Path("/requirement")
-public class RequirementCreator extends EntityCreator<Artifact> {
+public class RequirementCreator implements EntityCreator<Artifact> {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
 
@@ -58,7 +59,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	private final Validator validator;
 	private final UserSession userSession;
 	private final ProjectService projectService;
-	
+	private final RequirementService requirementService;
+
 	public RequirementCreator() {
 		this(null, null, null, null, null);
 	}
@@ -68,14 +70,13 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 	 */
 	@Inject
 	public RequirementCreator(Result result, Validator validator, 
-			RequirementDAO requirementDAO, UserSession userSession, 
-			ProjectService projectService) {
+			UserSession userSession, ProjectService projectService, 
+			RequirementService requirementService) {
 		this.result = result;
 		this.validator = validator;
 		this.userSession = userSession;
 		this.projectService = projectService;
-		// superclass needs an DAO
-//		super.setDao(dao);
+		this.requirementService = requirementService;
 	}
 		
 	@Post
@@ -197,13 +198,8 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		return referedProject;
 	}
 
-	/**
-	 * Basic and generic validation of requirements
-	 * 
-	 * @param requirement to be persisted
-	 */
 	@Override
-	public void validate(final Artifact requirement) {
+	public boolean validate(final Artifact requirement) {
 		logger.info("Apply basic validate in requirement");
 				
 		if(userSession.getUserLogged() == null) {
@@ -221,6 +217,14 @@ public class RequirementCreator extends EntityCreator<Artifact> {
 		}
 		
     	validator.onErrorUsePageOf(UserController.class).home();
+		return false;
+	}
+	
+	@Override
+	public boolean create(final Artifact requirement) {
+		validate(requirement);
+		
+		return requirementService.create(requirement);
 	}
 	
 	/**

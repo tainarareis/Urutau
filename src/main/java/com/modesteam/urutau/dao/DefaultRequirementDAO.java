@@ -15,6 +15,9 @@ import com.modesteam.urutau.exception.InvalidUserActionException;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.service.GenericDAO;
 
+/**
+ * Default implementation of RequirementDAO
+ */
 public class DefaultRequirementDAO extends GenericDAO<Artifact> implements RequirementDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementDAO.class.getName());
@@ -98,6 +101,7 @@ public class DefaultRequirementDAO extends GenericDAO<Artifact> implements Requi
 		query.setFirstResult(firstResult);
 		query.setMaxResults(maxResult);
 		
+		@SuppressWarnings("unchecked")
 		List<Artifact> results = query.getResultList();
 		
 		logger.info("Number of results is " + results.size());

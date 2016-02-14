@@ -96,8 +96,12 @@ public class RequirementService {
 			logger.info("The requirement isn't null");
 			return true;
 		}
-		
 	}
+	
+	public boolean create(Artifact requirement) {
+		return requirementDAO.create(requirement);
+	}
+	
 	/** 
 	 * @param artifact
 	 * @return
