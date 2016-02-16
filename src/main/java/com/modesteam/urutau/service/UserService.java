@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.UserDAO;
-import com.modesteam.urutau.exception.DataBaseCorrupted;
+import com.modesteam.urutau.exception.DataBaseCorruptedException;
 import com.modesteam.urutau.model.User;
 
 @RequestScoped
@@ -46,7 +46,7 @@ public class UserService {
 				valueNotUsed = true;
 			}
 		} catch (NonUniqueResultException exception) {
-			throw new DataBaseCorrupted(this.getClass().getSimpleName() 
+			throw new DataBaseCorruptedException(this.getClass().getSimpleName() 
 					+ " returns twice " + attributeName + " equals");
 		} catch (Exception exception) {
 			exception.printStackTrace();

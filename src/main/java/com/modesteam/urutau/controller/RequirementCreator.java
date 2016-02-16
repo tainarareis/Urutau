@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.EntityCreator;
 import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Actor;
 import com.modesteam.urutau.model.Artifact;
@@ -39,10 +38,10 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 /**
- * This is an concrete implementation of {@link EntityCreator}, 
+ * This is a implementation of {@link EntityCreator}, 
  * part of pattern abstract factory 
- * He was born to reduce the coupling of {@link RequirementController}, 
- * and increase your cohesion.
+ * He was born to reduce the coupling and 
+ * increase your cohesion of {@link RequirementController}, 
  */
 @Controller
 @Path("/requirement")
@@ -150,6 +149,8 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 		
 		logger.info("Requesting persistence of requirement...");
 		
+		validate(requirement);
+		
 		create(requirement);
 	
 		try {
@@ -222,8 +223,6 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 	
 	@Override
 	public boolean create(final Artifact requirement) {
-		validate(requirement);
-		
 		return requirementService.create(requirement);
 	}
 	

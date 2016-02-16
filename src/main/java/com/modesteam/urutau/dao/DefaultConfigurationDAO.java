@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.model.system.Configuration;
-import com.modesteam.urutau.service.GenericDAO;
 
 public class DefaultConfigurationDAO extends GenericDAO<Configuration> implements ConfigurationDAO {
 

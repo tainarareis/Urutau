@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.ProjectDAO;
-import com.modesteam.urutau.exception.DataBaseCorrupted;
+import com.modesteam.urutau.exception.DataBaseCorruptedException;
 import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.Project;
 
@@ -157,7 +157,7 @@ public class ProjectService {
 				valueNotUsed = true;
 			}
 		} catch (NonUniqueResultException exception) {
-			throw new DataBaseCorrupted(this.getClass().getSimpleName() 
+			throw new DataBaseCorruptedException(this.getClass().getSimpleName() 
 					+ " returns twice " + TITLE_ATTRIBUTE_NAME + " equals");
 		} catch (Exception exception) {
 			exception.printStackTrace();

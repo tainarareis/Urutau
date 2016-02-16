@@ -1,4 +1,4 @@
-package com.modesteam.urutau.dao;
+package com.modesteam.urutau.controller;
 
 public interface EntityCreator<Entity> {
 	/**

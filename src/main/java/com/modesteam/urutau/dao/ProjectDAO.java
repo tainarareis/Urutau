@@ -15,11 +15,11 @@ public interface ProjectDAO {
 	/**
 	 * Finds by id
 	 */
-	Project find(final Long id);
+	Project find(Long id);
 	
-	boolean update(final Project Project);
+	boolean update(Project Project);
 	
-	boolean destroy(final Project Project);
+	boolean destroy(Project Project);
 
 	/**
 	 * Load all projects

@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.service.GenericDAO;
 
 public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectDAO.class);
@@ -41,7 +40,7 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 		}
 		
 		String sql = "SELECT project FROM " + Project.class.getName() 
-				+ " project"  + " WHERE project."+ field + "=:value";
+				+ " project WHERE project."+ field + "=:value";
 				
 		logger.info(sql);
 		

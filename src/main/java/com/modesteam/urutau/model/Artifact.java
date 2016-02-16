@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import com.modesteam.urutau.model.system.Layer;
+
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Artifact {
@@ -64,6 +66,13 @@ public abstract class Artifact {
 	
 	private String description;
 	private ArtifactType artifactType;
+	
+	/*
+	 * Layer that this artifact belong in kanban
+	 */
+	@ManyToOne
+	@JoinColumn(name="layerID")
+	private Layer layer;
 	
 	public long getId() {
 		return id;

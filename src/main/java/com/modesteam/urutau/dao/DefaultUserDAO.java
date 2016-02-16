@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.exception.InvalidUserActionException;
 import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.service.GenericDAO;
 
 /**
  * Default implementation of UserDAO
