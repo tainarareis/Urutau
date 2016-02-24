@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.modesteam.urutau.dao.LayerDAO;
+import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.system.Layer;
 
 public class KanbanService {
@@ -46,7 +47,13 @@ public class KanbanService {
 	 * Returns first layer, that is backlog
 	 */
 	public Layer getBackLogLayer() {
-		return layerDAO.find(FIRST_DEFAULT_LAYER_ID);
+		Layer backLogLayer = layerDAO.find(FIRST_DEFAULT_LAYER_ID);;
+		
+		if(backLogLayer == null) {
+			throw new SystemBreakException("The backlog layer is invalid");
+		}
+		
+		return backLogLayer;
 	}
 	
 }
