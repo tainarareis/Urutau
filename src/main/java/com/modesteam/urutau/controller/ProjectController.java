@@ -16,7 +16,9 @@ import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
+import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
 
@@ -42,6 +44,8 @@ public class ProjectController {
 	private final ProjectService projectService;
 
 	private final UserService userService;
+
+	private final KanbanService kanbanService;
 	
 	private final Validator validator;
 
@@ -49,16 +53,18 @@ public class ProjectController {
 	 * @deprecated CDI eye only
 	 */
 	public ProjectController() {
-		this(null,null,null,null, null);
+		this(null,null,null,null, null, null);
 	}
 	
 	@Inject
 	public ProjectController(Result result, UserSession userSession, 
-			ProjectService projectService, UserService userService, Validator validator) {
+			ProjectService projectService, UserService userService, 
+			KanbanService kanbanService, Validator validator) {
 		this.result = result;
 		this.userSession = userSession;
 		this.userService = userService;
 		this.projectService = projectService;
+		this.kanbanService = kanbanService;
 		this.validator = validator; 
 	}
 	
@@ -236,6 +242,9 @@ public class ProjectController {
 
 		int metodologyCode = selectMetodologyCode(project.getMetodology());
 		basicProject.setMetodologyCode(metodologyCode);
+		
+		List<Layer> defaultLayers = kanbanService.getDefaultLayers();
+		basicProject.setLayers(defaultLayers);
 		
 		return basicProject;
 	}

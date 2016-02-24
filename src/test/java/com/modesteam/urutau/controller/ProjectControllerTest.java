@@ -3,6 +3,8 @@ package com.modesteam.urutau.controller;
 import static org.mockito.Mockito.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -13,7 +15,9 @@ import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ProjectBuilder;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
+import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
 
@@ -29,6 +33,7 @@ public class ProjectControllerTest {
 	private UserSession userSession;
 	private MockValidator validator;
 	private ProjectService projectService;
+	private KanbanService kanbanService;
 	private UserService userService;
 	
 	
@@ -43,6 +48,8 @@ public class ProjectControllerTest {
 
 		// System components
 		projectService = mock(ProjectService.class);
+		
+		kanbanService = mock(KanbanService.class);
 		
 		userService = mock(UserService.class);
 		
@@ -65,10 +72,12 @@ public class ProjectControllerTest {
 				.builProject();
 		
 		mockCanBeUse(project.getTitle());
+		mockGetDefaultLayers();
 		mockSave(project);
 		
 		ProjectController controllerMock = 
-				new ProjectController(result, userSession, projectService, userService, validator);
+				new ProjectController(result, userSession, projectService, 
+						userService, kanbanService, validator);
 		
 		controllerMock.create(project);
 	}
@@ -87,7 +96,8 @@ public class ProjectControllerTest {
 		mockSave(project);
 		
 		ProjectController controllerMock = 
-				new ProjectController(result, userSession, projectService, userService, validator);
+				new ProjectController(result, userSession, projectService, 
+						userService, kanbanService, validator);
 		
 		controllerMock.create(project);
 	}
@@ -98,7 +108,8 @@ public class ProjectControllerTest {
 		mockRemove(1L);		
 		
 		ProjectController controllerMock = 
-				new ProjectController(result, userSession, projectService, userService, validator);
+				new ProjectController(result, userSession, projectService, 
+						userService, kanbanService, validator);
 		
 		controllerMock.deleteProject(1L);
 	}
@@ -110,7 +121,9 @@ public class ProjectControllerTest {
 		mockRemove(1L);
 		
 		ProjectController controllerMock = 
-				new ProjectController(result, userSession, projectService, userService, validator);
+				new ProjectController(result, userSession, projectService, 
+						userService, kanbanService, validator);
+
 		controllerMock.deleteProject(1L);
 	}
 	
@@ -128,6 +141,13 @@ public class ProjectControllerTest {
 
 	private void mockCanBeUse(String title) {
 		when(projectService.canBeUsed(title)).thenReturn(true);
+	}
+	
+	private void mockGetDefaultLayers() {
+		List<Layer> layers = new ArrayList<Layer>();
+		layers.add(mock(Layer.class));
+		
+		when(kanbanService.getDefaultLayers()).thenReturn(layers);
 	}
 	
 }

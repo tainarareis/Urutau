@@ -1,0 +1,13 @@
+html, body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.layer {
+	float: left;
+	padding: 20px;
+	border: solid 1px #DCDCDC;
+	min-width: 200px;
+	min-height: 100%;
+}

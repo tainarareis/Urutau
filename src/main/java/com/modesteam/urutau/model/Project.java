@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
 
 @Entity
@@ -49,6 +50,11 @@ public class Project implements Cloneable {
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
+	
+	@ManyToMany
+	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id"), 
+		inverseJoinColumns = @JoinColumn(name = "layer_id"))
+	private List<Layer> layers = new ArrayList<Layer>();
 
 	@Transient
 	private boolean isEmpty;
@@ -148,5 +154,13 @@ public class Project implements Cloneable {
 
 	public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
+	}
+
+	public List<Layer> getLayers() {
+		return layers;
+	}
+
+	public void setLayers(List<Layer> layers) {
+		this.layers = layers;
 	}
 }
