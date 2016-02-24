@@ -18,6 +18,8 @@ import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.Layer;
+import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
 
@@ -38,6 +40,7 @@ public class RequirementCreatorTest {
 	private RequirementService requirementService;
 	private ProjectService projectService;
 	private Project ownedProject;
+	private KanbanService kanbanService;
 
 	@Before
 	public void setup() {
@@ -58,6 +61,10 @@ public class RequirementCreatorTest {
 		when(userSession.getUserLogged()).thenReturn(userMock);
 		
 		ownedProject = createMockProject();
+		
+		kanbanService = mock(KanbanService.class);
+		
+		when(kanbanService.getBackLogLayer()).thenReturn(mock(Layer.class));
 	}
 
 	@Test
@@ -76,7 +83,8 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(feature);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession, 
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createFeature(feature);
 	}
@@ -97,7 +105,8 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(generic);
 
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession, 
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createGeneric(generic);
 	}
@@ -118,7 +127,8 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(epic);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession, 
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createEpic(epic);
 	}
@@ -139,7 +149,8 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(storie);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession, 
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createUserStory(storie);
 	}
@@ -161,7 +172,8 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession,
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -187,7 +199,8 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession,
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -209,7 +222,8 @@ public class RequirementCreatorTest {
 		UserSession invalidSessionMock = createInvaliUserSession();
 				
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, invalidSessionMock, projectService, requirementService);
+				new RequirementCreator(result, validator, invalidSessionMock,
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createGeneric(generic);
 	}
@@ -232,7 +246,8 @@ public class RequirementCreatorTest {
 		mockWhenProjectLoad(ownedProject);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, projectService, requirementService);
+				new RequirementCreator(result, validator, userSession,
+						projectService, requirementService, kanbanService);
 		
 		controllerMock.createGeneric(generic);
 	}

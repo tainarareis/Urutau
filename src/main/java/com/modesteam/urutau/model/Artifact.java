@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.modesteam.urutau.model.system.Layer;
 
 @Entity
@@ -58,6 +60,7 @@ public abstract class Artifact {
 	private Calendar dateOfCreation;
 	private Calendar lastModificationDate;
 	
+	@Length(min=2, max=32)
 	private String title;
 
 	@Transient
@@ -67,13 +70,10 @@ public abstract class Artifact {
 	private String description;
 	private ArtifactType artifactType;
 	
-	/*
-	 * Layer that this artifact belong in kanban
-	 */
 	@ManyToOne
-	@JoinColumn(name="layerID")
+	@JoinColumn(name = "layer_id")
 	private Layer layer;
-	
+		
 	public long getId() {
 		return id;
 	}
@@ -179,6 +179,14 @@ public abstract class Artifact {
 		this.artifactType = artifactType;
 	}
 	
+	public Layer getLayer() {
+		return layer;
+	}
+	
+	public void setLayer(Layer layer) {
+		this.layer = layer;
+	}
+
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName().toLowerCase();

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.modesteam.urutau.dao.LayerDAO;
-import com.modesteam.urutau.dao.ProjectDAO;
 import com.modesteam.urutau.model.system.Layer;
 
 public class KanbanService {
@@ -16,26 +15,14 @@ public class KanbanService {
 	private static final Long LAST_DEFAULT_LAYER_ID = 4L;
 
 	private final LayerDAO layerDAO;
-	private final ProjectDAO projectDAO;
 		
 	public KanbanService() {
-		this(null, null);
+		this(null);
 	}
 	
 	@Inject
-	public KanbanService(LayerDAO layerDAO, ProjectDAO projectDAO) {
+	public KanbanService(LayerDAO layerDAO) {
 		this.layerDAO = layerDAO;
-		this.projectDAO = projectDAO;
-	}
-	
-	/**
-	 * Get all layers used into project
-	 *  
-	 * @param projectID unique code identifier
-	 * @return {@link List} of {@link Layer}
-	 */
-	public List<Layer> load(Long projectID) throws Exception {
-		return projectDAO.find(projectID).getLayers();
 	}
 	
 	/**
@@ -53,6 +40,13 @@ public class KanbanService {
 		}
 		
 		return defaultLayers;
+	}
+	
+	/**
+	 * Returns first layer, that is backlog
+	 */
+	public Layer getBackLogLayer() {
+		return layerDAO.find(FIRST_DEFAULT_LAYER_ID);
 	}
 	
 }

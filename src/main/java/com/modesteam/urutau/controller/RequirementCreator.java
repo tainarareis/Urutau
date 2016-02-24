@@ -26,6 +26,8 @@ import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.ErrorMessage;
 import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.model.system.Layer;
+import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
 
@@ -59,9 +61,10 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 	private final UserSession userSession;
 	private final ProjectService projectService;
 	private final RequirementService requirementService;
+	private final KanbanService kanbanService;
 
 	public RequirementCreator() {
-		this(null, null, null, null, null);
+		this(null, null, null, null, null, null);
 	}
 	
 	/**
@@ -70,12 +73,13 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 	@Inject
 	public RequirementCreator(Result result, Validator validator, 
 			UserSession userSession, ProjectService projectService, 
-			RequirementService requirementService) {
+			RequirementService requirementService, KanbanService kanbanService) {
 		this.result = result;
 		this.validator = validator;
 		this.userSession = userSession;
 		this.projectService = projectService;
 		this.requirementService = requirementService;
+		this.kanbanService = kanbanService;
 	}
 		
 	@Post
@@ -146,6 +150,10 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 		// Setting project
 		final Long projectID = requirement.getProjectID();
 		requirement.setProject(getCurrentProject(projectID));
+		
+		// Setting to Backlog Layer
+		Layer layer = kanbanService.getBackLogLayer();
+		requirement.setLayer(layer);
 		
 		logger.info("Requesting persistence of requirement...");
 		

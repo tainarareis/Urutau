@@ -7,12 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
 
 @Entity
@@ -26,9 +24,6 @@ public class Layer {
 	private String name;
 
 	private String description;
-
-	@OneToMany(mappedBy = "layer")
-	private List<Artifact> requirements = new ArrayList<Artifact>();
 
 	@ManyToMany(mappedBy = "layers")
 	private List<Project> projectsInvolved = new ArrayList<Project>();
@@ -55,14 +50,6 @@ public class Layer {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public List<Artifact> getRequirements() {
-		return requirements;
-	}
-
-	public void setRequirements(List<Artifact> requirements) {
-		this.requirements = requirements;
 	}
 
 	public List<Project> getProjectsInvolved() {

@@ -5,9 +5,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
+import com.modesteam.urutau.service.ProjectService;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -23,25 +25,32 @@ public class KanbanController {
 	private final Result result;
 	private final Validator validator;
 	private final KanbanService kanbanService;
+	private final ProjectService projectService;
 	
 	/**
 	 * @deprecated CDI 
 	 */
 	public KanbanController() {
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 	
 	@Inject
-	public KanbanController(Result result, Validator validator, KanbanService kanbanService) {
+	public KanbanController(Result result, Validator validator, 
+			KanbanService kanbanService, ProjectService projectService) {
 		this.result = result;
 		this.validator = validator;
 		this.kanbanService = kanbanService;
+		this.projectService = projectService;
 	}
 	
 	@Get
 	@Path("/kanban/{projectID}")
 	public List<Layer> load(long projectID) throws Exception {
-		return kanbanService.load(projectID);
+		Project currentProject = projectService.load(projectID);
+		
+		result.include("requirements", currentProject.getRequirements());
+		
+		return currentProject.getLayers();
 	}
 	
 	public void customize() {

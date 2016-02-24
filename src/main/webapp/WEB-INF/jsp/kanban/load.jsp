@@ -13,6 +13,13 @@
 	<c:forEach items="${layerList}" var="layer">
 		<div class="layer layer-${layer.layerID}">
 			<h2>${layer.name}</h2>
+			<c:forEach items="${requirements}" var="requirement">
+				<c:if test="${requirement.layer.layerID == layer.layerID}">
+					<div class="requirement">
+						${requirement.title}
+					</div>
+				</c:if>
+			</c:forEach>
 		</div>
 	</c:forEach>
 </body>
