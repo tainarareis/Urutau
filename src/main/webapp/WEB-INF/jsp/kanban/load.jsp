@@ -15,7 +15,7 @@
 			<h2>${layer.name}</h2>
 			<c:forEach items="${requirements}" var="requirement">
 				<c:if test="${requirement.layer.layerID == layer.layerID}">
-					<div class="requirement">
+					<div class="requirement ${requirement}">
 						${requirement.title}
 					</div>
 				</c:if>

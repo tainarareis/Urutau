@@ -9,7 +9,16 @@ html, body {
 	padding: 20px;
 	text-align: center;
 	border-left: solid 1px #DCDCDC;
-	border-right: solid 1px #DCDCDC;
 	min-width: 200px;
 	min-height: 100%;
+}
+
+.requirement {
+	text-align: left;
+	padding: 5px;
+	border: 1px solid #D8D8D8;
+	margin-bottom: 5px;
+	min-height: 50px;
+	min-width: 150px;
+	background-color: #F2F5A9;
 }
