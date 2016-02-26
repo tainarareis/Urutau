@@ -27,10 +27,6 @@ public class RequirementService {
 	public void save(Artifact requirement) {
 		requirementDAO.create(requirement);
 	}
-
-	public Artifact detail(long id) {
-		return requirementDAO.find(id);
-	}
 	
 	/**
 	 * Returns a requirement caught by title that have a certain id
@@ -116,17 +112,11 @@ public class RequirementService {
 	 * @param id of the requirement
 	 * @return a requirement
 	 */
-	public Artifact getRequirementById(int id) {
+	public Artifact getByID(Long id) {
 		
 		logger.info("Starting DAO search.");
 		
-		Artifact requirement = null;
-		
-		try {
-			requirement = requirementDAO.get("id", id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Artifact requirement = requirementDAO.find(id);
 		
 		if (requirement != null) {
 			logger.info("RequirementDAO returned zero requirements.");
