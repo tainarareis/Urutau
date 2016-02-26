@@ -56,7 +56,7 @@ public class KanbanService {
 		return backLogLayer;
 	}
 
-	public Layer getByID(Long layerID) {
+	public Layer getLayerByID(Long layerID) {
 		return layerDAO.find(layerID);
 	}
 	

@@ -202,7 +202,7 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 		assert(projectID == null);
 
 		// Load by id
-		Project referedProject = projectService.load(projectID);
+		Project referedProject = projectService.getByID(projectID);
 		
 		return referedProject;
 	}

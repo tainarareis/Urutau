@@ -278,6 +278,6 @@ public class RequirementCreatorTest {
 	}
 	
 	private void mockWhenProjectLoad(Project project) {
-		when(projectService.load(project.getProjectID())).thenReturn(project);
+		when(projectService.getByID(project.getProjectID())).thenReturn(project);
 	}
 }

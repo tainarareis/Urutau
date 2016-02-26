@@ -54,8 +54,8 @@ public class KanbanController {
 	
 	@Get
 	@Path("/kanban/{projectID}")
-	public List<Layer> load(long projectID) throws Exception {
-		Project currentProject = projectService.load(projectID);
+	public List<Layer> load(final Long projectID) throws Exception {
+		Project currentProject = projectService.getByID(projectID);
 		
 		result.include("requirements", currentProject.getRequirements());
 		
@@ -66,16 +66,23 @@ public class KanbanController {
 	 * Move requirement to another layer
 	 */
 	@Post("/kanban/move")
-	public void move(Long requirementID, Long layerID) throws Exception {
+	public void move(final Long requirementID, final Long layerID) throws Exception {
 		logger.info("Requesting the move of one requirement");
 		
 		Artifact requirementToTransfer = requirementService.getByID(requirementID);
+		Layer targetLayer = null;
 		
-		Layer targetLayer = kanbanService.getByID(layerID);
+		try {
+			targetLayer = kanbanService.getLayerByID(layerID);
+			
+			requirementToTransfer.setLayer(targetLayer);
+			requirementService.update(requirementToTransfer);
+		} catch (IllegalArgumentException exception) {
+			SimpleMessage simpleMessage = new SimpleMessage(FieldMessage.ERROR, "Invalid layer");
+			validator.add(simpleMessage);
+		}
 		
-		requirementToTransfer.setLayer(targetLayer);
-		requirementService.update(requirementToTransfer);
-		
+		validator.onErrorRedirectTo(this).load(requirementToTransfer.getProject().getProjectID());
 		result.redirectTo(this).load(requirementToTransfer.getProject().getProjectID());
 	}
 	
@@ -84,7 +91,7 @@ public class KanbanController {
 	}
 	
 	@Post
-	public void createLayer(long projectID, Layer layer) throws Exception {
+	public void createLayer(final Long projectID, final Layer layer) throws Exception {
 		if(layer.getName() == null) {
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 
 					"Layer name can not be blank");

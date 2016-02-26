@@ -121,7 +121,7 @@ public class ProjectService {
 	 * 
 	 * @throws SystemBreakException 
 	 */
-	public Project load(Long projectID) {
+	public Project getByID(Long projectID) {
 		assert(projectID == null);
 		
 		Project loaded = null;
