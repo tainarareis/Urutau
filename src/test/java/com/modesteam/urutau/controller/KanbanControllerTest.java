@@ -44,12 +44,15 @@ public class KanbanControllerTest {
 	
 	@Test
 	public void testLoadValid() throws Exception {
-		whenGetProjectByID(VALID_PROJECT_ID);
+		Project project = new Project();
+		project.setId(VALID_PROJECT_ID);
+		
+		whenFind(project);
 		
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
 				mockKanbanService, mockProjectService, mockRequirementService);
 		
-		controller.load(VALID_PROJECT_ID);
+		controller.load(project);
 	}
 	
 	@Test
@@ -107,7 +110,7 @@ public class KanbanControllerTest {
 
 		Project mockProject = mock(Project.class);
 		
-		when(mockProject.getProjectID()).thenReturn(STUB_LONG_NUMBER);
+		when(mockProject.getId()).thenReturn(STUB_LONG_NUMBER);
 		
 		when(requirement.getProject()).thenReturn(mock(Project.class));
 		
@@ -128,7 +131,7 @@ public class KanbanControllerTest {
 		when(mockRequirementService.getByID(id)).thenReturn(mockReturned);
 	}
 
-	private void whenGetProjectByID(Long id) {
-		when(mockProjectService.getByID(id)).thenReturn(mock(Project.class));
+	private void whenFind(Project project) {
+		when(mockProjectService.load(project)).thenReturn(mock(Project.class));
 	}
 }

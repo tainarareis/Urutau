@@ -18,7 +18,7 @@ public class ProjectService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 	private static final String TITLE_ATTRIBUTE_NAME = "title";
-	private static final String ID_PARAMETER = "projectID";
+	private static final String ID_PARAMETER = "id";
 	private static final int INVALID_ID = -1;
 	private static final String TITLE_FIELD = "title";
 	
@@ -47,9 +47,9 @@ public class ProjectService {
 	 * asking for the project exclusion from database.
 	 * @param project
 	 */
-	public void excludeProject(Long projectId) {
-		if( projectId != null ) {
-			Project project = (Project) projectDAO.find(projectId);
+	public void excludeProject(Long id) {
+		if( id != null ) {
+			Project project = (Project) projectDAO.find(id);
 			
 			if(project != null) {
 				projectDAO.destroy(project);
@@ -98,12 +98,12 @@ public class ProjectService {
 		Long idOfProject = new Long(INVALID_ID);
 		
 		try {
-			idOfProject = projectDAO.get(TITLE_FIELD, title).getProjectID();
+			idOfProject = projectDAO.get(TITLE_FIELD, title).getId();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		 
-		boolean validURL = project.getProjectID() == idOfProject;
+		boolean validURL = project.getId() == idOfProject;
 		 
 		if(!validURL) {
 			project = null;
@@ -116,21 +116,21 @@ public class ProjectService {
 	/**
 	 * Load an project by id
 	 * 
-	 * @param projectID identifier of project
+	 * @param id identifier of project
 	 * @return existence project
 	 * 
 	 * @throws SystemBreakException 
 	 */
-	public Project getByID(Long projectID) {
-		assert(projectID == null);
+	public Project getByID(Long id) {
+		assert(id == null);
 		
 		Project loaded = null;
 		
-		logger.info("Search projectID" + projectID);
+		logger.info("Search id" + id);
 		
 			try {
-				if(verifyProjectExistence(projectID)){
-					loaded = projectDAO.get("projectID", projectID);
+				if(verifyProjectExistence(id)){
+					loaded = projectDAO.get("id", id);
 				} else {
 					logger.trace("Do not found any project");
 				}
@@ -164,5 +164,9 @@ public class ProjectService {
 		} 
 		
 		return valueNotUsed;
+	}
+
+	public Project load(Project project) {
+		return projectDAO.find(project.getId());
 	}
 }

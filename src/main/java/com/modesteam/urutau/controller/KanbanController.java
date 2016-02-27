@@ -54,9 +54,9 @@ public class KanbanController {
 	}
 	
 	@Get
-	@Path("/kanban/{projectID}")
-	public List<Layer> load(final Long projectID) throws Exception {
-		Project currentProject = projectService.getByID(projectID);
+	@Path("/kanban/{project.id}")
+	public List<Layer> load(final Project project) throws Exception {
+		Project currentProject = projectService.load(project);
 		
 		result.include("requirements", currentProject.getRequirements());
 		
@@ -83,8 +83,8 @@ public class KanbanController {
 			validator.add(simpleMessage);
 		}
 		
-		validator.onErrorRedirectTo(this).load(requirementToTransfer.getProject().getProjectID());
-		result.redirectTo(this).load(requirementToTransfer.getProject().getProjectID());
+		validator.onErrorRedirectTo(this).load(requirementToTransfer.getProject());
+		result.redirectTo(this).load(requirementToTransfer.getProject());
 	}
 	
 	public void customize() {
@@ -92,7 +92,9 @@ public class KanbanController {
 	}
 	
 	@Post
-	public void createLayer(final @NotNull Long projectID, final @NotNull Layer layer) throws Exception {
+	public void createLayer(final Long id, final Layer layer) throws Exception {
+		Project currentProject = projectService.getByID(id);
+		
 		boolean isComplete = kanbanService.create(layer);
 		
 		if(!isComplete) {
@@ -101,8 +103,8 @@ public class KanbanController {
 			validator.add(errorMessage);
 		}
 		
-		validator.onErrorRedirectTo(this).load(projectID);
-		result.redirectTo(this).load(projectID);
+		validator.onErrorRedirectTo(this).load(currentProject);
+		result.redirectTo(this).load(currentProject);
 	}
 	
 	public void deleteLayer() {
