@@ -105,8 +105,7 @@ public class ProjectController {
 		
 		validator.onErrorRedirectTo(ProjectController.class).index();
 		
-		result.redirectTo(this).show((int) basicProject.getProjectID(), 
-				basicProject.getTitle());
+		result.redirectTo(this).show(basicProject);
 	}
 	
 	
@@ -144,16 +143,15 @@ public class ProjectController {
 	 * @throws UnsupportedEncodingException invalid characters or decodes fails
 	 */
 	@Get
-	@Path("/{id}-{title}")
-	public Project show(int id, String title) throws UnsupportedEncodingException {
-		title = URLDecoder.decode(title, "utf-8");
+	@Path("/{project.id}-{project.title}")
+	public Project show(Project project) throws UnsupportedEncodingException {
+		String titleDecoded = URLDecoder.decode(project.getTitle(), "utf-8");
 		
-		logger.info("Show project " + title);
+		logger.info("Show project " + project.getTitle());
+		Project targetProject  = projectService.show(project.getId(), titleDecoded);
 		
-		// Project id is a integer
-		Project project = projectService.show(new Long(id), title);
 		
-		return project;
+		return targetProject;
 	}
 	
 	/**

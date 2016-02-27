@@ -31,7 +31,7 @@ public class ProjectBuilder {
 	
 	public Project builProject(){
 		Project project = new Project();
-		project.setProjectID(id);
+		project.setId(id);
 		project.setTitle(title);
 		project.setDescription(description);
 		project.setMetodology(metodologyName);

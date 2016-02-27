@@ -25,17 +25,17 @@ public class Project implements Cloneable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long projectID;
+	private Long id;
 
 	private String title;
 	private String description;
-	
+
 	@Transient
 	private String metodology;
 	// Only this are persisted
 	private int metodologyCode;
 
-	@OneToMany(mappedBy="project")
+	@OneToMany(mappedBy = "project")
 	private List<Artifact> requirements;
 
 	@ManyToOne
@@ -43,33 +43,31 @@ public class Project implements Cloneable {
 	private User author;
 
 	/* Artifact can be delegated to one or more persons */
-	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID"), 
-    	inverseJoinColumns = @JoinColumn(name = "userID"))
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID") , inverseJoinColumns = @JoinColumn(name = "userID") )
 	private List<User> members = new ArrayList<User>();
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
-	
+
 	@ManyToMany
-	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id"), 
-		inverseJoinColumns = @JoinColumn(name = "layer_id"))
+	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id") , inverseJoinColumns = @JoinColumn(name = "layer_id") )
 	private List<Layer> layers = new ArrayList<Layer>();
 
 	@Transient
 	private boolean isEmpty;
-	
+
 	@Override
 	public Project clone() throws CloneNotSupportedException {
 		return (Project) super.clone();
 	}
 
-	public long getProjectID() {
-		return projectID;
+	public Long getId() {
+		return id;
 	}
 
-	public void setProjectID(long projectID) {
-		this.projectID = projectID;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -135,15 +133,15 @@ public class Project implements Cloneable {
 	public void setRequirements(List<Artifact> requirements) {
 		this.requirements = requirements;
 	}
-	
+
 	public boolean isScrum() {
 		return MetodologyEnum.SCRUM.getId() == metodologyCode;
 	}
-	
+
 	public boolean isUP() {
 		return MetodologyEnum.UNIFIED_PROCESS.getId() == metodologyCode;
 	}
-	
+
 	public boolean isGeneric() {
 		return MetodologyEnum.GENERIC.getId() == metodologyCode;
 	}

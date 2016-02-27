@@ -92,7 +92,7 @@ public class DefaultRequirementDAO extends GenericDAO<Artifact> implements Requi
 		
 		String sql = "SELECT requirement FROM "+ Artifact.class.getName() + " requirement"
 				+ " JOIN FETCH  requirement.project project"
-				+ " WHERE project.projectID=:projectID"
+				+ " WHERE project.id=:projectID"
 				+ " ORDER BY requirement.dateOfCreation DESC";
 		
 		logger.info(sql);

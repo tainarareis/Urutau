@@ -164,14 +164,13 @@ public class RequirementCreator implements EntityCreator<Artifact> {
 		try {
 			Project currentProject = requirement.getProject();
 			
-			logger.debug("Project ID is " + currentProject.getProjectID());
+			logger.debug("Project ID is " + currentProject.getId());
 			
 			// Show success message
 			result.include(FieldMessage.SUCCESS.toString(), "Requirement added with sucessful!");
 			
-			// Warning! Treat this cast
 			result.redirectTo(ProjectController.class)
-				.show((int) currentProject.getProjectID(), currentProject.getTitle());
+				.show(currentProject);
 		} catch (NumberFormatException | UnsupportedEncodingException e) {
 			throw new SystemBreakException();
 		}

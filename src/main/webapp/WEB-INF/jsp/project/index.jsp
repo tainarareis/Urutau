@@ -14,7 +14,7 @@
 		                	<ul id="demo" class="collapse list-unstyled suboption">
 		                 		<c:forEach items="${projects}" var="project">
 				                    <li>
-				                        <a href="${project.projectID}-${project.title}" target="frame-req" class="link-frame">
+				                        <a href="${project.id}-${project.title}" target="frame-req" class="link-frame">
 				                        	${project.title}
 				                        </a>
 				                    </li>

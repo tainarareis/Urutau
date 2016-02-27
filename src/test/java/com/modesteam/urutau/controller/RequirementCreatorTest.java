@@ -255,7 +255,7 @@ public class RequirementCreatorTest {
 	private Project createMockProject() {
 		Project ownedProject = mock(Project.class);
 		
-		when(ownedProject.getProjectID()).thenReturn(FAKE_PROJECT_ID);
+		when(ownedProject.getId()).thenReturn(FAKE_PROJECT_ID);
 		when(ownedProject.getTitle()).thenReturn("Simple test");
 
 		return ownedProject;
@@ -278,6 +278,6 @@ public class RequirementCreatorTest {
 	}
 	
 	private void mockWhenProjectLoad(Project project) {
-		when(projectService.getByID(project.getProjectID())).thenReturn(project);
+		when(projectService.getByID(project.getId())).thenReturn(project);
 	}
 }

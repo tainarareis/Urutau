@@ -125,7 +125,7 @@
 			/*
 			 * The follow script file needs page variable to work
 			 */
-			currentProjectID = ${project.projectID};
+			currentProjectID = ${project.id};
 			
 			var page = {projectID: currentProjectID, number:0};
 			/*
