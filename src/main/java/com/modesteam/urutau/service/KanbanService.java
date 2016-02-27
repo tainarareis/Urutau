@@ -59,5 +59,9 @@ public class KanbanService {
 	public Layer getLayerByID(Long layerID) {
 		return layerDAO.find(layerID);
 	}
+
+	public boolean create(Layer layer) {
+		return layerDAO.create(layer);
+	}
 	
 }

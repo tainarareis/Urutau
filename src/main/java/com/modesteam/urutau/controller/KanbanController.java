@@ -3,6 +3,7 @@ package com.modesteam.urutau.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,12 +92,16 @@ public class KanbanController {
 	}
 	
 	@Post
-	public void createLayer(final Long projectID, final Layer layer) throws Exception {
-		if(layer.getName() == null) {
+	public void createLayer(final @NotNull Long projectID, final @NotNull Layer layer) throws Exception {
+		boolean isComplete = kanbanService.create(layer);
+		
+		if(!isComplete) {
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 
-					"Layer name can not be blank");
+					"Persistence error...");
 			validator.add(errorMessage);
 		}
+		
+		validator.onErrorRedirectTo(this).load(projectID);
 		result.redirectTo(this).load(projectID);
 	}
 	

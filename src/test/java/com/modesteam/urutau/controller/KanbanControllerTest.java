@@ -16,6 +16,7 @@ import com.modesteam.urutau.service.RequirementService;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
 import br.com.caelum.vraptor.validator.Validator;
 
 public class KanbanControllerTest {
@@ -64,6 +65,41 @@ public class KanbanControllerTest {
 				mockKanbanService, mockProjectService, mockRequirementService);
 		
 		controller.move(STUB_LONG_NUMBER, STUB_LONG_NUMBER);
+	}
+	
+	@Test
+	public void testCreateValidLayer() throws Exception {
+
+		Layer mockLayer = createAnValidMockLayer();
+		
+		shouldReturnWhenCreateLayer(mockLayer, true);
+		
+		KanbanController controller = new KanbanController(mockResult, mockValidator, 
+				mockKanbanService, mockProjectService, mockRequirementService);
+		
+		controller.createLayer(VALID_PROJECT_ID, mockLayer);
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void testCreateInvalidLayer() throws Exception {
+
+		Layer mockLayer = createAnValidMockLayer();
+		
+		shouldReturnWhenCreateLayer(mockLayer, false);
+		
+		KanbanController controller = new KanbanController(mockResult, mockValidator, 
+				mockKanbanService, mockProjectService, mockRequirementService);
+		
+		controller.createLayer(VALID_PROJECT_ID, mockLayer);
+	}
+
+	private void shouldReturnWhenCreateLayer(Layer mockLayer, boolean condition) {
+		when(mockKanbanService.create(mockLayer)).thenReturn(condition);
+	}
+
+	private Layer createAnValidMockLayer() {
+		Layer mockLayer = mock(Layer.class);
+		return mockLayer;
 	}
 
 	private Artifact createAnMockRequirement() {
