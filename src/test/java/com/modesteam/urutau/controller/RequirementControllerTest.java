@@ -1,6 +1,5 @@
 package com.modesteam.urutau.controller;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -61,10 +60,8 @@ public class RequirementControllerTest {
 				.title("Example")
 				.description("test unit")
 				.buildEpic();
-
-		doNothingWhenSave(epic);
 		
-		doNothingWhenRemoveById(FAKE_REQUIREMENT_ID);
+		shouldReturnTrueWhenRemoveById(epic);
 		
 		RequirementController controllerMock = 
 				new RequirementController(result, requirementService, validator);
@@ -94,11 +91,7 @@ public class RequirementControllerTest {
 			.thenReturn(genericRequirement);
 	}
 
-	private void doNothingWhenRemoveById(Long id) {
-		doNothing().when(requirementService).delete(id);;
-	}
-	
-	private void doNothingWhenSave(Artifact requirement) {
-		doNothing().when(requirementService).save(requirement);
+	private void shouldReturnTrueWhenRemoveById(Artifact requirement) {
+		when(requirementService.delete(requirement)).thenReturn(true);
 	}
 }

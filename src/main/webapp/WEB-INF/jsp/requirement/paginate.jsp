@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-	<div>
+	<div class="artifacts">
 		<div class="panel-heading">
    			<h1 class="panel-title">
    				<i class="glyphicon glyphicon-list"></i> Last requirements 
@@ -49,7 +49,7 @@
 			  			</td>
 			  				<%@ include file="edit.jspf" %>
 			  			<td>
-			  				<a href="delete/${requirement.id}" title="Delete">
+			  				<a href="#" id="${requirement.id}" class="delete-req" title="Delete">
 			  					<span class="glyphicon glyphicon-remove"></span>
 			  				</a>
 			  			</td>		  				
@@ -66,5 +66,6 @@
 		 	</a>
 		 </div>
 	</div>
+	<script src="<c:url value='/js/requirement.js'/>"/></script>
 </body>
 </html>

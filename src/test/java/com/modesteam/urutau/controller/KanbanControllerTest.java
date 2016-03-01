@@ -72,10 +72,15 @@ public class KanbanControllerTest {
 	
 	@Test
 	public void testCreateValidLayer() throws Exception {
-
 		Layer mockLayer = createAnValidMockLayer();
 		
+		Project mockProject = mock(Project.class);
+		mockProject.add(mockLayer);
+		
+		mockProjectToAddNewLayer(mockProject, mockLayer);
+		
 		shouldReturnWhenCreateLayer(mockLayer, true);
+		shouldReturnWhenUpdateProject(mockProject, true);
 		
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
 				mockKanbanService, mockProjectService, mockRequirementService);
@@ -86,9 +91,15 @@ public class KanbanControllerTest {
 	@Test(expected=ValidationException.class)
 	public void testCreateInvalidLayer() throws Exception {
 
-		Layer mockLayer = createAnValidMockLayer();
+Layer mockLayer = createAnValidMockLayer();
+		
+		Project mockProject = mock(Project.class);
+		mockProject.add(mockLayer);
+		
+		mockProjectToAddNewLayer(mockProject, mockLayer);
 		
 		shouldReturnWhenCreateLayer(mockLayer, false);
+		shouldReturnWhenUpdateProject(mockProject, false);
 		
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
 				mockKanbanService, mockProjectService, mockRequirementService);
@@ -133,5 +144,13 @@ public class KanbanControllerTest {
 
 	private void whenFind(Project project) {
 		when(mockProjectService.load(project)).thenReturn(mock(Project.class));
+	}
+
+	private void mockProjectToAddNewLayer(Project project, Layer layer) {		
+		when(mockProjectService.getByID(VALID_PROJECT_ID)).thenReturn(project);
+	}
+	
+	private void shouldReturnWhenUpdateProject(Project project, boolean condition) {
+		when(mockProjectService.update(project)).thenReturn(true);
 	}
 }

@@ -4,6 +4,9 @@
  * 
  */
 $(document).ready(function() {
+	/*
+	 * invokes modal to create requirement
+	 */
 	$(".link-create-r-modal").click(function() {
 
 		/* Link of page that call an GET method. 
@@ -19,6 +22,23 @@ $(document).ready(function() {
 		     success:function(result) {
 		    	 $("#r-form").html(result);
 	     }});
+	});
+	
+	/*
+	 * Delete requirement and reload page
+	 */
+	$(".delete-req").click(function() {
+		
+		requirementID = $(this).attr("id");
+		
+		$.ajax({
+		     url: 'requirement/'+requirementID,
+		     type : "POST",
+		     data : {_method : "DELETE"},
+		     success: function() {
+		    	 location.reload();
+		     }
+		});
 	});
 });
 

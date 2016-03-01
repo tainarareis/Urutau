@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.dao.GenericDAO;
 import com.modesteam.urutau.dao.RequirementDAO;
 import com.modesteam.urutau.model.Artifact;
 
@@ -51,22 +52,21 @@ public class RequirementService {
 	}
 	
 	/**
-	 * Method to communicate with the DAO
-	 * asking for the requirement exclusion from database.
-	 * @param requirement
+	 * See {@link GenericDAO#destroy(Object)}
+	 * 
+	 * @return true if delete was complete, without errors
 	 */
-	public void delete(Long requirementId) {
-		if( requirementId != null ) {
-			Artifact requirement = requirementDAO.find(requirementId);
-			
-			if(requirement != null) {
-				requirementDAO.destroy(requirement);
-			} else {
-				throw new IllegalArgumentException("This requirement not exist");
-			}
+	public boolean delete(Artifact requirement) {
+		Artifact requirementToDelete = requirementDAO.find(requirement.getId());
+		boolean isComplete = false;
+		
+		if(requirementToDelete != null) {
+			isComplete = requirementDAO.destroy(requirementToDelete);
 		} else {
-			logger.info("RequirementService cant find requirementID");
+			throw new IllegalArgumentException("This requirement not exist");
 		}
+		
+		return isComplete;
 	}
 	
 	/**

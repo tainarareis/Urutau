@@ -10,17 +10,16 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.service.RequirementService;
+
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
-
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.system.FieldMessage;
-import com.modesteam.urutau.service.RequirementService;
 
 /**
  * This class is responsible to manager simple operations of requirements!
@@ -93,28 +92,23 @@ public class RequirementController {
 	
 	/**
 	 * This method is used to delete one requirement
-	 * @param requirementId
 	 */
-	@Get
-	@Path("/delete/{id}")
-	public void delete(Long id) {
+	@Delete("/requirement/{requirementID}")
+	public void delete(Long requirementID) {
 		
-		logger.info("The requirement with the id " +id + " is solicitated for exclusion.");
+		logger.info("The artifact with the id " + requirementID + " is solicitated for exclusion");
 		
-		requirementService.delete(id);
+		Artifact requirement = requirementService.getByID(requirementID);
 		
-		boolean requirementExistence = requirementService.verifyExistence(id);
+		boolean isComplete = requirementService.delete(requirement);
 		
-		if(!requirementExistence) {
-			logger.info("The requirement was succesfully excluded.");
-			result.nothing();
+		if (isComplete) {
+			// All right, requirement has been deleted
 		} else {
-			logger.info("The requirement wasn't excluded yet.");
-			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), 
-					"Requirement was not excluded!"));	
-			result.nothing();
+			result.notFound();
 		}
 		
+		result.nothing();
 	}
 
 	@View
