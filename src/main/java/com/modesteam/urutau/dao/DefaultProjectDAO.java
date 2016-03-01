@@ -75,4 +75,10 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 		
 		return projectList;
 	}
+	
+	@Override
+	public boolean update(Project entity) {
+		manager.flush();
+		return super.update(entity);
+	}
 }

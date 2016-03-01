@@ -58,6 +58,7 @@ public class KanbanController {
 	public List<Layer> load(final Project project) throws Exception {
 		Project currentProject = projectService.load(project);
 		
+		result.include("projectID", currentProject.getId());
 		result.include("requirements", currentProject.getRequirements());
 		
 		return currentProject.getLayers();
@@ -67,7 +68,7 @@ public class KanbanController {
 	 * Move requirement to another layer
 	 */
 	@Post("/kanban/move")
-	public void move(final Long requirementID, final Long layerID) throws Exception {
+	public void move(final @NotNull Long requirementID, final @NotNull Long layerID) throws Exception {
 		logger.info("Requesting the move of one requirement");
 		
 		Artifact requirementToTransfer = requirementService.getByID(requirementID);
@@ -92,10 +93,13 @@ public class KanbanController {
 	}
 	
 	@Post
-	public void createLayer(final Long id, final Layer layer) throws Exception {
-		Project currentProject = projectService.getByID(id);
+	public void createLayer(final @NotNull Long projectID, @NotNull Layer layer) 
+			throws Exception {
+		Project currentProject = projectService.getByID(projectID);
 		
-		boolean isComplete = kanbanService.create(layer);
+		currentProject.add(layer);
+		
+		boolean isComplete = kanbanService.create(layer) && projectService.update(currentProject);
 		
 		if(!isComplete) {
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 

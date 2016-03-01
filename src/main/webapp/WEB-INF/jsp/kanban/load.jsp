@@ -11,6 +11,17 @@
 <title>Kanban</title>
 </head>
 <body>
+	<form action='<c:url value="/kanban/createLayer"/>' method="POST">
+		<input type="hidden" name="projectID" value="${projectID}">
+		<input type="text" name="layer.name" placeholder="Layer name">
+		<input type="submit" value="Create layer">
+	</form>
+	<c:forEach var="error" items="${errors}">
+    	<!-- Show only login errors -->
+       	<c:if test="${error.category == 'loginError'}">
+			<span class="error">${error.message}</span> <br />
+  		</c:if>
+	</c:forEach>
 	<c:forEach items="${layerList}" var="layer">
 		<div class="layer" ondrop="drop(event, ${layer.layerID})"
 			ondragover="allowDrop(event)" id="div1">

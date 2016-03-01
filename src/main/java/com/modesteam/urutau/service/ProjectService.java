@@ -9,6 +9,7 @@ import javax.persistence.NonUniqueResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.dao.GenericDAO;
 import com.modesteam.urutau.dao.ProjectDAO;
 import com.modesteam.urutau.exception.DataBaseCorruptedException;
 import com.modesteam.urutau.exception.SystemBreakException;
@@ -168,5 +169,13 @@ public class ProjectService {
 
 	public Project load(Project project) {
 		return projectDAO.find(project.getId());
+	}
+	
+	/**
+	 * 
+	 * See {@link GenericDAO#update(Object)}
+	 */
+	public boolean update(Project project) {
+		return projectDAO.update(project);
 	}
 }

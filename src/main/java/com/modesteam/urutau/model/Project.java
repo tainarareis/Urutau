@@ -43,15 +43,17 @@ public class Project implements Cloneable {
 	private User author;
 
 	/* Artifact can be delegated to one or more persons */
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID") , inverseJoinColumns = @JoinColumn(name = "userID") )
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID") , 
+		inverseJoinColumns = @JoinColumn(name = "userID") )
 	private List<User> members = new ArrayList<User>();
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
 
-	@ManyToMany
-	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id") , inverseJoinColumns = @JoinColumn(name = "layer_id") )
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id") ,
+		inverseJoinColumns = @JoinColumn(name = "layer_id") )
 	private List<Layer> layers = new ArrayList<Layer>();
 
 	@Transient
@@ -160,5 +162,12 @@ public class Project implements Cloneable {
 
 	public void setLayers(List<Layer> layers) {
 		this.layers = layers;
+	}
+	
+	/**
+	 * Add an single layer
+	 */
+	public void add(Layer layer) {
+		this.layers.add(layer);
 	}
 }

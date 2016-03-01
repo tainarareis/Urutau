@@ -3,13 +3,13 @@ package com.modesteam.urutau.model.system;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.modesteam.urutau.model.Project;
 
@@ -19,13 +19,13 @@ public class Layer {
 	@GeneratedValue
 	private Long layerID;
 
-	@NotEmpty
+	@NotNull
 	@Size(min = 2)
 	private String name;
 
 	private String description;
 
-	@ManyToMany(mappedBy = "layers")
+	@ManyToMany(mappedBy = "layers", cascade=CascadeType.REFRESH)
 	private List<Project> projectsInvolved = new ArrayList<Project>();
 
 	public Long getLayerID() {
