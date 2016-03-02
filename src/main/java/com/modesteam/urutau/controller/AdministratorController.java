@@ -7,16 +7,17 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.dao.SettingDAO;
+import com.modesteam.urutau.model.Administrator;
+import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.settings.GlobalSetting;
+import com.modesteam.urutau.model.system.settings.SettingType;
+import com.modesteam.urutau.service.AdministratorService;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
-
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.model.system.Configuration;
-import com.modesteam.urutau.model.system.Place;
-import com.modesteam.urutau.service.AdministratorService;
-import com.modesteam.urutau.service.ConfigurationService;
 /**
  * Executes main logics of administrator
  */
@@ -29,7 +30,7 @@ public class AdministratorController {
 	
 	private final AdministratorService administratorService;
 
-	private final ConfigurationService configurationService;
+	private final SettingDAO settingDAO;
 	
 	/*
 	 * CDI 
@@ -40,58 +41,53 @@ public class AdministratorController {
 	
 	@Inject
 	public AdministratorController(Result result, AdministratorService administratorService, 
-			ConfigurationService configurationService) {
+			SettingDAO settingDAO) {
 		this.result = result;
 		this.administratorService = administratorService;
-		this.configurationService = configurationService;
+		this.settingDAO = settingDAO;
 	}
 	
-	@Post("/changeFirstSettings")
-	public void changeFirstSettings(User user) {
-		logger.info("Configure default administrator");
+	@Post("/createFirstAdministrator")
+	public void createFirstAdministrator(Administrator administrator) {
+		logger.info("Creating first administrator");
 		
-		logger.info("New attributes is " + user.getEmail() + "|"
-				+ user.getLogin() + "|"
-				+ user.getName() + "|"
-				+ user.getLastName() + "|" 
-				+ user.getPassword());
+		logger.debug("New attributes are");
+		logger.debug(administrator.getEmail());
+		logger.debug(administrator.getLogin());
+		logger.debug(administrator.getLastName());
+		logger.debug(administrator.getPassword());
 		
-		administratorService.configureNew(user);
+		administratorService.create(administrator);
 		
-		result.redirectTo(this).changeSecondSettings();
+		result.redirectTo(this).changeSystemSettings();
 	}
 	
-	@Post("/changeSecondSettings")
-	public void changeSecondSettings(List<Configuration> configurations) {
+	@Post("/changeSystemSettings")
+	public void changeSystemSettings(List<GlobalSetting> settings) {
 		logger.info("Setting default configuration of system");
 		
-		Configuration emailOfSystem = configurations.get(0);
-		
-		Place place = new Place();
-		// should be an const
-		place.setName("system");
+		GlobalSetting emailOfSystem = settings.get(0);
 		
 		// should be an const
-		emailOfSystem.setName("email");
-		emailOfSystem.setPlace(place);
+		emailOfSystem.setName(SettingType.SYSTEM_EMAIL.toString());
 		
-		configurationService.put(emailOfSystem);
+		settingDAO.create(emailOfSystem);
 		
-		result.redirectTo(this).welcomeAdministrator();
+		result.redirectTo(IndexController.class).index();
+	}
+
+	@View
+	public void createFirstAdministrator() {
+		
 	}
 	
 	@View
-	public void changeSecondSettings() {
+	public void changeSystemSettings() {
 		
 	}
 
 	@View
 	public void welcomeAdministrator() {
-		
-	}
-	
-	@View
-	public void changeFirstSettings() {
 		
 	}
 }

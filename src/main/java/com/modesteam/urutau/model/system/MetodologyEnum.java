@@ -33,16 +33,6 @@ public enum MetodologyEnum {
 	 * @return true if have the same value
 	 */
 	public boolean refersTo(String metodologyName){
-		
-		boolean isEquals = false;
-		
-		if(this.name.equals(metodologyName) || 
-				this.name == metodologyName) {
-			isEquals = true;
-		} else {
-			isEquals = false;
-		}
-		
-		return isEquals;
+		return this.name.equals(metodologyName);
 	}
 }

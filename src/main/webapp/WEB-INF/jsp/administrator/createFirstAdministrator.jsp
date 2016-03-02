@@ -28,16 +28,16 @@
 				<br/>
 			</div>
 			<div class="col-md-6 layout-gradient-col">
-				<form action="changeFirstSettings" method="POST" class="form-input-user" >
-					<input name="user.email" type="email" placeholder="Email: example@email.com" required>
+				<form action="createFirstAdministrator" method="POST" class="form-input-user" >
+					<input name="administrator.email" type="email" placeholder="Email: example@email.com" required>
 					<br/>
-					<input name="user.login" type="text" placeholder="Login: (a..z + 1..9)" required/>
+					<input name="administrator.login" type="text" placeholder="Login: (a..z + 1..9)" required/>
 					<br/>
-					<input name="user.password" type="password" placeholder="Password: minimum 6 length" required/>
+					<input name="administrator.password" type="password" placeholder="Password: minimum 6 length" required/>
 					<br/>
-					<input name="user.name" type="text" placeholder="Name: Jhon"/>
+					<input name="administrator.name" type="text" placeholder="Name: Jhon"/>
 					<br/>
-					<input name="user.lastName" type="text" placeholder="Lastname: Pereira"/>
+					<input name="administrator.lastName" type="text" placeholder="Lastname: Pereira"/>
 					<button class="btn btn-primary btn-block" type="submit">Próxima página (1/2)</button>
 				</form>
 			</div>

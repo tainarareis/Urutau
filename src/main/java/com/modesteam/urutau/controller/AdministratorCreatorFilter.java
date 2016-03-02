@@ -31,7 +31,7 @@ public class AdministratorCreatorFilter implements Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdministratorCreatorFilter.class);
 	
-	private static final String CHANGE_SETTINGS_VIEW = "/administrator/changeFirstSettings";
+	private static final String CHANGE_SETTINGS_VIEW = "/administrator/createFirstAdministrator";
 	
 	@Inject
 	private AdministratorService administratorService;
@@ -59,8 +59,6 @@ public class AdministratorCreatorFilter implements Filter {
 			// Admin yet created!
 			chain.doFilter(request, response);
 		} else {
-			logger.info("First admin will created");
-			administratorService.createFirst();
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
 			logger.debug("Redirecting with "+ requestDispatcher + " to change settings");
 			requestDispatcher.forward(request, response);

@@ -28,8 +28,8 @@
 				<br/>
 			</div>
 			<div class="col-md-6 layout-gradient-col">
-				<form action="changeSecondSettings" method="POST" class="form-input-user" >
-					<input name="configuration[0].value" type="email" placeholder="Email of system: example@email.com" required>
+				<form action="<c:url value='/changeSystemSettings'/>" method="POST" class="form-input-user" >
+					<input name="settings[0].value" type="text" placeholder="Email of system: example@email.com" required>
 					<br/>
 					<button class="btn btn-primary btn-block" type="submit">Finalizar(2/2)</button>
 				</form>

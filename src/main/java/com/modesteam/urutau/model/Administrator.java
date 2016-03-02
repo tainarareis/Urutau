@@ -1,6 +1,7 @@
 package com.modesteam.urutau.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -27,7 +28,7 @@ public class Administrator extends User implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "Concerned_Administrator", joinColumns = @JoinColumn(name = "administrator_id"), 
 			inverseJoinColumns = @JoinColumn(name = "delegated_administrator_id"))
-	private List<Administrator> corcernedAdministrator;
+	private List<Administrator> corcernedAdministrator = new ArrayList<Administrator>();
 
 	/**
 	 * Access to the class constructor method being inherited from User class.

@@ -28,45 +28,7 @@ public class AdministratorService {
 		this.userDAO = userDAO;
 	}
 	
-	public void configureNew(User userUp) {
-		logger.info("Initiation of configuration!");
-		
-		User administratorDefault = null;
-		
-		try {
-			administratorDefault = userDAO.get("login", DEFAULT_ADMIN_DATA);
-		} catch(Exception exception){
-			exception.printStackTrace();
-		}
-		
-		administratorDefault.setEmail(userUp.getEmail());
-		administratorDefault.setLastName(userUp.getLastName());
-		administratorDefault.setName(userUp.getName());
-		administratorDefault.setLogin(userUp.getLogin());
-		administratorDefault.setPassword(userUp.getPassword());		
-
-		userDAO.update(administratorDefault);
-	}
-
-	/**
-	 * If no account has been found in DB, the system will create
-	 * an administrator with the login and password "admin".
-	 */
-	public void createFirst() {
-		logger.info("Creating first administrator");
-		
-		Administrator administrator = new Administrator();
-
-		// Yet confirmed!
-		administrator.setConfirmed(1);
-		administrator.setLogin(DEFAULT_ADMIN_DATA);
-		administrator.setPassword(DEFAULT_ADMIN_DATA);
-		administrator.setEmail(DEFAULT_ADMIN_DATA.concat("@")
-				.concat(DEFAULT_ADMIN_DATA).concat(".com"));
-		administrator.setName(DEFAULT_ADMIN_DATA);
-		administrator.setLastName(DEFAULT_ADMIN_DATA);
-		administrator.setPasswordVerify(DEFAULT_ADMIN_DATA);
-		
+	public void create(Administrator administrator) {
 		userDAO.create(administrator);
 	}
 	
