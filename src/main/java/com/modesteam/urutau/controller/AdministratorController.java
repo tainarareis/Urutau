@@ -10,9 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.dao.SettingDAO;
 import com.modesteam.urutau.model.Administrator;
-import com.modesteam.urutau.model.User;
 import com.modesteam.urutau.model.system.settings.GlobalSetting;
-import com.modesteam.urutau.model.system.settings.SettingType;
+import com.modesteam.urutau.model.system.settings.SystemSettingContext;
 import com.modesteam.urutau.service.AdministratorService;
 
 import br.com.caelum.vraptor.Controller;
@@ -69,7 +68,7 @@ public class AdministratorController {
 		GlobalSetting emailOfSystem = settings.get(0);
 		
 		// should be an const
-		emailOfSystem.setName(SettingType.SYSTEM_EMAIL.toString());
+		emailOfSystem.setName(SystemSettingContext.SYSTEM_EMAIL.toString());
 		
 		settingDAO.create(emailOfSystem);
 		

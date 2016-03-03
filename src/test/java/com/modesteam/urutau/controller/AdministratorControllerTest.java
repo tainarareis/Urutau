@@ -23,14 +23,12 @@ public class AdministratorControllerTest {
 	
 	private MockResult result;
 	private AdministratorService adminService;
-	private ConfigurationService configService;
 
 	@Before
 	public void setUp() {
 		result = new MockResult();
 		
 		adminService = mock(AdministratorService.class);
-		configService = mock(ConfigurationService.class);
 	}
 	
 	@Test
@@ -48,7 +46,7 @@ public class AdministratorControllerTest {
 		mockConfigureNew(user);
 		
 		AdministratorController controller = 
-				new AdministratorController(result, adminService, configService);
+				new AdministratorController(result, adminService);
 		
 		controller.changeFirstSettings(user);
 	}

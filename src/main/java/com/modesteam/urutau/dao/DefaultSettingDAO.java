@@ -6,26 +6,24 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.model.system.settings.GlobalSetting;
+import com.modesteam.urutau.model.system.settings.Setting;
 
-public class DefaultSettingDAO extends GenericDAO<GlobalSetting> implements SettingDAO {
+public class DefaultSettingDAO implements SettingDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(SettingDAO.class);
 	
 	@Inject
 	private EntityManager manager;
 	
-	public DefaultSettingDAO() {
-	
-	}
-	
-	@Inject
-	public DefaultSettingDAO(EntityManager manager) {
-		super.setEntityManager(manager);
-	}
-	
 	@Override
-	public GlobalSetting get(String field, Object value) throws Exception {
-		return null;
+	public Setting get(Setting setting) throws Exception {
+		return manager.find(Setting.class, setting.getId());
 	}
+
+	@Override
+	public void update(Setting setting) {
+		logger.info("Change some setting");
+		manager.merge(setting);
+	}
+	
 }
