@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 import javax.persistence.EntityManager;
 
-import com.modesteam.urutau.service.setting.system.SettingManagerSystem;
+import com.modesteam.urutau.service.setting.system.SystemSettingManager;
 
 /**
  * Used like {@link Qualifier} for {@link EntityManager} 
- * in {@link SettingManagerSystem}
+ * in {@link SystemSettingManager}
  */
 @Target({ TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RetentionPolicy.RUNTIME)

@@ -9,7 +9,7 @@ import com.modesteam.urutau.model.system.setting.Setting;
 import com.modesteam.urutau.service.setting.SettingManager;
 
 @ApplicationScoped
-public class SettingManagerSystem implements SettingManager {
+public class SystemSettingManager implements SettingManager {
 	
 	@SystemManager
 	private final EntityManager manager;
@@ -17,12 +17,12 @@ public class SettingManagerSystem implements SettingManager {
 	/**
 	 * @deprecated only CDI
 	 */
-	public SettingManagerSystem() {
+	public SystemSettingManager() {
 		this(null);
 	}
 	
 	@Inject
-	public SettingManagerSystem(EntityManager manager) {
+	public SystemSettingManager(EntityManager manager) {
 		this.manager = manager;
 	}
 
@@ -32,8 +32,8 @@ public class SettingManagerSystem implements SettingManager {
 	}
 
 	@Override
-	public void get(Setting setting) {
-		manager.find(Setting.class, setting.getId());
+	public Setting get(Setting setting) {
+		return manager.find(Setting.class, setting.getId());
 	}
 	
 }

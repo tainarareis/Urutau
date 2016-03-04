@@ -12,7 +12,7 @@ import com.modesteam.urutau.model.Administrator;
 import com.modesteam.urutau.model.system.setting.SystemSetting;
 import com.modesteam.urutau.model.system.setting.SystemSettingContext;
 import com.modesteam.urutau.service.AdministratorService;
-import com.modesteam.urutau.service.setting.system.SettingManagerSystem;
+import com.modesteam.urutau.service.setting.system.SystemSettingManager;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Post;
@@ -29,7 +29,7 @@ public class AdministratorController {
 	
 	private final AdministratorService administratorService;
 	
-	private final SettingManagerSystem settingManagerSystem;
+	private final SystemSettingManager systemSettingManager;
 	
 	/*
 	 * CDI 
@@ -40,10 +40,10 @@ public class AdministratorController {
 	
 	@Inject
 	public AdministratorController(Result result, AdministratorService administratorService, 
-			SettingManagerSystem settingManagerSystem) {
+			SystemSettingManager systemSettingManager) {
 		this.result = result;
 		this.administratorService = administratorService;
-		this.settingManagerSystem = settingManagerSystem;
+		this.systemSettingManager = systemSettingManager;
 	}
 	
 	@Post("/createFirstAdministrator")
@@ -68,7 +68,7 @@ public class AdministratorController {
 		SystemSetting emailOfSystem = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
 		emailOfSystem.setValue(settings.get(0));
 		
-		settingManagerSystem.save(emailOfSystem);
+		systemSettingManager.save(emailOfSystem);
 		
 		result.redirectTo(IndexController.class).index();
 	}

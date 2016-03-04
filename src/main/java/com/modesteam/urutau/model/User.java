@@ -14,10 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.modesteam.urutau.model.system.setting.UserSetting;
 
 /**
  * This class implements the generic user witch can be extended to an
@@ -66,6 +69,9 @@ public class User {
 	 */
 	@ManyToMany(mappedBy="members", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Project> projects = new ArrayList<Project>();
+	
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="user")
+	private List<UserSetting> settings = new ArrayList<UserSetting>();
 
 	public Long getUserID() {
 		return userID;
@@ -216,5 +222,13 @@ public class User {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
+	}
+
+	public List<UserSetting> getSettings() {
+		return settings;
+	}
+
+	public void setSettings(List<UserSetting> settings) {
+		this.settings = settings;
 	}
 }

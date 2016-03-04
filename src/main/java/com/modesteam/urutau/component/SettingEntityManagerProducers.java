@@ -8,11 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import com.modesteam.urutau.annotation.SystemManager;
-import com.modesteam.urutau.model.system.setting.Setting;
+import com.modesteam.urutau.model.system.setting.SystemSetting;
 
 /**
  * This class produces a {@link EntityManager} 
- * to persist and update {@link Setting} entity
+ * to persist and update {@link SystemSetting} entity
  */
 public class SettingEntityManagerProducers {
 	
