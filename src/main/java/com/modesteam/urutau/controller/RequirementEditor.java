@@ -18,11 +18,11 @@ import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.ArtifactType;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.ArtifactType;
 import com.modesteam.urutau.service.RequirementService;
 
 @Controller

@@ -38,33 +38,9 @@ public class AdministratorCreatorFilterTest {
 		this.chain = mock(FilterChain.class);
 		this.administratorService = mock(AdministratorService.class);
 	}
-
-	@Test
-	public void testDoFilterNoAdminRegistered() throws IOException, ServletException {
-		mockExistenceOfAdministratorWith(false);
-		
-		doNothingWhenCreateFirst();
-		
-		AdministratorCreatorFilter filter = new AdministratorCreatorFilter(administratorService);
-		filter.doFilter(request, response, chain);
-	}
-
-	@Test
-	public void testDoFilterWithAdminRegistered() throws IOException, ServletException {
-		mockExistenceOfAdministratorWith(false);
-		
-		doNothingWhenCreateFirst();
-		
-		AdministratorCreatorFilter filter = new AdministratorCreatorFilter(administratorService);
-		filter.doFilter(request, response, chain);
-	}
-
+	
 	private void mockExistenceOfAdministratorWith(boolean condition) {
 		when(administratorService.existAdministrator()).thenReturn(condition);
-	}
-	
-	private void doNothingWhenCreateFirst() {
-		doNothing().when(administratorService).createFirst();
 	}
 	
 }

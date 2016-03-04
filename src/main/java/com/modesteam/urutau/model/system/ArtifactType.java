@@ -1,4 +1,4 @@
-package com.modesteam.urutau.model;
+package com.modesteam.urutau.model.system;
 
 
 /**

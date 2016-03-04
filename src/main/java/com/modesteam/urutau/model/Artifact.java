@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.modesteam.urutau.model.system.ArtifactType;
 import com.modesteam.urutau.model.system.Layer;
 
 @Entity

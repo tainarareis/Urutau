@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.model.system.settings.Setting;
+import com.modesteam.urutau.model.system.setting.Setting;
 
 public class DefaultSettingDAO implements SettingDAO {
 

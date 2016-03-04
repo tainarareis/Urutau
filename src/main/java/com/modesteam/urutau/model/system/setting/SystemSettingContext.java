@@ -1,4 +1,4 @@
-package com.modesteam.urutau.model.system.settings;
+package com.modesteam.urutau.model.system.setting;
 
 public enum SystemSettingContext {
 	USER_REGISTRATION_IS_OPEN(1L),

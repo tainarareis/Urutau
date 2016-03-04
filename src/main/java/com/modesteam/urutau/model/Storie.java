@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.modesteam.urutau.model.system.ArtifactType;
+
 @Entity
 public class Storie extends Artifact {
 	private String history;

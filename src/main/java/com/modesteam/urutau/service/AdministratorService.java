@@ -8,14 +8,11 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.model.Administrator;
-import com.modesteam.urutau.model.User;
 
 @RequestScoped
 public class AdministratorService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministratorService.class);
-	
-	private static final String DEFAULT_ADMIN_DATA = "administrator";
 	
 	private final UserDAO userDAO;
 	

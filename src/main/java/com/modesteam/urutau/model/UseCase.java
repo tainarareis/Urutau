@@ -9,6 +9,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import com.modesteam.urutau.model.system.ArtifactType;
+
 @Entity
 public class UseCase extends Artifact {
 	@ManyToMany(cascade=CascadeType.PERSIST)

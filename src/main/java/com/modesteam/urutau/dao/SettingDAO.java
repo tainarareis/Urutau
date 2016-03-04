@@ -1,6 +1,6 @@
 package com.modesteam.urutau.dao;
 
-import com.modesteam.urutau.model.system.settings.Setting;
+import com.modesteam.urutau.model.system.setting.Setting;
 
 /**
  * Data Access Object for the Configuration

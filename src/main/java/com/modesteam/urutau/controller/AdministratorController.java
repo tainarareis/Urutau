@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.dao.SettingDAO;
 import com.modesteam.urutau.model.Administrator;
-import com.modesteam.urutau.model.system.settings.GlobalSetting;
-import com.modesteam.urutau.model.system.settings.SystemSettingContext;
+import com.modesteam.urutau.model.system.setting.SystemSetting;
+import com.modesteam.urutau.model.system.setting.SystemSettingContext;
 import com.modesteam.urutau.service.AdministratorService;
+import com.modesteam.urutau.service.setting.system.SettingManagerSystem;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Post;
@@ -28,8 +28,8 @@ public class AdministratorController {
 	private final Result result;
 	
 	private final AdministratorService administratorService;
-
-	private final SettingDAO settingDAO;
+	
+	private final SettingManagerSystem settingManagerSystem;
 	
 	/*
 	 * CDI 
@@ -40,10 +40,10 @@ public class AdministratorController {
 	
 	@Inject
 	public AdministratorController(Result result, AdministratorService administratorService, 
-			SettingDAO settingDAO) {
+			SettingManagerSystem settingManagerSystem) {
 		this.result = result;
 		this.administratorService = administratorService;
-		this.settingDAO = settingDAO;
+		this.settingManagerSystem = settingManagerSystem;
 	}
 	
 	@Post("/createFirstAdministrator")
@@ -62,15 +62,13 @@ public class AdministratorController {
 	}
 	
 	@Post("/changeSystemSettings")
-	public void changeSystemSettings(List<GlobalSetting> settings) {
+	public void changeSystemSettings(List<String> settings) {
 		logger.info("Setting default configuration of system");
 		
-		GlobalSetting emailOfSystem = settings.get(0);
+		SystemSetting emailOfSystem = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
+		emailOfSystem.setValue(settings.get(0));
 		
-		// should be an const
-		emailOfSystem.setName(SystemSettingContext.SYSTEM_EMAIL.toString());
-		
-		settingDAO.create(emailOfSystem);
+		settingManagerSystem.save(emailOfSystem);
 		
 		result.redirectTo(IndexController.class).index();
 	}

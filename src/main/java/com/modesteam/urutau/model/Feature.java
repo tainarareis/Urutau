@@ -3,6 +3,8 @@ package com.modesteam.urutau.model;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import com.modesteam.urutau.model.system.ArtifactType;
+
 @Entity
 public class Feature extends Artifact {
 	
