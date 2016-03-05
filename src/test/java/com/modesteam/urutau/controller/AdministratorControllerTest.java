@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 
 import com.modesteam.urutau.service.AdministratorService;
-import com.modesteam.urutau.service.setting.system.SystemSettingManager;
+import com.modesteam.urutau.service.setting.SystemSettingManager;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 

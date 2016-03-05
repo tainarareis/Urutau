@@ -35,4 +35,9 @@ public class SystemSetting extends Setting {
 				break;
 		}
 	}
+	
+	@Override
+	public Enum<?> getContext() {
+		return this.context;
+	}
 }

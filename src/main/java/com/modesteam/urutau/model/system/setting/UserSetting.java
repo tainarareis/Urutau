@@ -2,6 +2,7 @@ package com.modesteam.urutau.model.system.setting;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
@@ -30,7 +31,7 @@ public class UserSetting extends Setting {
 	}
 
 	@Override
-	@GeneratedValue
+	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "setting_id" )
 	public void setId(Long id) {
 		super.setId(id);
 	}
@@ -53,5 +54,10 @@ public class UserSetting extends Setting {
 			setValue(String.valueOf(genericValue));
 			break;
 		}
+	}
+
+	@Override
+	public Enum<?> getContext() {
+		return this.context;
 	}
 }

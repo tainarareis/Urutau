@@ -1,11 +1,10 @@
-package com.modesteam.urutau.service.setting.system;
+package com.modesteam.urutau.service.setting;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.modesteam.urutau.model.system.setting.Setting;
-import com.modesteam.urutau.service.setting.SettingManager;
 
 @SessionScoped
 public class UserSettingManager implements SettingManager {
@@ -35,10 +34,5 @@ public class UserSettingManager implements SettingManager {
 				throw new IllegalStateException("When persist, db fails");
 			}
 		}
-	}
-
-	@Override
-	public Setting get(Setting setting) {
-		return setting;
 	}
 }

@@ -12,7 +12,7 @@ import com.modesteam.urutau.model.Administrator;
 import com.modesteam.urutau.model.system.setting.SystemSetting;
 import com.modesteam.urutau.model.system.setting.SystemSettingContext;
 import com.modesteam.urutau.service.AdministratorService;
-import com.modesteam.urutau.service.setting.system.SystemSettingManager;
+import com.modesteam.urutau.service.setting.SystemSettingManager;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Post;

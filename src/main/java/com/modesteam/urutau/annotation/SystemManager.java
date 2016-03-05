@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 import javax.persistence.EntityManager;
 
-import com.modesteam.urutau.service.setting.system.SystemSettingManager;
+import com.modesteam.urutau.service.setting.SystemSettingManager;
 
 /**
  * Used like {@link Qualifier} for {@link EntityManager} 

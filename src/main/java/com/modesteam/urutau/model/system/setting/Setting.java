@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.User;
@@ -15,9 +16,14 @@ import com.modesteam.urutau.service.setting.SettingManager;
  * System(Global configurations), {@link User}, {@link Project}.
  * It has many ways to keep their children, each one should 
  * be used by one {@link SettingManager}.
+ * 
+ * {@link SequenceGenerator} is not used only in {@link SystemSetting} 
+ * because their ids properties are described by {@link SystemSettingContext} 
+ * with a constant values.
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
+@SequenceGenerator( name = "setting_id", initialValue=100)
 public abstract class Setting {
 	
 	/**
@@ -56,4 +62,6 @@ public abstract class Setting {
 	 *  in a valid value to field above
 	 */
 	public abstract void setValue(Object genericValue);
+	
+	public abstract Enum<?> getContext();
 }
