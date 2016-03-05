@@ -3,36 +3,27 @@ package com.modesteam.urutau.service.setting;
 import java.util.EnumMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.modesteam.urutau.annotation.SystemManager;
 import com.modesteam.urutau.model.system.setting.Setting;
 import com.modesteam.urutau.model.system.setting.SystemSetting;
 import com.modesteam.urutau.model.system.setting.SystemSettingContext;
 
 @ApplicationScoped
 public class SystemSettingManager implements SettingManager {
-	
-	@SystemManager
-	private final EntityManager manager;
+
+	@Inject private EntityManager manager;
 	
 	private Map<SystemSettingContext, SystemSetting> settings;
 	
-	/**
-	 * @deprecated only CDI
-	 */
-	public SystemSettingManager() {
-		this(null);
-	}
-	
-	@Inject
-	public SystemSettingManager(EntityManager manager) {
-		this.manager = manager;
+	@PostConstruct
+	public void setUp() {
 		this.settings = new EnumMap<>(SystemSettingContext.class);
-		// Load all system settings
-		loadAll();
+		
+		loadSystemSettings();
 	}
 	
 	@Override
@@ -58,7 +49,7 @@ public class SystemSettingManager implements SettingManager {
 		return settings.get(context);
 	}
 	
-	private void loadAll() {
+	private void loadSystemSettings() {
 		for (SystemSettingContext context : SystemSettingContext.values()) {
 			SystemSetting systemSetting = manager.find(SystemSetting.class, 
 					context.getId()); 

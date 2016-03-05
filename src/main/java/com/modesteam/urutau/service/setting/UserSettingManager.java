@@ -1,5 +1,7 @@
 package com.modesteam.urutau.service.setting;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -7,7 +9,12 @@ import javax.persistence.EntityManager;
 import com.modesteam.urutau.model.system.setting.Setting;
 
 @SessionScoped
-public class UserSettingManager implements SettingManager {
+public class UserSettingManager implements SettingManager, Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1457316681261263887L;
 	
 	private final EntityManager manager;
 	
