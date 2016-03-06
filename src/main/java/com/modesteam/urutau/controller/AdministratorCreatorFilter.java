@@ -48,7 +48,6 @@ public class AdministratorCreatorFilter implements Filter {
 	}
 
 	/**
-	 * If database is empty, create an admin
 	 * 
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
@@ -66,13 +65,11 @@ public class AdministratorCreatorFilter implements Filter {
 	}
 	
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		
+	public void init(FilterConfig filterConfig) throws ServletException {	
 	}
 	
 	@Override
 	public void destroy() {
-		
 	}
 
 }

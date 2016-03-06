@@ -3,6 +3,8 @@ package com.modesteam.urutau;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
@@ -20,6 +22,9 @@ public class UserSession implements Serializable {
 	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
 	
 	private User userLogged;
+	
+	@Inject
+	private Event<User> loginEvent;
 
 	/**
 	 * Saves user in session
@@ -28,6 +33,8 @@ public class UserSession implements Serializable {
 	 */
 	public void login(User user){
 		this.userLogged = user;
+		
+		loginEvent.fire(userLogged);
 	}
 	
 	/**

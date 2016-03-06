@@ -1,6 +1,7 @@
 package com.modesteam.urutau.model.system.setting;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Transient;
 
 /**
@@ -8,6 +9,9 @@ import javax.persistence.Transient;
  */
 @Entity
 public class SystemSetting extends Setting {
+	
+	@Id
+	private Long id;
 	
 	@Transient
 	private SystemSettingContext context;
@@ -21,7 +25,15 @@ public class SystemSetting extends Setting {
 	
 	public SystemSetting(SystemSettingContext context) {
 		this.context = context;
-		super.setId(context.getId());
+		setId(context.getId());	
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Long getId() {
+		return context.getId();
 	}
 	
 	@Override

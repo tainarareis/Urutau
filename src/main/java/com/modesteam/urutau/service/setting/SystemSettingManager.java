@@ -15,7 +15,8 @@ import com.modesteam.urutau.model.system.setting.SystemSettingContext;
 @ApplicationScoped
 public class SystemSettingManager implements SettingManager {
 
-	@Inject private EntityManager manager;
+	@Inject 
+	private EntityManager manager;
 	
 	private Map<SystemSettingContext, SystemSetting> settings;
 	

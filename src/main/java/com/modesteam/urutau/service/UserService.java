@@ -29,7 +29,7 @@ public class UserService {
 	/**
 	 * See {@link UserDAO#create(User)}
 	 */
-	public void create(User user){
+	public void create(User user) {
 		userDAO.create(user);
 	}
 	

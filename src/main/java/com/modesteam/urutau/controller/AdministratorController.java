@@ -56,6 +56,8 @@ public class AdministratorController {
 		logger.debug(administrator.getLastName());
 		logger.debug(administrator.getPassword());
 		
+		administrator.createDefaultSettings();
+		
 		administratorService.create(administrator);
 		
 		result.redirectTo(this).changeSystemSettings();
