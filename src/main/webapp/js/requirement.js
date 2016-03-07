@@ -24,6 +24,22 @@ $(document).ready(function() {
 	     }});
 	});
 	
+	$("#link-show-kanban").click(function() {
+		
+		event.preventDefault();
+		
+		// children is <a> tag
+		kanbanUrl = $(this).children().attr("href");
+		
+		$.ajax({
+			url: kanbanUrl,
+			type: "GET",
+			success: function(result) {
+				$(".panel-target").html(result);
+			}
+		})
+	});
+	
 	/*
 	 * Delete requirement and reload page
 	 */
@@ -40,6 +56,8 @@ $(document).ready(function() {
 		     }
 		});
 	});
+	
+	
 });
 
 /**

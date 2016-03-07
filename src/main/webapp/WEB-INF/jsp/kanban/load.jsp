@@ -1,27 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
+
+<script type="text/javascript" src="<c:url value='/js/kanban.js'/>"></script>
 <link href="<c:url value='/css/kanban.css'/>" rel="stylesheet">
-<script src="<c:url value='/js/jquery.js'/>"></script>
-<title>Kanban</title>
-</head>
-<body>
+	
+<div class="row">
+	<!--
+	
 	<form action='<c:url value="/kanban/createLayer"/>' method="POST">
 		<input type="hidden" name="projectID" value="${projectID}">
 		<input type="text" name="layer.name" placeholder="Layer name">
 		<input type="submit" value="Create layer">
 	</form>
+	
+	-->
+	
 	<c:forEach var="error" items="${errors}">
     	<!-- Show only login errors -->
        	<c:if test="${error.category == 'loginError'}">
 			<span class="error">${error.message}</span> <br />
   		</c:if>
 	</c:forEach>
+	
 	<c:forEach items="${layerList}" var="layer">
 		<div class="layer" ondrop="drop(event, ${layer.layerID})"
 			ondragover="allowDrop(event)" id="div1">
@@ -36,6 +37,4 @@
 			</c:forEach>
 		</div>
 	</c:forEach>
-	<script type="text/javascript" src="<c:url value='/js/kanban.js'/>"></script>
-</body>
-</html>
+</div>
