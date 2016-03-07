@@ -51,7 +51,7 @@
 		    			<span class="error">${error.message}</span> <br />
 		    		</c:if>
 				</c:forEach>
-	            <form action="userAuthentication" class="form-signin" method="POST">
+	            <form action="<c:url value='user/authenticate'/>" class="form-signin" method="POST">
 					<input name="login" id="inputLogin" class="form-control" placeholder="Login" required>
 					<input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>

@@ -33,6 +33,11 @@ footer .copyright {
 	margin: 2px;
 }
 
+.login-box {
+	width: 250px;
+	height: 150px;
+}
+
 .form-signin button {
 	margin-left: 2px;
 }

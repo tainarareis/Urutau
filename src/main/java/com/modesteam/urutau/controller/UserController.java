@@ -117,19 +117,20 @@ public class UserController {
 	 * @param login field of user
 	 * @param password secret word of user
 	 */
-	@Post("/userAuthentication")
-    public void authenticateUser(String login, String password) {
-        User user = userService.authenticate(login, password);
+	@Post
+    public void authenticate(String login, String password) {
+        User user = userService.isAuthenticated(login, password);
 
-        if (user != null) {
-            userSession.login(user);
-            result.redirectTo(ProjectController.class).index();
-            logger.info("The user was found and is authenticated");
-        } else {
-        	logger.info("The called user wasn't found");
-        	validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Senha ou login não conferem!"));
-        	validator.onErrorUsePageOf(IndexController.class).index();
-        }
+        validator.check(user != null, 
+        		new SimpleMessage(FieldMessage.ERROR, "Senha ou login nao conferem"));
+        
+        // On error go to index
+        validator.onErrorUsePageOf(IndexController.class).index();
+        
+    	// put in session
+        userSession.login(user);
+        
+        result.redirectTo(ProjectController.class).index();
     }
 
     @Get("/logout")

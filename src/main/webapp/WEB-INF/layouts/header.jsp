@@ -47,19 +47,19 @@
 					            		<a  href="#" id="top-menu-btn" class="dropdown-toggle"data-toggle="dropdown">
 					            			Login
 					            		</a>
-					            		<ul class="dropdown-menu" style="padding:17px;">
-					            			<li>
-						              			<form class="form-group" id="formLogin"> 
-									                <input type="text" name="user.login" class="form-control" placeholder="Login or email"/>
-									                <input type="password" name="user.login" class="form-control" placeholder="Password">
-									                <button type="button" id="btnLogin" class="btn btn-primary btn-group-justified">
+					            		<ul class="dropdown-menu">
+					            			<li class="login-box">
+						              			<form action="<c:url value='/user/authenticate'/>" class="form-group" method="POST"> 
+									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
+									                <input name="password" type="password" class="form-control" placeholder="Password">
+									                <button type="submit" class="btn btn-primary btn-group-justified">
 									                	Login
 									                </button>
 												</form>
 											</li>
 							          		<li class="divider"></li>
 							          		<li>
-							          			<a href="">Register</a>
+							          			<a href="<c:url value='/#register'/>">Register</a>
 							          		</li>
 							            </ul>
 						          	</li>
