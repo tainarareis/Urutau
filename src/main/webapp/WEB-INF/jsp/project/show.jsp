@@ -6,9 +6,10 @@
 <div class="navbar-default sidebar" role="navigation">
 	<div class="col-md-3">
        	<div class="sidebar-nav navbar-collapse">
-           	<ul class="nav" id="side-menu">                         
+           	<ul class="nav requirement-create-type" id="side-menu">                         
             	<li>
-                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">Create requirement</a>
+                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" 
+                		class="default-option">Create requirement</a>
                 	<ul id="demo" class="collapse list-unstyled suboption">
                     <c:if test="${project.isGeneric()}">
 	                    <li>
@@ -58,13 +59,13 @@
 	            </li>
 	             
 	             <li>
-	             	<a href="#" class="header-option">Kanban</a>
+	             	<a href="<c:url value='kanban/${project.id}'/>" class="default-option">Kanban</a>
 	             </li>
 	             <li>
-					<a href="#" class="header-option">Settings</a>
+					<a href="#" class="default-option">Settings</a>
 	             </li>
 	             <li>
-	             	<a href="#" class="header-option">Activity</a>
+	             	<a href="#" class="default-option">Activity</a>
 	             </li>            
 	        </ul>
 	        <div class="modal fade" id="create-r-modal"  tabindex="-1" role="dialog">

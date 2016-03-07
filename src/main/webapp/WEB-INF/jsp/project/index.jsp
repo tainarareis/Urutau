@@ -6,9 +6,9 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="col-md-3">
         	<div class="sidebar-nav navbar-collapse">
-	        	<ul class="nav" id="side-menu">                         
+	        	<ul class="nav">                         
 		            	<li id="projects">
-		                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="header-option">
+		                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="default-option">
 		                		Projects
 		                	</a>
 		                	<ul id="demo" class="collapse list-unstyled suboption">
@@ -22,7 +22,7 @@
 		                	</ul>
 			             </li>
 			             <li>
-			             	<a href="#" class="header-option" data-toggle="modal" data-target="#create-r-modal">Create Project</a>
+			             	<a href="#" class="default-option" data-toggle="modal" data-target="#create-r-modal">Create Project</a>
 			             </li>            
 			        </ul>
 			    </div>

@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
-html,body {
-    height: 100%
+html, body {
+	height: 100%
 }
 
 /* Into index it is overwrite */
@@ -10,7 +10,7 @@ header {
 }
 
 #wrap {
-	min-height: 80%;	
+	min-height: 80%;
 }
 
 footer {
@@ -21,7 +21,6 @@ footer .copyright {
 	color: #000;
 	font-size: 20px;
 }
-
 
 .form-control {
 	margin-bottom: 10px;
@@ -84,17 +83,10 @@ footer .copyright {
 	margin-bottom: 20px;
 }
 
-#top-menu-btn{
-	color: #FFF;
-	min-width: 150px;	
-}
-
-#top-menu-btn:hover {
-	background-color: #151515;
-}
-
-#top-menu-btn:visited {
-	background-color: #151515;
+#top-menu-btn {
+	height: 100%;
+	padding: 15px;
+	text-align: center;
 }
 
 #top-menu-dropdown {
@@ -102,19 +94,22 @@ footer .copyright {
 	outline: none;
 }
 
-.column-menu{
+.column-menu {
 	min-width: 200px;
 }
 
-.header-option:hover {
+.default-option:hover {
 	text-decoration: none;
-	color: #084B8A;
 }
 
-.header-option {
+.default-option {
 	font-size: 20px;
 }
 
+.requirement-create-type li {
+	list-style: disc;
+	margin-left: 20px;
+}
 
 .create-requirement {
 	display: none;
@@ -127,7 +122,7 @@ footer .copyright {
 	height: 300px;
 }
 
-.pull-left{
+.pull-left {
 	text-align: left;
 }
 
@@ -135,14 +130,14 @@ footer .copyright {
 	margin-left: 20px;
 }
 
-.panel{
+.panel {
 	text-align: center;
 }
 
-.panel table{
+.panel table {
 	text-align: left;
 }
 
-.error{
+.error {
 	color: #FE2E2E;
 }
