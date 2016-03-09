@@ -119,7 +119,7 @@ public class UserController {
 	 */
 	@Post
     public void authenticate(String login, String password) {
-        User user = userService.isAuthenticated(login, password);
+        User user = userService.authenticate(login, password);
 
         validator.check(user != null, 
         		new SimpleMessage(FieldMessage.ERROR, "Senha ou login nao conferem"));

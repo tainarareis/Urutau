@@ -118,7 +118,7 @@ public class UserControllerTest {
 
 		UserController controller = new UserController(result, userService, userSession, validator);
 		
-		controller.authenticateUser("fulano","123456");
+		controller.authenticate("fulano","123456");
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class UserControllerTest {
 
 		UserController controller = new UserController(result, userService, userSession, validator);
 		
-		controller.authenticateUser(user.getLogin(), user.getPassword());
+		controller.authenticate(user.getLogin(), user.getPassword());
 	}
 	
 	private void mockAuthenticate(String login, String password, User returnValue) {

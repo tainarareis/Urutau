@@ -35,6 +35,7 @@ public class UserService {
 	
 	/**
 	 * Method to verify if exist a user with same email or same login
+	 * 
 	 * @param user
 	 * @return false if the verification fails
 	 */
@@ -84,8 +85,15 @@ public class UserService {
 		
 		return userExistence;
 	}
-
-	public User isAuthenticated(String login, String password) {
+	
+	/**
+	 * If returns null, user was not authenticate
+	 * 
+	 * @param login to verifies
+	 * @param password to compare with database instance
+	 * @return {@link User} instance of database
+	 */
+	public User authenticate(String login, String password) {
 		User user = null;
 		
 		try {
@@ -115,5 +123,4 @@ public class UserService {
 	public User reloadFromDB(Long userID) {
 		return userDAO.find(userID);
 	}
-
 }
