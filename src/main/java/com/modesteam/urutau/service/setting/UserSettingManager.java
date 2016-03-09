@@ -18,43 +18,47 @@ import com.modesteam.urutau.model.system.setting.UserSetting;
 
 @SessionScoped
 public class UserSettingManager implements SettingManager, Serializable {
-	
-	/**
-	 * {@link SessionScoped} requires
-	 */
-	private static final long serialVersionUID = -1457316681261263887L;
-	
-	private static final Logger logger = LoggerFactory.getLogger(UserSettingManager.class);
-	
-	private final EntityManager manager;
-	
-	private List<UserSetting> settings = new ArrayList<UserSetting>();
-	
-	/**
-	 * @deprecated only CDI
-	 */
-	public UserSettingManager() {
-		this(null);
-	}
-	
-	@Inject
-	public UserSettingManager(EntityManager manager) {
-		this.manager = manager;
-	}
-	
-	public void load(@Observes User user) {
-		
-		this.settings = user.getSettings();
-		
-		logger.info("Number loaded " + settings.size());
-	}
-	
-	@Override
-	public void save(Setting setting) {
-		try {
-			manager.merge(setting);
-		} catch(IllegalArgumentException exception) {
-			throw new IllegalStateException("When merge, db fails");
-		}
-	}
+
+    /**
+     * {@link SessionScoped} requires
+     */
+    private static final long serialVersionUID = -1457316681261263887L;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserSettingManager.class);
+
+    private final EntityManager manager;
+
+    private List<UserSetting> settings = new ArrayList<UserSetting>();
+
+    /**
+     * @deprecated only CDI
+     */
+    public UserSettingManager() {
+        this(null);
+    }
+
+    @Inject
+    public UserSettingManager(EntityManager manager) {
+        this.manager = manager;
+    }
+
+    /**
+     * TODO create setting if not exists
+     * 
+     */
+    public void load(@Observes User user) {
+
+        this.settings = user.getSettings();
+
+        logger.info("Number loaded " + settings.size());
+    }
+
+    @Override
+    public void save(Setting setting) {
+        try {
+            manager.merge(setting);
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalStateException("When merge, db fails");
+        }
+    }
 }
