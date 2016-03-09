@@ -53,7 +53,7 @@
 		    			<span class="error">${error.message}</span> <br />
 		    		</c:if>
 				</c:forEach>
-	            <form action="<c:url value='user/authenticate'/>" class="form-signin" method="POST">
+	            <form action="${linkTo[UserController].authenticate}" class="form-signin" method="POST">
 					<input name="login" class="form-control" placeholder="<fmt:message key='user.login'/>" required>
 					<input name="password" type="password" class="form-control" placeholder="<fmt:message key='user.password'/>" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key='sign_up'/></button>

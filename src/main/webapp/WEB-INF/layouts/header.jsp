@@ -26,7 +26,7 @@
 			 	<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
-						<a class="navbar-brand" href="#">Urutau</a>
+						<a class="navbar-brand" href="<c:url value='/'/>">Urutau</a>
 					</div>
 					<!-- Top Menu Items -->
 					<ul class="nav navbar-right top-nav">
@@ -50,7 +50,7 @@
 					            		</a>
 					            		<ul class="dropdown-menu">
 					            			<li class="login-box">
-						              			<form action="<c:url value='/user/authenticate'/>" class="form-group" method="POST"> 
+						              			<form action="${linkTo[UserController].authenticate}" class="form-group" method="POST"> 
 									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
 									                <input name="password" type="password" class="form-control" placeholder="Password">
 									                <button type="submit" class="btn btn-primary btn-group-justified">

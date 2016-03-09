@@ -7,9 +7,10 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="col-md-3">
 			<div class="sidebar-nav navbar-collapse">
+				
 				<ul class="nav requirement-create-type" id="side-menu">
 					<li><a href="javascript:;" data-toggle="collapse"
-						data-target="#demo" class="default-option">Create requirement</a>
+						data-target="#demo" class="default-option"><fmt:message key="create_requirement"/></a>
 						<ul id="demo" class="collapse list-unstyled suboption">
 							<c:if test="${project.isGeneric()}">
 								<li><a href="<c:url value="/requirement/generic"/>"
@@ -40,14 +41,25 @@
 									class="link-create-r-modal" data-toggle="modal"
 									data-target="#create-r-modal"> Use Case </a></li>
 							</c:if>
-						</ul></li>
+						</ul>
+					</li>
 
-					<li id="link-show-kanban"><a
-						href="<c:url value='kanban/${project.id}'/>"
-						class="default-option">Kanban</a></li>
-					<li><a href="#" class="default-option">Settings</a></li>
-					<li><a href="#" class="default-option">Activity</a></li>
+					<li id="link-show-kanban">
+						<a href="<c:url value='kanban/${project.id}'/>"
+						class="default-option">Kanban</a>
+					</li>
+					<li>
+						<a href="#" class="default-option">
+							<fmt:message key="settings"/>
+						</a>
+					</li>
+					<li>
+						<a href="#" class="default-option">
+							<fmt:message key="activity"/>
+						</a>
+					</li>
 				</ul>
+				
 				<div class="modal fade" id="create-r-modal" tabindex="-1"
 					role="dialog">
 					<div class="modal-dialog" id="r-form"></div>
@@ -60,13 +72,15 @@
 		<div class="create create-requirement panel panel-default">
 			<div class="panel-heading">
 				<h2 class="panel-title">
-					<i class="glyphicon glyphicon-plus"></i> Create Requirement
+					<i class="glyphicon glyphicon-plus"></i> <fmt:message key="create_requirement"/>
 				</h2>
 			</div>
 
 			<br />
 			<div class="panel-footer">
-				<button id="cancel-create-req" class="btn btn-warning">Cancel</button>
+				<button id="cancel-create-req" class="btn btn-warning">
+					<fmt:message key="cancel"/>
+				</button>
 			</div>
 		</div>
 
@@ -91,8 +105,8 @@
 						</c:when>
 						<c:otherwise>
 							<h2 class="text-center">
-								<span class="glyphicon glyphicon-info-sign"></span> Anyone
-								requirement yet!
+								<span class="glyphicon glyphicon-info-sign"></span>
+								<fmt:message key="do_not_have_requirements"/>
 							</h2>
 						</c:otherwise>
 					</c:choose>
