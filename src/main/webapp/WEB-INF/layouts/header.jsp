@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,20 +33,20 @@
 						<li class="dropdown">
 							<c:if test="${userSession.isLogged() == true}">
 								<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">
-									Sr. ${userSession.userLogged.login}
+									${userSession.userLogged.login}
 								</a>
 								<ul id="top-menu-dropdown" class="dropdown-menu">
-									<li><a href="#">Perfil</a></li>
-									<li><a href="#">Configuration</a></li>
+									<li><a href="#"><fmt:message key="see_profile"/></a></li>
+									<li><a href="#"><fmt:message key="settings"/></a></li>
 									<li class="divider"></li>
-									<li><a href="<c:url value='logout'/>"> Logout</a></li>
+									<li><a href="<c:url value='logout'/>"> <fmt:message key="logout"/></a></li>
 								</ul>
 							</c:if>
 							<c:if test="${userSession.isLogged() == false}">
 							 	<ul id="top-menu-dropdown" class="nav pull-right">
 					          		<li class="dropdown" id="menuLogin">
 					            		<a  href="#" id="top-menu-btn" class="dropdown-toggle"data-toggle="dropdown">
-					            			Login
+					            			<fmt:message key="sign_up"/>
 					            		</a>
 					            		<ul class="dropdown-menu">
 					            			<li class="login-box">
@@ -53,13 +54,13 @@
 									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
 									                <input name="password" type="password" class="form-control" placeholder="Password">
 									                <button type="submit" class="btn btn-primary btn-group-justified">
-									                	Login
+									                	<fmt:message key="sign_up"/>
 									                </button>
 												</form>
 											</li>
 							          		<li class="divider"></li>
 							          		<li>
-							          			<a href="<c:url value='/#register'/>">Register</a>
+							          			<a href="<c:url value='/#register'/>"><fmt:message key="sign_in"/></a>
 							          		</li>
 							            </ul>
 						          	</li>

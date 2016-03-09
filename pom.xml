@@ -20,7 +20,14 @@
 			<artifactId>vraptor</artifactId>
 			<version>4.2.0-RC3</version> <!--or the latest version -->
 		</dependency>
-
+		
+		<dependency>
+		    <groupId>br.com.caelum.vraptor</groupId>
+		    <artifactId>vraptor-i18n</artifactId>
+		    <version>4.0.1</version> <!-- or latest version -->
+		    <scope>compile</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
