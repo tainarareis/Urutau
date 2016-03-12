@@ -26,41 +26,6 @@ footer .copyright {
 	margin-bottom: 10px;
 }
 
-.form-signin input {
-	height: 50px;
-	text-align: center;
-	display: block;
-	margin: 2px;
-}
-
-.login-box {
-	width: 250px;
-	height: 150px;
-}
-
-.form-signin button {
-	margin-left: 2px;
-}
-
-.form-input-user {
-	font-size: 20px;
-}
-
-.form-input-user input {
-	height: 50px;
-	width: 100%;
-	margin-bottom: 2px;
-	text-align: center;
-}
-
-.form-input-user button {
-	height: 100px;
-	width: 100%;
-	float: right;
-	margin-top: 5px;
-	font-size: 20px;
-}
-
 /* Any information */
 .info {
 	color: #909090;
@@ -121,10 +86,15 @@ footer .copyright {
 	min-height: 100%;
 }
 
-.create iframe, form {
+.create form {
 	padding: 20px;
 	border: 0px;
 	height: 300px;
+}
+
+.requirement-box {
+	padding: 20px;
+	border: 0px;
 }
 
 .pull-left {

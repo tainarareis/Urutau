@@ -1,100 +1,79 @@
-@import url(https://fonts.googleapis.com/css?family=Signika);
-
-header {
-	text-align: center;
-	color: #FFF;
-	background-attachment: scroll;
-	background: -webkit-radial-gradient(#CC6600, green, blue);
-	/* Safari 5.1 to 6.0 */
-	background: -o-radial-gradient(red, green, blue);
-	/* For Opera 11.6 to 12.0 */
-	background: -moz-radial-gradient(red, green, blue);
-	/* For Firefox 3.6 to 15 */
-	background: radial-gradient(#FFFF99, #FFCC00);
-	background-position: center center;
-	background-repeat: none;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	background-size: cover;
-	-o-background-size: cover;
-}
-
-header .intro-text .intro-lead-in {
-	margin-bottom: 25px;
-	font-family: 'Signika', sans-serif;
-	font-size: 42px;
-	line-height: 50px;
-	color: #2E2E2E;
-}
-
-@media ( min-width :768px) {
-	header .intro-text {
-		padding-top: 100px;
-		height: 300px;
-	}
-}
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
 
 section {
-	padding: 50px 0;
+	padding: 50px 0px 50px 0px;
+	font-family: 'Yanone Kaffeesatz', sans-serif;
 }
 
-section h2.section-heading {
-	margin-top: 0;
-	margin-bottom: 15px;
-	font-size: 40px;
+.form-control {
+	font-size: 20px;
 }
 
-section h3.section-subheading {
-	margin-bottom: 75px;
-	text-transform: none;
-	font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial,
-		sans-serif;
-	font-size: 16px;
-	font-style: italic;
-	font-weight: 400;
+.thumbnail {
+	border: 0px;
 }
 
-.btn-xl {
-	padding: 20px 40px;
-	border-color: #199EFF;
-	border-radius: 3px;
-	text-transform: uppercase;
-	font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 18px;
-	font-weight: 700;
-	color: #fff;
-	background-color: #199EFF;
+.initial {
+	color: #FFF;
+	font-size: 25px;
+	background-attachment: scroll;
+	background-image: url('../img/stardust.png');
+	border-bottom: solid 1px #000;
 }
 
-.btn-xl:hover, .btn-xl:focus, .btn-xl:active, .btn-xl.active, .open .dropdown-toggle.btn-xl
-	{
-	border-color: #f6bf01;
-	color: #fff;
-	background-color: #fec503;
+.initial h1 {
+	margin-bottom: 25px;
+	font-size: 50px;
 }
 
-.btn-xl:active, .btn-xl.active, .open .dropdown-toggle.btn-xl {
-	background-image: none;
+.initial p {
+	color: #000;
 }
 
-.btn-xl.disabled, .btn-xl[disabled], fieldset[disabled] .btn-xl, .btn-xl.disabled:hover,
-	.btn-xl[disabled]:hover, fieldset[disabled] .btn-xl:hover, .btn-xl.disabled:focus,
-	.btn-xl[disabled]:focus, fieldset[disabled] .btn-xl:focus, .btn-xl.disabled:active,
-	.btn-xl[disabled]:active, fieldset[disabled] .btn-xl:active, .btn-xl.disabled.active,
-	.btn-xl[disabled].active, fieldset[disabled] .btn-xl.active {
-	border-color: #199EFF;
-	background-color: #199EFF;
+.initial a {
+
 }
 
-.btn-xl .badge {
-	color: #199EFF;
-	background-color: #fff;
+.btn-signup {
+	font-size: 20px;
+	padding: 10px 20px 10px 20px;
 }
 
-.home-section {
-	margin-bottom: 100px;
+.register h2 {
+	color: #2A00FF;
+	text-align: center;
 }
 
-#contact {
-	background-color: #BDBDBD;
+.register p {
+	text-align: center;
+}
+
+.register {
+
+}
+
+.caption {
+	font-size: 20px;
+}
+
+.motive {
+	font-size: 25px;
+	color: #0DB209;
+	list-style: none;
+}
+
+.form-signin input {
+	height: 50px;
+	text-align: center;
+	margin: 2px;
+}
+
+.form-input-user {
+	font-size: 20px;
+}
+
+.form-input-user input {
+	height: 50px;
+	width: 100%;
+	margin-bottom: 2px;
 }

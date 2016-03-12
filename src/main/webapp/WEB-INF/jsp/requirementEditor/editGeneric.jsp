@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="requirement-box">
+	<h2><fmt:message key="edit"/> Generic Requirement</h2>
 	<form action="editGeneric" method="POST">
 		<input name="generic.title" class="form-control" placeholder="Title" type="text" value="${generic.title}">
 		<input name="generic.description" class="form-control" placeholder="Description" type="text" value="${generic.description}">
