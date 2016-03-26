@@ -35,7 +35,7 @@
 								<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">
 									${userSession.userLogged.login}
 								</a>
-								<ul id="top-menu-dropdown" class="dropdown-menu">
+								<ul class="dropdown-menu" id="top-menu-dropdown">
 									<li><a href="#"><fmt:message key="see_profile"/></a></li>
 									<li><a href="#"><fmt:message key="settings"/></a></li>
 									<li class="divider"></li>
@@ -43,13 +43,13 @@
 								</ul>
 							</c:if>
 							<c:if test="${userSession.isLogged() == false}">
-							 	<ul id="top-menu-dropdown" class="nav pull-right">
+							 	<ul class="nav pull-right" id="top-menu-dropdown">
 					          		<li class="dropdown" id="menuLogin">
 					            		<a  href="#" id="top-menu-btn" class="dropdown-toggle"data-toggle="dropdown">
 					            			<fmt:message key="sign_up"/>
 					            		</a>
-					            		<ul class="dropdown-menu">
-					            			<li class="login-box">
+					            		<ul class="dropdown-menu" id="login-box">
+					            			<li>
 						              			<form action="${linkTo[UserController].authenticate}" class="form-group" method="POST"> 
 									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
 									                <input name="password" type="password" class="form-control" placeholder="Password">

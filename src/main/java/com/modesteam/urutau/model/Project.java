@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.hibernate.LazyInitializationException;
+
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
 
@@ -36,7 +38,7 @@ public class Project implements Cloneable {
 	private int metodologyCode;
 
 	@OneToMany(mappedBy = "project")
-	private List<Artifact> requirements;
+	private List<Artifact> requirements = new ArrayList<Artifact>();
 
 	@ManyToOne
 	@JoinColumn(name = "userID")
@@ -149,7 +151,11 @@ public class Project implements Cloneable {
 	}
 
 	public boolean isEmpty() {
-		return requirements.isEmpty();
+		try {
+			return requirements.isEmpty();
+		} catch(LazyInitializationException exception) {
+			return false;
+		}
 	}
 
 	public void setEmpty(boolean isEmpty) {

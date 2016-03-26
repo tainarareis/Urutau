@@ -61,7 +61,7 @@ public abstract class Artifact {
 	private Calendar dateOfCreation;
 	private Calendar lastModificationDate;
 	
-	@Length(min=2, max=32)
+	@Length(min=2, max=90)
 	private String title;
 
 	@Transient
@@ -192,5 +192,4 @@ public abstract class Artifact {
 	public String toString() {
 		return this.getClass().getSimpleName().toLowerCase();
 	}
-
 }

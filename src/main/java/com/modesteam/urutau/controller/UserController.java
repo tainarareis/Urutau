@@ -140,21 +140,6 @@ public class UserController {
     }
 	
 	@View
-	public void login() {		
-	
-	}
-	
-	@View
-	public void home() {
-		
-	}
-	
-	@View
-	public void project() {
-		
-	}
-	
-	@View
 	public void showSignInSucess() {
 		
 	}

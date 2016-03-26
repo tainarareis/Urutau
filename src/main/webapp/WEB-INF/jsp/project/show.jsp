@@ -3,6 +3,27 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<!-- Self page scripts -->
+<script type="text/javascript">
+	/*
+	 * The follow script file needs page variable to work
+	 */
+	currentProjectID = ${project.id};
+
+	var page = {
+		projectID : currentProjectID,
+		number : 0
+	};
+	/*
+	 * Render paginate.jsp into div class requirements
+	 */
+	window.onload = function(event) {
+		paginate();
+	}
+</script>
+
+<script src="<c:url value='/js/requirement.js'/>" /></script>
+
 <div class="row">
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="col-md-3">
@@ -15,31 +36,31 @@
 							<c:if test="${project.isGeneric()}">
 								<li><a href="<c:url value="/requirement/generic"/>"
 									class="link-create-r-modal" data-toggle="modal"
-									data-target="#create-r-modal"> Generic Requirement </a></li>
+									data-target="#create-r-modal" id="generic"> Generic Requirement </a></li>
 							</c:if>
 
 							<c:if test="${project.isGeneric() || project.isScrum()}">
 								<li><a href="<c:url value="/requirement/storie"/>"
 									class="link-create-r-modal" data-toggle="modal"
-									data-target="#create-r-modal"> User Story </a></li>
+									data-target="#create-r-modal" id="storie"> User Story </a></li>
 							</c:if>
 
 							<c:if test="${project.isGeneric() || project.isScrum()}">
 								<li><a href="<c:url value="/requirement/feature"/>"
 									class="link-create-r-modal" data-toggle="modal"
-									data-target="#create-r-modal"> Feature </a></li>
+									data-target="#create-r-modal" id="feature"> Feature </a></li>
 							</c:if>
 
 							<c:if test="${project.isGeneric() || project.isScrum()}">
 								<li><a href="<c:url value="/requirement/epic"/>"
 									class="link-create-r-modal" data-toggle="modal"
-									data-target="#create-r-modal"> Epic </a></li>
+									data-target="#create-r-modal" id="epic"> Epic </a></li>
 							</c:if>
 
 							<c:if test="${project.isGeneric() || project.isUP()}">
 								<li><a href="<c:url value="/requirement/useCase"/>"
 									class="link-create-r-modal" data-toggle="modal"
-									data-target="#create-r-modal"> Use Case </a></li>
+									data-target="#create-r-modal" id="usercase"> Use Case </a></li>
 							</c:if>
 						</ul>
 					</li>
@@ -64,6 +85,7 @@
 					role="dialog">
 					<div class="modal-dialog" id="r-form"></div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -83,19 +105,13 @@
 				</button>
 			</div>
 		</div>
-
-		<!-- Renderize message of success -->
-		<c:if test="${message-success ne 0}">
-			<div class="panel panel-success">
-				<div class="panel-body bg-success">
-					${message-success}
-					<button type="button" class="close" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+		
+		<c:if test="${success-message != 0}">
+			<div class="alert alert-success" role="alert">
+				${success-message}
 			</div>
 		</c:if>
-
+			
 		<div class="panel-target">
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -116,25 +132,5 @@
 	</div>
 </div>
 
-<!-- Self page scripts -->
-<script type="text/javascript">
-	/*
-	 * The follow script file needs page variable to work
-	 */
-	currentProjectID = ${project.id};
-
-	var page = {
-		projectID : currentProjectID,
-		number : 0
-	};
-	/*
-	 * Render paginate.jsp into div class requirements
-	 */
-	window.onload = function(event) {
-		paginate();
-	}
-</script>
-
-<script src="<c:url value='/js/requirement.js'/>" /></script>
 </body>
 </html>

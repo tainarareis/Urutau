@@ -77,8 +77,8 @@ public class RequirementEditor {
 			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
 					+ " edit an unknown requirement."));	
 		}
-		
-		validator.onErrorForwardTo(UserController.class).home();
+		// TODO redirect to project page
+		validator.onErrorForwardTo(ProjectController.class).index();
 	}
 	
 	/**
@@ -112,10 +112,11 @@ public class RequirementEditor {
 				result.redirectTo(this).editUseCase();
 				break;
 			default:
-				result.redirectTo(UserController.class).home();
+				// TODO redirect to project
+				result.redirectTo(ProjectController.class).index();
 				break;
 		}
-		validator.onErrorForwardTo(UserController.class).home();
+		validator.onErrorForwardTo(ProjectController.class).index();
 	}
 
 	/**
@@ -139,8 +140,8 @@ public class RequirementEditor {
 		} else {
 			logger.info("The update wasn't sucessfully executed.");
 		}
-		
-		result.redirectTo(UserController.class).home();
+		// TODO redirect to project
+		result.redirectTo(ProjectController.class).index();
 	}
 	
 	@Get

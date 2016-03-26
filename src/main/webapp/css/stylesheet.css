@@ -64,6 +64,11 @@ footer .copyright {
 	outline: none;
 }
 
+#login-box {
+	width: 200px;
+	padding: 20px;
+}
+
 .column-menu {
 	min-width: 200px;
 }
@@ -113,6 +118,23 @@ footer .copyright {
 	text-align: left;
 }
 
+.form-error {
+	display: none;	
+}
+
 .error {
 	color: #FE2E2E;
+}
+
+.errors-list {
+	margin-top: 20px;
+}
+
+.error-explain {
+	font-size: 17px;
+	text-align: center;
+}
+
+.error-explain i {
+	font-size: 50px;
 }

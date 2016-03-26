@@ -4,6 +4,7 @@
  * 
  */
 $(document).ready(function() {
+	
 	/*
 	 * invokes modal to create requirement
 	 */
@@ -14,7 +15,7 @@ $(document).ready(function() {
 		 *	 link - requirement/generic
 		 *	 method on Requirement: public Long generic(Long projectID)
 		 */
-		requirementFormUrl = $(this).attr("href") + "/" +page.projectID;
+		requirementFormUrl = $(this).attr("href") + "/" + page.projectID;
 		
 		$.ajax({
 		     url: requirementFormUrl,
@@ -56,8 +57,6 @@ $(document).ready(function() {
 		     }
 		});
 	});
-	
-	
 });
 
 /**
