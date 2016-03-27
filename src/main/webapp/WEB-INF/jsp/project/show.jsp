@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!-- Self page scripts -->
-<script type="text/javascript">
+<script async="async" type="text/javascript">
 	/*
 	 * The follow script file needs page variable to work
 	 */
@@ -22,7 +22,7 @@
 	}
 </script>
 
-<script src="<c:url value='/js/requirement.js'/>" /></script>
+<script async="async" src="<c:url value='/js/requirement.js'/>"></script>
 
 <div class="row">
 	<div class="navbar-default sidebar" role="navigation">
