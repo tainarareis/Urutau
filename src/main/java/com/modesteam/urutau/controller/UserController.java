@@ -16,6 +16,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
+import br.com.caelum.vraptor.view.Results;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
@@ -130,7 +131,7 @@ public class UserController {
     	// put in session
         userSession.login(user);
         
-        result.redirectTo(ProjectController.class).index();
+        result.use(Results.referer()).redirect();
     }
 
     @Get("/logout")

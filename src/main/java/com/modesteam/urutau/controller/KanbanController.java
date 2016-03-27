@@ -1,7 +1,5 @@
 package com.modesteam.urutau.controller;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
@@ -55,13 +53,10 @@ public class KanbanController {
 	
 	@Get
 	@Path("/kanban/{project.id}")
-	public List<Layer> load(final Project project) throws Exception {
+	public void load(final Project project) throws Exception {
 		Project currentProject = projectService.load(project);
 		
-		result.include("projectID", currentProject.getId());
-		result.include("requirements", currentProject.getRequirements());
-		
-		return currentProject.getLayers();
+		result.include("project", currentProject);
 	}
 	
 	/**

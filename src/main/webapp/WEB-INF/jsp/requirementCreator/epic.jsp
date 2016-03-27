@@ -14,7 +14,7 @@
 	<div class="modal-header">
     	<h4><i class="glyphicon glyphicon-plus"></i> Epic</h4>
     </div> 
-	<div id="epic" class="requirement-box">
+	<div class="modal-body">
 		<form action="requirement/createEpic" method="POST" class="requirement-form">
 			<input name="epic.projectID" type="hidden" value="${projectID}">
 			

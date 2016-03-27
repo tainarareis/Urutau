@@ -5,67 +5,67 @@
 
 <div class="row">	
 	<div class="navbar-default sidebar" role="navigation">
-		<div class="col-md-3">
-        	<div class="sidebar-nav navbar-collapse">
+		<div class="col-md-4">
+        	<div class="sidebar-nav">
 	        	<ul class="nav">                         
 		            	<li id="projects">
-		                	<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="default-option">
-		                		<fmt:message key="projects"/>
-		                	</a>
-		                	<ul id="demo" class="collapse list-unstyled suboption">
-		                 		<c:forEach items="${projects}" var="project">
-				                    <li>
-				                        <a href="${project.id}-${project.title}" target="frame-req" class="link-frame">
-				                        	${project.title}
-				                        </a>
-				                    </li>
-			                    </c:forEach>                                                       
-		                	</ul>
+		                	<div class="panel panel-default">
+		                		<div class="panel-heading">
+			                		<h4><fmt:message key="projects"/></h4>
+			                	</div>
+				                	<ul class="list-group text-left">
+				                 		<c:forEach items="${projects}" var="project">
+						                    <li class="list-unstyled list-projects list-group-item">
+						                    	<a href="${project.id}-${project.title}">
+						                    		<i class="glyphicon glyphicon-book"></i> ${project.title}
+						                    	</a>
+						                    </li>
+					                    </c:forEach>                                                       
+				                	</ul>
+		                	</div>
 			             </li>
 			             <li>
-			             	<a href="#" class="default-option" data-toggle="modal" data-target="#create-r-modal">
-    				        	<fmt:message key="create_project"/>
-			             	</a>
-			             </li>            
+			             	<button class="btn btn-success btn-group-justified" data-toggle="modal" data-target="#create-project-modal">
+				            	<h4><fmt:message key="create_project"/></h4>
+	   				        </button>
+   				        </li>            
 			        </ul>
 			    </div>
 			</div>
 		</div>
-	
-	<div class="col-md-8">	
-  			<div class="modal fade"  tabindex="-1" id="create-r-modal" role="dialog">
-			<div class="modal-dialog" id="r-form">
-				<div class="modal-content" >
+
+		<div class="modal fade"  tabindex="-1" id="create-project-modal" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
 					<div class="modal-header">
-				    	<h4>
-				    		<i class="glyphicon glyphicon-plus"></i> <fmt:message key="create_project"/>
-				    	</h4>
-				    </div>
-				     
-					<form action="project/create" method="POST">
-						<input name="project.title" type="text" class="form-control" 
-							placeholder="<fmt:message key="project.title"/>">
-						<br/>
-						<select class="form-control" name="project.metodology">
-							<c:forEach items="${metodologies}" var="metodology">
-								<c:if test="${metodology == 'Generic'}">
-									<option value="${metodology}" selected="selected">${metodology}</option>
-								</c:if>
-								<c:if test="${metodology != 'Generic'}">
-									<option value="${metodology}">${metodology}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-						<br/>
-						<input name="project.description" type="text" class="form-control" 
-							placeholder="<fmt:message key="project.description"/>">
-						<br/> 
-						<input type="submit" id="add-project" 
-							class="btn btn-success btn-group-justified" value="<fmt:message key="add"/>"/>					
-					</form>
-					
+						<h4>
+							<i class="glyphicon glyphicon-plus"></i> <fmt:message key="create_project"/>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form action="${linkTo[ProjectController].create}" method="POST">
+							<input name="project.title" type="text" class="form-control" 
+								placeholder="<fmt:message key="project.title"/>">
+							<br/>
+							<select class="form-control" name="project.metodology">
+								<c:forEach items="${metodologies}" var="metodology">
+									<c:if test="${metodology == 'Generic'}">
+										<option value="${metodology}" selected="selected">${metodology}</option>
+									</c:if>
+									<c:if test="${metodology != 'Generic'}">
+										<option value="${metodology}">${metodology}</option>
+									</c:if>
+								</c:forEach>
+							</select>
+							<br/>
+							<input name="project.description" type="text" class="form-control" 
+								placeholder="<fmt:message key="project.description"/>">
+							<br/> 
+							<input type="submit" class="btn btn-success btn-group-justified" value="<fmt:message key="add"/>"/>					
+						</form>
+					</div>
 				</div>
 			</div>
-		</div>	
-	</div>
+		</div>
+			
 </div>

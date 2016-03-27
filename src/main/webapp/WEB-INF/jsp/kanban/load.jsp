@@ -9,32 +9,35 @@
 	<!--
 	
 	<form action='<c:url value="/kanban/createLayer"/>' method="POST">
-		<input type="hidden" name="projectID" value="${projectID}">
+		<input type="hidden" name="projectID" value="${project.id}">
 		<input type="text" name="layer.name" placeholder="Layer name">
 		<input type="submit" value="Create layer">
 	</form>
 	
 	-->
+	<h1>${project.title} Kanban</h1>
 	
-	<c:forEach var="error" items="${errors}">
-    	<!-- Show only login errors -->
-       	<c:if test="${error.category == 'loginError'}">
-			<span class="error">${error.message}</span> <br />
-  		</c:if>
-	</c:forEach>
-	
-	<c:forEach items="${layerList}" var="layer">
-		<div class="layer" ondrop="drop(event, ${layer.layerID})"
-			ondragover="allowDrop(event)" id="div1">
-			<h2>${layer.name}</h2>
-			<c:forEach items="${requirements}" var="requirement">
-				<c:if test="${requirement.layer.layerID == layer.layerID}">
-					<div class="requirement ${requirement}" id="drag${requirement.id}"
-					 	draggable="true" ondragstart="drag(event)">
-						${requirement.title}
-					</div>
-				</c:if>
-			</c:forEach>
-		</div>
-	</c:forEach>
+	<section class="kanban">
+		<c:forEach var="error" items="${errors}">
+	    	<!-- Show only login errors -->
+	       	<c:if test="${error.category == 'loginError'}">
+				<span class="error">${error.message}</span> <br />
+	  		</c:if>
+		</c:forEach>
+		
+		<c:forEach items="${project.layers}" var="layer">
+			<div class="layer" ondrop="drop(event, ${layer.layerID})"
+				ondragover="allowDrop(event)" id="div1">
+				<h2>${layer.name}</h2>
+				<c:forEach items="${project.requirements}" var="requirement">
+					<c:if test="${requirement.layer.layerID == layer.layerID}">
+						<div class="requirement ${requirement}" id="drag${requirement.id}"
+						 	draggable="true" ondragstart="drag(event)">
+							${requirement.title}
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</c:forEach>
+	</section>
 </div>

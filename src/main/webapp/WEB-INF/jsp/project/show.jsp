@@ -67,7 +67,7 @@
 
 					<li id="link-show-kanban">
 						<a href="<c:url value='kanban/${project.id}'/>"
-						class="default-option">Kanban</a>
+							class="default-option">Kanban</a>
 					</li>
 					<li>
 						<a href="#" class="default-option">

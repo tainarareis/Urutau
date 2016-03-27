@@ -7,11 +7,11 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		
-		<link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
-		
+				
 		<!-- Bootstrap min css -->
 		<link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
+
+		<link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 		
 		<!-- jQuery -->
 		<script src="<c:url value='/js/jquery.js'/>"></script>
@@ -51,7 +51,7 @@
 					            		</a>
 					            		<ul class="dropdown-menu" id="login-box">
 					            			<li>
-						              			<form action="${linkTo[UserController].authenticate}" class="form-group" method="POST"> 
+						              			<form action="${linkTo[UserController].authenticate}" class="form-group login-form" method="POST"> 
 									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
 									                <input name="password" type="password" class="form-control" placeholder="Password">
 									                <button type="submit" class="btn btn-primary btn-group-justified">

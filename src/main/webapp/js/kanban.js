@@ -28,3 +28,4 @@ function drop(ev, layerID) {
 	     dataType: "JSON"
 	});
 }
+
