@@ -10,4 +10,9 @@ public class ApplicationController {
 	public void dificultError(){
 		
 	}
+	
+	@View
+	public void invalidRequest() {
+		
+	}
 }

@@ -23,7 +23,7 @@
 			
 			<input name="epic.description" class="form-control" placeholder="Description" type="text">
 			<input name="epic.content" class="form-control" placeholder="Content" type="text">
-			<input type="submit" value="Add" class="btn btn-success btn-group-justified btn-add-requirement">
+			<input type="submit" value="Add" class="btn btn-success btn-group-justified submit-create">
 		</form>
 	</div>
 </div>

@@ -1,15 +1,18 @@
 package com.modesteam.urutau.controller;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
+import com.modesteam.urutau.formatter.RequirementFormatter;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Feature;
@@ -18,6 +21,7 @@ import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
@@ -41,6 +45,7 @@ public class RequirementCreatorTest {
 	private ProjectService projectService;
 	private Project ownedProject;
 	private KanbanService kanbanService;
+	private RequirementFormatter formatter;
 
 	@Before
 	public void setup() {
@@ -65,6 +70,8 @@ public class RequirementCreatorTest {
 		kanbanService = mock(KanbanService.class);
 		
 		when(kanbanService.getBackLogLayer()).thenReturn(mock(Layer.class));
+		
+		formatter = new RequirementFormatter(userSession, projectService, kanbanService);
 	}
 
 	@Test
@@ -83,10 +90,12 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(feature);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, 
-						projectService, requirementService, kanbanService);
+				new RequirementCreator(result, validator, requirementService, formatter);
 		
 		controllerMock.createFeature(feature);
+		
+	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 	
 	@Test
@@ -105,10 +114,12 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(generic);
 
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, 
-						projectService, requirementService, kanbanService);
-		
+				new RequirementCreator(result, validator, requirementService, formatter);
+
 		controllerMock.createGeneric(generic);
+		
+	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 
 	@Test
@@ -127,10 +138,12 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(epic);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, 
-						projectService, requirementService, kanbanService);
+				new RequirementCreator(result, validator, requirementService, formatter);
 		
 		controllerMock.createEpic(epic);
+		
+	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 
 	@Test
@@ -149,10 +162,12 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(storie);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession, 
-						projectService, requirementService, kanbanService);
+				new RequirementCreator(result, validator, requirementService, formatter);
 		
 		controllerMock.createUserStory(storie);
+		
+	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 
 	@Test
@@ -172,10 +187,12 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession,
-						projectService, requirementService, kanbanService);
+				new RequirementCreator(result, validator, requirementService, formatter);
 		
 		controllerMock.createUseCase(useCase);
+		
+	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 	
 	/**
@@ -199,8 +216,7 @@ public class RequirementCreatorTest {
 		doNothingWhenCreate(useCase);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession,
-						projectService, requirementService, kanbanService);
+				new RequirementCreator(result, validator, requirementService, formatter);
 		
 		controllerMock.createUseCase(useCase);
 	}
@@ -220,10 +236,11 @@ public class RequirementCreatorTest {
 				.buildGeneric();
 		
 		UserSession invalidSessionMock = createInvaliUserSession();
+		
+		formatter = new RequirementFormatter(invalidSessionMock, projectService, kanbanService);
 				
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, invalidSessionMock,
-						projectService, requirementService, kanbanService);
+				new RequirementCreator(result, validator, requirementService, formatter);
 		
 		controllerMock.createGeneric(generic);
 	}
@@ -231,11 +248,11 @@ public class RequirementCreatorTest {
 	/**
 	 * Verifies if a requirement without an obligatory attribute can be created.
 	 */
-	@Test(expected=ValidationException.class)
+	@Test(expected = ValidationException.class)
+	@Ignore("Bean validation")
 	public void testWithoutTitle() {
 		ArtifactBuilder builder = new ArtifactBuilder();
 		
-
 		Generic generic = builder
 				.id(FAKE_REQUIREMENT_ID)
 				.title(null)
@@ -246,9 +263,7 @@ public class RequirementCreatorTest {
 		mockWhenProjectLoad(ownedProject);
 		
 		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, userSession,
-						projectService, requirementService, kanbanService);
-		
+				new RequirementCreator(result, validator, requirementService, formatter);
 		controllerMock.createGeneric(generic);
 	}
 

@@ -76,7 +76,7 @@ public class RequirementCreator {
 	@Post
 	public void validate(String title) {
 		validator.addIf(title == null || title.isEmpty(), 
-				new I18nMessage("title", "title_can_not_be_empty"));
+				new I18nMessage("title", "artifact.title.empty"));
 		validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
 	}
 	
@@ -192,12 +192,7 @@ public class RequirementCreator {
 	 * @param requirement is a user output that will be verified and saved
 	 */
 	private void save(final Artifact requirement) {
-		try {
-			validator.onErrorRedirectTo(ProjectController.class)
-				.show(requirement.getProjectID());
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
+		validator.onErrorUsePageOf(ApplicationController.class).invalidRequest();
 		
 		// insert some data like author, date and project
 		formatter.format(requirement);

@@ -22,7 +22,7 @@
 			
 			<input name="useCase.description" class="form-control" placeholder="Description" type="text">
 			<input name="useCase.fakeActors" class="form-control" placeholder="Separated by ','" type="text">
-			<input type="submit" value="Add" class="btn btn-success btn-group-justified">
+			<input type="submit" value="Add" class="btn btn-success btn-group-justified submit-create">
 		</form>
 	</div>						
 </div>

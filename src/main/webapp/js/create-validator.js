@@ -95,7 +95,7 @@ function throwErrorMessages(data){
 
 $(document).ready(function() {
 	
-	$(".requirement-form").submit(function(ev) {
+	$(".submit-create").click(function(ev) {
 		// cancel submit
 		ev.preventDefault();
 		

@@ -138,3 +138,18 @@ footer .copyright {
 .error-explain i {
 	font-size: 50px;
 }
+
+.invalid-request {
+	text-align: center;
+}
+
+.invalid-request i {
+	font-size: 80px;
+}
+
+.invalid-request p {
+	font-size: 30px;
+}
+.invalid-request ul{
+	list-style: none;
+}
