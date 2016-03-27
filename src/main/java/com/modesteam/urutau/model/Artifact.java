@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -61,7 +62,8 @@ public abstract class Artifact {
 	private Calendar dateOfCreation;
 	private Calendar lastModificationDate;
 	
-	@Length(min=2, max=90)
+	@NotNull(message="{artifact.title.empty}")
+	@Length(min=2, max=90, message="{artifact.title.length}")
 	private String title;
 
 	@Transient

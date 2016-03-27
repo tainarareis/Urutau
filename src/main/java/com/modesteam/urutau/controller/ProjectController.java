@@ -2,6 +2,7 @@ package com.modesteam.urutau.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -145,13 +146,25 @@ public class ProjectController {
 	@Get
 	@Path("/{project.id}-{project.title}")
 	public Project show(Project project) throws UnsupportedEncodingException {
-		String titleDecoded = URLDecoder.decode(project.getTitle(), "utf-8");
+		String titleDecoded = URLDecoder.decode(project.getTitle(), StandardCharsets.UTF_8.name());
 		
 		logger.info("Show project " + project.getTitle());
 		Project targetProject  = projectService.show(project.getId(), titleDecoded);
 		
-		
 		return targetProject;
+	}
+	
+	/**
+	 * Shortcut to {@link ProjectController#show(Project))}, 
+	 * available only programmatically
+	 * 
+	 * @param projectID key to get from database
+	 * @throws UnsupportedEncodingException throws by show(Project)
+	 */
+	public void show(Long projectID) throws UnsupportedEncodingException {
+		Project requestProject = projectService.getByID(projectID);
+
+		result.redirectTo(this.getClass()).show(requestProject);
 	}
 	
 	/**

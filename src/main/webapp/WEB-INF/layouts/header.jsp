@@ -14,10 +14,10 @@
 		<link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 		
 		<!-- jQuery -->
-		<script async="async" src="<c:url value='/js/jquery.js'/>"></script>
+		<script src="<c:url value='/js/jquery.js'/>"></script>
 		
 		<!-- Bootstrap Core -->
-		<script async="async" src="<c:url value='/js/bootstrap.min.js'/>"></script>
+		<script src="<c:url value='/js/bootstrap.min.js'/>"></script>
 		
 		<title>Urutau</title>
 	</head>

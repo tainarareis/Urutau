@@ -1,27 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-</head>
-<body>
-	<div class="modal-content" >
-		<div class="modal-header">
-	    	<h4><i class="glyphicon glyphicon-plus"></i> Storie</h4>
-	    </div> 
-		<div id="storie" class="requirement-box">
-			<form action="requirement/createUserStory" method="POST">		
-				<input name="storie.projectID" type="hidden" value="${projectID}">
-				<input type="text" name="storie.title" placeholder="Title" class="form-control">
-				<label>Tell the Story:</label>
-				<textarea name="storie.history" class="form-control">
-				
-				</textarea>
-				<input type="text" name="acceptanceCriteria.content" class="form-control" placeholder="Acceptance criteria">
-				<input type="submit" value="Add" class="btn btn-success btn-group-justified">
-			</form>
-		</div>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<script async="async" src="<c:url value='/js/create-validator.js'/>"></script>
+
+<script async="async" type="text/javascript">
+	VALIDATOR.validates({
+		title : 'storie.title'
+	});
+</script>
+
+<div class="modal-content" >
+	<div class="modal-header">
+    	<h4><i class="glyphicon glyphicon-plus"></i> Storie</h4>
+    </div> 
+	<div class="requirement-box form-group">
+		<form action="requirement/createUserStory" method="POST" class="requirement-form">
+			<input name="storie.projectID" type="hidden" value="${projectID}">
+			
+			<div class="alert alert-danger form-error" id="title-error" role="alert"></div>			
+			<input type="text" name="storie.title" placeholder="Title" class="form-control">
+			
+			<label>Tell the Story:</label>
+			<textarea name="storie.history" class="form-control">
+			
+			</textarea>
+			<input type="text" name="acceptanceCriteria.content" class="form-control" placeholder="Acceptance criteria">
+			<button type="submit" class="btn btn-success btn-group-justified submit-create">Add</button>
+		</form>
 	</div>
-</body>
-</html>
+</div>

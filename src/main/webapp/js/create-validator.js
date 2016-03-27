@@ -31,7 +31,8 @@ var VALIDATOR = (function() {
 			if (fieldToValidate.length) {
 				elementsToValidate[key] = elements[key];
 			} else {
-				alert("Wrong set validation, contact administrator");
+				alert("Invalid element to validation! Contact administrator...");
+				window.location.reload(true);
 			}
 		}
 	};
@@ -94,7 +95,7 @@ function throwErrorMessages(data){
 
 $(document).ready(function() {
 	
-	$(".submit-create").click(function(ev) {
+	$(".requirement-form").submit(function(ev) {
 		// cancel submit
 		ev.preventDefault();
 		

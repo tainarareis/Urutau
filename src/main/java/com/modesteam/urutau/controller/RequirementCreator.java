@@ -3,6 +3,8 @@ package com.modesteam.urutau.controller;
 import java.io.UnsupportedEncodingException;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,25 +81,25 @@ public class RequirementCreator {
 	}
 	
 	@Post
-	public void createGeneric(Generic generic) {
+	public void createGeneric(@NotNull @Valid Generic generic) {
 		generic.setArtifactType(ArtifactType.GENERIC);
 		save(generic);
 	}
 	
 	@Post
-	public void createFeature(Feature feature) {
+	public void createFeature(@NotNull @Valid Feature feature) {
 		feature.setArtifactType(ArtifactType.FEATURE);
 		save(feature);
 	}
 	
 	@Post
-	public void createUserStory(Storie storie) {
+	public void createUserStory(@NotNull @Valid Storie storie) {
 		storie.setArtifactType(ArtifactType.STORIE);
 		save(storie);
 	}
 
 	@Post
-	public void createEpic(Epic epic) {
+	public void createEpic(@NotNull @Valid Epic epic) {
 		epic.setArtifactType(ArtifactType.EPIC);
 		save(epic);
 	}
@@ -107,7 +109,7 @@ public class RequirementCreator {
 	 * implementation is more robust than the others
 	 */
 	@Post
-	public void createUseCase(UseCase useCase) {		
+	public void createUseCase(@NotNull @Valid UseCase useCase) {		
 		
 		if(useCase.getFakeActors() != null) {
 			useCase.formatToRealActors();
@@ -174,9 +176,7 @@ public class RequirementCreator {
 	 * 
 	 * @param requirement that will be verifies
 	 */
-	private void validates(final Artifact requirement) {
-		logger.info("Apply basic validate in requirement");
-
+	private void validates(final Artifact requirement) {		
 		validator.addIf(requirement.getAuthor() == null,
 				new SimpleMessage(FieldMessage.ERROR, "needs_author"));
 		
@@ -191,26 +191,42 @@ public class RequirementCreator {
 	 * 
 	 * @param requirement is a user output that will be verified and saved
 	 */
-	private void save(Artifact requirement) {		
-		formatter.format(requirement);
-		
-		logger.info("Project ID is " + requirement.getProject().getId());
-		
-		validates(requirement);
-		
-		if(!validator.hasErrors()) {			
-			service.create(requirement);
-		} else {
-			logger.error("Some errors was found");
+	private void save(final Artifact requirement) {
+		try {
+			validator.onErrorRedirectTo(ProjectController.class)
+				.show(requirement.getProjectID());
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
+		
+		// insert some data like author, date and project
+		formatter.format(requirement);
+		// verify if above format work fine
+		validates(requirement);
+		// only to protect the invoke of create requirement
+		createIfThereIsNoErrors(requirement);
 		
 		result.include(FieldMessage.SUCCESS, "requirement_add_with_success");
 		
 		try {
+			// Now project are loaded
 			result.redirectTo(ProjectController.class)
 				.show(requirement.getProject());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * If validator does not has any error, invokes persistence method
+	 *  
+	 * @param requirement instance created by user
+	 */
+	private void createIfThereIsNoErrors(final Artifact requirement) {
+		if(!validator.hasErrors()) {			
+			service.create(requirement);
+		} else {
+			logger.error("Some errors was found");
 		}
 	}
 }
