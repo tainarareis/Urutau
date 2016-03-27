@@ -1,46 +1,75 @@
-
-
-// used like data of ajax method
-var postData = [];
-
-// loads elements that needs validate
-var elementsToValidate = {};
-
-function validates(elements) {
-	for(var key in elements) {
-		var fieldToValidate = $('input[name="'+elements[key]+'"]');
-
-		if (fieldToValidate.length) {
-			elementsToValidate[key] = elements[key];
-		} else {
-			alert("Wrong set validation, contact administrator");
-		}
-	}
-}
-
-/**
- * set postData with current value of inputs to validate
+/** 
+ * This global variable sets a map to ajax method 
+ * use the marked inputs to validation. 
+ * Basically we have a server-side validate method like:
  * 
- * @param elements have paramName and name of input belonging to him
+ * public void validate(String property) {
+ * 
+ * And a view with:
+ * 
+ * <input type="text" name="object.property">
+ * 
+ * So is needed pass this input value like 'property' to ajax method:
+ * 
+ * data : {name : 'some entry'};
+ * 
  */
-function mountPostData() {
-	// clear postData
-	postData = [];
-	
-	inputOption = JSON.stringify(elementsToValidate);
+var VALIDATOR = (function() {
 
-	$.each($.parseJSON(inputOption), function(paramName, elementName) {
-		// get input value by name
-		inputToValidate = $('input[name="' + elementName + '"]').val();
+	// used by ajax method
+	var data = [];
+
+	// loads elements that needs validate
+	var elementsToValidate = {};
+	
+	// Named by 'validates', this method marks inputs 
+	// to be validated and your keys
+	elementsToValidate.add = function(elements) {
+		for(var key in elements) {
+			var fieldToValidate = $('input[name="'+elements[key]+'"]');
+			
+			if (fieldToValidate.length) {
+				elementsToValidate[key] = elements[key];
+			} else {
+				alert("Wrong set validation, contact administrator");
+			}
+		}
+	};
+
+	// Generates the needed association between input and value, 
+	// to be used by ajax
+	data.generateMap = function() {
 		
-		// set attribute
-		var ajaxParam = {};
-		ajaxParam[paramName] = inputToValidate;
+		data = [];
 		
-		// push attribute to postData
-		postData.push(JSON.stringify(ajaxParam));
-	});
-}
+		var inputs = JSON.stringify(elementsToValidate);
+
+		$.each($.parseJSON(inputs), function(paramName, elementName) {
+			// get input value by name
+			var toValidate = $('input[name="' + elementName + '"]').val();
+			
+			// set attribute
+			var ajaxParam = {};
+			ajaxParam[paramName] = toValidate;
+			
+			// push attribute to postData
+			data.push(JSON.stringify(ajaxParam));
+		});
+	}
+	
+	// return data in JSON format
+	data.getJSON = function() {
+		return $.parseJSON(data);
+	};
+	
+	
+	return {
+		mapInputs	: data.generateMap,
+		getJSON		: data.getJSON,
+		validates	: elementsToValidate.add	
+	};
+})(); 
+
 
 /**
  * Throws error messages sented by server-side 
@@ -70,13 +99,12 @@ $(document).ready(function() {
 		ev.preventDefault();
 		
 		// fills postData with current values of inputs
-		mountPostData();
+		VALIDATOR.mapInputs();
 		
-		console.log(postData);
 	   	$.ajax({
 		     url: "requirement/validate",
 		     type: "POST",
-		     data: $.parseJSON(postData),
+		     data: VALIDATOR.getJSON(),
 		     // has some error
 		     success: function(result) {
 		    	var data = JSON.stringify(result);

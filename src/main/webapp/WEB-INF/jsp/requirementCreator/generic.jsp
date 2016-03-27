@@ -5,7 +5,7 @@
 <script async="async" src="<c:url value='/js/requirement-create.js'/>"></script>
 
 <script async="async" type="text/javascript">
-	validates({
+	VALIDATOR.validates({
 		title : 'generic.title'
 	});
 </script>
