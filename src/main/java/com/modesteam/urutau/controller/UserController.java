@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.User;
-import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.UserService;
 import com.modesteam.urutau.service.validator.RegisterValidator;
 
@@ -32,10 +31,9 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	private static final String LOGIN_ATTRIBUTE = "login";
-
 	private static final String EMAIL_ATTRIBUTE = "email";
-	
 	private static final String REGISTER_VALIDATOR = "register";
+	private static final String LOGIN_VALIDATOR = "login";
 	
 	private final Result result;
 	private final UserService userService;
@@ -92,7 +90,7 @@ public class UserController {
 			userService.create(user);
 		}
 		
-		result.redirectTo(this).showSignInSucess();
+		result.forwardTo(this).showSignInSucess();
 	}
 
 	/**
@@ -119,10 +117,10 @@ public class UserController {
         User user = userService.authenticate(login, password);
 
         validator.check(user != null, 
-        		new SimpleMessage(FieldMessage.ERROR, "Senha ou login nao conferem"));
+        		new SimpleMessage(LOGIN_VALIDATOR, "Senha ou login nao conferem"));
         
         // On error go to index
-        validator.onErrorUsePageOf(IndexController.class).index();
+        validator.onErrorRedirectTo(IndexController.class).index();
         
     	// put in session
         userSession.login(user);

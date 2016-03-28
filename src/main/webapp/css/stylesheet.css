@@ -155,17 +155,18 @@ footer .copyright {
 	font-size: 50px;
 }
 
-.invalid-request {
+.notify {
 	text-align: center;
 }
 
-.invalid-request i {
+.notify i {
 	font-size: 80px;
 }
 
-.invalid-request p {
-	font-size: 30px;
+.notify p {
+	font-size: 18px;
 }
+
 .invalid-request ul{
 	list-style: none;
 }

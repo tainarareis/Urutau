@@ -39,7 +39,16 @@
 	            		<small><fmt:message key="urutau.description"/></small>
 	            	</p>
             </div>
-			<div class="col-xs-6 col-md-3">                 
+			<div class="col-xs-6 col-md-3">
+				<c:forEach var="error" items="${errors}">
+	            	<c:if test="${error.category eq 'login'}">
+		            	<!-- Show only login errors -->
+		            	<div class="alert alert-danger" role="alert">
+		            			${error.message}
+		            	</div>
+	            	</c:if>
+				</c:forEach>
+			                 
 	           <form action="${linkTo[UserController].authenticate}" class="form-signin" method="POST">
 					<input name="login" class="form-control" placeholder="<fmt:message key='user.login'/>" required autofocus>
 					<input name="password" type="password" class="form-control" placeholder="<fmt:message key='user.password'/>" required>
@@ -53,11 +62,14 @@
 	 <div class="container">
 		<div class="row">
 			<div class="col-xs-7 col-md-4 col-md-offset-1">
+			 	
 			 	<c:forEach var="error" items="${errors}">
-	            	<!-- Show only login errors -->
-	            	<div class="alert alert-danger" role="alert">
-	            		${error.message}
-	            	</div>	            	
+	            	<c:if test="${error.category eq 'register'}">
+		            	<!-- Show only login errors -->
+		            	<div class="alert alert-danger" role="alert">
+		            			${error.message}
+		            	</div>
+	            	</c:if>
 				</c:forEach>
 	            
 				<h2><fmt:message key='sign_up'/></h2>
