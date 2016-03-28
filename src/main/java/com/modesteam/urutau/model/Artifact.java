@@ -99,7 +99,7 @@ public abstract class Artifact {
 	}
 
 	public void setEncodedTitle(String encodedTitle) throws UnsupportedEncodingException {
-		this.encodedTitle = URLEncoder.encode(encodedTitle, StandardCharsets.UTF_8.toString());
+		this.encodedTitle = URLEncoder.encode(encodedTitle, StandardCharsets.UTF_8.name());
 	}
 
 	public String getDescription() {

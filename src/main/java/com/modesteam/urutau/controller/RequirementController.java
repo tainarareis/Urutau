@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.Controller;
@@ -19,6 +20,7 @@ import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 /**
@@ -64,15 +66,19 @@ public class RequirementController {
 	 */
 	@Get
 	@Path("/show/{id}/{title}")
-	public Artifact show(int id, String title) throws UnsupportedEncodingException {
+	public void show(int id, String title) throws UnsupportedEncodingException {
 		String decodedTitle = URLDecoder.decode(title, 
-				StandardCharsets.UTF_8.toString());
+				StandardCharsets.UTF_8.name());
 		
 		logger.info("Show requirement " + title);
 		
 		Artifact requirement = requirementService.getRequirement(id, decodedTitle);
 		
-		return requirement;
+		validator.addIf(requirement == null, 
+				new I18nMessage(FieldMessage.ERROR, "requirement_no_exist"));
+		validator.onErrorUsePageOf(ApplicationController.class).dificultError();
+		
+		result.include(requirement);
 	}
 	
 	/**

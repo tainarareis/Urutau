@@ -24,20 +24,27 @@
 				<span class="error">${error.message}</span> <br />
 	  		</c:if>
 		</c:forEach>
-		
+				
 		<c:forEach items="${project.layers}" var="layer">
 			<div class="layer" ondrop="drop(event, ${layer.layerID})"
 				ondragover="allowDrop(event)" id="div1">
 				<h2>${layer.name}</h2>
 				<c:forEach items="${project.requirements}" var="requirement">
+					<!-- Modal to see requirement -->
+					<%@ include file="/WEB-INF/jsp/requirement/show.jspf" %>
+					
 					<c:if test="${requirement.layer.layerID == layer.layerID}">
 						<div class="requirement ${requirement}" id="drag${requirement.id}"
 						 	draggable="true" ondragstart="drag(event)">
-							${requirement.title}
+					 		<a href="<c:url value='/show/${requirement.id}/${requirement.encodedTitle}'/>"
+					 			title="Show" data-toggle="modal" 
+					 			data-target="#modal-show">
+									${requirement.title}
+							</a>
 						</div>
 					</c:if>
 				</c:forEach>
 			</div>
-		</c:forEach>
+		</c:forEach>		
 	</section>
 </div>

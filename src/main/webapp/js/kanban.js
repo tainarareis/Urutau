@@ -28,4 +28,17 @@ function drop(ev, layerID) {
 	     dataType: "JSON"
 	});
 }
+$(document).ready(function(){
 
+	$(document).click(function(event) {
+		$(".requirement").css('borderWidth', '1px');
+				
+		if ($(event.target).hasClass('requirement')){
+			$(event.target).css('borderWidth', '3px');
+		}
+	});
+	
+	$(".requirement").click(function() {
+		$(this).css('borderWidth', '3px');	
+	});
+});

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<div class="modal fade" id="modal-show-${requirement.id}"  tabindex="-1" role="dialog">
+<div class="modal fade" id="modal-show"  tabindex="-1" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal to show-->
