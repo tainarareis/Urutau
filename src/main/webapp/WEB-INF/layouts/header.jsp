@@ -40,7 +40,7 @@
 									<li><a href="#"><fmt:message key="see_profile"/></a></li>
 									<li><a href="#"><fmt:message key="settings"/></a></li>
 									<li class="divider"></li>
-									<li><a href="<c:url value='logout'/>"> <fmt:message key="logout"/></a></li>
+									<li><a href="<c:url value='/logout'/>"> <fmt:message key="logout"/></a></li>
 								</ul>
 							</c:if>
 							<c:if test="${userSession.isLogged() == false}">

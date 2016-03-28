@@ -40,14 +40,8 @@
 	            	</p>
             </div>
 			<div class="col-xs-6 col-md-3">                 
-	            <c:forEach var="error" items="${errors}">
-	            	<!-- Show only login errors -->
-	            	<c:if test="${error.category == 'loginError'}">
-		    			<span class="error">${error.message}</span> <br />
-		    		</c:if>
-				</c:forEach>
-	            <form action="${linkTo[UserController].authenticate}" class="form-signin" method="POST">
-					<input name="login" class="form-control" placeholder="<fmt:message key='user.login'/>" required>
+	           <form action="${linkTo[UserController].authenticate}" class="form-signin" method="POST">
+					<input name="login" class="form-control" placeholder="<fmt:message key='user.login'/>" required autofocus>
 					<input name="password" type="password" class="form-control" placeholder="<fmt:message key='user.password'/>" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key='sign_up'/></button>
 				</form>
@@ -59,22 +53,34 @@
 	 <div class="container">
 		<div class="row">
 			<div class="col-xs-7 col-md-4 col-md-offset-1">
+			 	<c:forEach var="error" items="${errors}">
+	            	<!-- Show only login errors -->
+	            	<div class="alert alert-danger" role="alert">
+	            		${error.message}
+	            	</div>	            	
+				</c:forEach>
+	            
 				<h2><fmt:message key='sign_up'/></h2>
 				<form action="register" class="form-signin" method="POST">		
 					<input name="user.email" type="email" class="form-control" 
-						placeholder="<fmt:message key='user.email'/>" required autofocus>
+						placeholder="<fmt:message key='user.email'/>" 
+						value="${user.email}" required>
 						
 					<input name="user.name" class="form-control" 
-						placeholder="<fmt:message key='user.name'/>" required>
+						placeholder="<fmt:message key='user.name'/>" 
+						value="${user.name}" required>
 						
 					<input name="user.lastName" class="form-control" 
-						placeholder="<fmt:message key='user.lastname'/>" required>
+						placeholder="<fmt:message key='user.lastname'/>" 
+						value="${user.lastName}" required>
 						
 					<input name="user.login" class="form-control" 
-						placeholder="<fmt:message key='user.login'/>" required>
+						placeholder="<fmt:message key='user.login'/>"
+						value="${user.login}" required>
 						
 					<input name="user.password" type="password" class="form-control" 
-						placeholder="<fmt:message key='user.password'/>" required>
+						placeholder="<fmt:message key='user.password'/>" 
+						value="${user.password}" required>
 						
 					<input name="user.passwordVerify" type="password" class="form-control" 
 						placeholder="<fmt:message key='user.password_verify'/>" required>

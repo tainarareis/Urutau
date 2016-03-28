@@ -24,7 +24,7 @@
 				<span class="error">${error.message}</span> <br />
 	  		</c:if>
 		</c:forEach>
-				
+		
 		<c:forEach items="${project.layers}" var="layer">
 			<div class="layer" ondrop="drop(event, ${layer.layerID})"
 				ondragover="allowDrop(event)" id="div1">
@@ -38,7 +38,7 @@
 						 	draggable="true" ondragstart="drag(event)">
 					 		<a href="<c:url value='/show/${requirement.id}/${requirement.encodedTitle}'/>"
 					 			title="Show" data-toggle="modal" 
-					 			data-target="#modal-show">
+					 			data-target="#modal-show-${requirement.id}">
 									${requirement.title}
 							</a>
 						</div>

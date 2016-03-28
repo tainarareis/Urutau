@@ -35,7 +35,7 @@
 			  			</td>
 			  			<td>
 				  			<a href="show/${requirement.id}/${requirement.encodedTitle}" title="Show"  
-				  				data-toggle="modal" data-target="#modal-show">
+				  				data-toggle="modal" data-target="#modal-show-${requirement.id}">
 					        	<span class="glyphicon glyphicon-eye-open"></span>
 					        </a>
 			  			</td>
