@@ -18,7 +18,20 @@
           </h4>
         </div>
         <div class="modal-body">
-          <p>${requirement.description}</p>
+          <c:if test="${not empty requirement.description}">
+        	<p>
+        		<em class="text-info">${requirement.description}</em>
+        	</p>
+          </c:if>
+          <c:choose>
+          	<c:when test="${requirement == 'storie'}">
+          		${requirement.history}
+    	    </c:when>
+    	    <c:when test="${requirement == 'feature' or requirement == 'epic'}">
+          		${requirement.content}
+    	    </c:when>
+    	  </c:choose>
+	          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
