@@ -125,7 +125,7 @@ public class UserController {
     	// put in session
         userSession.login(user);
         
-        result.redirectTo(IndexController.class).index();
+        result.use(Results.referer()).redirect();
     }
 
     @Get("/logout")
