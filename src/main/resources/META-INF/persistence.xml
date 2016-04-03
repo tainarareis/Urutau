@@ -14,7 +14,6 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
             <property name="hibernate.connection.password" value="root" />  
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/Urutau" /> 
             -->
-            <property name="hibernate.default_schema" value="Urutau"/> 
             
             <!-- OTHERS 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />  
