@@ -5,20 +5,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"> 
 	<persistence-unit name="default">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<properties>  
-            <!-- BASIC SETTINGS -->
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />  
-            <property name="hibernate.connection.username" value="urutau" />  
-            <property name="hibernate.connection.password" value="urutau" />  
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/urutau" />  
-            
-            <!-- OTHER -->  
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />  
+	 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	 	<exclude-unlisted-classes>false</exclude-unlisted-classes>
+	 	<properties>  
+            <!-- BASIC SETTINGS -->  
+            <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.show_sql" value="false" />  
-            <property name="hibernate.format_sql" value="true" />  
-            <property name="hibernate.archive.autodetection" value="class" />  
               
             <!-- POOL SETTINGS -->  
             <property name="hibernate.c3p0.min_size" value="5"/>  
