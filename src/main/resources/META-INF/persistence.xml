@@ -5,20 +5,23 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"> 
 	<persistence-unit name="default">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<properties>  
-            <!-- BASIC SETTINGS -->
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />  
-            <property name="hibernate.connection.username" value="urutau" />  
-            <property name="hibernate.connection.password" value="urutau" />  
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/urutau" />  
+	 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	 	<exclude-unlisted-classes>false</exclude-unlisted-classes>
+	 	<properties>  
+            <!-- BASIC SETTINGS   
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />  
+            <property name="hibernate.connection.username" value="root" />  
+            <property name="hibernate.connection.password" value="root" />  
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/Urutau" /> 
+            -->
             
-            <!-- OTHER -->  
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />  
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- OTHERS 
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />  
             <property name="hibernate.show_sql" value="false" />  
             <property name="hibernate.format_sql" value="true" />  
-            <property name="hibernate.archive.autodetection" value="class" />  
+            -->  
+            <property name="hibernate.archive.autodetection" value="class" />
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
               
             <!-- POOL SETTINGS -->  
             <property name="hibernate.c3p0.min_size" value="5"/>  
@@ -26,6 +29,6 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
             <property name="hibernate.c3p0.timeout" value="300"/>  
             <property name="hibernate.c3p0.max_statements" value="50"/>  
             <property name="hibernate.c3p0.idle_test_period" value="3000"/>
-           </properties>
+        </properties>
     </persistence-unit>
 </persistence>  
