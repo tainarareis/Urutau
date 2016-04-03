@@ -24,10 +24,6 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 
 	@Inject
 	private EntityManager manager;
-		
-	protected DefaultUserDAO() {
-		this(null);
-	}	
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
