@@ -34,7 +34,7 @@ import com.modesteam.urutau.model.system.setting.UserSettingContext;
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.INTEGER)
 @TableGenerator(name="USER_TABLE_ID", initialValue = 0, allocationSize = 1)
 @DiscriminatorValue("1")
-public class User {
+public class UrutaUser {
 	
 	// font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
 	private static final String EMAIL_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."

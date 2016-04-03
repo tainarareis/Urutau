@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.setting.Setting;
 import com.modesteam.urutau.model.system.setting.UserSetting;
 
@@ -46,7 +46,7 @@ public class UserSettingManager implements SettingManager, Serializable {
      * TODO create setting if not exists
      * 
      */
-    public void load(@Observes User user) {
+    public void load(@Observes UrutaUser user) {
 
         this.settings = user.getSettings();
 

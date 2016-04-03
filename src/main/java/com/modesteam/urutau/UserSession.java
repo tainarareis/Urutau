@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.exception.SystemBreakException;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 @SessionScoped
 @Named("userSession")
@@ -21,17 +21,17 @@ public class UserSession implements Serializable {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
 	
-	private User userLogged;
+	private UrutaUser userLogged;
 	
 	@Inject
-	private Event<User> loginEvent;
+	private Event<UrutaUser> loginEvent;
 
 	/**
 	 * Saves user in session
 	 * 
 	 * @param user to be save in session
 	 */
-	public void login(User user){
+	public void login(UrutaUser user){
 		this.userLogged = user;
 		
 		loginEvent.fire(userLogged);
@@ -71,7 +71,7 @@ public class UserSession implements Serializable {
 	 *  
 	 * @param logged user to be reloaded
 	 */
-	public void reload(User logged) {
+	public void reload(UrutaUser logged) {
 		if(logged.getUserID() == userLogged.getUserID()) {
 			logout();
 			login(userLogged);
@@ -80,7 +80,7 @@ public class UserSession implements Serializable {
 		}
 	}
 
-	public User getUserLogged() {
+	public UrutaUser getUserLogged() {
 		return userLogged;
 	}
 }

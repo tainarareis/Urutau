@@ -18,7 +18,7 @@ import javax.persistence.ManyToMany;
 
 @Entity
 @DiscriminatorValue(value = "2")
-public class Administrator extends User implements Serializable {
+public class Administrator extends UrutaUser implements Serializable {
 	
 	/**
 	 * 

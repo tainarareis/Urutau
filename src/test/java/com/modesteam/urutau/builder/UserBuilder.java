@@ -1,6 +1,6 @@
 package com.modesteam.urutau.builder;
 
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 public class UserBuilder {
 	private String email;
@@ -40,8 +40,8 @@ public class UserBuilder {
 		return this;
 	}
 	
-	public User build(){
-		User user = new User();
+	public UrutaUser build(){
+		UrutaUser user = new UrutaUser();
 		user.setEmail(email);
 		user.setLogin(login);
 		user.setName(name);

@@ -1,11 +1,11 @@
 package com.modesteam.urutau.service.validator;
 
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 public class RegisterValidator {
-	private final User user;
+	private final UrutaUser user;
 	
-	public RegisterValidator(User user) {
+	public RegisterValidator(UrutaUser user) {
 		this.user = user;
 	}
 		
