@@ -35,17 +35,19 @@ import com.modesteam.urutau.model.system.setting.UserSettingContext;
 @TableGenerator(name="USER_TABLE_ID", initialValue = 0, allocationSize = 1)
 @DiscriminatorValue("1")
 public class User {
+	
+	// font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
+	private static final String EMAIL_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"; 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "USER_TABLE_ID")
 	private Long userID;
 	
 	@NotNull
-	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", 
+	@Pattern(regexp = EMAIL_REGEX, 
 			message = "{invalid.email}")
-	// ^ font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
 	private String email;
 	@NotNull
 	@Size(min = 3, max = 20)

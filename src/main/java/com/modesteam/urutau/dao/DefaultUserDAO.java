@@ -64,7 +64,7 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 			// continue 
 		}
 		
-		String sql = "SELECT user FROM User user WHERE user." 
+		String sql = "SELECT user FROM " + User.class.getName() + " user WHERE user." 
 				+ field + "=:value";
 		
 		logger.info(sql);
