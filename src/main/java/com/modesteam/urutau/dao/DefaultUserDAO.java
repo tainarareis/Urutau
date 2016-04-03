@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.exception.InvalidUserActionException;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 /**
  * Default implementation of UserDAO
  */
-public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
+public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
@@ -24,10 +24,6 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 
 	@Inject
 	private EntityManager manager;
-		
-	protected DefaultUserDAO() {
-		this(null);
-	}	
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
@@ -43,20 +39,20 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 	 * @param userID
 	 * @return
 	 */
-	public User find(final Long userID) {
-		return manager.getReference(User.class, userID);
+	public UrutaUser find(final Long userID) {
+		return manager.getReference(UrutaUser.class, userID);
 	}
 	
 	@Override
 	public boolean hasAnyRegister() {
-		String sql = "SELECT user FROM " + User.class.getName() + " user";
+		String sql = "SELECT user FROM " + UrutaUser.class.getName() + " user";
 		Query query = manager.createQuery(sql);
 		
 		return !query.getResultList().isEmpty();
 	}
 
 	@Override
-	public User get(String field, Object value) throws Exception {
+	public UrutaUser get(String field, Object value) throws Exception {
 		
 		if(!isValidParameter(value)) {
 			throw new InvalidUserActionException("Invalid value object");
@@ -64,17 +60,17 @@ public class DefaultUserDAO extends GenericDAO<User> implements UserDAO {
 			// continue 
 		}
 		
-		String sql = "SELECT user FROM User user WHERE user." 
+		String sql = "SELECT user FROM " + UrutaUser.class.getName() + " user WHERE user." 
 				+ field + "=:value";
 		
 		logger.info(sql);
 		
-		User userFound = null;
+		UrutaUser userFound = null;
 		
 		try {
 			Query query = manager.createQuery(sql);	
 			query.setParameter(FIELD_VALUE, value);
-			userFound = (User) query.getSingleResult();
+			userFound = (UrutaUser) query.getSingleResult();
 		} catch (NonUniqueResultException exception) {
 			throw new NonUniqueResultException();
 		} catch (NoResultException exception) {

@@ -14,7 +14,7 @@ import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.controller.EntityCreator;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
@@ -87,14 +87,14 @@ public class RequirementFormatter {
 	}
 	
 	/**
-	 * Get owner({@link User}) of Requirement
+	 * Get owner({@link UrutaUser}) of Requirement
 	 * 
 	 * @param requirement
 	 *            inserted by form
 	 * @return
 	 */
-	private User getCurrentAuthor() {
-		User logged = userSession.getUserLogged();
+	private UrutaUser getCurrentAuthor() {
+		UrutaUser logged = userSession.getUserLogged();
 
 		assert (logged == null);
 

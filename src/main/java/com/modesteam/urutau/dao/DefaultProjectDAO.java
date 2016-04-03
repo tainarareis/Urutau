@@ -17,11 +17,7 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 	private static final Logger logger = LoggerFactory.getLogger(ProjectDAO.class);
 	
 	@Inject
-	private EntityManager manager;	
-
-	public DefaultProjectDAO() {
-		
-	}
+	private EntityManager manager;
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation

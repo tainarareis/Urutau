@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ProjectBuilder;
 import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
 import com.modesteam.urutau.service.KanbanService;
@@ -55,7 +55,7 @@ public class ProjectControllerTest {
 		
 		userSession = mock(UserSession.class);
 		
-		User userLogged = mock(User.class);
+		UrutaUser userLogged = mock(UrutaUser.class);
 		
 		when(userSession.getUserLogged()).thenReturn(userLogged);
 	}

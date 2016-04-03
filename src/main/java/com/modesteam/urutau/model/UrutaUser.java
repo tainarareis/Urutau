@@ -10,11 +10,13 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -30,19 +32,22 @@ import com.modesteam.urutau.model.system.setting.UserSettingContext;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.INTEGER)
+@TableGenerator(name="USER_TABLE_ID", initialValue = 0, allocationSize = 1)
 @DiscriminatorValue("1")
-public class User {
+public class UrutaUser {
+	
+	// font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
+	private static final String EMAIL_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"; 
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "USER_TABLE_ID")
 	private Long userID;
 	
 	@NotNull
-	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", 
+	@Pattern(regexp = EMAIL_REGEX, 
 			message = "{invalid.email}")
-	// ^ font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
 	private String email;
 	@NotNull
 	@Size(min = 3, max = 20)

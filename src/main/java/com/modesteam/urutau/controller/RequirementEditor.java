@@ -21,7 +21,7 @@ import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.ArtifactType;
 import com.modesteam.urutau.service.RequirementService;
 
@@ -129,7 +129,7 @@ public class RequirementEditor {
 		//Setting the current date and current user 
 		Calendar lastModificationDate = getCurrentDate();
 		requirement.setLastModificationDate(lastModificationDate);		
-		User loggedUser = userSession.getUserLogged();
+		UrutaUser loggedUser = userSession.getUserLogged();
 		requirement.setLastModificationAuthor(loggedUser);
 		
 		boolean updateResult = requirementService.update(requirement);		

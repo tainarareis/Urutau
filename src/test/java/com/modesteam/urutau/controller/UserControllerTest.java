@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.UserBuilder;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.service.UserService;
 
 import br.com.caelum.vraptor.util.test.MockResult;
@@ -47,7 +47,7 @@ public class UserControllerTest {
 	public void registerValid() {
 		UserBuilder builder = new UserBuilder();
 		
-		User user = builder
+		UrutaUser user = builder
 				.email("example@email.com")
 				.login("fulano")
 				.password("123456")
@@ -71,7 +71,7 @@ public class UserControllerTest {
 	public void registerInvalidCaseOne() {
 		UserBuilder builder = new UserBuilder();
 		
-		User user = builder.build();
+		UrutaUser user = builder.build();
 
 		UserController controller = new UserController(result, userService, userSession, validator);
 		
@@ -82,7 +82,7 @@ public class UserControllerTest {
 	public void registerInvalidCaseTwo() {
 		UserBuilder builder = new UserBuilder();
 		
-		User user = builder
+		UrutaUser user = builder
 				.email("example@email.com")
 				.login("fulano")
 				.password("123456")
@@ -105,7 +105,7 @@ public class UserControllerTest {
 	public void tryLoginWithSucces() {
 		UserBuilder builder = new UserBuilder();
 		
-		User user = builder
+		UrutaUser user = builder
 					.email("example@email.com")
 					.login("fulano")
 					.password("123456")
@@ -128,7 +128,7 @@ public class UserControllerTest {
 	public void tryLoginFail() {
 		UserBuilder builder = new UserBuilder();
 		
-		User user = builder
+		UrutaUser user = builder
 					.email("example@email.com")
 					.login("fulano")
 					.password("123456")
@@ -144,7 +144,7 @@ public class UserControllerTest {
 		controller.authenticate(user.getLogin(), user.getPassword());
 	}
 	
-	private void mockAuthenticate(String login, String password, User returnValue) {
+	private void mockAuthenticate(String login, String password, UrutaUser returnValue) {
 		when(userService.authenticate(login, password)).thenReturn(returnValue);
 	}
 
@@ -152,7 +152,7 @@ public class UserControllerTest {
 		when(userService.canBeUsed(field, value)).thenReturn(result);
 	}
 	
-	private void doNothingWhenCreateAn(User user){
+	private void doNothingWhenCreateAn(UrutaUser user){
 		doNothing().when(userService).create(user);
 	}
 }

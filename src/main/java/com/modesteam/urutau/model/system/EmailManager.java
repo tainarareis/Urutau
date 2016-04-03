@@ -7,7 +7,7 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 @Dependent
 public class EmailManager {
@@ -21,7 +21,7 @@ public class EmailManager {
 	 * 
 	 * @throws EmailException case of bad connection
 	 */
-	public void newEmail(String subject, User receiver, String message)
+	public void newEmail(String subject, UrutaUser receiver, String message)
 			throws EmailException{
 		Email email = new SimpleEmail();
 		email.setSubject(subject);
