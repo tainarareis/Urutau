@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 /**
  * TODO when migrate to postgres, put:
@@ -26,7 +26,7 @@ public class UserSetting extends Setting {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private User user;
+	private UrutaUser user;
 
 	@Transient
 	private UserSettingContext context;
@@ -50,11 +50,11 @@ public class UserSetting extends Setting {
 		this.id = id;
 	}
 
-	public User getUser() {
+	public UrutaUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UrutaUser user) {
 		this.user = user;
 	}
 

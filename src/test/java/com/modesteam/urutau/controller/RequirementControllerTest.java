@@ -15,7 +15,7 @@ import com.modesteam.urutau.builder.ArtifactBuilder;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Epic;
 import com.modesteam.urutau.model.Generic;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.util.test.MockResult;
@@ -46,7 +46,7 @@ public class RequirementControllerTest {
 		
 		userSession = mock(UserSession.class);
 		
-		User userMock = mock(User.class);
+		UrutaUser userMock = mock(UrutaUser.class);
 		
 		when(userSession.getUserLogged()).thenReturn(userMock);
 	}

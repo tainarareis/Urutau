@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.setting.UserSetting;
 import com.modesteam.urutau.model.system.setting.UserSettingContext;
 import com.modesteam.urutau.service.setting.UserSettingManager;
@@ -31,7 +31,7 @@ public class UserSettingManagerTest {
 
     @Test
     public void testLoad() {
-        User userMock = mock(User.class);
+        UrutaUser userMock = mock(UrutaUser.class);
 
         List<UserSetting> settings = new ArrayList<UserSetting>();
         settings.add(new UserSetting(UserSettingContext.THEME));

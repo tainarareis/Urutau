@@ -5,12 +5,12 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 
 import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.service.setting.SettingManager;
 
 /**
  * This abstract class is the basis of settings to some system entities like: 
- * System(Global configurations), {@link User}, {@link Project}.
+ * System(Global configurations), {@link UrutaUser}, {@link Project}.
  * It has many ways to keep their children, each one should 
  * be used by one {@link SettingManager}.
  * 

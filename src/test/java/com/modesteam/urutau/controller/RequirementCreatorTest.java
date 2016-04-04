@@ -20,7 +20,7 @@ import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
@@ -61,7 +61,7 @@ public class RequirementCreatorTest {
 		userSession = mock(UserSession.class);
 		projectService = mock(ProjectService.class);
 		
-		User userMock = mock(User.class);
+		UrutaUser userMock = mock(UrutaUser.class);
 		
 		when(userSession.getUserLogged()).thenReturn(userMock);
 		

@@ -18,18 +18,6 @@ public class DefaultLayerDAO extends GenericDAO<Layer> implements LayerDAO {
 	@Inject
 	private EntityManager manager;
 	
-	/**
-	 * @deprecated CDI
-	 */
-	public DefaultLayerDAO() {
-		
-	}
-	
-	@Inject
-	public DefaultLayerDAO(EntityManager manager) {
-		super.setEntityManager(manager);
-	}
-
 	@Override
 	public Layer find(Long id) {
 

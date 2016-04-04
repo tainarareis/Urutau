@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.exception.DataBaseCorruptedException;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 
 @RequestScoped
 public class UserService {
@@ -27,9 +27,9 @@ public class UserService {
 		this.userDAO = userDAO;
 	}
 	/**
-	 * See {@link UserDAO#create(User)}
+	 * See {@link UserDAO#create(UrutaUser)}
 	 */
-	public void create(User user) {
+	public void create(UrutaUser user) {
 		userDAO.create(user);
 	}
 	
@@ -58,9 +58,9 @@ public class UserService {
 
 	
 	/**
-	 * See {@link UserDAO#update(User)}
+	 * See {@link UserDAO#update(UrutaUser)}
 	 */
-	public void update(User user) {
+	public void update(UrutaUser user) {
 		userDAO.create(user);
 	}
 	
@@ -91,10 +91,10 @@ public class UserService {
 	 * 
 	 * @param login to verifies
 	 * @param password to compare with database instance
-	 * @return {@link User} instance of database
+	 * @return {@link UrutaUser} instance of database
 	 */
-	public User authenticate(String login, String password) {
-		User user = null;
+	public UrutaUser authenticate(String login, String password) {
+		UrutaUser user = null;
 		
 		try {
 			user = userDAO.get("login", login);
@@ -120,7 +120,7 @@ public class UserService {
 	 * @param userID identifier
 	 * @return user logged, uses into userSession
 	 */
-	public User reloadFromDB(Long userID) {
+	public UrutaUser reloadFromDB(Long userID) {
 		return userDAO.find(userID);
 	}
 }

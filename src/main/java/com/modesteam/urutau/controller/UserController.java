@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.service.UserService;
 import com.modesteam.urutau.service.validator.RegisterValidator;
 
@@ -63,7 +63,7 @@ public class UserController {
 	 */
 	@Post
 	@Path("/register")
-	public void register(User user) {
+	public void register(UrutaUser user) {
 		logger.info("Initiate register");
 
 		result.include(user);
@@ -98,8 +98,8 @@ public class UserController {
 	 */
 	@Post
 	@Path("/administratorSettings")
-	public void administratorSettings(User user) {
-		User logged = userSession.getUserLogged();
+	public void administratorSettings(UrutaUser user) {
+		UrutaUser logged = userSession.getUserLogged();
 		logged.setLogin(user.getLogin());
 		logged.setPassword(user.getPassword());
 		userSession.login(logged);
@@ -114,7 +114,7 @@ public class UserController {
 	 */
 	@Post
     public void authenticate(String login, String password) {
-        User user = userService.authenticate(login, password);
+        UrutaUser user = userService.authenticate(login, password);
 
         validator.check(user != null, 
         		new SimpleMessage(LOGIN_VALIDATOR, "Senha ou login nao conferem"));

@@ -18,10 +18,6 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 	
 	@Inject
 	private EntityManager manager;	
-
-	public DefaultProjectDAO() {
-		
-	}
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation

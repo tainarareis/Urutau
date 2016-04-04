@@ -16,7 +16,7 @@ import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Storie;
 import com.modesteam.urutau.model.UseCase;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.service.RequirementService;
 
 import br.com.caelum.vraptor.util.test.MockResult;
@@ -46,7 +46,7 @@ public class RequirementEditorTest {
 		
 		userSession = mock(UserSession.class);
 		
-		User userMock = mock(User.class);
+		UrutaUser userMock = mock(UrutaUser.class);
 		
 		when(userSession.getUserLogged()).thenReturn(userMock);		
 	}

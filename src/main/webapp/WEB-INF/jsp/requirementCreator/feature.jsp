@@ -6,7 +6,8 @@
 
 <script async="async" type="text/javascript">
 	VALIDATOR.validates({
-		title : 'feature.title'
+		'title' : 'feature.title',
+		'projectID' : 'feature.projectID'
 	});
 </script>
 
@@ -14,7 +15,7 @@
 	<div class="modal-header">
     	<h4><i class="glyphicon glyphicon-plus"></i> Feature</h4>
     </div> 
-	<div id="feature" class="requirement-box">
+	<div class="requirement-box">
 		<form action="requirement/createFeature" method="POST" class="requirement-form">
 			<input name="feature.projectID" type="hidden" value="${projectID}">
 			

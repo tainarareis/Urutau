@@ -35,7 +35,7 @@ public abstract class Artifact {
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
-	private User author;
+	private UrutaUser author;
 
 	// Project associated
 	@ManyToOne
@@ -46,7 +46,7 @@ public abstract class Artifact {
 	private Long projectID;
 
 	@OneToOne(optional = true)
-	private User lastModificationAuthor;
+	private UrutaUser lastModificationAuthor;
 	
 	/* Optional relationship */
 	@OneToOne(optional = true)
@@ -56,7 +56,7 @@ public abstract class Artifact {
 	@ManyToMany
 	@JoinTable(name = "Artifact_Delegate", joinColumns = @JoinColumn(name = "artifact_id"), 
 		inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> responsables;
+	private List<UrutaUser> responsables;
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
@@ -118,11 +118,11 @@ public abstract class Artifact {
 		this.dateOfCreation = dateOfCreation;
 	}
 
-	public User getAuthor() {
+	public UrutaUser getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(User author) {
+	public void setAuthor(UrutaUser author) {
 		this.author = author;
 	}
 
@@ -142,11 +142,11 @@ public abstract class Artifact {
 		this.projectID = projectID;
 	}
 
-	public List<User> getResponsables() {
+	public List<UrutaUser> getResponsables() {
 		return responsables;
 	}
 
-	public void setResponsables(List<User> responsables) {
+	public void setResponsables(List<UrutaUser> responsables) {
 		this.responsables = responsables;
 	}
 
@@ -158,11 +158,11 @@ public abstract class Artifact {
 		this.status = status;
 	}
 
-	public User getLastModificationAuthor() {
+	public UrutaUser getLastModificationAuthor() {
 		return lastModificationAuthor;
 	}
 
-	public void setLastModificationAuthor(User lastModificationAuthor) {
+	public void setLastModificationAuthor(UrutaUser lastModificationAuthor) {
 		this.lastModificationAuthor = lastModificationAuthor;
 	}
 

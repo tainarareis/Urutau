@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.User;
+import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
@@ -213,7 +213,7 @@ public class ProjectController {
 	 */
 	@Get
 	public void reloadProjects() {
-		User logged = userSession.getUserLogged();
+		UrutaUser logged = userSession.getUserLogged();
 		
 		logged = userService.reloadFromDB(logged.getUserID());
 		
@@ -247,7 +247,7 @@ public class ProjectController {
 		
 		basicProject.setDateOfCreation(getCurrentDate());
 		
-		User author = getCurrentUser();
+		UrutaUser author = getCurrentUser();
 		basicProject.setAuthor(author);
 		basicProject.getMembers().add(author);
 
@@ -295,8 +295,8 @@ public class ProjectController {
 	 * @param project to be created
 	 * @return 
 	 */
-	private User getCurrentUser() {
-		User logged = userSession.getUserLogged();		
+	private UrutaUser getCurrentUser() {
+		UrutaUser logged = userSession.getUserLogged();		
 		logged = userService.reloadFromDB(logged.getUserID());
 
 		return logged;

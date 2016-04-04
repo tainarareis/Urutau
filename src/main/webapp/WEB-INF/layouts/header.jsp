@@ -14,7 +14,7 @@
 		<link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 		
 		<!-- jQuery -->
-		<script src="<c:url value='/js/jquery.js'/>"></script>
+		<script src="<c:url value='/js/jquery-2.2.2.min.js'/>"></script>
 		
 		<!-- Bootstrap Core -->
 		<script src="<c:url value='/js/bootstrap.min.js'/>"></script>

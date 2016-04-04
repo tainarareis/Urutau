@@ -42,13 +42,13 @@ public class Project implements Cloneable {
 
 	@ManyToOne
 	@JoinColumn(name = "userID")
-	private User author;
+	private UrutaUser author;
 
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID") , 
 		inverseJoinColumns = @JoinColumn(name = "userID") )
-	private List<User> members = new ArrayList<User>();
+	private List<UrutaUser> members = new ArrayList<UrutaUser>();
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
@@ -106,19 +106,19 @@ public class Project implements Cloneable {
 		this.metodologyCode = metodologyCode;
 	}
 
-	public User getAuthor() {
+	public UrutaUser getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(User author) {
+	public void setAuthor(UrutaUser author) {
 		this.author = author;
 	}
 
-	public List<User> getMembers() {
+	public List<UrutaUser> getMembers() {
 		return members;
 	}
 
-	public void setMembers(List<User> members) {
+	public void setMembers(List<UrutaUser> members) {
 		this.members = members;
 	}
 
