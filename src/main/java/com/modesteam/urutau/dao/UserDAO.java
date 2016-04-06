@@ -27,4 +27,6 @@ public interface UserDAO {
 	 * Verifies if database have some User
 	 */
 	boolean hasAnyRegister();
+
+	boolean flush();
 }

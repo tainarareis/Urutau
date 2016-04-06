@@ -19,8 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 import com.modesteam.urutau.model.system.setting.UserSetting;
 import com.modesteam.urutau.model.system.setting.UserSettingContext;
@@ -35,33 +36,24 @@ import com.modesteam.urutau.model.system.setting.UserSettingContext;
 @TableGenerator(name="USER_TABLE_ID", initialValue = 0, allocationSize = 1)
 @DiscriminatorValue("1")
 public class UrutaUser {
-	
-	/*
-	 *  font: https://docs.oracle.com/cd/E19798-01/821-1841/gkahq/index.html
-	 */
-	private static final String EMAIL_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"; 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "USER_TABLE_ID")
 	private Long userID;
 	
 	@NotNull
-	@Pattern(regexp = EMAIL_REGEX, 
-			message = "{invalid.email}")
+	@Email(message = "{invalid_email}")
 	private String email;
 	@NotNull
-	@Size(min = 3, max = 20)
+	@Size(min = 3, max = 20, message="{user.name.size}")
 	private String name;
 	@NotNull
-	@Size(min = 3, max = 20)
+	@Size(min = 3, max = 20, message="{user.lastName.size}")
 	private String lastName;
 	@NotNull
-	@Size(min = 6, max = 20)
+	@Size(min = 6, max = 20, message="{user.login.size}")
 	private String login;
 	@NotNull
-	@Size(min = 6, max = 20)
+	@Size(min = 6, max = 20, message="{user.password.size}")
 	private String password;
 	@Transient
 	private String passwordVerify;

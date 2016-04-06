@@ -123,4 +123,8 @@ public class UserService {
 	public UrutaUser reloadFromDB(Long userID) {
 		return userDAO.find(userID);
 	}
+
+	public boolean flush() {
+		return userDAO.flush();
+	}
 }
