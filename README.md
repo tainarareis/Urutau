@@ -1,3 +1,3 @@
 # Urutau
 
-Deployed on heroku http://safe-earth-40248.herokuapp.com/
+Deployed on heroku http://urutau.herokuapp.com/
