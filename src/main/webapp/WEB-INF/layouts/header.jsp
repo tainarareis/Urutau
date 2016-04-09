@@ -32,7 +32,7 @@
 					<!-- Top Menu Items -->
 					<ul class="nav navbar-right top-nav">
 						<li class="dropdown">
-							<c:if test="${userSession.isLogged() == true}">
+							<c:if test="${userSession.logged}">
 								<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">
 									${userSession.userLogged.login}
 								</a>
@@ -43,7 +43,7 @@
 									<li><a href="<c:url value='/logout'/>"> <fmt:message key="logout"/></a></li>
 								</ul>
 							</c:if>
-							<c:if test="${userSession.isLogged() == false}">
+							<c:if test="${not userSession.logged}">
 							 	<ul class="nav pull-right" id="top-menu-dropdown">
 					          		<li class="dropdown" id="menuLogin">
 					            		<a  href="#" id="top-menu-btn" class="dropdown-toggle"data-toggle="dropdown">
