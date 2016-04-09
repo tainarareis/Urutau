@@ -1,5 +1,7 @@
 package com.modesteam.urutau.controller;
 
+import java.util.ResourceBundle;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
@@ -20,8 +22,10 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
+import br.com.caelum.vraptor.view.Results;
 
 @Controller
 public class KanbanController {	
@@ -63,31 +67,43 @@ public class KanbanController {
 	 * Move requirement to another layer
 	 */
 	@Post("/kanban/move")
-	public void move(final @NotNull Long requirementID, final @NotNull Long layerID) throws Exception {
-
+	public void move(final Long requirementID, final Long layerID) throws Exception {
+		
 		logger.info("Requesting the move of one requirement");
 		
-		Artifact requirementToTransfer = requirementService.getByID(requirementID);
+		Artifact requirementToMove = null;
 		
 		try {
+			requirementToMove = requirementService.getByID(requirementID);
 			Layer targetLayer = kanbanService.getLayerByID(layerID);
 			
-			requirementToTransfer.setLayer(targetLayer);
-			
-			requirementService.update(requirementToTransfer);
+			if(!validator.hasErrors()) {
+				requirementToMove.setLayer(targetLayer);				
+				requirementService.update(requirementToMove);				
+			} else {				
+				validator.onErrorRedirectTo(this).load(requirementToMove.getProject());
+			}
 		} catch (IllegalArgumentException exception) {
-			SimpleMessage simpleMessage = new SimpleMessage(FieldMessage.KANBAN_STATUS, "invalid_layer");
-			validator.add(simpleMessage);
+			validator.add(new I18nMessage(FieldMessage.ERROR, "invalid_request"));			
+			validator.onErrorRedirectTo(ApplicationController.class).invalidRequest();
 		}
 		
-		validator.onErrorRedirectTo(this).load(requirementToTransfer.getProject());
-		result.nothing();
-	}
-	
-	public void customize() {
+		// TODO Make this by other way
+		I18nMessage successMessage = 
+				new I18nMessage(FieldMessage.KANBAN_STATUS, "successfully_moved_object");
+		successMessage.setBundle(ResourceBundle.getBundle("messages"));
 		
+		result.use(Results.json()).withoutRoot()
+			.from(successMessage.getMessage()).serialize();
 	}
 	
+	/**
+	 * Creates a new layer
+	 * 
+	 * @param projectID project that needs this layer
+	 * @param layer new instance into database
+	 * @throws Exception
+	 */
 	@Post
 	public void createLayer(final @NotNull Long projectID, @NotNull Layer layer) 
 			throws Exception {

@@ -20,7 +20,7 @@ public interface LayerDAO {
 	/**
 	 * Finds by id
 	 */
-	Layer find(Long id);
+	Layer find(Long id) throws IllegalArgumentException;
 	
 	boolean update(Layer Layer);
 	

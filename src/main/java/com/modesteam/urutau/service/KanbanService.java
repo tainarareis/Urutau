@@ -56,7 +56,7 @@ public class KanbanService {
 		return backLogLayer;
 	}
 
-	public Layer getLayerByID(Long layerID) {
+	public Layer getLayerByID(Long layerID) throws IllegalArgumentException {
 		return layerDAO.find(layerID);
 	}
 

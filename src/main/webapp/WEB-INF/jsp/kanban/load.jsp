@@ -25,6 +25,11 @@
 	  		</c:if>
 		</c:forEach>
 		
+		<div class="alert alert-success" role="alert">
+			<a href="#" class="close" onclick="closeAlert()" aria-label="close">x</a>
+			<span class="alert-message"></span>
+		</div>
+		
 		<c:forEach items="${project.layers}" var="layer">
 			<div class="layer" ondrop="drop(event, ${layer.layerID})"
 				ondragover="allowDrop(event)" id="div1">
