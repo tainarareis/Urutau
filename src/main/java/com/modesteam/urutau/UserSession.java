@@ -14,10 +14,10 @@ import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.service.UserService;
 
 @SessionScoped
-@Named("userSession")
+@Named
 public class UserSession implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5008054967342625204L;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
 	
