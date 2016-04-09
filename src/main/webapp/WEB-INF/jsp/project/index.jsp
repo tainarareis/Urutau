@@ -43,7 +43,7 @@
 						</h4>
 					</div>
 					<div class="modal-body">
-						<form action="${linkTo[ProjectController].create}" method="POST">
+						<form action="project/create" method="POST">
 							<input name="project.title" type="text" class="form-control" 
 								placeholder="<fmt:message key="project.title"/>">
 							<br/>

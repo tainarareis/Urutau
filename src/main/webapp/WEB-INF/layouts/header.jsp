@@ -51,7 +51,7 @@
 					            		</a>
 					            		<ul class="dropdown-menu" id="login-box">
 					            			<li>
-						              			<form action="${linkTo[UserController].authenticate}" class="form-group login-form" method="POST"> 
+						              			<form action="user/authenticate" class="form-group login-form" method="POST"> 
 									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
 									                <input name="password" type="password" class="form-control" placeholder="Password">
 									                <button type="submit" class="btn btn-primary btn-group-justified">
