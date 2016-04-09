@@ -1,5 +1,6 @@
 package com.modesteam.urutau.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +26,9 @@ import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.model.system.MetodologyEnum;
 
 @Entity
-public class Project implements Cloneable {
+public class Project implements Cloneable, Serializable {
+
+	private static final long serialVersionUID = -5342217307293985814L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
