@@ -27,4 +27,10 @@ public interface UserDAO {
 	 * Verifies if database have some User
 	 */
 	boolean hasAnyRegister();
+
+	/**
+	 * TODO 
+	 * @param userLogged
+	 */
+	void reload(UrutaUser userLogged);
 }

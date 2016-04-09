@@ -1,8 +1,7 @@
 package com.modesteam.urutau.controller;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -64,6 +63,8 @@ public class UserControllerTest {
 		UserController controller = new UserController(result, userService, userSession, validator);
 		
 		controller.register(user);
+		
+		assertFalse(validator.hasErrors());
 	}
 	
 
@@ -119,6 +120,8 @@ public class UserControllerTest {
 		UserController controller = new UserController(result, userService, userSession, validator);
 		
 		controller.authenticate("fulano","123456");
+		
+		assertFalse(validator.hasErrors());
 	}
 	
 	/**

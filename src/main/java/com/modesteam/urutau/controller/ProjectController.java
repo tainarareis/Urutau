@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -39,15 +41,10 @@ public class ProjectController {
 	private static final int INVALID_METODOLOGY_CODE = -1;
 	
 	private final Result result;
-	
 	private final UserSession userSession;
-	
 	private final ProjectService projectService;
-
 	private final UserService userService;
-
 	private final KanbanService kanbanService;
-	
 	private final Validator validator;
 
 	/**
@@ -77,36 +74,30 @@ public class ProjectController {
 	 * 
 	 * @throws UnsupportedEncodingException when show is requested
 	 * @throws CloneNotSupportedException 
-	 *  
+	 * 
+	 * TODO treat this exceptions
 	 */
 	@Post
-	@Path("/project/create")
-	public void create(Project project) throws UnsupportedEncodingException, CloneNotSupportedException {
-
-		Project basicProject = null;
-		logger.info("ProjectInstance is " + projectService);
-		logger.info("Project will be persisted have name " + project.getTitle());
+	public void create(final @Valid Project project) throws 
+		UnsupportedEncodingException, CloneNotSupportedException {
 		
-		if(project.getTitle() == null) {
-			logger.debug("The title is null!");
-			
-			validator.add(new SimpleMessage(FieldMessage.ERROR, "The title cant be empty"));
-		} else if(!projectService.canBeUsed(project.getTitle())) {
-			// projects can not have the same titles
-			SimpleMessage error = new SimpleMessage(FieldMessage.ERROR, "Title already used");
-			validator.add(error);
-			
+		validator.addIf(!projectService.canBeUsed(project.getTitle()), 
+				new I18nMessage(FieldMessage.PROJECT_CREATE, "title_already_in_used"));
+		
+		if(validator.hasErrors()) {
+			validator.onErrorRedirectTo(ProjectController.class).index();
 		} else {
-			basicProject = retriveWithBasicInformation(project);
-
-			logger.info("Trying save project...");			
+			Project basicProject = retriveWithBasicInformation(project);
+			
+			logger.info("Trying create a new project...");			
 			
 			projectService.save(basicProject);
+
+			// TODO Observe this
+			userSession.getUserLogged().addProject(basicProject);
+			
+			result.redirectTo(this).show(basicProject);
 		}
-		
-		validator.onErrorRedirectTo(ProjectController.class).index();
-		
-		result.redirectTo(this).show(basicProject);
 	}
 	
 	
@@ -115,9 +106,9 @@ public class ProjectController {
 	 * @param id
 	 */
 	@Post
-	public void deleteProject(long id) {
+	public void delete(long id) {
 		
-		logger.info("The project with id " +id+" was solicitated for exclusion");
+		logger.info("The project with id " + id +" was solicitated for exclusion");
 		
 		boolean projectExist = projectService.verifyProjectExistence(id);
 		
@@ -212,12 +203,8 @@ public class ProjectController {
 	 * Called only by ajax
 	 */
 	@Get
-	public void reloadProjects() {
-		UrutaUser logged = userSession.getUserLogged();
-		
-		logged = userService.reloadFromDB(logged.getUserID());
-		
-		userSession.reload(logged);
+	public void reloadProjects() {		
+		userSession.reload();
 	}
 	
 	/**
@@ -242,7 +229,8 @@ public class ProjectController {
 	 * @return 
 	 * @throws CloneNotSupportedException 
 	 */
-	private Project retriveWithBasicInformation(final Project project) throws CloneNotSupportedException {
+	private Project retriveWithBasicInformation(final Project project) 
+			throws CloneNotSupportedException {
 		Project basicProject = project.clone();
 		
 		basicProject.setDateOfCreation(getCurrentDate());

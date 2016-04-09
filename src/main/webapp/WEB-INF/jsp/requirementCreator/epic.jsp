@@ -6,7 +6,8 @@
 
 <script async="async" type="text/javascript">
 	VALIDATOR.validates({
-		title : 'epic.title'
+		'title' : 'epic.title',
+		'projectID' : 'epic.projectID'
 	});
 </script>
 
@@ -14,7 +15,7 @@
 	<div class="modal-header">
     	<h4><i class="glyphicon glyphicon-plus"></i> Epic</h4>
     </div> 
-	<div class="modal-body">
+	<div class="requirement-box">
 		<form action="requirement/createEpic" method="POST" class="requirement-form">
 			<input name="epic.projectID" type="hidden" value="${projectID}">
 			

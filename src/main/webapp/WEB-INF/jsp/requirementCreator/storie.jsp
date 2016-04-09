@@ -6,7 +6,8 @@
 
 <script async="async" type="text/javascript">
 	VALIDATOR.validates({
-		title : 'storie.title'
+		'title' : 'storie.title',
+		'projectID' : 'storie.projectID'
 	});
 </script>
 
@@ -14,7 +15,7 @@
 	<div class="modal-header">
     	<h4><i class="glyphicon glyphicon-plus"></i> Storie</h4>
     </div> 
-	<div class="requirement-box form-group">
+	<div class="requirement-box">
 		<form action="requirement/createUserStory" method="POST" class="requirement-form">
 			<input name="storie.projectID" type="hidden" value="${projectID}">
 			

@@ -10,8 +10,8 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.model.UrutaUser;
+import com.modesteam.urutau.service.UserService;
 
 @SessionScoped
 @Named("userSession")
@@ -25,7 +25,10 @@ public class UserSession implements Serializable {
 	
 	@Inject
 	private Event<UrutaUser> loginEvent;
-
+	
+	@Inject
+	private UserService userService;
+	
 	/**
 	 * Saves user in session
 	 * 
@@ -71,13 +74,8 @@ public class UserSession implements Serializable {
 	 *  
 	 * @param logged user to be reloaded
 	 */
-	public void reload(UrutaUser logged) {
-		if(logged.getUserID() == userLogged.getUserID()) {
-			logout();
-			login(userLogged);
-		} else {
-			throw new SystemBreakException();
-		}
+	public void reload() {
+		userService.reloadInstance(userLogged);
 	}
 
 	public UrutaUser getUserLogged() {

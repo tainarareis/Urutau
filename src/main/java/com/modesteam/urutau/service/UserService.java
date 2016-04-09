@@ -123,4 +123,11 @@ public class UserService {
 	public UrutaUser reloadFromDB(Long userID) {
 		return userDAO.find(userID);
 	}
+	
+	/**
+	 * Reload exclusive userLogged from database
+	 */
+	public void reloadInstance(UrutaUser userLogged) {
+		userDAO.reload(userLogged);
+	}
 }

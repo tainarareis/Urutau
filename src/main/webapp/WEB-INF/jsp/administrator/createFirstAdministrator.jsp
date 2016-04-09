@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <!-- Bootstrap Core CSS -->
+	<!-- Bootstrap Core CSS -->
 	<link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 		
 	<!-- Stylesheet -->
@@ -21,23 +22,23 @@
 <section class="layout-gradient">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6 layout-gradient-col">
-				<img src="<c:url value='/img/Urutau.png'/>"  width="70px">
-				<h2 align="center"> Caro administrador, <small>foi detectado que esse é o primeiro acesso ao sistema,
-					 portanto é necessário configurar algumas coisas...</small></h2>
+			<div class="col-md-6 layout-gradient-col text-center">
+				<img src="<c:url value='/img/urutau.png'/>"  width="70px">
+				<h2 class="text-center"><fmt:message key="urutau.admin.welcome.first"/></h2>
 				<br/>
 			</div>
 			<div class="col-md-6 layout-gradient-col">
-				<form action="createFirstAdministrator" method="POST" class="form-input-user" >
-					<input name="administrator.email" type="email" placeholder="Email: example@email.com" required>
-					<br/>
-					<input name="administrator.login" type="text" placeholder="Login: (a..z + 1..9)" required/>
-					<br/>
-					<input name="administrator.password" type="password" placeholder="Password: minimum 6 length" required/>
-					<br/>
-					<input name="administrator.name" type="text" placeholder="Name: Jhon"/>
-					<br/>
-					<input name="administrator.lastName" type="text" placeholder="Lastname: Pereira"/>
+				<form action="createFirstAdministrator" method="POST" class="form-group text-center" >
+					<input name="administrator.email" type="email" class="form-control"
+						placeholder="Email: example@email.com" required>
+					<input name="administrator.login" type="text" class="form-control" 
+						placeholder="Login: (a..z + 1..9)" required/>
+					<input name="administrator.password" type="password" class="form-control"
+						placeholder="Password: minimum 6 length" required/>
+					<input name="administrator.name" type="text" class="form-control" 
+						placeholder="Name: Jhon"/>
+					<input name="administrator.lastName" type="text" class="form-control" 
+						placeholder="Lastname: Pereira"/>
 					<button class="btn btn-primary btn-block" type="submit">Próxima página (1/2)</button>
 				</form>
 			</div>

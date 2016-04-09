@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -23,7 +24,7 @@
     <link href="<c:url value='/css/index.css'/>" rel="stylesheet">
     
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery-2.2.2.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
@@ -43,16 +44,19 @@
 				<c:forEach var="error" items="${errors}">
 	            	<c:if test="${error.category eq 'login'}">
 		            	<!-- Show only login errors -->
-		            	<div class="alert alert-danger" role="alert">
+		            	<div class="alert alert-danger text-center" role="alert">
 		            			${error.message}
 		            	</div>
 	            	</c:if>
 				</c:forEach>
 			                 
 	           <form action="user/authenticate" class="form-signin" method="POST">
-					<input name="login" class="form-control" placeholder="<fmt:message key='user.login'/>" required autofocus>
-					<input name="password" type="password" class="form-control" placeholder="<fmt:message key='user.password'/>" required>
-					<button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key='sign_up'/></button>
+					<input name="login" class="form-control" 
+						placeholder="<fmt:message key='user.login'/>" required autofocus>
+					<input name="password" type="password" class="form-control" 
+						placeholder="<fmt:message key='user.password'/>" required>
+					<button class="btn btn-lg btn-primary btn-block" 
+						type="submit"><fmt:message key='sign_up'/></button>
 				</form>
      		</div>
         </div>
@@ -64,16 +68,17 @@
 			<div class="col-xs-7 col-md-4 col-md-offset-1">
 			 	
 			 	<c:forEach var="error" items="${errors}">
-	            	<c:if test="${error.category eq 'register'}">
-		            	<!-- Show only login errors -->
+			 		<c:set var= "errorCategory" value="${error.category}"/>
+	            	<c:if test="${fn:contains(errorCategory, 'user.') || errorCategory.equals('register')}">
+		            	<!-- Show only register errors -->
 		            	<div class="alert alert-danger" role="alert">
 		            			${error.message}
 		            	</div>
 	            	</c:if>
 				</c:forEach>
 	            
-				<h2><fmt:message key='sign_up'/></h2>
-				<form action="register" class="form-signin" method="POST">		
+				<h2><fmt:message key='sign_in'/></h2>
+				<form action="user/register" class="form-signin" method="POST">		
 					<input name="user.email" type="email" class="form-control" 
 						placeholder="<fmt:message key='user.email'/>" 
 						value="${user.email}" required>
@@ -97,11 +102,13 @@
 					<input name="user.passwordVerify" type="password" class="form-control" 
 						placeholder="<fmt:message key='user.password_verify'/>" required>
 					
-					<input class="btn btn-lg btn-success btn-block" type="submit" value="<fmt:message key='sign_in'/>">
+					<input class="btn btn-lg btn-success btn-block" 
+						type="submit" value="<fmt:message key='sign_in'/>">
 					
 					<p class="info">
 						The registration rules depend  of the enterprise policy. <br/>
-						More information: <a href="#contact" class="page-scroll">Contact administrator</a>.
+						More information: <a href="#contact" 
+							class="page-scroll">Contact administrator</a>.
 					</p>
 					
 				</form>
@@ -125,7 +132,8 @@
 				</div>
 				<div class="thumbnail">
 					<h1 class="motive">
-						<i class=" glyphicon glyphicon-book"></i> Helpful to manage requirements 
+						<i class=" glyphicon glyphicon-book"></i> 
+						Helpful to manage requirements 
 					</h1>
 					<div class="caption">
 						Now you will have control!

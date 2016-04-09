@@ -14,7 +14,7 @@
 		<link href="<c:url value='/css/stylesheet.css'/>" rel="stylesheet">
 		
 		<!-- jQuery -->
-		<script src="<c:url value='/js/jquery.js'/>"></script>
+		<script src="<c:url value='/js/jquery-2.2.2.min.js'/>"></script>
 		
 		<!-- Bootstrap Core -->
 		<script src="<c:url value='/js/bootstrap.min.js'/>"></script>
@@ -32,7 +32,7 @@
 					<!-- Top Menu Items -->
 					<ul class="nav navbar-right top-nav">
 						<li class="dropdown">
-							<c:if test="${userSession.isLogged() == true}">
+							<c:if test="${userSession.logged}">
 								<a href="#" id="top-menu-btn" class="dropdown-toggle" data-toggle="dropdown">
 									${userSession.userLogged.login}
 								</a>
@@ -43,7 +43,7 @@
 									<li><a href="<c:url value='/logout'/>"> <fmt:message key="logout"/></a></li>
 								</ul>
 							</c:if>
-							<c:if test="${userSession.isLogged() == false}">
+							<c:if test="${empty userSession or not userSession.logged}">
 							 	<ul class="nav pull-right" id="top-menu-dropdown">
 					          		<li class="dropdown" id="menuLogin">
 					            		<a  href="#" id="top-menu-btn" class="dropdown-toggle"data-toggle="dropdown">
@@ -51,7 +51,7 @@
 					            		</a>
 					            		<ul class="dropdown-menu" id="login-box">
 					            			<li>
-						              			<form action="${linkTo[UserController].authenticate}" class="form-group login-form" method="POST"> 
+						              			<form action="user/authenticate" class="form-group login-form" method="POST"> 
 									                <input name="login" type="text" class="form-control" placeholder="Login or email"/>
 									                <input name="password" type="password" class="form-control" placeholder="Password">
 									                <button type="submit" class="btn btn-primary btn-group-justified">
@@ -61,7 +61,9 @@
 											</li>
 							          		<li class="divider"></li>
 							          		<li>
-							          			<a href="<c:url value='/#register'/>"><fmt:message key="sign_in"/></a>
+							          			<a href="<c:url value='${linkTo[IndexController].index}'/>">
+							          				<fmt:message key="sign_in"/>
+							          			</a>
 							          		</li>
 							            </ul>
 						          	</li>

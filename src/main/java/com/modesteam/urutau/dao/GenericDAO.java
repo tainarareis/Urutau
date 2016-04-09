@@ -76,6 +76,11 @@ public abstract class GenericDAO<Entity> {
 		return updateCompleted;
 	}
 	
+	public boolean flush() {
+		entityManager.flush();
+		return false;
+	}
+	
 	/**
 	 * @param entityManager
 	 */

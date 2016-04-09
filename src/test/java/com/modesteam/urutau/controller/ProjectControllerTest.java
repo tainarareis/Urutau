@@ -111,7 +111,7 @@ public class ProjectControllerTest {
 				new ProjectController(result, userSession, projectService, 
 						userService, kanbanService, validator);
 		
-		controllerMock.deleteProject(1L);
+		controllerMock.delete(1L);
 	}
 	
 	@Test(expected=ValidationException.class)
@@ -124,7 +124,7 @@ public class ProjectControllerTest {
 				new ProjectController(result, userSession, projectService, 
 						userService, kanbanService, validator);
 
-		controllerMock.deleteProject(1L);
+		controllerMock.delete(1L);
 	}
 	
 	private void mockSave(Project project) {
