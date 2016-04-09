@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.LazyInitializationException;
 
@@ -28,13 +30,18 @@ public class Project implements Cloneable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
+	@NotNull(message="{project.title.empty}")
+	@Size(min = 2, max = 20, message="{project.title.size}")
 	private String title;
 	private String description;
 
+	/**
+	 * Metodology name are not persisted, 
+	 * but converted to a numerical code
+	 */
 	@Transient
 	private String metodology;
-	// Only this are persisted
 	private int metodologyCode;
 
 	@OneToMany(mappedBy = "project")

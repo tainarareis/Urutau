@@ -171,4 +171,8 @@ public class UrutaUser {
 			this.settings.add(new UserSetting(context));
 		}
 	}
+
+	public void addProject(Project basicProject) {
+		this.projects.add(basicProject);
+	}
 }

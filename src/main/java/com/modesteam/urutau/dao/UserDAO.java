@@ -28,5 +28,9 @@ public interface UserDAO {
 	 */
 	boolean hasAnyRegister();
 
-	boolean flush();
+	/**
+	 * TODO 
+	 * @param userLogged
+	 */
+	void reload(UrutaUser userLogged);
 }
