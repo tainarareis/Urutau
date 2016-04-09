@@ -9,4 +9,5 @@ public final class FieldMessage {
 	public static final String PROJECT_CREATE = "project-create";
 	public static final String SUCCESS = "success-message";
 	public static final String ERROR = "error-message";
+	public static final String KANBAN_STATUS = "kanban-status";
 }

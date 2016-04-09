@@ -23,7 +23,7 @@ function drop(ev, layerID) {
     
 	$.ajax({
 	     type:"POST",
-	     url: "/Urutau/kanban/move",
+	     url: "move",
 	     data: {requirementID: requirementID, layerID: layerID},
 	     dataType: "JSON"
 	});
