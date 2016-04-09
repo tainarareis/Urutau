@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,7 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 	/* Value used to get by field */
 	private static final String FIELD_VALUE = "value";
 
-	@Inject
-	private EntityManager manager;
+	private final EntityManager manager;
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
@@ -31,6 +31,7 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 	@Inject
 	public DefaultUserDAO(EntityManager manager) {
 		super.setEntityManager(manager);
+		this.manager = manager;
 	}
 	
 	/**
@@ -92,5 +93,13 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 		} 
 		
 		return validParameter;
+	}
+	
+	/**
+	 * TODO
+	 */
+	@Override
+	public void reload(UrutaUser user) {
+		manager.unwrap(Session.class).refresh(user);
 	}
 }

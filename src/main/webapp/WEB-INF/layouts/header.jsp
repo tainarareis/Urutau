@@ -61,7 +61,9 @@
 											</li>
 							          		<li class="divider"></li>
 							          		<li>
-							          			<a href="<c:url value='/#register'/>"><fmt:message key="sign_in"/></a>
+							          			<a href="<c:url value='${linkTo[IndexController].index}'/>">
+							          				<fmt:message key="sign_in"/>
+							          			</a>
 							          		</li>
 							            </ul>
 						          	</li>
