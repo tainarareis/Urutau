@@ -50,7 +50,7 @@
 	            	</c:if>
 				</c:forEach>
 			                 
-	           <form action="${linkTo[UserController].authenticate}" class="form-signin" method="POST">
+	           <form action="user/authenticate" class="form-signin" method="POST">
 					<input name="login" class="form-control" 
 						placeholder="<fmt:message key='user.login'/>" required autofocus>
 					<input name="password" type="password" class="form-control" 
@@ -78,7 +78,7 @@
 				</c:forEach>
 	            
 				<h2><fmt:message key='sign_in'/></h2>
-				<form action="${linkTo[UserController].register}" class="form-signin" method="POST">		
+				<form action="user/register" class="form-signin" method="POST">		
 					<input name="user.email" type="email" class="form-control" 
 						placeholder="<fmt:message key='user.email'/>" 
 						value="${user.email}" required>
