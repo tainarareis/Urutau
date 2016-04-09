@@ -50,7 +50,6 @@ public class DefaultLayerDAO extends GenericDAO<Layer> implements LayerDAO {
 
 	@Override
 	public Layer get(String field, Object value) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

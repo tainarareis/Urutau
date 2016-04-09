@@ -16,7 +16,8 @@ function drop(ev, layerID) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("requirement");
     var requirement = $("#".concat(data))[0];
-
+    
+    // get only number of id
     var requirementID = requirement.id.replace(/[^0-9]/g,'');
     
     ev.target.appendChild(requirement);
@@ -25,11 +26,22 @@ function drop(ev, layerID) {
 	     type:"POST",
 	     url: "move",
 	     data: {requirementID: requirementID, layerID: layerID},
-	     dataType: "JSON"
+	     dataType: "JSON",
+	     success: function(result) {
+	    	 $(".alert-message").html(result);
+	    	 $(".alert").show();
+	     }
 	});
 }
-$(document).ready(function(){
 
+function closeAlert() {
+	$(".alert").hide();	
+}
+
+$(document).ready(function(){
+	// Hide alert div
+	closeAlert();
+	
 	$(document).click(function(event) {
 		$(".requirement").css('borderWidth', '1px');
 				
