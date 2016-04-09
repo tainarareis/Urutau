@@ -64,23 +64,24 @@ public class KanbanController {
 	 */
 	@Post("/kanban/move")
 	public void move(final @NotNull Long requirementID, final @NotNull Long layerID) throws Exception {
+
 		logger.info("Requesting the move of one requirement");
 		
 		Artifact requirementToTransfer = requirementService.getByID(requirementID);
-		Layer targetLayer = null;
 		
 		try {
-			targetLayer = kanbanService.getLayerByID(layerID);
+			Layer targetLayer = kanbanService.getLayerByID(layerID);
 			
 			requirementToTransfer.setLayer(targetLayer);
+			
 			requirementService.update(requirementToTransfer);
 		} catch (IllegalArgumentException exception) {
-			SimpleMessage simpleMessage = new SimpleMessage(FieldMessage.ERROR, "Invalid layer");
+			SimpleMessage simpleMessage = new SimpleMessage(FieldMessage.KANBAN_STATUS, "invalid_layer");
 			validator.add(simpleMessage);
 		}
 		
 		validator.onErrorRedirectTo(this).load(requirementToTransfer.getProject());
-		result.redirectTo(this).load(requirementToTransfer.getProject());
+		result.nothing();
 	}
 	
 	public void customize() {
