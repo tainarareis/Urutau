@@ -43,7 +43,7 @@
 									<li><a href="<c:url value='/logout'/>"> <fmt:message key="logout"/></a></li>
 								</ul>
 							</c:if>
-							<c:if test="${userSession.isLogged() == false}">
+							<c:if test="${empty userSession or not userSession.logged}">
 							 	<ul class="nav pull-right" id="top-menu-dropdown">
 					          		<li class="dropdown" id="menuLogin">
 					            		<a  href="#" id="top-menu-btn" class="dropdown-toggle"data-toggle="dropdown">
