@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<script async="async" src="<c:url value='/js/create-validator.js'/>"></script>
+<script async="async" src="<c:url value='/js/form-validator.js'/>"></script>
 
 <script async="async" type="text/javascript">
-	VALIDATOR.validates({
-		title : 'generic.title'
+	COLLECTOR.validates({
+		'title' : 'generic.title',
+		'projectID' : 'generic.projectID'
 	});
 </script>
 
