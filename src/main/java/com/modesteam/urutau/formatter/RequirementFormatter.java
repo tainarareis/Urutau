@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
-import com.modesteam.urutau.controller.EntityCreator;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.UrutaUser;
