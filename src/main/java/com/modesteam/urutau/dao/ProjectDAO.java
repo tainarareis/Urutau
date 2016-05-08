@@ -17,7 +17,7 @@ public interface ProjectDAO {
 	 */
 	Project find(Long id);
 	
-	boolean update(Project Project);
+	Project update(Project Project);
 	
 	boolean destroy(Project Project);
 

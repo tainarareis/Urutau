@@ -1,12 +1,16 @@
 package com.modesteam.urutau.service;
 
+import static javax.enterprise.event.TransactionPhase.AFTER_SUCCESS;
+
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.NonUniqueResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.modesteam.urutau.annotation.Updater;
 import com.modesteam.urutau.dao.UserDAO;
 import com.modesteam.urutau.exception.DataBaseCorruptedException;
 import com.modesteam.urutau.model.UrutaUser;
@@ -18,6 +22,9 @@ public class UserService {
 	
 	private final UserDAO userDAO;
 	
+	/**
+	 * @deprecated only CDI eye
+	 */
 	public UserService() {
 		this(null);
 	}
@@ -120,14 +127,16 @@ public class UserService {
 	 * @param userID identifier
 	 * @return user logged, uses into userSession
 	 */
-	public UrutaUser reloadFromDB(Long userID) {
+	public UrutaUser getUserByID(Long userID) {
 		return userDAO.find(userID);
 	}
 	
 	/**
 	 * Reload exclusive userLogged from database
+	 * @return 
 	 */
-	public void reloadInstance(UrutaUser userLogged) {
+	public void reloadInstance(@Observes(during=AFTER_SUCCESS) @Updater UrutaUser userLogged) {
+		logger.trace("Reload user session");
 		userDAO.reload(userLogged);
 	}
 }

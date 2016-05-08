@@ -53,7 +53,7 @@ public class Project implements Cloneable {
 	private UrutaUser author;
 
 	/* Artifact can be delegated to one or more persons */
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID"), 
 		inverseJoinColumns = @JoinColumn(name = "userID") )
 	private List<UrutaUser> members = new ArrayList<UrutaUser>();

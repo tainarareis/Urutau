@@ -64,17 +64,16 @@ public abstract class GenericDAO<Entity> {
 	 * @param entity to be merge with database
 	 * @return false if any error occurs
 	 */
-	public boolean update(final Entity entity) {
-		boolean updateCompleted = false; 
+	public Entity update(final Entity entity) {
+		Entity entityUpdated = null;
 		
 		try {
-			entityManager.merge(entity);
-			updateCompleted = true;
+			entityUpdated = entityManager.merge(entity);
 		} catch (Exception exception) {
 			logger.warn(EXCEPTION_MESSAGE, exception);
-		} 
+		}
 		
-		return updateCompleted;
+		return entityUpdated; 
 	}
 	
 	public boolean flush() {

@@ -22,7 +22,7 @@ public interface RequirementDAO {
 	 */
 	Artifact find(Long id);
 	
-	boolean update(Artifact artifact);
+	Artifact update(Artifact artifact);
 	
 	boolean destroy(Artifact artifact);
 	

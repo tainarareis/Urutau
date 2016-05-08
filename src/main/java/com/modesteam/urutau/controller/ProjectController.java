@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.annotation.Updater;
 import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.UrutaUser;
@@ -39,15 +41,17 @@ import br.com.caelum.vraptor.validator.Validator;
 public class ProjectController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
-
 	private static final int INVALID_METODOLOGY_CODE = -1;
-	
+
 	private final Result result;
 	private final UserSession userSession;
 	private final ProjectService projectService;
 	private final UserService userService;
 	private final KanbanService kanbanService;
 	private final Validator validator;
+	@Inject
+	@Updater
+	private Event<UrutaUser> reloadEvent;
 
 	/**
 	 * @deprecated CDI eye only
@@ -65,7 +69,7 @@ public class ProjectController {
 		this.userService = userService;
 		this.projectService = projectService;
 		this.kanbanService = kanbanService;
-		this.validator = validator; 
+		this.validator = validator;
 	}
 	
 	/**
@@ -159,8 +163,10 @@ public class ProjectController {
 		projectService.update(project);
 		
 		result.redirectTo(this).edit(project);
+		
+		reloadEvent.fire(userSession.getUserLogged());
 	}
-	
+
 	/**
 	 * Show the projects that has a certain id and title 
 	 * 
@@ -237,7 +243,7 @@ public class ProjectController {
 	
 
 	/**
-	 * Called only by ajax
+	 * Called by ajax
 	 */
 	@Get
 	public void reloadProjects() {		
@@ -317,7 +323,7 @@ public class ProjectController {
 	 */
 	private UrutaUser getCurrentUser() {
 		UrutaUser logged = userSession.getUserLogged();
-		return userService.reloadFromDB(logged.getUserID());
+		return userService.getUserByID(logged.getUserID());
 	}
 
 	/**

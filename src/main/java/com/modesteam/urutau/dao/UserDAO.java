@@ -19,7 +19,7 @@ public interface UserDAO {
 	 */
 	UrutaUser find(final Long id);
 	
-	boolean update(final UrutaUser user);
+	UrutaUser update(final UrutaUser user);
 	
 	boolean destroy(final UrutaUser user);
 	
@@ -29,8 +29,7 @@ public interface UserDAO {
 	boolean hasAnyRegister();
 
 	/**
-	 * TODO 
-	 * @param userLogged
+	 * Reload user managed instance
 	 */
 	void reload(UrutaUser userLogged);
 }

@@ -22,7 +22,7 @@ public interface LayerDAO {
 	 */
 	Layer find(Long id) throws IllegalArgumentException;
 	
-	boolean update(Layer Layer);
+	Layer update(Layer Layer);
 	
 	boolean destroy(Layer Layer);
 

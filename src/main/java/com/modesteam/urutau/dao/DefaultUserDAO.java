@@ -6,8 +6,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
-import org.hibernate.Session;
-
 import com.modesteam.urutau.model.UrutaUser;
 
 /**
@@ -19,9 +17,15 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 	private static final String FIELD_VALUE = "value";
 
 	private final EntityManager manager;
-	
 	private final DaoHelper daoHelper;
 	
+	/**
+	 * @deprecated only CDI eye
+	 */
+	public DefaultUserDAO() {
+		this(null, null);
+	}
+
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
 	 */
@@ -73,11 +77,8 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 	    return userFound;
 	}
 	
-	/**
-	 * TODO
-	 */
 	@Override
 	public void reload(UrutaUser user) {
-		manager.unwrap(Session.class).refresh(user);
+		manager.refresh(user);
 	}
 }

@@ -102,9 +102,8 @@ public class RequirementService {
 	 * @param artifact
 	 * @return
 	 */
-	public boolean update(Artifact requirement){		
-		boolean updateResult = requirementDAO.update(requirement);		
-		return updateResult;
+	public boolean update(Artifact requirement) {		
+		return requirementDAO.update(requirement) != null;
 	}
 
 	/**

@@ -54,15 +54,15 @@ public class UserSession implements Serializable {
 	 */
 	public boolean isLogged(){
 		boolean isLogged =  true;
-		
+
 		// verifies through if and possible nullpointerexception
 		try {
 			if(userLogged.getUserID() == null) {
 				isLogged = false;
 			} else {
-				logger.info("User is logged!");
+				logger.trace("User is logged");
 			}
-		}catch(NullPointerException npe) {
+		} catch(NullPointerException npe) {
 			isLogged = false;
 		}
 		
