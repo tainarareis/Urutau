@@ -28,6 +28,7 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
@@ -122,7 +123,25 @@ public class ProjectController {
 		}
 			validator.onErrorRedirectTo(ProjectController.class).index();
 	}
-			
+	
+	@Get("/{project.title}/edit")
+	public void edit(Project project) {
+		Project requestedProject = null;
+		try {
+			requestedProject = projectService.getByTitle(project.getTitle());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		result.include(requestedProject);
+	}
+	
+	@Put("/{project.id}/setting")
+	public void update(Project project) {		
+		projectService.update(project);
+		
+		result.redirectTo(this).edit(project);
+	}
 	
 	/**
 	 * Show the projects that has a certain id and title 

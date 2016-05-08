@@ -29,12 +29,6 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 	
 	@Override
 	public Project get(String field, Object value) {
-		if(!DaoValidator.isValidParameter(value)) {
-			
-		} else {
-			// continue
-		}
-		
 		String sql = "SELECT project FROM " + Project.class.getName() 
 				+ " project WHERE project."+ field + "=:value";
 				
@@ -46,8 +40,10 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 			Query query = manager.createQuery(sql);
 			query.setParameter("value", value);
 			project = (Project) query.getSingleResult();
-		} catch (NonUniqueResultException exception){
+		} catch (NonUniqueResultException exception) {
 			throw new NonUniqueResultException();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new IllegalArgumentException("Invalid parameter on get method into ProjectDAO");
 		} catch (NoResultException exception) {
 			logger.debug("Any project was found", exception);
 		}
@@ -70,11 +66,5 @@ public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO
 		List<Project> projectList = query.getResultList();
 		
 		return projectList;
-	}
-	
-	@Override
-	public boolean update(Project entity) {
-		manager.flush();
-		return super.update(entity);
 	}
 }

@@ -178,4 +178,16 @@ public class ProjectService {
 	public boolean update(Project project) {
 		return projectDAO.update(project);
 	}
+	
+	/**
+	 * TODO refactor this innocence
+	 * @throws Exception 
+	 */
+	public Project getByTitle(String title) throws Exception {
+		return projectDAO.get("title", title);
+	}
+	
+	public void refresh(Project project) {
+		projectDAO.refresh(project);
+	}
 }

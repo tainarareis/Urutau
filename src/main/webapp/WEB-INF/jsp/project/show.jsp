@@ -70,7 +70,7 @@
 							class="default-option">Kanban</a>
 					</li>
 					<li>
-						<a href="#" class="default-option">
+						<a href="<c:url value="${project.title}/edit"/>" class="default-option">
 							<fmt:message key="settings"/>
 						</a>
 					</li>

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,18 +31,18 @@ public class Project implements Cloneable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@NotNull(message="{project.title.empty}")
-	@Size(min = 2, max = 20, message="{project.title.size}")
+
+	@NotNull(message = "{project.title.empty}")
+	@Size(min = 2, max = 20, message = "{project.title.size}")
 	private String title;
 	private String description;
 
 	/**
-	 * Metodology name are not persisted, 
-	 * but converted to a numerical code
+	 * Metodology name are not persisted, but converted to a numerical code
 	 */
 	@Transient
 	private String metodology;
+	@NotNull
 	private int metodologyCode;
 
 	@OneToMany(mappedBy = "project")
@@ -53,17 +54,21 @@ public class Project implements Cloneable {
 
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID") , 
+	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID"), 
 		inverseJoinColumns = @JoinColumn(name = "userID") )
 	private List<UrutaUser> members = new ArrayList<UrutaUser>();
 
 	/* Should be generate automatically */
+	@NotNull
 	private Calendar dateOfCreation;
 
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id") ,
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id"), 
 		inverseJoinColumns = @JoinColumn(name = "layer_id") )
 	private List<Layer> layers = new ArrayList<Layer>();
+	
+	@Column(nullable=false, columnDefinition="boolean default false")
+	private boolean isPublic;
 
 	@Transient
 	private boolean isEmpty;
@@ -160,7 +165,7 @@ public class Project implements Cloneable {
 	public boolean isEmpty() {
 		try {
 			return requirements.isEmpty();
-		} catch(LazyInitializationException exception) {
+		} catch (LazyInitializationException exception) {
 			return false;
 		}
 	}
@@ -176,11 +181,19 @@ public class Project implements Cloneable {
 	public void setLayers(List<Layer> layers) {
 		this.layers = layers;
 	}
-	
+
 	/**
 	 * Add an single layer
 	 */
 	public void add(Layer layer) {
 		this.layers.add(layer);
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 }

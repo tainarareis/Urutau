@@ -25,4 +25,6 @@ public interface ProjectDAO {
 	 * Load all projects
 	 */
 	List<Project> loadAll();
+	
+	void refresh(Project project);
 }

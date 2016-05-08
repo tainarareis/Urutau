@@ -2,6 +2,7 @@ package com.modesteam.urutau.dao;
 
 import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +80,18 @@ public abstract class GenericDAO<Entity> {
 	public boolean flush() {
 		entityManager.flush();
 		return false;
+	}
+	
+	/**
+	 * Reloads object from database, for work of this 
+	 * method it is needed that Entity have a  filled primary key 
+	 */
+	public void refresh(final Entity entity) {
+		getSession().refresh(entity);
+	}
+	
+	private Session getSession() {
+		return entityManager.unwrap(Session.class);
 	}
 	
 	/**
