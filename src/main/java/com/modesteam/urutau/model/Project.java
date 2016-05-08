@@ -111,7 +111,19 @@ public class Project implements Cloneable {
 	}
 
 	public int getMetodologyCode() {
-		return metodologyCode;
+		int code = 0;
+
+		if (this.metodologyCode == 0) {
+			for (MetodologyEnum metodologyEnum : MetodologyEnum.values()) {
+				if (metodologyEnum.refersTo(metodology)) {
+					code = metodologyEnum.getId(); 
+				}
+			}
+		} else {
+			code = this.metodologyCode;
+		}
+
+		return code;
 	}
 
 	public void setMetodologyCode(int metodologyCode) {

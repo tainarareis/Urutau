@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.UserSession;
+import com.modesteam.urutau.annotation.View;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.UrutaUser;
 import com.modesteam.urutau.model.system.FieldMessage;
@@ -103,12 +104,12 @@ public class ProjectController {
 	
 	
 	/**
-	 * Method for delete only one project 
-	 * @param id
+	 * Delete only one project 
+	 * 
+	 * @param id primary key of Project
 	 */
 	@Post
-	public void delete(long id) {
-		
+	public void delete(final Long id) {
 		logger.info("The project with id " + id +" was solicitated for exclusion");
 		
 		boolean projectExist = projectService.verifyProjectExistence(id);
@@ -123,21 +124,34 @@ public class ProjectController {
 		}
 			validator.onErrorRedirectTo(ProjectController.class).index();
 	}
-	
+
+	/**
+	 * Open edit page setting project request
+	 *  
+	 * @param project to fill with modifications
+	 */
 	@Get("/{project.title}/edit")
-	public void edit(Project project) {
+	@View
+	public void edit(final @Valid Project project) {
 		Project requestedProject = null;
+
 		try {
-			requestedProject = projectService.getByTitle(project.getTitle());
-		} catch (Exception e) {
-			e.printStackTrace();
+			final String title = project.getTitle();
+			requestedProject = projectService.getByTitle(title);
+		} catch (Exception exception) {
+			result.redirectTo(ApplicationController.class).invalidRequest();
 		}
-		
+
 		result.include(requestedProject);
 	}
-	
+
+	/**
+	 * Update called by form
+	 * 
+	 * @param project with possible modifications
+	 */
 	@Put("/{project.id}/setting")
-	public void update(Project project) {		
+	public void update(final @Valid Project project) {		
 		projectService.update(project);
 		
 		result.redirectTo(this).edit(project);
@@ -273,21 +287,16 @@ public class ProjectController {
 	 * @param project to be persisted
 	 */
 	private int selectMetodologyCode(String name) {
-		
 		logger.info("Metodology choose was " + name);
-		
+
 		int metodologyCode = INVALID_METODOLOGY_CODE;
-		
+
 		for(MetodologyEnum metodology : MetodologyEnum.values()) {
-			
 			if(metodology.refersTo(name)) {
-				
 				metodologyCode = metodology.getId();
 				logger.debug("Metodology choose have code " + metodologyCode);
-				
 				// Stop loop
 				break;
-				
 			} else {
 				// Keep searching
 			}
@@ -303,10 +312,8 @@ public class ProjectController {
 	 * @return 
 	 */
 	private UrutaUser getCurrentUser() {
-		UrutaUser logged = userSession.getUserLogged();		
-		logged = userService.reloadFromDB(logged.getUserID());
-
-		return logged;
+		UrutaUser logged = userSession.getUserLogged();
+		return userService.reloadFromDB(logged.getUserID());
 	}
 
 	/**

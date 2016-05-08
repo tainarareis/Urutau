@@ -9,7 +9,6 @@ import javax.persistence.NonUniqueResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.dao.GenericDAO;
 import com.modesteam.urutau.dao.ProjectDAO;
 import com.modesteam.urutau.exception.DataBaseCorruptedException;
 import com.modesteam.urutau.exception.SystemBreakException;
@@ -18,18 +17,12 @@ import com.modesteam.urutau.model.Project;
 public class ProjectService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
-	private static final String TITLE_ATTRIBUTE_NAME = "title";
-	private static final String ID_PARAMETER = "id";
+	private static final String TITLE_COLUMN = "title";
+	private static final String ID_COLUMN = "id";
 	private static final int INVALID_ID = -1;
-	private static final String TITLE_FIELD = "title";
 	
-	private ProjectDAO projectDAO;
+	private final ProjectDAO projectDAO;
 	
-	public ProjectService() {
-		this(null);
-		
-	}
-
 	@Inject
 	public ProjectService(ProjectDAO projectDAO) {
 		this.projectDAO = projectDAO;
@@ -75,7 +68,7 @@ public class ProjectService {
 		Project project = null;
 		
 		try {
-			project = projectDAO.get(ID_PARAMETER, id);
+			project = projectDAO.get(ID_COLUMN, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,7 +92,7 @@ public class ProjectService {
 		Long idOfProject = new Long(INVALID_ID);
 		
 		try {
-			idOfProject = projectDAO.get(TITLE_FIELD, title).getId();
+			idOfProject = projectDAO.get(TITLE_COLUMN, title).getId();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -154,12 +147,12 @@ public class ProjectService {
 		boolean valueNotUsed = false;
 		
 		try{
-			if(projectDAO.get(TITLE_ATTRIBUTE_NAME, projectTitle) == null) {
+			if(projectDAO.get(TITLE_COLUMN, projectTitle) == null) {
 				valueNotUsed = true;
 			}
 		} catch (NonUniqueResultException exception) {
 			throw new DataBaseCorruptedException(this.getClass().getSimpleName() 
-					+ " returns twice " + TITLE_ATTRIBUTE_NAME + " equals");
+					+ " returns twice " + TITLE_COLUMN + " equals");
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		} 
@@ -172,11 +165,40 @@ public class ProjectService {
 	}
 	
 	/**
+	 * Update attributes passed by a detached object
 	 * 
-	 * See {@link GenericDAO#update(Object)}
+	 * @param detachedProject created in a page form
 	 */
-	public boolean update(Project project) {
-		return projectDAO.update(project);
+	public boolean update(Project detachedProject) {
+		Project managedProject = projectDAO.find(detachedProject.getId());
+		
+		final String description = detachedProject.getDescription();
+		final String title = detachedProject.getTitle();
+		final Integer metodology = detachedProject.getMetodologyCode();
+		final boolean isPublic = detachedProject.isPublic();
+
+		if (!description.equals(managedProject.getDescription())) {
+			logger.trace("update description");
+			managedProject.setDescription(description);
+		}
+
+		if (title.equals(managedProject.getTitle())) {
+			logger.trace("update title");
+			managedProject.setTitle(title);
+		}
+
+		if (metodology.equals(managedProject.getMetodologyCode())) {
+			logger.trace("update metodology");
+			managedProject.setMetodologyCode(metodology);
+		}
+
+		// ^ is XOR operand
+		if (!(isPublic ^ managedProject.isPublic())) {
+			logger.trace("update privacy");
+			managedProject.setPublic(isPublic);
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -184,7 +206,7 @@ public class ProjectService {
 	 * @throws Exception 
 	 */
 	public Project getByTitle(String title) throws Exception {
-		return projectDAO.get("title", title);
+		return projectDAO.get(TITLE_COLUMN, title);
 	}
 	
 	public void refresh(Project project) {

@@ -54,7 +54,7 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 	public UrutaUser get(final String field, final Object value) {
 	    UrutaUser userFound = null;
 
-	    if(!daoHelper.isValidParameter(value)) {
+	    if(daoHelper.isValidParameter(value)) {
 	        try {
 	            final String sql = daoHelper.getSelectQuery(UrutaUser.class, field);
 	            Query query = manager.createQuery(sql); 
