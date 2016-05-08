@@ -19,7 +19,7 @@
 	</category>
 	
 	<category name="com.modesteam.urutau">
-		<priority value="INFO" />
+		<priority value="ALL" />
 		<appender-ref ref="stdout" />
 	</category>
 

@@ -182,18 +182,18 @@ public class ProjectService {
 			managedProject.setDescription(description);
 		}
 
-		if (title.equals(managedProject.getTitle())) {
+		if (!title.equals(managedProject.getTitle())) {
 			logger.trace("update title");
 			managedProject.setTitle(title);
 		}
 
-		if (metodology.equals(managedProject.getMetodologyCode())) {
+		if (!metodology.equals(managedProject.getMetodologyCode())) {
 			logger.trace("update metodology");
 			managedProject.setMetodologyCode(metodology);
 		}
 
 		// ^ is XOR operand
-		if (!(isPublic ^ managedProject.isPublic())) {
+		if (isPublic ^ managedProject.isPublic()) {
 			logger.trace("update privacy");
 			managedProject.setPublic(isPublic);
 		}

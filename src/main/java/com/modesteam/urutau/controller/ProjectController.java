@@ -132,7 +132,7 @@ public class ProjectController {
 	 */
 	@Get("/{project.title}/edit")
 	@View
-	public void edit(final @Valid Project project) {
+	public void edit(final Project project) {
 		Project requestedProject = null;
 
 		try {
@@ -151,7 +151,11 @@ public class ProjectController {
 	 * @param project with possible modifications
 	 */
 	@Put("/{project.id}/setting")
-	public void update(final @Valid Project project) {		
+	public void update(Project project) {
+		// It is needed when project title has change
+		Project currentProject = projectService.getByID(project.getId());
+		validator.onErrorRedirectTo(this).edit(currentProject);
+
 		projectService.update(project);
 		
 		result.redirectTo(this).edit(project);
