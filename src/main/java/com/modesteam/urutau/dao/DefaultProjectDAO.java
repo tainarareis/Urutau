@@ -14,51 +14,54 @@ import org.slf4j.LoggerFactory;
 import com.modesteam.urutau.model.Project;
 
 public class DefaultProjectDAO extends GenericDAO<Project> implements ProjectDAO {
+    
 	private static final Logger logger = LoggerFactory.getLogger(ProjectDAO.class);
 	
-	@Inject
-	private EntityManager manager;	
+	private final EntityManager manager;
+	private final DaoHelper daoHelper;
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
 	 */
 	@Inject
-	public DefaultProjectDAO(EntityManager manager) {
+	public DefaultProjectDAO(EntityManager manager, DaoHelper helper) {
+	    this.daoHelper = helper;
+	    this.manager = manager;
+	    // TODO Rethink this with liskov principle
 		super.setEntityManager(manager);
 	}
 	
 	@Override
 	public Project get(String field, Object value) {
-		String sql = "SELECT project FROM " + Project.class.getName() 
-				+ " project WHERE project."+ field + "=:value";
-				
-		logger.info(sql);
+	    Project project = null;
 		
-		Project project = null;
-		
-		try{
-			Query query = manager.createQuery(sql);
-			query.setParameter("value", value);
-			project = (Project) query.getSingleResult();
-		} catch (NonUniqueResultException exception) {
-			throw new NonUniqueResultException();
-		} catch (IllegalArgumentException illegalArgumentException) {
-			throw new IllegalArgumentException("Invalid parameter on get method into ProjectDAO");
-		} catch (NoResultException exception) {
-			logger.debug("Any project was found", exception);
+	    if(daoHelper.isValidParameter(value)) {
+		    try {
+	            final String sql = daoHelper.getSelectQuery(Project.class, field);
+	            Query query = manager.createQuery(sql);
+	            query.setParameter("value", value);
+	            
+	            project = (Project) query.getSingleResult();
+	        } catch (NonUniqueResultException exception) {
+	            throw new NonUniqueResultException();
+	        } catch (NoResultException exception) {
+	            logger.debug("Any project was found", exception);
+	        }
+		} else {
+		    throw new IllegalArgumentException("Invalid param has been passed");
 		}
-		
-		return project;
+	    
+	    return project;
 	}
 
-	@Override
+    @Override
 	public Project find(Long id) {
 		return manager.find(Project.class, id);
 	}
 
 	@Override
 	public List<Project> loadAll() {
-		String sql = "SELECT project " + getClass().getSimpleName() + "FROM project";
+		String sql = "SELECT project " + getClass().getSimpleName() + " FROM project";
 		
 		logger.info(sql);
 		

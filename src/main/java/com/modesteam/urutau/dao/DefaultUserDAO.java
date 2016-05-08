@@ -7,31 +7,29 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import org.hibernate.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.exception.InvalidUserActionException;
 import com.modesteam.urutau.model.UrutaUser;
 
 /**
  * Default implementation of UserDAO
  */
 public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
-
-	private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	/* Value used to get by field */
 	private static final String FIELD_VALUE = "value";
 
 	private final EntityManager manager;
 	
+	private final DaoHelper daoHelper;
+	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
 	 */
 	@Inject
-	public DefaultUserDAO(EntityManager manager) {
+	public DefaultUserDAO(EntityManager manager, DaoHelper helper) {
+	    this.manager = manager;
+	    this.daoHelper = helper;
 		super.setEntityManager(manager);
-		this.manager = manager;
 	}
 	
 	/**
@@ -53,46 +51,26 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 	}
 
 	@Override
-	public UrutaUser get(String field, Object value) throws Exception {
-		
-		if(!isValidParameter(value)) {
-			throw new InvalidUserActionException("Invalid value object");
+	public UrutaUser get(final String field, final Object value) {
+	    UrutaUser userFound = null;
+
+	    if(!daoHelper.isValidParameter(value)) {
+	        try {
+	            final String sql = daoHelper.getSelectQuery(UrutaUser.class, field);
+	            Query query = manager.createQuery(sql); 
+	            query.setParameter(FIELD_VALUE, value);
+	            
+	            userFound = (UrutaUser) query.getSingleResult();
+	        } catch (NonUniqueResultException exception) {
+	            throw new NonUniqueResultException();
+	        } catch (NoResultException exception) {
+	            exception.printStackTrace();
+	        }
 		} else {
-			// continue 
+		    throw new IllegalArgumentException("Invalid param has been passed");
 		}
-		
-		String sql = "SELECT user FROM " + UrutaUser.class.getName() 
-				+ " user WHERE user." + field + "=:value";
-		
-		logger.info(sql);
-		
-		UrutaUser userFound = null;
-		
-		try {
-			Query query = manager.createQuery(sql);	
-			query.setParameter(FIELD_VALUE, value);
-			userFound = (UrutaUser) query.getSingleResult();
-		} catch (NonUniqueResultException exception) {
-			throw new NonUniqueResultException();
-		} catch (NoResultException exception) {
-			exception.printStackTrace();
-		}
-		
-		return userFound;
-	}
-	
-	/**
-	 * Called only by DAOs, this is a validation of parameter instance 
-	 * 
-	 */
-	private boolean isValidParameter(Object value) {
-		boolean validParameter = false;
-		
-		if (value instanceof Integer || value instanceof String || value instanceof Long) {
-			validParameter = true;
-		} 
-		
-		return validParameter;
+	    
+	    return userFound;
 	}
 	
 	/**
