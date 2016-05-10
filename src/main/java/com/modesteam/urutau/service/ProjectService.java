@@ -90,35 +90,6 @@ public class ProjectService {
 		 
 		return project; 
 	}
-	/**
-	 * Load an project by id
-	 * 
-	 * @param id identifier of project
-	 * @return existence project
-	 * 
-	 * @throws SystemBreakException 
-	 */
-	public Project getByID(Long id) {
-		assert(id == null);
-		
-		Project loaded = null;
-		
-		logger.info("Search id" + id);
-		
-			try {
-				if(exists(id)){
-					loaded = projectDAO.get("id", id);
-				} else {
-					logger.trace("Do not found any project");
-				}
-			} catch(NoResultException noResultException) {
-				throw new SystemBreakException("Maybe this project do not exist!");
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
-			
-		return loaded;
-	}
 	
 	/**
 	 * See if title can be used
@@ -142,16 +113,16 @@ public class ProjectService {
 		return valueNotUsed;
 	}
 
-	public Project load(Project project) {
-		return projectDAO.find(project.getId());
-	}
-	
+	public Project find(Long projectID) {
+        return projectDAO.find(projectID);
+    }
+
 	/**
 	 * Update attributes passed by a detached object
 	 * 
 	 * @param detachedProject created in a page form
 	 */
-	public boolean update(Project detachedProject) {
+	public void update(Project detachedProject) {
 		Project managedProject = projectDAO.find(detachedProject.getId());
 		
 		final String description = detachedProject.getDescription();
@@ -179,8 +150,6 @@ public class ProjectService {
 			logger.trace("update privacy");
 			managedProject.setPublic(isPublic);
 		}
-		
-		return true;
 	}
 	
 	/**

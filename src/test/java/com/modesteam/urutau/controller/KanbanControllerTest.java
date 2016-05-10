@@ -1,10 +1,17 @@
 package com.modesteam.urutau.controller;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
+import br.com.caelum.vraptor.validator.Validator;
 
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
@@ -12,12 +19,6 @@ import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
-
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
-import br.com.caelum.vraptor.validator.Validator;
 
 public class KanbanControllerTest {
 	
@@ -90,8 +91,7 @@ public class KanbanControllerTest {
 	
 	@Test(expected=ValidationException.class)
 	public void testCreateInvalidLayer() throws Exception {
-
-Layer mockLayer = createAnValidMockLayer();
+	    Layer mockLayer = createAnValidMockLayer();
 		
 		Project mockProject = mock(Project.class);
 		mockProject.add(mockLayer);
@@ -143,14 +143,14 @@ Layer mockLayer = createAnValidMockLayer();
 	}
 
 	private void whenFind(Project project) {
-		when(mockProjectService.load(project)).thenReturn(mock(Project.class));
+		when(mockProjectService.find(project.getId())).thenReturn(mock(Project.class));
 	}
 
 	private void mockProjectToAddNewLayer(Project project, Layer layer) {		
-		when(mockProjectService.getByID(VALID_PROJECT_ID)).thenReturn(project);
+		when(mockProjectService.find(VALID_PROJECT_ID)).thenReturn(project);
 	}
 	
 	private void shouldReturnWhenUpdateProject(Project project, boolean condition) {
-		when(mockProjectService.update(project)).thenReturn(true);
+		doNothing().when(mockProjectService).update(project);
 	}
 }

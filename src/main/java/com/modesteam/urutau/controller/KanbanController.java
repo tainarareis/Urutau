@@ -8,15 +8,6 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.modesteam.urutau.annotation.View;
-import com.modesteam.urutau.model.Artifact;
-import com.modesteam.urutau.model.Project;
-import com.modesteam.urutau.model.system.FieldMessage;
-import com.modesteam.urutau.model.system.Layer;
-import com.modesteam.urutau.service.KanbanService;
-import com.modesteam.urutau.service.ProjectService;
-import com.modesteam.urutau.service.RequirementService;
-
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -26,6 +17,15 @@ import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
+
+import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.model.Artifact;
+import com.modesteam.urutau.model.Project;
+import com.modesteam.urutau.model.system.FieldMessage;
+import com.modesteam.urutau.model.system.Layer;
+import com.modesteam.urutau.service.KanbanService;
+import com.modesteam.urutau.service.ProjectService;
+import com.modesteam.urutau.service.RequirementService;
 
 @Controller
 public class KanbanController {	
@@ -58,7 +58,7 @@ public class KanbanController {
 	@Get
 	@Path("/kanban/{project.id}")
 	public void load(final Project project) throws Exception {
-		Project currentProject = projectService.load(project);
+		Project currentProject = projectService.find(project.getId());
 		
 		result.include("project", currentProject);
 	}
@@ -107,11 +107,13 @@ public class KanbanController {
 	@Post
 	public void createLayer(final @NotNull Long projectID, @NotNull Layer layer) 
 			throws Exception {
-		Project currentProject = projectService.getByID(projectID);
+		Project currentProject = projectService.find(projectID);
+				
+		boolean isComplete = kanbanService.create(layer);
 		
 		currentProject.add(layer);
 		
-		boolean isComplete = kanbanService.create(layer) && projectService.update(currentProject);
+		projectService.update(currentProject);
 		
 		if(!isComplete) {
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 

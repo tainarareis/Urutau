@@ -157,7 +157,7 @@ public class ProjectController {
 	@Put("/{project.id}/setting")
 	public void update(Project project) {
 		// It is needed when project title has change
-		Project currentProject = projectService.getByID(project.getId());
+		Project currentProject = projectService.find(project.getId());
 		validator.onErrorRedirectTo(this).edit(currentProject);
 
 		projectService.update(project);
@@ -196,7 +196,7 @@ public class ProjectController {
 	 * @throws UnsupportedEncodingException throws by show(Project)
 	 */
 	public void show(Long projectID) throws UnsupportedEncodingException {
-		Project requestProject = projectService.getByID(projectID);
+		Project requestProject = projectService.find(projectID);
 
 		result.redirectTo(this.getClass()).show(requestProject);
 	}

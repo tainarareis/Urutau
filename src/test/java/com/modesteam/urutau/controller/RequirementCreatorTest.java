@@ -1,6 +1,7 @@
 package com.modesteam.urutau.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -9,6 +10,10 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
@@ -19,17 +24,13 @@ import com.modesteam.urutau.model.Feature;
 import com.modesteam.urutau.model.Generic;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.Storie;
-import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.UrutaUser;
+import com.modesteam.urutau.model.UseCase;
 import com.modesteam.urutau.model.system.FieldMessage;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
-
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
 
 public class RequirementCreatorTest {
 
@@ -293,6 +294,6 @@ public class RequirementCreatorTest {
 	}
 	
 	private void mockWhenProjectLoad(Project project) {
-		when(projectService.getByID(project.getId())).thenReturn(project);
+		when(projectService.find(project.getId())).thenReturn(project);
 	}
 }

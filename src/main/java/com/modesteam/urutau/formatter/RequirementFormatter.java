@@ -112,7 +112,7 @@ public class RequirementFormatter {
 		assert (projectID == null);
 
 		// Load by id
-		Project referedProject = projectService.getByID(projectID);
+		Project referedProject = projectService.find(projectID);
 			
 		return referedProject;
 	}
