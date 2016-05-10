@@ -1,6 +1,8 @@
 package com.modesteam.urutau.controller;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -11,6 +13,10 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
+
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ProjectBuilder;
 import com.modesteam.urutau.model.Project;
@@ -20,10 +26,6 @@ import com.modesteam.urutau.model.system.MetodologyEnum;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
-
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
 
 public class ProjectControllerTest {
 	
@@ -136,7 +138,7 @@ public class ProjectControllerTest {
 	}
 	
 	private void mockExistence(Long id, boolean returnValue) {
-		when(projectService.verifyProjectExistence(id)).thenReturn(returnValue);
+		when(projectService.exists(id)).thenReturn(returnValue);
 	}
 
 	private void mockCanBeUse(String title) {

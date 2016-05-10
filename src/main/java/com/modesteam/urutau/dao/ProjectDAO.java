@@ -10,7 +10,7 @@ public interface ProjectDAO {
 	/**
 	 * Gets a object instance that have a field with certain value
 	 */
-	Project get(String field, Object value) throws Exception;
+	Project get(String field, Object value);
 	
 	/**
 	 * Finds by id

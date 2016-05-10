@@ -18,7 +18,6 @@ public class ProjectService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
 	private static final String TITLE_COLUMN = "title";
-	private static final String ID_COLUMN = "id";
 	private static final int INVALID_ID = -1;
 	
 	private final ProjectDAO projectDAO;
@@ -43,7 +42,7 @@ public class ProjectService {
 	 */
 	public void excludeProject(Long id) {
 		if( id != null ) {
-			Project project = (Project) projectDAO.find(id);
+			Project project = projectDAO.find(id);
 			
 			if(project != null) {
 				projectDAO.destroy(project);
@@ -62,26 +61,10 @@ public class ProjectService {
 	 * @return true if the project exists
 	 * 
 	 */
-	public boolean verifyProjectExistence(long id) {
+	public boolean exists(long id) {
 		logger.info("Verifying the requirement existence in database.");
 		
-		Project project = null;
-		
-		try {
-			project = projectDAO.get(ID_COLUMN, id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		boolean projectExists;
-		
-		if (project == null) {
-			logger.info("The project is null");
-			projectExists = false;
-		} else {
-			logger.info("The project isn't null");
-			projectExists = true;
-		}
+		boolean projectExists = projectDAO.find(id) != null;
 		
 		return projectExists;
 	}
@@ -123,7 +106,7 @@ public class ProjectService {
 		logger.info("Search id" + id);
 		
 			try {
-				if(verifyProjectExistence(id)){
+				if(exists(id)){
 					loaded = projectDAO.get("id", id);
 				} else {
 					logger.trace("Do not found any project");
@@ -141,22 +124,21 @@ public class ProjectService {
 	 * See if title can be used
 	 * 
 	 * @param projectTitle
-	 * @return
 	 */
 	public boolean canBeUsed(final String projectTitle) {
 		boolean valueNotUsed = false;
 		
-		try{
+		try {
 			if(projectDAO.get(TITLE_COLUMN, projectTitle) == null) {
 				valueNotUsed = true;
 			}
+		} catch (NoResultException noResultException) {
+		    valueNotUsed = true;
 		} catch (NonUniqueResultException exception) {
 			throw new DataBaseCorruptedException(this.getClass().getSimpleName() 
-					+ " returns twice " + TITLE_COLUMN + " equals");
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		} 
-		
+					+ " invokes canBeUsed and throw grave exception", exception);
+		}
+
 		return valueNotUsed;
 	}
 

@@ -15,6 +15,16 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
+
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.annotation.Updater;
 import com.modesteam.urutau.annotation.View;
@@ -26,16 +36,6 @@ import com.modesteam.urutau.model.system.MetodologyEnum;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.UserService;
-
-import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Put;
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.SimpleMessage;
-import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 public class ProjectController {
@@ -116,7 +116,7 @@ public class ProjectController {
 	public void delete(final Long id) {
 		logger.info("The project with id " + id +" was solicitated for exclusion");
 		
-		boolean projectExist = projectService.verifyProjectExistence(id);
+		boolean projectExist = projectService.exists(id);
 		
 		if(!projectExist) {
 			logger.info("The project already deleted or inexistent!");

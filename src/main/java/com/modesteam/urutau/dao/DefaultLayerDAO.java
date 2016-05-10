@@ -47,9 +47,4 @@ public class DefaultLayerDAO extends GenericDAO<Layer> implements LayerDAO {
 		
 		return layers;
 	}
-
-	@Override
-	public Layer get(String field, Object value) throws Exception {
-		return null;
-	}
 }

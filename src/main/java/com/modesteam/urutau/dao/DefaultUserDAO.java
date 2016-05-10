@@ -12,7 +12,7 @@ import com.modesteam.urutau.model.UrutaUser;
  * Default implementation of UserDAO
  */
 public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
-	
+
 	/* Value used to get by field */
 	private static final String FIELD_VALUE = "value";
 

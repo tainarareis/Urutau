@@ -1,10 +1,15 @@
 package com.modesteam.urutau.dao;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.modesteam.urutau.model.Project;
 
 /**
  * File Name: GenericDAO<Entity>
@@ -19,6 +24,37 @@ public abstract class GenericDAO<Entity> {
 			+" was thrown this message";
 
 	private EntityManager entityManager;
+	
+	@Inject
+    private DaoHelper daoHelper;
+
+	/**
+	 * Gets a Entity by a field with certain value
+	 * 
+	 * @param field Column name into database
+	 * @param value Simple data
+	 * @return Object correspondent to Entity defined by DAO
+	 */
+    public Entity get(String field, Object value) {
+        Entity result = null;
+
+        if(daoHelper.isValidParameter(value)) {
+            try {
+                final String sql = daoHelper.getSelectQuery(Project.class, field);
+                Query query = entityManager.createQuery(sql);
+                query.setParameter("value", value);
+
+                result = (Entity) query.getSingleResult();
+            } catch (NonUniqueResultException exception) {
+                throw new NonUniqueResultException("Get more than one results when get a field");
+            }
+        } else {
+            throw new IllegalArgumentException("An invalid parameter has been passed " +
+                    "to get method in GenericDAO");
+        }
+
+        return result;
+    }
 		
 	/**
 	 * Creates a new instance of User into database
@@ -76,11 +112,6 @@ public abstract class GenericDAO<Entity> {
 		return entityUpdated; 
 	}
 	
-	public boolean flush() {
-		entityManager.flush();
-		return false;
-	}
-	
 	/**
 	 * Reloads object from database, for work of this 
 	 * method it is needed that Entity have a  filled primary key 
@@ -88,11 +119,7 @@ public abstract class GenericDAO<Entity> {
 	public void refresh(final Entity entity) {
 		getSession().refresh(entity);
 	}
-	
-	private Session getSession() {
-		return entityManager.unwrap(Session.class);
-	}
-	
+
 	/**
 	 * @param entityManager
 	 */
@@ -104,4 +131,7 @@ public abstract class GenericDAO<Entity> {
 		return entityManager;
 	}
 	
+	private Session getSession() {
+        return entityManager.unwrap(Session.class);
+    }	
 }
