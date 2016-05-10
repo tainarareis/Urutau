@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.modesteam.urutau.model.Project;
 
 /**
- * File Name: GenericDAO<Entity>
- * Purpose: Defines the methods common to DAO classes 
- * @param <Entity>
+ * Defines the methods common to DAO classes 
  */
 public abstract class GenericDAO<Entity> {
 	private static final Logger logger = LoggerFactory.getLogger(GenericDAO.class);

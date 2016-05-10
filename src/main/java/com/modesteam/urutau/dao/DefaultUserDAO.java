@@ -2,8 +2,6 @@ package com.modesteam.urutau.dao;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import com.modesteam.urutau.model.UrutaUser;
@@ -54,29 +52,6 @@ public class DefaultUserDAO extends GenericDAO<UrutaUser> implements UserDAO {
 		return !query.getResultList().isEmpty();
 	}
 
-	@Override
-	public UrutaUser get(final String field, final Object value) {
-	    UrutaUser userFound = null;
-
-	    if(daoHelper.isValidParameter(value)) {
-	        try {
-	            final String sql = daoHelper.getSelectQuery(UrutaUser.class, field);
-	            Query query = manager.createQuery(sql); 
-	            query.setParameter(FIELD_VALUE, value);
-	            
-	            userFound = (UrutaUser) query.getSingleResult();
-	        } catch (NonUniqueResultException exception) {
-	            throw new NonUniqueResultException();
-	        } catch (NoResultException exception) {
-	            exception.printStackTrace();
-	        }
-		} else {
-		    throw new IllegalArgumentException("Invalid param has been passed");
-		}
-	    
-	    return userFound;
-	}
-	
 	@Override
 	public void reload(UrutaUser user) {
 		manager.refresh(user);

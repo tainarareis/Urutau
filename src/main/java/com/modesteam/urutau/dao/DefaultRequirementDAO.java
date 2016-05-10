@@ -37,9 +37,7 @@ public class DefaultRequirementDAO extends GenericDAO<Artifact> implements Requi
 	}
 
     @Override
-	public Artifact find(final Long id) {
-		logger.info("The Artifact id is " + id);
-		
+	public Artifact find(final Long id) {		
 		return manager.find(Artifact.class, id);
 	}
 	
