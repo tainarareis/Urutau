@@ -5,12 +5,12 @@ import java.util.List;
 import com.modesteam.urutau.model.Project;
 
 public interface ProjectDAO {
-	boolean create(Project project);
+	void create(Project project);
 	
 	/**
 	 * Gets a object instance that have a field with certain value
 	 */
-	Project get(String field, Object value) throws Exception;
+	Project get(String field, Object value);
 	
 	/**
 	 * Finds by id
@@ -19,7 +19,7 @@ public interface ProjectDAO {
 	
 	Project update(Project Project);
 	
-	boolean destroy(Project Project);
+	void destroy(Project Project);
 
 	/**
 	 * Load all projects

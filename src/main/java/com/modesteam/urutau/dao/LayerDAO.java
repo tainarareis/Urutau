@@ -10,7 +10,7 @@ import com.modesteam.urutau.model.system.Layer;
  */
 public interface LayerDAO {
 	
-	boolean create(Layer layer);
+	void create(Layer layer);
 	
 	/**
 	 * Gets a object instance that have a field with certain value
@@ -24,7 +24,7 @@ public interface LayerDAO {
 	
 	Layer update(Layer Layer);
 	
-	boolean destroy(Layer Layer);
+	void destroy(Layer Layer);
 
 	/**
 	 * Load all Layers of project

@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import org.slf4j.Logger;
@@ -19,49 +17,27 @@ import com.modesteam.urutau.model.Artifact;
 public class DefaultRequirementDAO extends GenericDAO<Artifact> implements RequirementDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequirementDAO.class.getName());
-	
-	private final EntityManager manager;
 
-	private final DaoHelper daoHelper;
+	private final EntityManager manager;
+	
+	/**
+	 * @deprecated CDI only
+	 */
+	public DefaultRequirementDAO() {
+	    this(null);
+	}
 	
 	/**
 	 * To inject manager into GenericDAO is required {@link Inject} annotation
 	 */
 	@Inject
-	public DefaultRequirementDAO(EntityManager manager, DaoHelper helper) {
+	public DefaultRequirementDAO(EntityManager manager) {
 	    this.manager = manager;
-	    this.daoHelper = helper;
 		super.setEntityManager(manager);
-	}
-	
-	
-	@Override
-	public Artifact get(final String field, final Object value) {
-	    Artifact artifact = null;
-
-	    if(daoHelper.isValidParameter(value)) {
-	        try {
-	            final String sql = daoHelper.getSelectQuery(Artifact.class, field);
-	            Query query = manager.createQuery(sql);
-	            query.setParameter("value", value);
-	            
-	            artifact = (Artifact) query.getSingleResult();
-	        } catch (NonUniqueResultException exception){
-	            throw new NonUniqueResultException();
-	        } catch (NoResultException exception) {
-	            exception.printStackTrace();
-	        }
-		} else {
-		    throw new IllegalArgumentException("Invalid param has been passed");
-		}
-	    
-	    return artifact;
 	}
 
     @Override
-	public Artifact find(final Long id) {
-		logger.info("The Artifact id is " + id);
-		
+	public Artifact find(final Long id) {		
 		return manager.find(Artifact.class, id);
 	}
 	

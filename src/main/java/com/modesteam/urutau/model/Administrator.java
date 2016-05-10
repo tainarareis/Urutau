@@ -11,23 +11,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-
 /**
- * This class implements the Administrator model which is a special user. 
+ * This class implements the Administrator model which is a special user.
  */
 
 @Entity
 @DiscriminatorValue(value = "2")
 public class Administrator extends UrutaUser implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -999309067728796289L;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "Concerned_Administrator", joinColumns = @JoinColumn(name = "administrator_id"), 
-			inverseJoinColumns = @JoinColumn(name = "delegated_administrator_id"))
+	@JoinTable(name = "Concerned_Administrator",
+			joinColumns = @JoinColumn(name = "administrator_id") ,
+			inverseJoinColumns = @JoinColumn(name = "delegated_administrator_id") )
 	private List<Administrator> corcernedAdministrator = new ArrayList<Administrator>();
 
 	/**
@@ -39,7 +39,9 @@ public class Administrator extends UrutaUser implements Serializable {
 
 	/**
 	 * Getter for "corcernedAdministrator"
-	 * @return corcernedAdministrator the list with the administrators of the application
+	 * 
+	 * @return corcernedAdministrator the list with the administrators of the
+	 *         application
 	 */
 	public List<Administrator> getCorcernedAdministrator() {
 		return corcernedAdministrator;
@@ -47,10 +49,10 @@ public class Administrator extends UrutaUser implements Serializable {
 
 	/**
 	 * Sets up the administrator
+	 * 
 	 * @param corcernedAdministrator
 	 */
-	public void setCorcernedAdministrator(
-			List<Administrator> corcernedAdministrator) {
+	public void setCorcernedAdministrator(List<Administrator> corcernedAdministrator) {
 		this.corcernedAdministrator = corcernedAdministrator;
 	}
 

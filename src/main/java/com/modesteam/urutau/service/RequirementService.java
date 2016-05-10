@@ -56,17 +56,14 @@ public class RequirementService {
 	 * 
 	 * @return true if delete was complete, without errors
 	 */
-	public boolean delete(Artifact requirement) {
+	public void delete(Artifact requirement) {
 		Artifact requirementToDelete = requirementDAO.find(requirement.getId());
-		boolean isComplete = false;
 		
 		if(requirementToDelete != null) {
-			isComplete = requirementDAO.destroy(requirementToDelete);
+			requirementDAO.destroy(requirementToDelete);
 		} else {
 			throw new IllegalArgumentException("This requirement not exist");
 		}
-		
-		return isComplete;
 	}
 	
 	/**
@@ -94,8 +91,8 @@ public class RequirementService {
 		}
 	}
 	
-	public boolean create(Artifact requirement) {
-		return requirementDAO.create(requirement);
+	public void create(Artifact requirement) {
+		requirementDAO.create(requirement);
 	}
 	
 	/** 

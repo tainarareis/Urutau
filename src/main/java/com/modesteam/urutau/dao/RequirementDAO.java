@@ -10,7 +10,7 @@ import com.modesteam.urutau.model.Artifact;
  *
  */
 public interface RequirementDAO {
-	boolean create(Artifact artifact);
+	void create(Artifact artifact);
 	
 	/**
 	 * Gets a object instance that have a field with certain value
@@ -24,7 +24,7 @@ public interface RequirementDAO {
 	
 	Artifact update(Artifact artifact);
 	
-	boolean destroy(Artifact artifact);
+	void destroy(Artifact artifact);
 	
 	List<Artifact> getRequirementBetweenInterval(Long projectID, int firstResult, int maxResult);
 }

@@ -60,8 +60,8 @@ public class KanbanService {
 		return layerDAO.find(layerID);
 	}
 
-	public boolean create(Layer layer) {
-		return layerDAO.create(layer);
+	public void create(Layer layer) {
+		layerDAO.create(layer);
 	}
 	
 }

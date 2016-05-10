@@ -1,6 +1,5 @@
 package com.modesteam.urutau.controller;
 
-
 import javax.inject.Inject;
 import javax.validation.Valid;
 
@@ -28,14 +27,14 @@ import br.com.caelum.vraptor.view.Results;
  */
 @Controller
 public class UserController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	private static final String LOGIN_ATTRIBUTE = "login";
 	private static final String EMAIL_ATTRIBUTE = "email";
 	private static final String REGISTER_VALIDATOR = "register";
 	private static final String LOGIN_VALIDATOR = "login";
-	
+
 	private final Result result;
 	private final UserService userService;
 	private final UserSession userSession;
@@ -47,38 +46,38 @@ public class UserController {
 	public UserController() {
 		this(null, null, null, null);
 	}
-	
+
 	@Inject
-	public UserController(Result result, UserService userService, 
-			UserSession userSession, Validator validator) {
+	public UserController(Result result, UserService userService, UserSession userSession,
+			Validator validator) {
 		this.result = result;
 		this.userService = userService;
 		this.userSession = userSession;
 		this.validator = validator;
 	}
-	
+
 	/**
 	 * To register a new user instance
 	 * 
-	 * @param user have beans validations that say to {@link Validator} 
-	 * throws or not a error message
+	 * @param user
+	 *            have beans validations that say to {@link Validator} throws or
+	 *            not a error message
 	 */
 	@Post
 	public void register(final @Valid UrutaUser user) {
-		
+
 		logger.info("Request user register");
-		
+
 		// To fills form again
 		result.include(user);
-		
+
 		// It makes bean validation and manual validations
 		validateBeforeCreate(user);
-		
+
 		userService.create(user);
-		
+
 		result.forwardTo(this).showSignInSucess();
 	}
-
 
 	/**
 	 * Set the new first administrator login and password
@@ -93,60 +92,64 @@ public class UserController {
 		userService.update(logged);
 		result.redirectTo(AdministratorController.class).welcomeAdministrator();
 	}
+
 	/**
 	 * Authenticate user, putting him on session
 	 * 
-	 * @param login field of user
-	 * @param password secret word of user
+	 * @param login
+	 *            field of user
+	 * @param password
+	 *            secret word of user
+	 * @throws Exception
 	 */
 	@Post
-    public void authenticate(String login, String password) {
-        UrutaUser user = userService.authenticate(login, password);
+	public void authenticate(String login, String password) throws Exception {
+		UrutaUser user = userService.authenticate(login, password);
 
-        validator.check(user != null, 
-        		new I18nMessage(LOGIN_VALIDATOR, "Senha ou login nao conferem"));
-        
-        // On error go to index
-        validator.onErrorRedirectTo(IndexController.class).index();
-        
-    	// put in session
-        userSession.login(user);
-        
-        result.use(Results.referer()).redirect();
-    }
+		validator.check(user != null,
+				new I18nMessage(LOGIN_VALIDATOR, "Senha ou login nao conferem"));
 
-    @Get("/logout")
-    public void logout() {
-        userSession.logout();
-        result.redirectTo(IndexController.class).index();
-    }
-	
+		// On error go to index
+		validator.onErrorRedirectTo(IndexController.class).index();
+
+		// put in session
+		userSession.login(user);
+
+		result.use(Results.referer()).redirect();
+	}
+
+	@Get("/logout")
+	public void logout() {
+		userSession.logout();
+		result.redirectTo(IndexController.class).index();
+	}
+
 	@View
 	public void showSignInSucess() {
-		
+
 	}
-	
+
 	/**
-	 * Case of any error redirect to index with errors.
-	 * This method considers beans validation too
+	 * Case of any error redirect to index with errors. This method considers
+	 * beans validation too
 	 */
 	private void validateBeforeCreate(UrutaUser user) {
 		RegisterValidator registerValidator = new RegisterValidator(user);
-		
-		validator.addIf(registerValidator.hasNullField(), 
+
+		validator.addIf(registerValidator.hasNullField(),
 				new I18nMessage(REGISTER_VALIDATOR, "all_fields_required"));
-		
+
 		validator.onErrorUsePageOf(IndexController.class).index();
-		
-		validator.addIf(!registerValidator.validPasswordConfirmation(), 
+
+		validator.addIf(!registerValidator.validPasswordConfirmation(),
 				new I18nMessage(REGISTER_VALIDATOR, "password_are_not_equals"));
-		
-		validator.addIf(!userService.canBeUsed(LOGIN_ATTRIBUTE, user.getLogin()), 
+
+		validator.addIf(!userService.canBeUsed(LOGIN_ATTRIBUTE, user.getLogin()),
 				new I18nMessage(REGISTER_VALIDATOR, "login_already_in_use"));
-		
-		validator.addIf(!userService.canBeUsed(EMAIL_ATTRIBUTE, user.getEmail()), 
+
+		validator.addIf(!userService.canBeUsed(EMAIL_ATTRIBUTE, user.getEmail()),
 				new I18nMessage(REGISTER_VALIDATOR, "email_already_in_use"));
-		
+
 		validator.onErrorUsePageOf(IndexController.class).index();
 	}
 }

@@ -23,148 +23,131 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 
 public class RequirementEditorTest {
-	
+
 	private final Logger logger = Logger.getLogger(ProjectController.class);
-	
+
 	private MockResult result;
 	private UserSession userSession;
 	private MockValidator validator;
 	private RequirementService requirementService;
 	private ArtifactBuilder artifactBuilder = new ArtifactBuilder();
-	
+
 	@Before
 	public void setUp() {
 		// Catch all!
 		logger.setLevel(Level.DEBUG);
-		
+
 		// Mocks supported by vraptor
 		result = new MockResult();
 		validator = new MockValidator();
 
 		// System components
 		requirementService = mock(RequirementService.class);
-		
+
 		userSession = mock(UserSession.class);
-		
+
 		UrutaUser userMock = mock(UrutaUser.class);
-		
-		when(userSession.getUserLogged()).thenReturn(userMock);		
+
+		when(userSession.getUserLogged()).thenReturn(userMock);
 	}
-	
+
 	/**
 	 * Verifies a valid epic edition
 	 */
 	@Test
-	public void testValidEpicEdition() {		
-		
-		//Creating an hypothetical epic
-		Epic epic = artifactBuilder
-							.id(10L)
-							.title("Valid Title")
-							.description("Valid Description")
-							.buildEpic();
-		
+	public void testValidEpicEdition() {
+
+		// Creating an hypothetical epic
+		Epic epic = artifactBuilder.id(10L).title("Valid Title").description("Valid Description")
+				.buildEpic();
+
 		doNothingWhenEdit(epic);
-		
-		RequirementEditor controller = new RequirementEditor(result, 
-				validator, userSession, requirementService);
-		
+
+		RequirementEditor controller = new RequirementEditor(result, validator, userSession,
+				requirementService);
+
 		controller.update(epic);
 	}
 
-	
 	/**
 	 * Verifies a valid generic requirement edition.
 	 */
 	@Test
-	public void testValidGenericEdition() {		
-		
-		//Creating an hypothetical generic requirement
-		Generic generic = artifactBuilder
-				.id(10L)
-				.title("Valid Title")
-				.description("Valid Description")
-				.buildGeneric();
-		
+	public void testValidGenericEdition() {
+
+		// Creating an hypothetical generic requirement
+		Generic generic = artifactBuilder.id(10L).title("Valid Title")
+				.description("Valid Description").buildGeneric();
+
 		doNothingWhenEdit(generic);
-				
-		RequirementEditor controller = new RequirementEditor(result, 
-				validator, userSession, requirementService);
-		
+
+		RequirementEditor controller = new RequirementEditor(result, validator, userSession,
+				requirementService);
+
 		controller.update(generic);
-		
+
 	}
-	
+
 	/**
 	 * Verifies a valid feature edition.
 	 */
 	@Test
-	public void testValidFeatureEdition() {		
-		
-		//Creating an hypothetical feature
-		Feature feature = artifactBuilder
-				.id(15L)
-				.title("Valid Title")
-				.description("Valid Description")
-				.buildFeature();
-		
+	public void testValidFeatureEdition() {
+
+		// Creating an hypothetical feature
+		Feature feature = artifactBuilder.id(15L).title("Valid Title")
+				.description("Valid Description").buildFeature();
+
 		doNothingWhenEdit(feature);
-		
-		RequirementEditor controller = new RequirementEditor(result, 
-				validator, userSession, requirementService);
-		
+
+		RequirementEditor controller = new RequirementEditor(result, validator, userSession,
+				requirementService);
+
 		controller.update(feature);
-		
+
 	}
-	
-	
+
 	/**
 	 * Verifies a valid use case edition.
 	 */
 	@Test
-	public void testValidUseCaseEdition() {		
-		
-		//Creating an hypothetical use case
-		UseCase useCase = artifactBuilder
-				.id(100L)
-				.title("Valid Title")
-				.description("Valid Description")
-				.buildUseCase();
-		
+	public void testValidUseCaseEdition() {
+
+		// Creating an hypothetical use case
+		UseCase useCase = artifactBuilder.id(100L).title("Valid Title")
+				.description("Valid Description").buildUseCase();
+
 		doNothingWhenEdit(useCase);
-		
-		RequirementEditor controller = new RequirementEditor(result, 
-				validator, userSession, requirementService);
-		
+
+		RequirementEditor controller = new RequirementEditor(result, validator, userSession,
+				requirementService);
+
 		controller.update(useCase);
-		
+
 	}
-	
+
 	/**
 	 * Verifies a valid storie edition.
 	 */
 	@Test
-	public void testValidStorieEdition() {		
-		
-		//Creating an hypothetical storie
-		Storie storie = artifactBuilder
-				.id(50L)
-				.title("Valid Title")
-				.description("Valid Description")
-				.buildStorie();
-		
+	public void testValidStorieEdition() {
+
+		// Creating an hypothetical storie
+		Storie storie = artifactBuilder.id(50L).title("Valid Title")
+				.description("Valid Description").buildStorie();
+
 		doNothingWhenEdit(storie);
-		
-		RequirementEditor controller = new RequirementEditor(result, 
-				validator, userSession, requirementService);
-		
+
+		RequirementEditor controller = new RequirementEditor(result, validator, userSession,
+				requirementService);
+
 		controller.update(storie);
-		
+
 	}
-	
-	
+
 	/**
 	 * Mocks update method
+	 * 
 	 * @param artifact
 	 */
 	private void doNothingWhenEdit(Artifact artifact) {

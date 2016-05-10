@@ -30,57 +30,58 @@ public class RequirementEditor {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequirementCreator.class);
 
-	//Validation String
+	// Validation String
 	private static final String REQUIREMENT_MODIFICATION_ERROR = null;
-	
-	//Objects to be injected
+
+	// Objects to be injected
 	private final Result result;
 	private final Validator validator;
 	private final UserSession userSession;
 	private final RequirementService requirementService;
-	
+
 	public RequirementEditor() {
 		this(null, null, null, null);
 	}
-	
+
 	@Inject
-	public RequirementEditor(Result result, Validator validator, 
-			UserSession userSession, RequirementService requirementService) {
+	public RequirementEditor(Result result, Validator validator, UserSession userSession,
+			RequirementService requirementService) {
 		this.result = result;
 		this.validator = validator;
 		this.userSession = userSession;
 		this.requirementService = requirementService;
 	}
-	
+
 	/**
 	 * Called when anyone wants edit an requirement
 	 * 
-	 * @param requirementID identifier of requirement to edit
+	 * @param requirementID
+	 *            identifier of requirement to edit
 	 */
 	@Get
 	@Path("/edit/{requirementID}")
 	public void edit(Long requirementID) {
-		
+
 		logger.trace("Starting the function edit. Requirement id is " + requirementID);
-		
+
 		boolean requirementExistence = requirementService.verifyExistence(requirementID);
-		
+
 		// Verifies the acceptance of the requirement to proceed the requisition
-		if(requirementExistence) {
+		if (requirementExistence) {
 			logger.info("The requirement exists in database");
-			
+
 			Artifact requirement = requirementService.getByID(requirementID);
-			
+
 			redirectToEditionPage(requirement, requirement.getArtifactType());
 		} else {
 			logger.info("The requirement id informed is unknown.");
-			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR, "It is not possible to "
-					+ " edit an unknown requirement."));	
+			validator.add(new SimpleMessage(REQUIREMENT_MODIFICATION_ERROR,
+					"It is not possible to " + " edit an unknown requirement."));
 		}
 		// TODO redirect to project page
 		validator.onErrorForwardTo(ProjectController.class).index();
 	}
-	
+
 	/**
 	 * Provides the redirecting to the requirement type edition page.
 	 * 
@@ -91,51 +92,50 @@ public class RequirementEditor {
 		logger.info("Starting the function redirectToEditionPage.");
 
 		logger.trace(requirement.toString());
-		
 
 		result.include(requirement.toString(), requirement);
-		
+
 		switch (artifactType) {
-			case GENERIC:
-				result.redirectTo(this).editGeneric();
-				break;
-			case EPIC:
-				result.redirectTo(this).editEpic();
-				break;
-			case FEATURE:
-				result.redirectTo(this).editFeature();
-				break;
-			case STORIE:
-				result.redirectTo(this).editUserStory();
-				break;
-			case USECASE:
-				result.redirectTo(this).editUseCase();
-				break;
-			default:
-				// TODO redirect to project
-				result.redirectTo(ProjectController.class).index();
-				break;
+		case GENERIC:
+			result.redirectTo(this).editGeneric();
+			break;
+		case EPIC:
+			result.redirectTo(this).editEpic();
+			break;
+		case FEATURE:
+			result.redirectTo(this).editFeature();
+			break;
+		case STORIE:
+			result.redirectTo(this).editUserStory();
+			break;
+		case USECASE:
+			result.redirectTo(this).editUseCase();
+			break;
+		default:
+			// TODO redirect to project
+			result.redirectTo(ProjectController.class).index();
+			break;
 		}
 		validator.onErrorForwardTo(ProjectController.class).index();
 	}
 
 	/**
 	 * Allows the modification of an unique requirement
+	 * 
 	 * @param requirement
 	 */
-	public void update(Artifact requirement) {		
+	public void update(Artifact requirement) {
 		logger.info("Starting the function modifyRequirement");
-		
-		//Setting the current date and current user 
+
+		// Setting the current date and current user
 		Calendar lastModificationDate = getCurrentDate();
-		requirement.setLastModificationDate(lastModificationDate);		
+		requirement.setLastModificationDate(lastModificationDate);
 		UrutaUser loggedUser = userSession.getUserLogged();
 		requirement.setLastModificationAuthor(loggedUser);
-		
-		boolean updateResult = requirementService.update(requirement);		
-		
-		
-		if(updateResult) {
+
+		boolean updateResult = requirementService.update(requirement);
+
+		if (updateResult) {
 			logger.info("The update was sucessfully executed.");
 		} else {
 			logger.info("The update wasn't sucessfully executed.");
@@ -143,54 +143,55 @@ public class RequirementEditor {
 		// TODO redirect to project
 		result.redirectTo(ProjectController.class).index();
 	}
-	
+
 	@Get
 	public void editEpic() {
-		
+
 	}
-	
+
 	@Get
 	public void editGeneric() {
-		
+
 	}
-	
+
 	@Get
 	public void editFeature() {
-		
+
 	}
-	
+
 	@Get
 	public void editUseCase() {
-		
+
 	}
-	
+
 	@Get
 	public void editUserStory() {
-		
+
 	}
-	
+
 	@Post
 	public void editFeature(Feature feature) {
 	}
-	
+
 	@Post
 	public void editGeneric(Generic generic) {
 	}
-	
+
 	@Post
 	public void editUserStory(Storie storie) {
 	}
-	
+
 	/**
 	 * Get an instance of current date through of {@link Calendar}
+	 * 
 	 * @return current date
 	 */
 	private Calendar getCurrentDate() {
 		Date currentDate = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(currentDate);
-		
+
 		return calendar;
 	}
-	
+
 }

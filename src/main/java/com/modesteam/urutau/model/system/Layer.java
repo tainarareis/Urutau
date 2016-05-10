@@ -25,7 +25,7 @@ public class Layer {
 
 	private String description;
 
-	@ManyToMany(mappedBy = "layers", cascade=CascadeType.REFRESH)
+	@ManyToMany(mappedBy = "layers", cascade = CascadeType.REFRESH)
 	private List<Project> projectsInvolved = new ArrayList<Project>();
 
 	public Long getLayerID() {

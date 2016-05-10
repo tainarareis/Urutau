@@ -26,57 +26,57 @@ import com.modesteam.urutau.model.system.ArtifactType;
 import com.modesteam.urutau.model.system.Layer;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Artifact {
-		
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private UrutaUser author;
 
 	// Project associated
 	@ManyToOne
-	@JoinColumn(name="project_id")
+	@JoinColumn(name = "project_id")
 	private Project project;
-	
+
 	@Transient
 	private Long projectID;
 
 	@OneToOne(optional = true)
 	private UrutaUser lastModificationAuthor;
-	
+
 	/* Optional relationship */
 	@OneToOne(optional = true)
 	private Status status;
 
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany
-	@JoinTable(name = "Artifact_Delegate", joinColumns = @JoinColumn(name = "artifact_id"), 
-		inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "Artifact_Delegate", joinColumns = @JoinColumn(name = "artifact_id") ,
+			inverseJoinColumns = @JoinColumn(name = "user_id") )
 	private List<UrutaUser> responsables;
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
 	private Calendar lastModificationDate;
-	
-	@NotNull(message="{artifact.title.empty}")
-	@Length(min=2, max=90, message="{artifact.title.length}")
+
+	@NotNull(message = "{artifact.title.empty}")
+	@Length(min = 2, max = 90, message = "{artifact.title.length}")
 	private String title;
 
 	@Transient
 	// Generated from title
 	private String encodedTitle;
-	
+
 	private String description;
 	private ArtifactType artifactType;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "layer_id")
 	private Layer layer;
-		
+
 	public long getId() {
 		return id;
 	}
@@ -84,7 +84,7 @@ public abstract class Artifact {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -181,11 +181,11 @@ public abstract class Artifact {
 	public void setArtifactType(ArtifactType artifactType) {
 		this.artifactType = artifactType;
 	}
-	
+
 	public Layer getLayer() {
 		return layer;
 	}
-	
+
 	public void setLayer(Layer layer) {
 		this.layer = layer;
 	}

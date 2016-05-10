@@ -7,7 +7,7 @@ import com.modesteam.urutau.model.UrutaUser;
  */
 public interface UserDAO {
 
-	boolean create(final UrutaUser user);
+	void create(final UrutaUser user);
 	
 	/**
 	 * Gets a object instance that have a field with certain value
@@ -21,7 +21,7 @@ public interface UserDAO {
 	
 	UrutaUser update(final UrutaUser user);
 	
-	boolean destroy(final UrutaUser user);
+	void destroy(final UrutaUser user);
 	
 	/**
 	 * Verifies if database have some User

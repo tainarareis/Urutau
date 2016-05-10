@@ -54,8 +54,7 @@ public class UserService {
 				valueNotUsed = true;
 			}
 		} catch (NonUniqueResultException exception) {
-			throw new DataBaseCorruptedException(this.getClass().getSimpleName() 
-					+ " returns twice " + attributeName + " equals");
+			throw new DataBaseCorruptedException("Duplicate register", exception, this.getClass());
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		} 
@@ -99,15 +98,12 @@ public class UserService {
 	 * @param login to verifies
 	 * @param password to compare with database instance
 	 * @return {@link UrutaUser} instance of database
+	 * @throws Exception TODO treat
 	 */
-	public UrutaUser authenticate(String login, String password) {
+	public UrutaUser authenticate(String login, String password) throws Exception {
 		UrutaUser user = null;
 		
-		try {
-			user = userDAO.get("login", login);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		user = userDAO.get("login", login);
 		
 		// Case exists, login is true
 		// Verifies password

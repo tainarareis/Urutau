@@ -8,10 +8,10 @@ import com.modesteam.urutau.model.system.ArtifactType;
 public class Epic extends Artifact {
 	private String content;
 
-	public Epic () {
+	public Epic() {
 		super.setArtifactType(ArtifactType.EPIC);
 	}
-	
+
 	public String getContent() {
 		return content;
 	}
@@ -19,5 +19,5 @@ public class Epic extends Artifact {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 }

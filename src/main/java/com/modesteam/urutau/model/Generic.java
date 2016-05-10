@@ -6,11 +6,11 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import com.modesteam.urutau.model.system.ArtifactType;
 
 @Entity
-@PrimaryKeyJoinColumn(name="id")
+@PrimaryKeyJoinColumn(name = "id")
 public class Generic extends Artifact {
-	
-	public Generic () {
+
+	public Generic() {
 		super.setArtifactType(ArtifactType.GENERIC);
 	}
-	
+
 }

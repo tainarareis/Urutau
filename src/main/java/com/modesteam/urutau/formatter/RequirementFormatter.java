@@ -35,8 +35,7 @@ public class RequirementFormatter {
 	 * The Superclass {@link EntityCreator} requires an DAO to work
 	 */
 	@Inject
-	public RequirementFormatter(UserSession userSession, 
-			ProjectService projectService, 
+	public RequirementFormatter(UserSession userSession, ProjectService projectService,
 			KanbanService kanbanService) {
 		this.userSession = userSession;
 		this.projectService = projectService;
@@ -66,12 +65,12 @@ public class RequirementFormatter {
 		// Setting project
 		final Long projectID = formated.getProjectID();
 		formated.setProject(getCurrentProject(projectID));
-		
+
 		// Setting to Backlog Layer
 		Layer layer = kanbanService.getBackLogLayer();
 		formated.setLayer(layer);
 	}
-	
+
 	/**
 	 * Get an instance of current date through of {@link Calendar}
 	 * 
@@ -81,10 +80,10 @@ public class RequirementFormatter {
 		Date currentDate = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(currentDate);
-		
+
 		return calendar;
 	}
-	
+
 	/**
 	 * Get owner({@link UrutaUser}) of Requirement
 	 * 
@@ -112,8 +111,8 @@ public class RequirementFormatter {
 		assert (projectID == null);
 
 		// Load by id
-		Project referedProject = projectService.getByID(projectID);
-			
+		Project referedProject = projectService.find(projectID);
+
 		return referedProject;
 	}
 }
