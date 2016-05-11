@@ -109,18 +109,19 @@ public class KanbanController {
 			throws Exception {
 		Project currentProject = projectService.find(projectID);
 				
-		boolean isComplete = kanbanService.create(layer);
-		
-		currentProject.add(layer);
-		
-		projectService.update(currentProject);
-		
-		if(!isComplete) {
+		try {
+			kanbanService.create(layer);
+			// TODO treat
+		} catch (Exception exception){
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 
 					"Persistence error...");
 			validator.add(errorMessage);
 		}
 		
+		currentProject.add(layer);
+		
+		projectService.update(currentProject);
+				
 		validator.onErrorRedirectTo(this).load(currentProject);
 		result.redirectTo(this).load(currentProject);
 	}

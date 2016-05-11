@@ -17,4 +17,8 @@ public class SystemBreakException extends RuntimeException {
 	public SystemBreakException(Exception e) {
 		// TODO Auto-generated constructor stub
 	}
+
+	public SystemBreakException(String message, Exception exception) {
+		// TODO Auto-generated constructor stub
+	}
 }

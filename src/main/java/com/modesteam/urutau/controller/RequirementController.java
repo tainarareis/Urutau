@@ -105,12 +105,10 @@ public class RequirementController {
 		logger.info("The artifact with the id " + requirementID + " is solicitated for exclusion");
 		
 		Artifact requirement = requirementService.getByID(requirementID);
-		
-		boolean isComplete = requirementService.delete(requirement);
-		
-		if (isComplete) {
-			// All right, requirement has been deleted
-		} else {
+		try {
+			requirementService.delete(requirement);
+		} catch (Exception exception) {
+			// TODO treat this
 			result.notFound();
 		}
 		

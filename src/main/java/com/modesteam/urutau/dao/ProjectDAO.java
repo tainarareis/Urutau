@@ -5,7 +5,7 @@ import java.util.List;
 import com.modesteam.urutau.model.Project;
 
 public interface ProjectDAO {
-	boolean create(Project project);
+	void create(Project project);
 	
 	/**
 	 * Gets a object instance that have a field with certain value
@@ -19,7 +19,7 @@ public interface ProjectDAO {
 	
 	Project update(Project Project);
 	
-	boolean destroy(Project Project);
+	void destroy(Project Project);
 
 	/**
 	 * Load all projects
