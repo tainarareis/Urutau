@@ -42,7 +42,7 @@ public class Project implements Cloneable {
 	 */
 	@Transient
 	private String metodology;
-	@NotNull
+
 	private int metodologyCode;
 
 	@OneToMany(mappedBy = "project")
@@ -59,7 +59,6 @@ public class Project implements Cloneable {
 	private List<UrutaUser> members = new ArrayList<UrutaUser>();
 
 	/* Should be generate automatically */
-	@NotNull
 	private Calendar dateOfCreation;
 
 	@ManyToMany(cascade = CascadeType.ALL)

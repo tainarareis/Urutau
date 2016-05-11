@@ -98,9 +98,10 @@ public class UserController {
 	 * 
 	 * @param login field of user
 	 * @param password secret word of user
+	 * @throws Exception 
 	 */
 	@Post
-    public void authenticate(String login, String password) {
+    public void authenticate(String login, String password) throws Exception {
         UrutaUser user = userService.authenticate(login, password);
 
         validator.check(user != null, 

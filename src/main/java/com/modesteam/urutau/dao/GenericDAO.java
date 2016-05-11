@@ -1,5 +1,7 @@
 package com.modesteam.urutau.dao;
 
+import java.lang.reflect.ParameterizedType;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
@@ -8,8 +10,6 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.modesteam.urutau.model.Project;
 
 /**
  * Defines the methods common to DAO classes 
@@ -21,10 +21,20 @@ public abstract class GenericDAO<Entity> {
 	private static final String EXCEPTION_MESSAGE = "When use some method, "+ GenericDAO.class.getSimpleName() 
 			+" was thrown this message";
 
+	private final Class<?> entityClass;
+	
 	private EntityManager entityManager;
 	
 	@Inject
     private DaoHelper daoHelper;
+
+	/**
+	 * 
+	 */
+	public GenericDAO() {
+		this.entityClass = (Class<?>) ((ParameterizedType) getClass().
+				getGenericSuperclass()).getActualTypeArguments()[0];
+	}
 
 	/**
 	 * Gets a Entity by a field with certain value
@@ -38,7 +48,7 @@ public abstract class GenericDAO<Entity> {
 
         if(daoHelper.isValidParameter(value)) {
             try {
-                final String sql = daoHelper.getSelectQuery(Project.class, field);
+                final String sql = daoHelper.getSelectQuery(entityClass, field);
                 Query query = entityManager.createQuery(sql);
                 query.setParameter("value", value);
 
