@@ -7,18 +7,18 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
-import br.com.caelum.vraptor.validator.Validator;
-
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
+
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
+import br.com.caelum.vraptor.validator.Validator;
 
 public class KanbanControllerTest {
 	
@@ -80,7 +80,7 @@ public class KanbanControllerTest {
 		
 		mockProjectToAddNewLayer(mockProject, mockLayer);
 		
-		shouldReturnWhenCreateLayer(mockLayer, true);
+		shouldReturnWhenCreateLayer(mockLayer);
 		shouldReturnWhenUpdateProject(mockProject, true);
 		
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
@@ -90,7 +90,7 @@ public class KanbanControllerTest {
 	}
 	
 	@Test(expected=ValidationException.class)
-	public void testCreateInvalidLayer() throws Exception {
+	public void testCreateInvalidLayer() {
 	    Layer mockLayer = createAnValidMockLayer();
 		
 		Project mockProject = mock(Project.class);
@@ -98,7 +98,7 @@ public class KanbanControllerTest {
 		
 		mockProjectToAddNewLayer(mockProject, mockLayer);
 		
-		shouldReturnWhenCreateLayer(mockLayer, false);
+		shouldReturnWhenCreateLayer(mockLayer);
 		shouldReturnWhenUpdateProject(mockProject, false);
 		
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
@@ -107,8 +107,8 @@ public class KanbanControllerTest {
 		controller.createLayer(VALID_PROJECT_ID, mockLayer);
 	}
 
-	private void shouldReturnWhenCreateLayer(Layer mockLayer, boolean condition) {
-		when(mockKanbanService.create(mockLayer)).thenReturn(condition);
+	private void shouldReturnWhenCreateLayer(Layer mockLayer) {
+		doNothing().when(mockKanbanService).create(mockLayer);
 	}
 
 	private Layer createAnValidMockLayer() {

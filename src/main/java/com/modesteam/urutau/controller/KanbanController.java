@@ -19,6 +19,7 @@ import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.exception.UserActionException;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
 import com.modesteam.urutau.model.system.FieldMessage;
@@ -57,9 +58,14 @@ public class KanbanController {
 	
 	@Get
 	@Path("/kanban/{project.id}")
-	public void load(final Project project) throws Exception {
-		Project currentProject = projectService.find(project.getId());
-		
+	public void load(final Project project) throws UserActionException {
+		Project currentProject = null;
+		try {
+			 currentProject = projectService.find(project.getId());
+		} catch (Exception exception){
+			throw new UserActionException("When load kanban of " + project.getId() 
+				+ " is required", exception);
+		}
 		result.include("project", currentProject);
 	}
 	
@@ -105,10 +111,9 @@ public class KanbanController {
 	 * @throws Exception
 	 */
 	@Post
-	public void createLayer(final @NotNull Long projectID, @NotNull Layer layer) 
-			throws Exception {
+	public void createLayer(final @NotNull Long projectID, @NotNull Layer layer) {
 		Project currentProject = projectService.find(projectID);
-				
+
 		try {
 			kanbanService.create(layer);
 			// TODO treat
@@ -117,13 +122,16 @@ public class KanbanController {
 					"Persistence error...");
 			validator.add(errorMessage);
 		}
-		
+
 		currentProject.add(layer);
-		
+
 		projectService.update(currentProject);
-				
-		validator.onErrorRedirectTo(this).load(currentProject);
-		result.redirectTo(this).load(currentProject);
+		try {
+			validator.onErrorRedirectTo(this).load(currentProject);
+			result.redirectTo(this).load(currentProject);
+		} catch(UserActionException exception) {
+			result.notFound();
+		}
 	}
 	
 	public void deleteLayer() {

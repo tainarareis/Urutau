@@ -13,10 +13,10 @@
 		<input type="text" name="layer.name" placeholder="Layer name">
 		<input type="submit" value="Create layer">
 	</form>
-	
 	-->
-	<h1>${project.title} Kanban</h1>
 	
+	<h1>${project.title} Kanban</h1>
+
 	<section class="kanban">
 		<c:forEach var="error" items="${errors}">
 	    	<!-- Show only login errors -->

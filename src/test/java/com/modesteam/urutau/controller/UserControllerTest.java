@@ -103,7 +103,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void tryLoginWithSucces() {
+	public void tryLoginWithSucces() throws Exception {
 		UserBuilder builder = new UserBuilder();
 		
 		UrutaUser user = builder
@@ -126,9 +126,10 @@ public class UserControllerTest {
 	
 	/**
 	 * Throws an validation exception, not covarage by eclemma
+	 * @throws Exception 
 	 */
 	@Test(expected=ValidationException.class)
-	public void tryLoginFail() {
+	public void tryLoginFail() throws Exception {
 		UserBuilder builder = new UserBuilder();
 		
 		UrutaUser user = builder
@@ -147,7 +148,7 @@ public class UserControllerTest {
 		controller.authenticate(user.getLogin(), user.getPassword());
 	}
 	
-	private void mockAuthenticate(String login, String password, UrutaUser returnValue) {
+	private void mockAuthenticate(String login, String password, UrutaUser returnValue) throws Exception {
 		when(userService.authenticate(login, password)).thenReturn(returnValue);
 	}
 

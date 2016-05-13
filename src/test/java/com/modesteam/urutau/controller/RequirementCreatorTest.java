@@ -2,6 +2,7 @@ package com.modesteam.urutau.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -10,10 +11,6 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.ValidationException;
 
 import com.modesteam.urutau.UserSession;
 import com.modesteam.urutau.builder.ArtifactBuilder;
@@ -31,6 +28,10 @@ import com.modesteam.urutau.model.system.Layer;
 import com.modesteam.urutau.service.KanbanService;
 import com.modesteam.urutau.service.ProjectService;
 import com.modesteam.urutau.service.RequirementService;
+
+import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
+import br.com.caelum.vraptor.validator.ValidationException;
 
 public class RequirementCreatorTest {
 
@@ -290,7 +291,7 @@ public class RequirementCreatorTest {
 	 * @param artifact
 	 */
 	private void doNothingWhenCreate(Artifact artifact) {
-		when(requirementService.create(artifact)).thenReturn(true);
+		doNothing().when(requirementService).create(artifact);
 	}
 	
 	private void mockWhenProjectLoad(Project project) {

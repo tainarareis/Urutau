@@ -1,7 +1,6 @@
 package com.modesteam.urutau.controller;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -92,6 +91,6 @@ public class RequirementControllerTest {
 	}
 
 	private void shouldReturnTrueWhenRemoveById(Artifact requirement) {
-		when(requirementService.delete(requirement)).thenReturn(true);
+		doNothing().when(requirementService).delete(requirement);
 	}
 }

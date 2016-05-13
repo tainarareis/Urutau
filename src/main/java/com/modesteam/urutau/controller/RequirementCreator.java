@@ -205,8 +205,7 @@ public class RequirementCreator {
 		
 		try {
 			// Now project are loaded
-			result.redirectTo(ProjectController.class)
-				.show(requirement.getProject());
+			result.redirectTo(ProjectController.class).show(requirement.getProject());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
