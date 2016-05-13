@@ -22,77 +22,77 @@ import br.com.caelum.vraptor.validator.ValidationException;
 import br.com.caelum.vraptor.validator.Validator;
 
 public class KanbanControllerTest {
-	
+
 	private static final Long STUB_LONG_NUMBER = 1L;
 	private static final Long VALID_PROJECT_ID = 1L;
-	
+
 	private Result mockResult;
 	private Validator mockValidator;
 	private KanbanService mockKanbanService;
 	private ProjectService mockProjectService;
 	private RequirementService mockRequirementService;
-	
+
 	@Before
-	public void setUp(){		
+	public void setUp() {
 		// Mocks supported by vraptor
 		mockResult = new MockResult();
 		mockValidator = new MockValidator();
-	
+
 		// System components
 		mockRequirementService = mock(RequirementService.class);
 		mockKanbanService = mock(KanbanService.class);
 		mockProjectService = mock(ProjectService.class);
 	}
-	
+
 	@Test
 	public void testLoadValid() throws Exception {
 		Project project = new Project();
 		project.setId(VALID_PROJECT_ID);
-		
+
 		whenFind(project);
-		
-		KanbanController controller = new KanbanController(mockResult, mockValidator, 
+
+		KanbanController controller = new KanbanController(mockResult, mockValidator,
 				mockKanbanService, mockProjectService, mockRequirementService);
-		
+
 		controller.load(project);
 	}
-	
+
 	@Test
 	public void testValidMove() throws Exception {
 		Artifact requirement = createAnMockRequirement();
-		
+
 		whenGetRequirementByID(STUB_LONG_NUMBER, requirement);
 		whenGetLayerByID(STUB_LONG_NUMBER);
-		
+
 		doNothingWhenRequirementServiceUpdate(requirement);
-		
-		KanbanController controller = new KanbanController(mockResult, mockValidator, 
+
+		KanbanController controller = new KanbanController(mockResult, mockValidator,
 				mockKanbanService, mockProjectService, mockRequirementService);
-		
+
 		controller.move(STUB_LONG_NUMBER, STUB_LONG_NUMBER);
 	}
-	
+
 	@Test
 	public void testCreateValidLayer() throws Exception {
 		Layer mockLayer = createAnValidMockLayer();
-		
+
 		Project mockProject = mock(Project.class);
 		mockProject.add(mockLayer);
-		
+
 		mockProjectToAddNewLayer(mockProject, mockLayer);
-		
+
 		shouldReturnWhenCreateLayer(mockLayer);
 		doNothingWhenUpdateProject(mockProject);
-		
-		KanbanController controller = new KanbanController(mockResult, mockValidator, 
+
+		KanbanController controller = new KanbanController(mockResult, mockValidator,
 				mockKanbanService, mockProjectService, mockRequirementService);
-		
+
 		controller.createLayer(VALID_PROJECT_ID, mockLayer);
 	}
-	
-	@Test(expected=ValidationException.class)
+
+	@Test(expected = ValidationException.class)
 	public void testCreateInvalidLayer() {
-	    Layer mockLayer = createAnValidMockLayer();
+		Layer mockLayer = createAnValidMockLayer();
 
 		Project mockProject = mock(Project.class);
 		mockProject.add(mockLayer);
@@ -103,7 +103,7 @@ public class KanbanControllerTest {
 
 		doNothingWhenUpdateProject(mockProject);
 
-		KanbanController controller = new KanbanController(mockResult, mockValidator, 
+		KanbanController controller = new KanbanController(mockResult, mockValidator,
 				mockKanbanService, mockProjectService, mockRequirementService);
 
 		controller.createLayer(VALID_PROJECT_ID, mockLayer);
@@ -126,13 +126,13 @@ public class KanbanControllerTest {
 		Artifact requirement = mock(Artifact.class);
 
 		Project mockProject = mock(Project.class);
-		
+
 		when(mockProject.getId()).thenReturn(STUB_LONG_NUMBER);
-		
+
 		when(requirement.getProject()).thenReturn(mock(Project.class));
-		
+
 		when(requirement.getProject()).thenReturn(mockProject);
-		
+
 		return requirement;
 	}
 
@@ -152,10 +152,10 @@ public class KanbanControllerTest {
 		when(mockProjectService.find(project.getId())).thenReturn(mock(Project.class));
 	}
 
-	private void mockProjectToAddNewLayer(Project project, Layer layer) {		
+	private void mockProjectToAddNewLayer(Project project, Layer layer) {
 		when(mockProjectService.find(VALID_PROJECT_ID)).thenReturn(project);
 	}
-	
+
 	private void doNothingWhenUpdateProject(Project project) {
 		doNothing().when(mockProjectService).update(project);
 	}

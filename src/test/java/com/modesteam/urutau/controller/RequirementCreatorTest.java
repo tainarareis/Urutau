@@ -39,7 +39,7 @@ public class RequirementCreatorTest {
 	private static final long FAKE_REQUIREMENT_ID = 333L;
 
 	private final Logger logger = Logger.getLogger(RequirementCreator.class);
-	
+
 	private MockResult result;
 	private UserSession userSession;
 	private MockValidator validator;
@@ -53,7 +53,7 @@ public class RequirementCreatorTest {
 	public void setup() {
 		// Catch all..
 		logger.setLevel(Level.DEBUG);
-		
+
 		// Mocks supported by vraptor
 		result = new MockResult();
 		validator = new MockValidator();
@@ -62,191 +62,163 @@ public class RequirementCreatorTest {
 		requirementService = mock(RequirementService.class);
 		userSession = mock(UserSession.class);
 		projectService = mock(ProjectService.class);
-		
+
 		UrutaUser userMock = mock(UrutaUser.class);
-		
+
 		when(userSession.getUserLogged()).thenReturn(userMock);
-		
+
 		ownedProject = createMockProject();
-		
+
 		kanbanService = mock(KanbanService.class);
-		
+
 		when(kanbanService.getBackLogLayer()).thenReturn(mock(Layer.class));
-		
+
 		formatter = new RequirementFormatter(userSession, projectService, kanbanService);
 	}
 
 	@Test
 	public void createValidFeature() {
 		ArtifactBuilder builderFeature = new ArtifactBuilder();
-		
-		Feature feature = builderFeature
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildFeature();
-		
+
+		Feature feature = builderFeature.id(FAKE_REQUIREMENT_ID).title("Example")
+				.description("test unit").projectID(FAKE_PROJECT_ID).buildFeature();
+
 		mockWhenProjectLoad(ownedProject);
-		
+
 		doNothingWhenCreate(feature);
-		
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
-		
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
+
 		controllerMock.createFeature(feature);
-		
-	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
-	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
+
+		assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+		assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
-	
+
 	@Test
 	public void createValidGeneric() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		
-		Generic generic = builder
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildGeneric();
-		
+
+		Generic generic = builder.id(FAKE_REQUIREMENT_ID).title("Example").description("test unit")
+				.projectID(FAKE_PROJECT_ID).buildGeneric();
+
 		mockWhenProjectLoad(ownedProject);
-		
+
 		doNothingWhenCreate(generic);
 
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
 
 		controllerMock.createGeneric(generic);
-		
-	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
-	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
+
+		assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+		assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 
 	@Test
 	public void createValidEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
-		
-		Epic epic = builderEpic
-					.id(FAKE_REQUIREMENT_ID)
-					.title("Example")
-					.description("test unit")
-					.projectID(FAKE_PROJECT_ID)
-					.buildEpic();
+
+		Epic epic = builderEpic.id(FAKE_REQUIREMENT_ID).title("Example").description("test unit")
+				.projectID(FAKE_PROJECT_ID).buildEpic();
 
 		mockWhenProjectLoad(ownedProject);
 
 		doNothingWhenCreate(epic);
-		
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
-		
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
+
 		controllerMock.createEpic(epic);
-		
-	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
-	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
+
+		assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+		assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 
 	@Test
 	public void createValidStorie() {
 		ArtifactBuilder builderStorie = new ArtifactBuilder();
-				
-		Storie storie = builderStorie
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildStorie();
-		
+
+		Storie storie = builderStorie.id(FAKE_REQUIREMENT_ID).title("Example")
+				.description("test unit").projectID(FAKE_PROJECT_ID).buildStorie();
+
 		mockWhenProjectLoad(ownedProject);
-		
+
 		doNothingWhenCreate(storie);
-		
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
-		
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
+
 		controllerMock.createUserStory(storie);
-		
-	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
-	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
+
+		assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+		assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
 
 	@Test
 	public void createValidUseCase() {
 		ArtifactBuilder builderUseCase = new ArtifactBuilder();
-		
-		UseCase useCase = builderUseCase
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildUseCase();
-		
+
+		UseCase useCase = builderUseCase.id(FAKE_REQUIREMENT_ID).title("Example")
+				.description("test unit").projectID(FAKE_PROJECT_ID).buildUseCase();
+
 		useCase.setFakeActors("Customer");
-		
+
 		mockWhenProjectLoad(ownedProject);
 		doNothingWhenCreate(useCase);
-		
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
-		
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
+
 		controllerMock.createUseCase(useCase);
-		
-	    assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
-	    assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
+
+		assertTrue(result.included().containsKey(FieldMessage.SUCCESS));
+		assertEquals("requirement_add_with_success", result.included(FieldMessage.SUCCESS));
 	}
-	
+
 	/**
 	 * Verifies if a requirement with invalid actors can be saved
 	 */
-	@Test(expected=ValidationException.class)
+	@Test(expected = ValidationException.class)
 	public void createInvalidUseCasePassingActor() {
 		ArtifactBuilder builderUseCase = new ArtifactBuilder();
 
-		UseCase useCase = builderUseCase
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildUseCase();
-		
+		UseCase useCase = builderUseCase.id(FAKE_REQUIREMENT_ID).title("Example")
+				.description("test unit").projectID(FAKE_PROJECT_ID).buildUseCase();
+
 		// Force error
 		useCase.setFakeActors(null);
-		
+
 		mockWhenProjectLoad(ownedProject);
 		doNothingWhenCreate(useCase);
-		
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
-		
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
+
 		controllerMock.createUseCase(useCase);
 	}
-	
+
 	/**
 	 * Verifies if a requirement with an invalid user can be created.
 	 */
-	@Test(expected=ValidationException.class)
+	@Test(expected = ValidationException.class)
 	public void testWithInvalidUser() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		
-		Generic generic = builder
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildGeneric();
-		
+
+		Generic generic = builder.id(FAKE_REQUIREMENT_ID).title("Example").description("test unit")
+				.projectID(FAKE_PROJECT_ID).buildGeneric();
+
 		UserSession invalidSessionMock = createInvaliUserSession();
-		
+
 		formatter = new RequirementFormatter(invalidSessionMock, projectService, kanbanService);
-				
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
-		
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
+
 		controllerMock.createGeneric(generic);
 	}
-	
+
 	/**
 	 * Verifies if a requirement without an obligatory attribute can be created.
 	 */
@@ -254,24 +226,20 @@ public class RequirementCreatorTest {
 	@Ignore("Bean validation")
 	public void testWithoutTitle() {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		
-		Generic generic = builder
-				.id(FAKE_REQUIREMENT_ID)
-				.title(null)
-				.description("test unit")
-				.projectID(FAKE_PROJECT_ID)
-				.buildGeneric();
+
+		Generic generic = builder.id(FAKE_REQUIREMENT_ID).title(null).description("test unit")
+				.projectID(FAKE_PROJECT_ID).buildGeneric();
 
 		mockWhenProjectLoad(ownedProject);
-		
-		RequirementCreator controllerMock = 
-				new RequirementCreator(result, validator, requirementService, formatter);
+
+		RequirementCreator controllerMock = new RequirementCreator(result, validator,
+				requirementService, formatter);
 		controllerMock.createGeneric(generic);
 	}
 
 	private Project createMockProject() {
 		Project ownedProject = mock(Project.class);
-		
+
 		when(ownedProject.getId()).thenReturn(FAKE_PROJECT_ID);
 		when(ownedProject.getTitle()).thenReturn("Simple test");
 
@@ -281,10 +249,10 @@ public class RequirementCreatorTest {
 	private UserSession createInvaliUserSession() {
 		UserSession invalidUserMock = mock(UserSession.class);
 		when(invalidUserMock.getUserLogged()).thenReturn(null);
-		
+
 		return invalidUserMock;
 	}
-	
+
 	/**
 	 * Mocks DAO create method
 	 * 
@@ -293,7 +261,7 @@ public class RequirementCreatorTest {
 	private void doNothingWhenCreate(Artifact artifact) {
 		doNothing().when(requirementService).create(artifact);
 	}
-	
+
 	private void mockWhenProjectLoad(Project project) {
 		when(projectService.find(project.getId())).thenReturn(project);
 	}

@@ -25,7 +25,7 @@ public class RequirementControllerTest {
 	private static final Long FAKE_REQUIREMENT_ID = 1L;
 
 	private final Logger logger = Logger.getLogger(RequirementController.class);
-	
+
 	private MockResult result;
 	private UserSession userSession;
 	private MockValidator validator;
@@ -35,59 +35,53 @@ public class RequirementControllerTest {
 	public void setup() {
 		// Catch all!
 		logger.setLevel(Level.DEBUG);
-		
+
 		// Mocks supported by vraptor
 		result = new MockResult();
 		validator = new MockValidator();
 
 		// System components
 		requirementService = mock(RequirementService.class);
-		
+
 		userSession = mock(UserSession.class);
-		
+
 		UrutaUser userMock = mock(UrutaUser.class);
-		
+
 		when(userSession.getUserLogged()).thenReturn(userMock);
 	}
-	
+
 	@Test
 	public void successfullyDeletedEpic() {
 		ArtifactBuilder builderEpic = new ArtifactBuilder();
 
-		Epic epic = builderEpic
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
+		Epic epic = builderEpic.id(FAKE_REQUIREMENT_ID).title("Example").description("test unit")
 				.buildEpic();
-		
+
 		shouldReturnTrueWhenRemoveById(epic);
-		
-		RequirementController controllerMock = 
-				new RequirementController(result, requirementService, validator);
-		
+
+		RequirementController controllerMock = new RequirementController(result, requirementService,
+				validator);
+
 		controllerMock.delete(FAKE_REQUIREMENT_ID);
 	}
 
 	@Test
 	public void validShow() throws UnsupportedEncodingException {
 		ArtifactBuilder builder = new ArtifactBuilder();
-		Generic genericRequirement = builder
-				.id(FAKE_REQUIREMENT_ID)
-				.title("Example")
-				.description("test unit")
-				.buildGeneric();
-		
+		Generic genericRequirement = builder.id(FAKE_REQUIREMENT_ID).title("Example")
+				.description("test unit").buildGeneric();
+
 		mockShow(genericRequirement);
-		
-		RequirementController controller = 
-				new RequirementController(result, requirementService, validator);
-		
+
+		RequirementController controller = new RequirementController(result, requirementService,
+				validator);
+
 		controller.show(1, genericRequirement.getTitle());
 	}
-	
+
 	private void mockShow(Generic genericRequirement) throws UnsupportedEncodingException {
-		when(requirementService.getRequirement((int) genericRequirement.getId(), genericRequirement.getTitle()))
-			.thenReturn(genericRequirement);
+		when(requirementService.getRequirement((int) genericRequirement.getId(),
+				genericRequirement.getTitle())).thenReturn(genericRequirement);
 	}
 
 	private void shouldReturnTrueWhenRemoveById(Artifact requirement) {

@@ -54,19 +54,19 @@ public class Project implements Cloneable {
 
 	/* Artifact can be delegated to one or more persons */
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID"), 
-		inverseJoinColumns = @JoinColumn(name = "userID") )
+	@JoinTable(name = "User_Project", joinColumns = @JoinColumn(name = "projectID") ,
+			inverseJoinColumns = @JoinColumn(name = "userID") )
 	private List<UrutaUser> members = new ArrayList<UrutaUser>();
 
 	/* Should be generate automatically */
 	private Calendar dateOfCreation;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id"), 
-		inverseJoinColumns = @JoinColumn(name = "layer_id") )
+	@JoinTable(name = "Project_Layer", joinColumns = @JoinColumn(name = "project_id") ,
+			inverseJoinColumns = @JoinColumn(name = "layer_id") )
 	private List<Layer> layers = new ArrayList<Layer>();
-	
-	@Column(nullable=false, columnDefinition="boolean default false")
+
+	@Column(nullable = false, columnDefinition = "boolean default false")
 	private boolean isPublic;
 
 	@Transient
@@ -115,7 +115,7 @@ public class Project implements Cloneable {
 		if (this.metodologyCode == 0) {
 			for (MetodologyEnum metodologyEnum : MetodologyEnum.values()) {
 				if (metodologyEnum.refersTo(metodology)) {
-					code = metodologyEnum.getId(); 
+					code = metodologyEnum.getId();
 				}
 			}
 		} else {

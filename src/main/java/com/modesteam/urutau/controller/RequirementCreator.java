@@ -31,10 +31,9 @@ import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 
 /**
- * This is a implementation of {@link EntityCreator}, 
- * part of pattern abstract factory 
- * He was born to reduce the coupling and 
- * increase your cohesion of {@link RequirementController}, 
+ * This is a implementation of {@link EntityCreator}, part of pattern abstract
+ * factory He was born to reduce the coupling and increase your cohesion of
+ * {@link RequirementController},
  */
 @Controller
 @Path("/requirement")
@@ -44,54 +43,53 @@ public class RequirementCreator {
 
 	private static final String PROJECT_ID_INPUT_VALUE = "projectID";
 
-	//Objects to be injected
+	// Objects to be injected
 	private final Result result;
 	private final Validator validator;
 	private final RequirementService service;
 	private final RequirementFormatter formatter;
-	
+
 	/**
 	 * CDI only eye
 	 */
 	public RequirementCreator() {
 		this(null, null, null, null);
 	}
-	
+
 	@Inject
-	public RequirementCreator(Result result, 
-			Validator validator,
-			RequirementService service, 
+	public RequirementCreator(Result result, Validator validator, RequirementService service,
 			RequirementFormatter formatter) {
 		this.result = result;
 		this.validator = validator;
 		this.service = service;
 		this.formatter = formatter;
 	}
-	
+
 	/**
 	 * Server side validation
-	 *  
-	 * @param title to validate
+	 * 
+	 * @param title
+	 *            to validate
 	 */
 	@Post
 	public void validate(String title) {
-		validator.addIf(title == null || title.isEmpty(), 
+		validator.addIf(title == null || title.isEmpty(),
 				new I18nMessage("title", "artifact.title.empty"));
 		validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
 	}
-	
+
 	@Post
 	public void createGeneric(@NotNull @Valid Generic generic) {
 		generic.setArtifactType(ArtifactType.GENERIC);
 		save(generic);
 	}
-	
+
 	@Post
 	public void createFeature(@NotNull @Valid Feature feature) {
 		feature.setArtifactType(ArtifactType.FEATURE);
 		save(feature);
 	}
-	
+
 	@Post
 	public void createUserStory(@NotNull @Valid Storie storie) {
 		storie.setArtifactType(ArtifactType.STORIE);
@@ -103,49 +101,48 @@ public class RequirementCreator {
 		epic.setArtifactType(ArtifactType.EPIC);
 		save(epic);
 	}
-	
+
 	/**
-	 * Use case creation is more specific so this method
-	 * implementation is more robust than the others
+	 * Use case creation is more specific so this method implementation is more
+	 * robust than the others
 	 */
 	@Post
-	public void createUseCase(@NotNull @Valid UseCase useCase) {		
-		
-		if(useCase.getFakeActors() != null) {
+	public void createUseCase(@NotNull @Valid UseCase useCase) {
+
+		if (useCase.getFakeActors() != null) {
 			useCase.formatToRealActors();
-		} else { 
-			validator.add(new SimpleMessage(FieldMessage.ERROR, 
-					"needs_author"));
+		} else {
+			validator.add(new SimpleMessage(FieldMessage.ERROR, "needs_author"));
 		}
-		
+
 		save(useCase);
 	}
-	
+
 	/**
-	 * This projectID is a reference of the project 
-	 * which the requirement will be created. 
-	 * All part of URL is created through a script into home.jsp, 
+	 * This projectID is a reference of the project which the requirement will
+	 * be created. All part of URL is created through a script into home.jsp,
 	 * projectID number will be included into view page to fill a input hidden.
 	 * 
-	 * URL: /requirementType/idNumber
-	 * View: /WEB-INF/jsp/requirementCreator/requirementType
+	 * URL: /requirementType/idNumber View:
+	 * /WEB-INF/jsp/requirementCreator/requirementType
 	 * 
-	 * @param projectID Truly is an Long number, converted into script to 
-	 * 	be changed foward to Long again.
+	 * @param projectID
+	 *            Truly is an Long number, converted into script to be changed
+	 *            foward to Long again.
 	 */
 	@Get("generic/{projectID}")
 	public void generic(String projectID) {
 		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
-	
+
 	/**
 	 * See {@link RequirementCreator#generic(String)}
 	 */
 	@Get("storie/{projectID}")
 	public void storie(String projectID) {
-		result.include(PROJECT_ID_INPUT_VALUE, projectID);		
+		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
-	
+
 	/**
 	 * See {@link RequirementCreator#generic(String)}
 	 */
@@ -153,7 +150,7 @@ public class RequirementCreator {
 	public void feature(String projectID) {
 		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
-	
+
 	/**
 	 * See {@link RequirementCreator#generic(String)}
 	 */
@@ -161,7 +158,7 @@ public class RequirementCreator {
 	public void epic(String projectID) {
 		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
-	
+
 	/**
 	 * See {@link RequirementCreator#generic(String)}
 	 */
@@ -169,40 +166,42 @@ public class RequirementCreator {
 	public void useCase(String projectID) {
 		result.include(PROJECT_ID_INPUT_VALUE, projectID);
 	}
-	
+
 	/**
-	 * Server-side validates of basic information, 
-	 * it will be execute by method save, right bellow
+	 * Server-side validates of basic information, it will be execute by method
+	 * save, right bellow
 	 * 
-	 * @param requirement that will be verifies
+	 * @param requirement
+	 *            that will be verifies
 	 */
-	private void validates(final Artifact requirement) {		
+	private void validates(final Artifact requirement) {
 		validator.addIf(requirement.getAuthor() == null,
 				new SimpleMessage(FieldMessage.ERROR, "needs_author"));
-		
-		validator.addIf(requirement.getProject() == null, 
+
+		validator.addIf(requirement.getProject() == null,
 				new SimpleMessage(FieldMessage.ERROR, "project_not_exist"));
 
 		validator.onErrorRedirectTo(ApplicationController.class).dificultError();
 	}
-	
+
 	/**
-	 * Generic method to save a artifact, it can be 
+	 * Generic method to save a artifact, it can be
 	 * 
-	 * @param requirement is a user output that will be verified and saved
+	 * @param requirement
+	 *            is a user output that will be verified and saved
 	 */
 	private void save(final Artifact requirement) {
 		validator.onErrorUsePageOf(ApplicationController.class).invalidRequest();
-		
+
 		// insert some data like author, date and project
 		formatter.format(requirement);
 		// verify if above format work fine
 		validates(requirement);
 		// only to protect the invoke of create requirement
 		createIfThereIsNoErrors(requirement);
-		
+
 		result.include(FieldMessage.SUCCESS, "requirement_add_with_success");
-		
+
 		try {
 			// Now project are loaded
 			result.redirectTo(ProjectController.class).show(requirement.getProject());
@@ -210,14 +209,15 @@ public class RequirementCreator {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * If validator does not has any error, invokes persistence method
-	 *  
-	 * @param requirement instance created by user
+	 * 
+	 * @param requirement
+	 *            instance created by user
 	 */
 	private void createIfThereIsNoErrors(final Artifact requirement) {
-		if(!validator.hasErrors()) {			
+		if (!validator.hasErrors()) {
 			service.create(requirement);
 		} else {
 			logger.error("Some errors was found");

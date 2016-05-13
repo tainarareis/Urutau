@@ -18,109 +18,114 @@ import com.modesteam.urutau.service.setting.SystemSettingManager;
 
 public class SystemSettingManagerTest {
 
-    private static final String VALID_VALUE = "Hello world";
-    private SystemSettingManager manager;
-    private EntityManager entityManager;
+	private static final String VALID_VALUE = "Hello world";
 
-    @Before
-    public void setUp() {
-        entityManager = mock(EntityManager.class);
+	private SystemSettingManager manager;
+	private EntityManager entityManager;
 
-        manager = new SystemSettingManager(entityManager);
-    }
+	@Before
+	public void setUp() {
+		entityManager = mock(EntityManager.class);
 
-    @Test
-    public void testLoadSystemSettings() {
-        for (SystemSettingContext context : SystemSettingContext.values()) {
-            shouldReturnValidMockWhenFind(entityManager, context);
-        }
+		manager = new SystemSettingManager(entityManager);
+	}
 
-        manager.setUp();
-    }
+	@Test
+	public void testLoadSystemSettings() {
+		for (SystemSettingContext context : SystemSettingContext.values()) {
+			shouldReturnValidMockWhenFind(entityManager, context);
+		}
 
-    @Test
-    public void testGetSystemSettings() {
-        shouldReturnValidMockWhenFind(entityManager, SystemSettingContext.SYSTEM_EMAIL);
-        shouldReturnValidMockWhenFind(entityManager, SystemSettingContext.USER_REGISTRATION_IS_OPEN);
+		manager.setUp();
+	}
 
-        manager.setUp();
+	@Test
+	public void testGetSystemSettings() {
+		shouldReturnValidMockWhenFind(entityManager, SystemSettingContext.SYSTEM_EMAIL);
+		shouldReturnValidMockWhenFind(entityManager,
+				SystemSettingContext.USER_REGISTRATION_IS_OPEN);
 
-        assertEquals(SystemSettingContext.SYSTEM_EMAIL.getId(), manager.get(SystemSettingContext.SYSTEM_EMAIL).getId());
-    }
+		manager.setUp();
 
-    @Test
-    public void testValidSaveSystemSettings() {
-        for (SystemSettingContext context : SystemSettingContext.values()) {
-            shouldReturnValidMockWhenFind(entityManager, context);
-        }
+		assertEquals(SystemSettingContext.SYSTEM_EMAIL.getId(),
+				manager.get(SystemSettingContext.SYSTEM_EMAIL).getId());
+	}
 
-        manager.setUp();
+	@Test
+	public void testValidSaveSystemSettings() {
+		for (SystemSettingContext context : SystemSettingContext.values()) {
+			shouldReturnValidMockWhenFind(entityManager, context);
+		}
 
-        SystemSetting setting = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
-        setting.setValue(VALID_VALUE);
+		manager.setUp();
 
-        doNothingWhenMerge(setting);
+		SystemSetting setting = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
+		setting.setValue(VALID_VALUE);
 
-        manager.save(setting);
+		doNothingWhenMerge(setting);
 
-        assertEquals(manager.get(SystemSettingContext.SYSTEM_EMAIL).getValue(), VALID_VALUE);
-    }
+		manager.save(setting);
 
-    @Test
-    public void testValidSaveSystemSettingsByPersist() {
-        for (SystemSettingContext context : SystemSettingContext.values()) {
-            shouldReturnValidMockWhenFind(entityManager, context);
-        }
+		assertEquals(manager.get(SystemSettingContext.SYSTEM_EMAIL).getValue(), VALID_VALUE);
+	}
 
-        manager.setUp();
+	@Test
+	public void testValidSaveSystemSettingsByPersist() {
+		for (SystemSettingContext context : SystemSettingContext.values()) {
+			shouldReturnValidMockWhenFind(entityManager, context);
+		}
 
-        SystemSetting setting = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
-        setting.setValue(VALID_VALUE);
+		manager.setUp();
 
-        throwExceptionWhenMerge(setting);
+		SystemSetting setting = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
+		setting.setValue(VALID_VALUE);
 
-        doNothingWhenSave(setting);
+		throwExceptionWhenMerge(setting);
 
-        manager.save(setting);
+		doNothingWhenSave(setting);
 
-        assertEquals(manager.get(SystemSettingContext.SYSTEM_EMAIL).getValue(), VALID_VALUE);
-    }
+		manager.save(setting);
 
-    @Test(expected = IllegalStateException.class)
-    public void testInvalidSaveSettings() {
-        for (SystemSettingContext context : SystemSettingContext.values()) {
-            shouldReturnValidMockWhenFind(entityManager, context);
-        }
+		assertEquals(manager.get(SystemSettingContext.SYSTEM_EMAIL).getValue(), VALID_VALUE);
+	}
 
-        manager.setUp();
+	@Test(expected = IllegalStateException.class)
+	public void testInvalidSaveSettings() {
+		for (SystemSettingContext context : SystemSettingContext.values()) {
+			shouldReturnValidMockWhenFind(entityManager, context);
+		}
 
-        SystemSetting setting = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
-        setting.setValue(VALID_VALUE);
+		manager.setUp();
 
-        throwExceptionWhenMerge(setting);
+		SystemSetting setting = new SystemSetting(SystemSettingContext.SYSTEM_EMAIL);
+		setting.setValue(VALID_VALUE);
 
-        throwExceptionWhenSave(setting);
+		throwExceptionWhenMerge(setting);
 
-        manager.save(setting);
-    }
+		throwExceptionWhenSave(setting);
 
-    private void throwExceptionWhenSave(SystemSetting setting) {
-        doThrow(new IllegalStateException()).when(entityManager).persist(setting);
-    }
+		manager.save(setting);
+	}
 
-    private void doNothingWhenSave(SystemSetting setting) {
-        doNothing().when(entityManager).persist(setting);
-    }
+	private void throwExceptionWhenSave(SystemSetting setting) {
+		doThrow(new IllegalStateException()).when(entityManager).persist(setting);
+	}
 
-    private void throwExceptionWhenMerge(SystemSetting setting) {
-        when(entityManager.merge(setting)).thenThrow(new IllegalArgumentException());
-    }
+	private void doNothingWhenSave(SystemSetting setting) {
+		doNothing().when(entityManager).persist(setting);
+	}
 
-    private void doNothingWhenMerge(Setting setting) {
-        when(entityManager.merge(setting)).thenReturn(setting);
-    }
+	private void throwExceptionWhenMerge(SystemSetting setting) {
+		when(entityManager.merge(setting)).thenThrow(new IllegalArgumentException());
+	}
 
-    private void shouldReturnValidMockWhenFind(EntityManager entityManager, SystemSettingContext context) {
-        when(entityManager.find(SystemSetting.class, context.getId())).thenReturn(new SystemSetting(context));
-    }
+	private void doNothingWhenMerge(Setting setting) {
+		when(entityManager.merge(setting)).thenReturn(setting);
+	}
+
+	private void shouldReturnValidMockWhenFind(EntityManager entityManager,
+			SystemSettingContext context) {
+		when(entityManager.find(SystemSetting.class, context.getId()))
+				.thenReturn(new SystemSetting(context));
+	}
 }

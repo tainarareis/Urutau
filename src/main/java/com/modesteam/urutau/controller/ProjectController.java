@@ -39,7 +39,7 @@ import com.modesteam.urutau.service.UserService;
 
 @Controller
 public class ProjectController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	private static final int INVALID_METODOLOGY_CODE = -1;
 
@@ -57,13 +57,12 @@ public class ProjectController {
 	 * @deprecated CDI eye only
 	 */
 	public ProjectController() {
-		this(null,null,null,null, null, null);
+		this(null, null, null, null, null, null);
 	}
-	
+
 	@Inject
-	public ProjectController(Result result, UserSession userSession, 
-			ProjectService projectService, UserService userService, 
-			KanbanService kanbanService, Validator validator) {
+	public ProjectController(Result result, UserSession userSession, ProjectService projectService,
+			UserService userService, KanbanService kanbanService, Validator validator) {
 		this.result = result;
 		this.userSession = userSession;
 		this.userService = userService;
@@ -71,68 +70,71 @@ public class ProjectController {
 		this.kanbanService = kanbanService;
 		this.validator = validator;
 	}
-	
+
 	/**
-	 *  Method for create one project with what gonna have
-	 *  requirements inside
-	 *  
-	 * @param project to be persisted
+	 * Method for create one project with what gonna have requirements inside
 	 * 
-	 * @throws UnsupportedEncodingException when show is requested
-	 * @throws CloneNotSupportedException 
+	 * @param project
+	 *            to be persisted
 	 * 
-	 * TODO treat this exceptions
+	 * @throws UnsupportedEncodingException
+	 *             when show is requested
+	 * @throws CloneNotSupportedException
+	 * 
+	 *             TODO treat this exceptions
 	 */
 	@Post
-	public void create(final @Valid Project project) throws 
-		UnsupportedEncodingException, CloneNotSupportedException {
-		
-		validator.addIf(!projectService.canBeUsed(project.getTitle()), 
+	public void create(final @Valid Project project)
+			throws UnsupportedEncodingException, CloneNotSupportedException {
+
+		validator.addIf(!projectService.canBeUsed(project.getTitle()),
 				new I18nMessage(FieldMessage.PROJECT_CREATE, "title_already_in_used"));
-		
-		if(validator.hasErrors()) {
+
+		if (validator.hasErrors()) {
 			validator.onErrorRedirectTo(ProjectController.class).index();
 		} else {
 			Project basicProject = retriveWithBasicInformation(project);
-			
-			logger.info("Trying create a new project...");			
-			
+
+			logger.info("Trying create a new project...");
+
 			projectService.save(basicProject);
 
 			// TODO Observe this
 			userSession.getUserLogged().addProject(basicProject);
-			
+
 			result.redirectTo(this).show(basicProject);
 		}
 	}
-	
-	
+
 	/**
-	 * Delete only one project 
+	 * Delete only one project
 	 * 
-	 * @param id primary key of Project
+	 * @param id
+	 *            primary key of Project
 	 */
 	@Post
 	public void delete(final Long id) {
-		logger.info("The project with id " + id +" was solicitated for exclusion");
-		
+		logger.info("The project with id " + id + " was solicitated for exclusion");
+
 		boolean projectExist = projectService.exists(id);
-		
-		if(!projectExist) {
+
+		if (!projectExist) {
 			logger.info("The project already deleted or inexistent!");
-			validator.add(new SimpleMessage(FieldMessage.ERROR.toString(), "Project already excluded!"));	
+			validator.add(
+					new SimpleMessage(FieldMessage.ERROR.toString(), "Project already excluded!"));
 		} else {
-			
+
 			logger.info("The project will be deleted");
 			projectService.excludeProject(id);
 		}
-			validator.onErrorRedirectTo(ProjectController.class).index();
+		validator.onErrorRedirectTo(ProjectController.class).index();
 	}
 
 	/**
 	 * Open edit page setting project request
-	 *  
-	 * @param project to fill with modifications
+	 * 
+	 * @param project
+	 *            to fill with modifications
 	 */
 	@Get("/{project.title}/edit")
 	@View
@@ -152,7 +154,8 @@ public class ProjectController {
 	/**
 	 * Update called by form
 	 * 
-	 * @param project with possible modifications
+	 * @param project
+	 *            with possible modifications
 	 */
 	@Put("/{project.id}/setting")
 	public void update(Project project) {
@@ -161,148 +164,153 @@ public class ProjectController {
 		validator.onErrorRedirectTo(this).edit(currentProject);
 
 		projectService.update(project);
-		
+
 		result.redirectTo(this).edit(project);
-		
+
 		reloadEvent.fire(userSession.getUserLogged());
 	}
 
 	/**
-	 * Show the projects that has a certain id and title 
+	 * Show the projects that has a certain id and title
 	 * 
-	 * @param id Unique attribute
-	 * @param title various projects can have same title
+	 * @param id
+	 *            Unique attribute
+	 * @param title
+	 *            various projects can have same title
 	 * 
 	 * @return {@link Project} from database
 	 * 
-	 * @throws UnsupportedEncodingException invalid characters or decodes fails
+	 * @throws UnsupportedEncodingException
+	 *             invalid characters or decodes fails
 	 */
 	@Get
 	@Path("/{project.id}-{project.title}")
 	public Project show(Project project) throws UnsupportedEncodingException {
 		String titleDecoded = URLDecoder.decode(project.getTitle(), StandardCharsets.UTF_8.name());
-		
+
 		logger.info("Show project " + project.getTitle());
-		Project targetProject  = projectService.show(project.getId(), titleDecoded);
-		
+		Project targetProject = projectService.show(project.getId(), titleDecoded);
+
 		return targetProject;
 	}
-	
+
 	/**
-	 * Shortcut to {@link ProjectController#show(Project))}, 
-	 * available only programmatically
+	 * Shortcut to {@link ProjectController#show(Project))}, available only
+	 * programmatically
 	 * 
-	 * @param projectID key to get from database
-	 * @throws UnsupportedEncodingException throws by show(Project)
+	 * @param projectID
+	 *            key to get from database
+	 * @throws UnsupportedEncodingException
+	 *             throws by show(Project)
 	 */
 	public void show(Long projectID) throws UnsupportedEncodingException {
 		Project requestProject = projectService.find(projectID);
 
 		result.redirectTo(this.getClass()).show(requestProject);
 	}
-	
+
 	/**
 	 * Gives all the existent projects in database.
+	 * 
 	 * @return projects
 	 */
 	@Get
 	@Path("/project/showAll")
-	public List<? extends Project> showAll() {		
+	public List<? extends Project> showAll() {
 		logger.info("Function showAll");
-		
+
 		List<? extends Project> projects = projectService.loadAll();
-		
+
 		result.include("projects", projects);
-		
+
 		return projects;
 	}
-		
-	
+
 	/**
-	 * Load an list of metodology to show in an select field.
-	 * Result will include {@link List} of metodology's names.
-	 * Restricted to users, logic of flux controll is into
-	 * {@link IndexController}
+	 * Load an list of metodology to show in an select field. Result will
+	 * include {@link List} of metodology's names. Restricted to users, logic of
+	 * flux controll is into {@link IndexController}
 	 */
 	@Get
-	@Path(value = "/", priority=Path.HIGH)
+	@Path(value = "/", priority = Path.HIGH)
 	public void index() {
-		// Loads enum with metodology names to populate 
+		// Loads enum with metodology names to populate
 		loadProjectTypes();
-		
+
 		List<Project> projects = new ArrayList<Project>();
-		
-		for(Project project : userSession.getUserLogged().getProjects()) {
+
+		for (Project project : userSession.getUserLogged().getProjects()) {
 			projects.add(project);
 		}
-		
-		logger.info("Have " + projects.size() +" projects");
-		
+
+		logger.info("Have " + projects.size() + " projects");
+
 		result.include("projects", projects);
 	}
-	
 
 	/**
 	 * Called by ajax
 	 */
 	@Get
-	public void reloadProjects() {		
+	public void reloadProjects() {
 		userSession.reload();
 	}
-	
+
 	/**
-	 * Load enum {@link MetodologyEnum} in string to field select
-	 * into project create
+	 * Load enum {@link MetodologyEnum} in string to field select into project
+	 * create
 	 * 
 	 */
 	private void loadProjectTypes() {
 		List<String> metodologies = new ArrayList<String>();
-		
-		for(MetodologyEnum metodology : MetodologyEnum.values()) {
+
+		for (MetodologyEnum metodology : MetodologyEnum.values()) {
 			metodologies.add(metodology.toString());
 		}
-		
+
 		result.include("metodologies", metodologies);
 	}
 
 	/**
 	 * Setting basic fields programmatically
-	 *  
-	 * @param project soon persisted
-	 * @return 
-	 * @throws CloneNotSupportedException 
+	 * 
+	 * @param project
+	 *            soon persisted
+	 * @return
+	 * @throws CloneNotSupportedException
 	 */
-	private Project retriveWithBasicInformation(final Project project) 
+	private Project retriveWithBasicInformation(final Project project)
 			throws CloneNotSupportedException {
 		Project basicProject = project.clone();
-		
+
 		basicProject.setDateOfCreation(getCurrentDate());
-		
+
 		UrutaUser author = getCurrentUser();
 		basicProject.setAuthor(author);
 		basicProject.getMembers().add(author);
 
 		int metodologyCode = selectMetodologyCode(project.getMetodology());
 		basicProject.setMetodologyCode(metodologyCode);
-		
+
 		List<Layer> defaultLayers = kanbanService.getDefaultLayers();
 		basicProject.setLayers(defaultLayers);
-		
+
 		return basicProject;
 	}
-	
+
 	/**
 	 * From metodology name, set metodology code
-	 *  
-	 * @param project to be persisted
+	 * 
+	 * @param project
+	 *            to be persisted
 	 */
 	private int selectMetodologyCode(String name) {
 		logger.info("Metodology choose was " + name);
 
 		int metodologyCode = INVALID_METODOLOGY_CODE;
 
-		for(MetodologyEnum metodology : MetodologyEnum.values()) {
-			if(metodology.refersTo(name)) {
+		for (MetodologyEnum metodology : MetodologyEnum.values()) {
+			if (metodology.refersTo(name)) {
 				metodologyCode = metodology.getId();
 				logger.debug("Metodology choose have code " + metodologyCode);
 				// Stop loop
@@ -311,15 +319,16 @@ public class ProjectController {
 				// Keep searching
 			}
 		}
-		
+
 		return metodologyCode;
 	}
 
 	/**
 	 * Set current user logged like author
 	 * 
-	 * @param project to be created
-	 * @return 
+	 * @param project
+	 *            to be created
+	 * @return
 	 */
 	private UrutaUser getCurrentUser() {
 		UrutaUser logged = userSession.getUserLogged();
@@ -329,14 +338,15 @@ public class ProjectController {
 	/**
 	 * Format date with current value
 	 * 
-	 * @param project to be persisted
-	 * @return 
+	 * @param project
+	 *            to be persisted
+	 * @return
 	 */
 	private Calendar getCurrentDate() {
 		Date currentDate = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(currentDate);
-		
+
 		return calendar;
 	}
 }

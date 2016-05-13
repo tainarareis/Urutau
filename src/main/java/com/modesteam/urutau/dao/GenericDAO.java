@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.modesteam.urutau.exception.SystemBreakException;
 
 /**
- * Defines the methods common to DAO classes 
+ * Defines the methods common to DAO classes
  */
 public abstract class GenericDAO<Entity> {
 	private static final Logger logger = LoggerFactory.getLogger(GenericDAO.class);
@@ -29,47 +29,49 @@ public abstract class GenericDAO<Entity> {
 	private EntityManager entityManager;
 
 	@Inject
-    private DaoHelper daoHelper;
+	private DaoHelper daoHelper;
 
 	/**
 	 * Set with reflection, which Object type is Entity
 	 */
 	public GenericDAO() {
-		this.entityClass = (Class<?>) ((ParameterizedType) getClass().
-				getGenericSuperclass()).getActualTypeArguments()[0];
+		this.entityClass = (Class<?>) ((ParameterizedType) getClass().getGenericSuperclass())
+				.getActualTypeArguments()[0];
 	}
 
 	/**
 	 * Gets a Entity by a field with certain value
 	 * 
-	 * @param field Column name into database
-	 * @param value Simple data
+	 * @param field
+	 *            Column name into database
+	 * @param value
+	 *            Simple data
 	 * @return Object correspondent to Entity defined by DAO
 	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public Entity get(String field, Object value) {
-        Entity result = null;
+		Entity result = null;
 
-        if(daoHelper.isValidParameter(value)) {
-            try {
-                final String sql = daoHelper.getSelectQuery(entityClass, field);
-                Query query = entityManager.createQuery(sql);
-                query.setParameter(PARAMETER_NAME, value);
+		if (daoHelper.isValidParameter(value)) {
+			try {
+				final String sql = daoHelper.getSelectQuery(entityClass, field);
+				Query query = entityManager.createQuery(sql);
+				query.setParameter(PARAMETER_NAME, value);
 
-                result = (Entity) query.getSingleResult();
-            } catch (NonUniqueResultException exception) {
-                throw new NonUniqueResultException("Get more than one results when get a field");
-            }
-        } else {
-            throw new IllegalArgumentException("An invalid parameter has been passed " +
-                    "to get method in GenericDAO");
-        }
-        
-        logger.debug(field + " in table " + entityClass.getName() 
-        	+ " has returned?-" + (result != null));
-        
-        return result;
-    }
+				result = (Entity) query.getSingleResult();
+			} catch (NonUniqueResultException exception) {
+				throw new NonUniqueResultException("Get more than one results when get a field");
+			}
+		} else {
+			throw new IllegalArgumentException(
+					"An invalid parameter has been passed to get method in GenericDAO");
+		}
+
+		logger.debug(field + " in table " + entityClass.getName() + " has returned?-"
+				+ (result != null));
+
+		return result;
+	}
 
 	/**
 	 * Creates a new instance of User into database
@@ -80,8 +82,7 @@ public abstract class GenericDAO<Entity> {
 		try {
 			entityManager.persist(entity);
 		} catch (IllegalArgumentException illegalArgumentException) {
-			throw new IllegalArgumentException("An invalid param has been passed "
-					+ "to create method");
+			throw new IllegalArgumentException("An invalid param has been passed to create method");
 		} catch (EntityExistsException entityExistsException) {
 			throw new SystemBreakException("Entity already exist", entityExistsException);
 		}
@@ -90,40 +91,41 @@ public abstract class GenericDAO<Entity> {
 	/**
 	 * Removes everything
 	 * 
-	 * @param Entity to remove
+	 * @param Entity
+	 *            to remove
 	 * @return false if any error occurs
 	 */
-	public void destroy(final Entity entity) {		
+	public void destroy(final Entity entity) {
 		try {
 			entityManager.remove(entity);
 		} catch (IllegalArgumentException illegalArgumentException) {
-			throw new IllegalArgumentException("An invalid param has been passed "
-					+ "to destroy method");
-		} 
-	}	
+			throw new IllegalArgumentException(
+					"An invalid param has been passed to destroy method");
+		}
+	}
 
 	/**
 	 * Update an entity
 	 * 
-	 * @param entity to be merge with database
+	 * @param entity
+	 *            to be merge with database
 	 * @return false if any error occurs
 	 */
 	public Entity update(final Entity entity) {
 		Entity entityUpdated = null;
-		
+
 		try {
 			entityUpdated = entityManager.merge(entity);
 		} catch (IllegalArgumentException exception) {
-			throw new IllegalArgumentException("An invalid param has been passed "
-					+ "to create method");
+			throw new IllegalArgumentException("An invalid param has been passed to create method");
 		}
-		
-		return entityUpdated; 
+
+		return entityUpdated;
 	}
 
 	/**
-	 * Reloads object from database, for work of this 
-	 * method it is needed that Entity have a  filled primary key 
+	 * Reloads object from database, for work of this method it is needed that
+	 * Entity have a filled primary key
 	 */
 	public void refresh(final Entity entity) {
 		getSession().refresh(entity);
@@ -135,12 +137,12 @@ public abstract class GenericDAO<Entity> {
 	public void setEntityManager(final EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-	
+
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
-	
+
 	private Session getSession() {
-        return entityManager.unwrap(Session.class);
-    }	
+		return entityManager.unwrap(Session.class);
+	}
 }

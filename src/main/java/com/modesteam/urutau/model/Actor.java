@@ -13,9 +13,9 @@ public class Actor {
 	@GeneratedValue
 	private String id;
 	private String name;
-	
+
 	@ManyToMany(mappedBy = "actors")
-	private List<UseCase> useCases; 
+	private List<UseCase> useCases;
 
 	public String getId() {
 		return id;

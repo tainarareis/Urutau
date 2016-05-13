@@ -26,14 +26,15 @@ public class DataBaseCorruptedException extends RuntimeException {
 	public DataBaseCorruptedException(String message, Throwable throwable) {
 		super(message, throwable);
 
-		logger.warn("A fatal exception occurs, read this informations " + "to keep consistence of system", throwable);
+		logger.warn("A fatal exception occurs, read this informations "
+				+ "to keep consistence of system", throwable);
 	}
 
 	public DataBaseCorruptedException(String message, Throwable throwable, Class<?> targetClass) {
 		super(message, throwable);
 		this.targetClass = targetClass;
 	}
-	
+
 	/**
 	 * @return name of system
 	 */

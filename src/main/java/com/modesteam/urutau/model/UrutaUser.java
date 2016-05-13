@@ -15,16 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-
-import com.modesteam.urutau.model.system.setting.UserSetting;
-import com.modesteam.urutau.model.system.setting.UserSettingContext;
 
 /**
  * This class implements the generic user witch can be extended to an
@@ -33,27 +29,27 @@ import com.modesteam.urutau.model.system.setting.UserSettingContext;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.INTEGER)
-@TableGenerator(name="USER_TABLE_ID", initialValue = 0, allocationSize = 1)
+@TableGenerator(name = "USER_TABLE_ID", initialValue = 0, allocationSize = 1)
 @DiscriminatorValue("1")
 public class UrutaUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "USER_TABLE_ID")
 	private Long userID;
-	
+
 	@NotNull
 	@Email(message = "{invalid_email}")
 	private String email;
 	@NotNull
-	@Size(min = 3, max = 20, message="{user.name.size}")
+	@Size(min = 3, max = 20, message = "{user.name.size}")
 	private String name;
 	@NotNull
-	@Size(min = 3, max = 20, message="{user.lastName.size}")
+	@Size(min = 3, max = 20, message = "{user.lastName.size}")
 	private String lastName;
 	@NotNull
-	@Size(min = 6, max = 20, message="{user.login.size}")
+	@Size(min = 6, max = 20, message = "{user.login.size}")
 	private String login;
 	@NotNull
-	@Size(min = 6, max = 20, message="{user.password.size}")
+	@Size(min = 6, max = 20, message = "{user.password.size}")
 	private String password;
 	@Transient
 	private String passwordVerify;
@@ -63,16 +59,12 @@ public class UrutaUser {
 	private int confirmed = 0;
 	@ManyToMany(mappedBy = "responsables")
 	private List<Artifact> artifactsDelegates = new ArrayList<Artifact>();
-	
+
 	/*
 	 * All projects that user is integrated
 	 */
-	@ManyToMany(mappedBy="members", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy = "members", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Project> projects = new ArrayList<Project>();
-	
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER, cascade=CascadeType.ALL,
-			orphanRemoval=true)
-	private List<UserSetting> settings = new ArrayList<UserSetting>();
 
 	public Long getUserID() {
 		return userID;
@@ -156,20 +148,6 @@ public class UrutaUser {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
-	}
-
-	public List<UserSetting> getSettings() {
-		return settings;
-	}
-
-	public void setSettings(List<UserSetting> settings) {
-		this.settings = settings;
-	}
-	
-	public void createDefaultSettings() {
-		for(UserSettingContext context : UserSettingContext.values()){
-			this.settings.add(new UserSetting(context));
-		}
 	}
 
 	public void addProject(Project basicProject) {

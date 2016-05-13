@@ -24,86 +24,90 @@ import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 /**
- * This class is responsible to manager simple operations of requirements!
- * The systems operations are received by the path /requirement followed
- * by the operation defined path.
+ * This class is responsible to manager simple operations of requirements! The
+ * systems operations are received by the path /requirement followed by the
+ * operation defined path.
  */
 @Controller
 public class RequirementController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
 
 	private static final int DEFAULT_PAGINATION_SIZE = 5;
-	
+
 	// Injected objects
 	private final Result result;
-	
+
 	private final RequirementService requirementService;
-	
+
 	private final Validator validator;
-	
+
 	public RequirementController() {
 		this(null, null, null);
 	}
-	
+
 	@Inject
-	public RequirementController(Result result,
-		RequirementService requirementService, Validator validator) {
+	public RequirementController(Result result, RequirementService requirementService,
+			Validator validator) {
 		this.result = result;
 		this.requirementService = requirementService;
-		this.validator = validator; 
+		this.validator = validator;
 	}
-	
+
 	/**
-	 * Show a requirement that has a certain id and title 
+	 * Show a requirement that has a certain id and title
 	 * 
-	 * @param id Unique attribute
-	 * @param title various requirement can have same title
+	 * @param id
+	 *            Unique attribute
+	 * @param title
+	 *            various requirement can have same title
 	 * 
 	 * @return {@link Artifact} requirement from database
 	 * 
-	 * @throws UnsupportedEncodingException invalid characters or decodes fails
+	 * @throws UnsupportedEncodingException
+	 *             invalid characters or decodes fails
 	 */
 	@Get
 	@Path("/show/{id}/{title}")
 	public void show(int id, String title) throws UnsupportedEncodingException {
-		String decodedTitle = URLDecoder.decode(title, 
-				StandardCharsets.UTF_8.name());
-		
+		String decodedTitle = URLDecoder.decode(title, StandardCharsets.UTF_8.name());
+
 		logger.info("Show requirement " + title);
-		
+
 		Artifact requirement = requirementService.getRequirement(id, decodedTitle);
-		
-		validator.addIf(requirement == null, 
+
+		validator.addIf(requirement == null,
 				new I18nMessage(FieldMessage.ERROR, "requirement_no_exist"));
 		validator.onErrorUsePageOf(ApplicationController.class).dificultError();
-		
+
 		result.include(requirement);
 	}
-	
+
 	/**
 	 * Paginate requirements into home page of projects
 	 * 
-	 * @param page, current page 
+	 * @param page,
+	 *            current page
 	 * 
-	 * @return List of {@link Artifact} to be easy display into home page of a project
+	 * @return List of {@link Artifact} to be easy display into home page of a
+	 *         project
 	 */
 	@Get("{projectID}/paginate/{page}")
 	public void paginate(int projectID, int page) {
-		List<Artifact> requirements = requirementService
-				.recover(projectID, DEFAULT_PAGINATION_SIZE, page);
-		
+		List<Artifact> requirements = requirementService.recover(projectID, DEFAULT_PAGINATION_SIZE,
+				page);
+
 		result.include("requirements", requirements);
 	}
-	
+
 	/**
 	 * This method is used to delete one requirement
 	 */
 	@Delete("/requirement/{requirementID}")
 	public void delete(Long requirementID) {
-		
+
 		logger.info("The artifact with the id " + requirementID + " is solicitated for exclusion");
-		
+
 		Artifact requirement = requirementService.getByID(requirementID);
 		try {
 			requirementService.delete(requirement);
@@ -111,18 +115,18 @@ public class RequirementController {
 			// TODO treat this
 			result.notFound();
 		}
-		
+
 		result.nothing();
 	}
 
 	@View
 	public void detailRequirement() {
-		
+
 	}
-	
+
 	@View
 	public void showExclusionResult() {
-		
+
 	}
-	
+
 }

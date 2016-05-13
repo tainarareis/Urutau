@@ -7,17 +7,16 @@ import com.modesteam.urutau.model.system.ArtifactType;
 
 @Entity
 public class Feature extends Artifact {
-	
+
 	private String content;
 
 	@OneToOne
 	private Epic epic;
 
-	
-	public Feature () {
+	public Feature() {
 		super.setArtifactType(ArtifactType.FEATURE);
 	}
-	
+
 	public String getContent() {
 		return content;
 	}

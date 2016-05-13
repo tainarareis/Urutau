@@ -14,18 +14,18 @@ import com.modesteam.urutau.model.system.ArtifactType;
 
 @Entity
 public class UseCase extends Artifact {
-	@ManyToMany(cascade=CascadeType.PERSIST)
-	@JoinTable(name = "Actors", joinColumns = @JoinColumn(name = "useCaseID"), 
-		inverseJoinColumns = @JoinColumn(name = "actorID"))
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "Actors", joinColumns = @JoinColumn(name = "useCaseID") ,
+			inverseJoinColumns = @JoinColumn(name = "actorID") )
 	private List<Actor> actors;
-	
+
 	@Transient
 	private String fakeActors;
 
-	public UseCase () {
+	public UseCase() {
 		super.setArtifactType(ArtifactType.USECASE);
 	}
-	
+
 	public List<Actor> getActors() {
 		return actors;
 	}
@@ -43,21 +43,23 @@ public class UseCase extends Artifact {
 	}
 
 	/**
-	 * Sets up a String containing all the actors
-	 * involved at the current use case. 
+	 * Sets up a String containing all the actors involved at the current use
+	 * case.
+	 * 
 	 * @param useCase
 	 */
-	public void formatToRealActors () {
-		
-		String fakeActors[] = getFakeActors().split(","); // Separating each actor by ','
+	public void formatToRealActors() {
+
+		String fakeActors[] = getFakeActors().split(","); // Separating each
+															// actor by ','
 		List<Actor> actors = new ArrayList<Actor>();
-		
-		for(String actorName : fakeActors) {
+
+		for (String actorName : fakeActors) {
 			Actor actor = new Actor();
 			actor.setName(actorName);
 			actors.add(actor);
 		}
-		
+
 		setActors(actors);
 	}
 }

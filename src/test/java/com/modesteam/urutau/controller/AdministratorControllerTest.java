@@ -10,7 +10,7 @@ import com.modesteam.urutau.service.setting.SystemSettingManager;
 import br.com.caelum.vraptor.util.test.MockResult;
 
 public class AdministratorControllerTest {
-	
+
 	private MockResult result;
 	private SystemSettingManager settingManager;
 	private AdministratorService adminService;
@@ -18,7 +18,7 @@ public class AdministratorControllerTest {
 	@Before
 	public void setUp() {
 		result = new MockResult();
-		
+
 		adminService = mock(AdministratorService.class);
 	}
 }

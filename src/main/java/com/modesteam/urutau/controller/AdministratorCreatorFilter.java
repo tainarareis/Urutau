@@ -20,54 +20,56 @@ import com.modesteam.urutau.model.Administrator;
 import com.modesteam.urutau.service.AdministratorService;
 
 /**
- * Realizes an filter in index request to create 
- * an new {@link Administrator} if no exist
+ * Realizes an filter in index request to create an new {@link Administrator} if
+ * no exist
  * 
- * It's an way to do this, the other needs create an static {@link EntityManager} 
- * to initialize before of the servletContext.
+ * It's an way to do this, the other needs create an static
+ * {@link EntityManager} to initialize before of the servletContext.
  */
 @WebFilter("/")
 public class AdministratorCreatorFilter implements Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdministratorCreatorFilter.class);
-	
+
 	private static final String CHANGE_SETTINGS_VIEW = "/administrator/createFirstAdministrator";
-	
-	@Inject
-	private AdministratorService administratorService;
-	
+
+	private final AdministratorService administratorService;
+
 	/**
 	 * @deprecated CDI eye only
 	 */
 	public AdministratorCreatorFilter() {
-	
+		this(null);
 	}
-	
+
+	@Inject
 	public AdministratorCreatorFilter(AdministratorService administratorService) {
 		this.administratorService = administratorService;
 	}
 
 	/**
 	 * 
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
+	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		if(administratorService.existAdministrator()){
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		if (administratorService.existAdministrator()) {
 			// Admin yet created!
 			chain.doFilter(request, response);
 		} else {
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
-			logger.debug("Redirecting with "+ requestDispatcher + " to change settings");
+			RequestDispatcher requestDispatcher = request
+					.getRequestDispatcher(CHANGE_SETTINGS_VIEW);
+			logger.debug("Redirecting with " + requestDispatcher + " to change settings");
 			requestDispatcher.forward(request, response);
 		}
 	}
-	
+
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {	
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
-	
+
 	@Override
 	public void destroy() {
 	}

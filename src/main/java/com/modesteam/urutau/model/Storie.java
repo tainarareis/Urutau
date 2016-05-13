@@ -14,15 +14,14 @@ public class Storie extends Artifact {
 	private String history;
 
 	@ManyToMany
-	@JoinTable(name="User_Criteria", 
-		joinColumns = @JoinColumn(name="storie_id"), 
-		inverseJoinColumns = @JoinColumn(name="artifact_id"))
+	@JoinTable(name = "User_Criteria", joinColumns = @JoinColumn(name = "storie_id") ,
+			inverseJoinColumns = @JoinColumn(name = "artifact_id") )
 	private List<AcceptanceCriteria> acceptanceCriteria;
 
-	public Storie () {
+	public Storie() {
 		super.setArtifactType(ArtifactType.STORIE);
 	}
-	
+
 	public String getHistory() {
 		return history;
 	}
@@ -35,8 +34,7 @@ public class Storie extends Artifact {
 		return acceptanceCriteria;
 	}
 
-	public void setAcceptanceCriteria(
-			List<AcceptanceCriteria> acceptanceCriteria) {
+	public void setAcceptanceCriteria(List<AcceptanceCriteria> acceptanceCriteria) {
 		this.acceptanceCriteria = acceptanceCriteria;
 	}
 

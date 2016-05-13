@@ -20,59 +20,61 @@ public class UserSession implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
-	
+
 	private UrutaUser userLogged;
-	
+
 	@Inject
 	private Event<UrutaUser> loginEvent;
-	
+
 	@Inject
 	private UserService userService;
-	
+
 	/**
 	 * Saves user in session
 	 * 
-	 * @param user to be save in session
+	 * @param user
+	 *            to be save in session
 	 */
-	public void login(UrutaUser user){
+	public void login(UrutaUser user) {
 		this.userLogged = user;
-		
+
 		loginEvent.fire(userLogged);
 	}
-	
+
 	/**
-	 * Destroy userLogged.Makes possible the logging out. 
+	 * Destroy userLogged.Makes possible the logging out.
 	 */
-	public void logout(){
+	public void logout() {
 		this.userLogged = null;
 	}
-	
+
 	/**
 	 * Verifies any user in session
 	 * 
 	 * @return true if user is logged
 	 */
-	public boolean isLogged(){
-		boolean isLogged =  true;
+	public boolean isLogged() {
+		boolean isLogged = true;
 
 		// verifies through if and possible nullpointerexception
 		try {
-			if(userLogged.getUserID() == null) {
+			if (userLogged.getUserID() == null) {
 				isLogged = false;
 			} else {
 				logger.trace("User is logged");
 			}
-		} catch(NullPointerException npe) {
+		} catch (NullPointerException npe) {
 			isLogged = false;
 		}
-		
+
 		return isLogged;
 	}
-	
+
 	/**
 	 * Reload session
-	 *  
-	 * @param logged user to be reloaded
+	 * 
+	 * @param logged
+	 *            user to be reloaded
 	 */
 	public void reload() {
 		userService.reloadInstance(userLogged);
