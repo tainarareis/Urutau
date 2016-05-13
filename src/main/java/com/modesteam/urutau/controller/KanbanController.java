@@ -59,14 +59,12 @@ public class KanbanController {
 	
 	@Get
 	@Path("/kanban/{project.id}")
-	public void load(final Project project) throws UserActionException {
-		Project currentProject = null;
-		try {
-			 currentProject = projectService.find(project.getId());
-		} catch (Exception exception){
-			throw new UserActionException("When load kanban of " + project.getId() 
-				+ " is required", exception);
-		}
+	public void load(final Project project) {
+		// TODO specific error
+		result.on(UserActionException.class).redirectTo(ApplicationController.class).invalidRequest();
+
+		Project currentProject = projectService.find(project.getId());
+
 		result.include("project", currentProject);
 	}
 	
@@ -113,6 +111,9 @@ public class KanbanController {
 	 */
 	@Post
 	public void createLayer(final @NotNull Long projectID, @NotNull Layer layer) {
+		// TODO more specific
+		result.on(UserActionException.class).redirectTo(ApplicationController.class).invalidRequest();
+
 		Project currentProject = projectService.find(projectID);
 
 		try {
@@ -121,6 +122,7 @@ public class KanbanController {
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 
 					exception.getMessage());
 			validator.add(errorMessage);
+			validator.onErrorRedirectTo(this).load(currentProject);
 		} catch (SystemBreakException systemBreakException) {
 			// TODO create a specific redirect
 			result.redirectTo(ApplicationController.class).dificultError();
@@ -129,12 +131,8 @@ public class KanbanController {
 		currentProject.add(layer);
 
 		projectService.update(currentProject);
-		try {
-			validator.onErrorRedirectTo(this).load(currentProject);
-			result.redirectTo(this).load(currentProject);
-		} catch(UserActionException exception) {
-			result.notFound();
-		}
+
+		result.redirectTo(this).load(currentProject);
 	}
 	
 	public void deleteLayer() {

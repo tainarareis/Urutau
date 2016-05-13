@@ -95,8 +95,9 @@ public class ProjectService {
 	 * See if title can be used
 	 * 
 	 * @param projectTitle
+	 * @throws DataBaseCorruptedException 
 	 */
-	public boolean canBeUsed(final String projectTitle) {
+	public boolean canBeUsed(final String projectTitle) throws DataBaseCorruptedException {
 		boolean valueNotUsed = false;
 		
 		try {

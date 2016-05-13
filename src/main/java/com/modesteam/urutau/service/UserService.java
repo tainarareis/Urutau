@@ -54,8 +54,7 @@ public class UserService {
 				valueNotUsed = true;
 			}
 		} catch (NonUniqueResultException exception) {
-			throw new DataBaseCorruptedException(this.getClass().getSimpleName() 
-					+ " returns twice " + attributeName + " equals");
+			throw new DataBaseCorruptedException("Duplicate register", exception, this.getClass());
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		} 
