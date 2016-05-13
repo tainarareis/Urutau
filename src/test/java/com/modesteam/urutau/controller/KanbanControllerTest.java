@@ -3,6 +3,7 @@ package com.modesteam.urutau.controller;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -81,7 +82,7 @@ public class KanbanControllerTest {
 		mockProjectToAddNewLayer(mockProject, mockLayer);
 		
 		shouldReturnWhenCreateLayer(mockLayer);
-		shouldReturnWhenUpdateProject(mockProject, true);
+		doNothingWhenUpdateProject(mockProject);
 		
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
 				mockKanbanService, mockProjectService, mockRequirementService);
@@ -92,19 +93,24 @@ public class KanbanControllerTest {
 	@Test(expected=ValidationException.class)
 	public void testCreateInvalidLayer() {
 	    Layer mockLayer = createAnValidMockLayer();
-		
+
 		Project mockProject = mock(Project.class);
 		mockProject.add(mockLayer);
-		
+
 		mockProjectToAddNewLayer(mockProject, mockLayer);
-		
-		shouldReturnWhenCreateLayer(mockLayer);
-		shouldReturnWhenUpdateProject(mockProject, false);
-		
+
+		shouldThrowExceptionWhenCreate(mockLayer);
+
+		doNothingWhenUpdateProject(mockProject);
+
 		KanbanController controller = new KanbanController(mockResult, mockValidator, 
 				mockKanbanService, mockProjectService, mockRequirementService);
-		
+
 		controller.createLayer(VALID_PROJECT_ID, mockLayer);
+	}
+
+	private void shouldThrowExceptionWhenCreate(Layer mockLayer) {
+		doThrow(IllegalArgumentException.class).when(mockKanbanService).create(mockLayer);
 	}
 
 	private void shouldReturnWhenCreateLayer(Layer mockLayer) {
@@ -150,7 +156,7 @@ public class KanbanControllerTest {
 		when(mockProjectService.find(VALID_PROJECT_ID)).thenReturn(project);
 	}
 	
-	private void shouldReturnWhenUpdateProject(Project project, boolean condition) {
+	private void doNothingWhenUpdateProject(Project project) {
 		doNothing().when(mockProjectService).update(project);
 	}
 }

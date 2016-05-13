@@ -19,6 +19,7 @@ import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 
 import com.modesteam.urutau.annotation.View;
+import com.modesteam.urutau.exception.SystemBreakException;
 import com.modesteam.urutau.exception.UserActionException;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.model.Project;
@@ -74,15 +75,15 @@ public class KanbanController {
 	 */
 	@Post("/kanban/move")
 	public void move(final Long requirementID, final Long layerID) throws Exception {
-		
+
 		logger.info("Requesting the move of one requirement");
-		
+
 		Artifact requirementToMove = null;
-		
+
 		try {
 			requirementToMove = requirementService.getByID(requirementID);
 			Layer targetLayer = kanbanService.getLayerByID(layerID);
-			
+
 			if(!validator.hasErrors()) {
 				requirementToMove.setLayer(targetLayer);				
 				requirementService.update(requirementToMove);				
@@ -116,11 +117,13 @@ public class KanbanController {
 
 		try {
 			kanbanService.create(layer);
-			// TODO treat
-		} catch (Exception exception){
+		} catch (IllegalArgumentException exception){
 			SimpleMessage errorMessage = new SimpleMessage(FieldMessage.ERROR, 
-					"Persistence error...");
+					exception.getMessage());
 			validator.add(errorMessage);
+		} catch (SystemBreakException systemBreakException) {
+			// TODO create a specific redirect
+			result.redirectTo(ApplicationController.class).dificultError();
 		}
 
 		currentProject.add(layer);

@@ -83,7 +83,7 @@ public abstract class GenericDAO<Entity> {
 			throw new IllegalArgumentException("An invalid param has been passed "
 					+ "to create method");
 		} catch (EntityExistsException entityExistsException) {
-			throw new SystemBreakException("Entity duplicated?", entityExistsException);
+			throw new SystemBreakException("Entity already exist", entityExistsException);
 		}
 	}
 
