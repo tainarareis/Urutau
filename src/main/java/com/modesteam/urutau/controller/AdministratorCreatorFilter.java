@@ -33,19 +33,8 @@ public class AdministratorCreatorFilter implements Filter {
 
 	private static final String CHANGE_SETTINGS_VIEW = "/administrator/createFirstAdministrator";
 
-	private final AdministratorService administratorService;
-
-	/**
-	 * @deprecated CDI eye only
-	 */
-	public AdministratorCreatorFilter() {
-		this(null);
-	}
-
 	@Inject
-	public AdministratorCreatorFilter(AdministratorService administratorService) {
-		this.administratorService = administratorService;
-	}
+	private AdministratorService administratorService;
 
 	/**
 	 * 
