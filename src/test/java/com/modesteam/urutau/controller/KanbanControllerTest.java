@@ -137,7 +137,7 @@ public class KanbanControllerTest {
 	}
 
 	private void doNothingWhenRequirementServiceUpdate(Artifact artifact) {
-		when(mockRequirementService.update(artifact)).thenReturn(true);
+		doNothing().when(mockRequirementService).update(artifact);
 	}
 
 	private void whenGetLayerByID(Long id) {

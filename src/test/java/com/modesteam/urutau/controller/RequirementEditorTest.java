@@ -1,7 +1,6 @@
 package com.modesteam.urutau.controller;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -151,6 +150,6 @@ public class RequirementEditorTest {
 	 * @param artifact
 	 */
 	private void doNothingWhenEdit(Artifact artifact) {
-		when(requirementService.update(artifact)).thenReturn(true);
+		doNothing().when(requirementService).update(artifact);
 	}
 }

@@ -259,7 +259,7 @@ public class RequirementCreatorTest {
 	 * @param artifact
 	 */
 	private void doNothingWhenCreate(Artifact artifact) {
-		doNothing().when(requirementService).create(artifact);
+		doNothing().when(requirementService).save(artifact);
 	}
 
 	private void mockWhenProjectLoad(Project project) {

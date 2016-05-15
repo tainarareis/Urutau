@@ -76,11 +76,11 @@ public class RequirementControllerTest {
 		RequirementController controller = new RequirementController(result, requirementService,
 				validator);
 
-		controller.show(1, genericRequirement.getTitle());
+		controller.show(1L, genericRequirement.getTitle());
 	}
 
 	private void mockShow(Generic genericRequirement) throws UnsupportedEncodingException {
-		when(requirementService.getRequirement((int) genericRequirement.getId(),
+		when(requirementService.getBy(genericRequirement.getId(),
 				genericRequirement.getTitle())).thenReturn(genericRequirement);
 	}
 
