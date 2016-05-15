@@ -1,5 +1,6 @@
 package com.modesteam.urutau.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.modesteam.urutau.model.Artifact;
@@ -27,4 +28,6 @@ public interface RequirementDAO {
 	void destroy(Artifact artifact);
 	
 	List<Artifact> getRequirementBetweenInterval(Long projectID, int firstResult, int maxResult);
+
+	List<Artifact> findUsing(String sql);
 }

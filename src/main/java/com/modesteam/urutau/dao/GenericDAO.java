@@ -1,6 +1,7 @@
 package com.modesteam.urutau.dao;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
@@ -37,6 +38,29 @@ public abstract class GenericDAO<Entity> {
 	public GenericDAO() {
 		this.entityClass = (Class<?>) ((ParameterizedType) getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
+	}
+
+	/**
+	 * Runs a select SQL
+	 * 
+	 * @return {@link List} of entities
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Entity> findUsing(final String sql) {
+		logger.trace("Finding by: " + sql);
+
+		List<Entity> results = null;
+
+		try {
+			Query query = entityManager.createQuery(sql);
+
+			results = query.getResultList();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new SystemBreakException("SQL was not mounted rightly..",
+					illegalArgumentException);
+		}
+
+		return results;
 	}
 
 	/**

@@ -93,9 +93,10 @@ public class RequirementController {
 	 *         project
 	 */
 	@Get("{projectID}/paginate/{page}")
-	public void paginate(int projectID, int page) {
-		List<Artifact> requirements = requirementService.recover(projectID, DEFAULT_PAGINATION_SIZE,
-				page);
+	public void paginate(long projectID, long page) {
+		long upperLimit = page + DEFAULT_PAGINATION_SIZE;
+		List<Artifact> requirements = requirementService.desc("dateOfCreation")
+				.between(page, upperLimit).find().where("project_id=" + projectID);
 
 		result.include("requirements", requirements);
 	}

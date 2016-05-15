@@ -72,4 +72,5 @@ public class DefaultRequirementDAO extends GenericDAO<Artifact> implements Requi
 		
 		return results; 
 	}
+
 }
