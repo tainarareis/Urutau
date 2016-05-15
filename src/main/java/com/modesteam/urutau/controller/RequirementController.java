@@ -69,12 +69,12 @@ public class RequirementController {
 	 */
 	@Get
 	@Path("/show/{id}/{title}")
-	public void show(int id, String title) throws UnsupportedEncodingException {
+	public void show(Long id, String title) throws UnsupportedEncodingException {
 		String decodedTitle = URLDecoder.decode(title, StandardCharsets.UTF_8.name());
 
 		logger.info("Show requirement " + title);
 
-		Artifact requirement = requirementService.getRequirement(id, decodedTitle);
+		Artifact requirement = requirementService.getBy(id, decodedTitle);
 
 		validator.addIf(requirement == null,
 				new I18nMessage(FieldMessage.ERROR, "requirement_no_exist"));

@@ -218,7 +218,7 @@ public class RequirementCreator {
 	 */
 	private void createIfThereIsNoErrors(final Artifact requirement) {
 		if (!validator.hasErrors()) {
-			service.create(requirement);
+			service.save(requirement);
 		} else {
 			logger.error("Some errors was found");
 		}

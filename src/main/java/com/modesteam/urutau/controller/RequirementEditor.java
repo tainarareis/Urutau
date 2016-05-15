@@ -64,7 +64,7 @@ public class RequirementEditor {
 
 		logger.trace("Starting the function edit. Requirement id is " + requirementID);
 
-		boolean requirementExistence = requirementService.verifyExistence(requirementID);
+		boolean requirementExistence = requirementService.exists(requirementID);
 
 		// Verifies the acceptance of the requirement to proceed the requisition
 		if (requirementExistence) {
@@ -133,13 +133,8 @@ public class RequirementEditor {
 		UrutaUser loggedUser = userSession.getUserLogged();
 		requirement.setLastModificationAuthor(loggedUser);
 
-		boolean updateResult = requirementService.update(requirement);
+		requirementService.update(requirement);
 
-		if (updateResult) {
-			logger.info("The update was sucessfully executed.");
-		} else {
-			logger.info("The update wasn't sucessfully executed.");
-		}
 		// TODO redirect to project
 		result.redirectTo(ProjectController.class).index();
 	}

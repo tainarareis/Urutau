@@ -1,6 +1,5 @@
 package com.modesteam.urutau.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.modesteam.urutau.dao.GenericDAO;
 import com.modesteam.urutau.dao.RequirementDAO;
+import com.modesteam.urutau.exception.NotImplementedError;
 import com.modesteam.urutau.model.Artifact;
 import com.modesteam.urutau.persistence.DuplicateSortException;
 import com.modesteam.urutau.persistence.Finder;
@@ -17,13 +17,18 @@ import com.modesteam.urutau.persistence.FinderAdapter;
 import com.modesteam.urutau.persistence.Order;
 import com.modesteam.urutau.persistence.OrderEnum;
 import com.modesteam.urutau.persistence.OrderOption;
+import com.modesteam.urutau.persistence.Persistence;
 
-public class RequirementService implements Finder<Artifact>, Order<Artifact> {
+public class RequirementService
+		implements Persistence<Artifact>, Finder<Artifact>, Order<Artifact> {
 	private static final Logger logger = LoggerFactory.getLogger(RequirementService.class);
 
 	private RequirementDAO requirementDAO;
 	private OrderOption orderOption;
-
+	
+	/**
+	 * @deprecated CDI only
+	 */
 	public RequirementService() {
 		this(null);
 	}
@@ -31,10 +36,6 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 	@Inject
 	public RequirementService(RequirementDAO requirementDAO) {
 		this.requirementDAO = requirementDAO;
-	}
-
-	public void save(Artifact requirement) {
-		requirementDAO.create(requirement);
 	}
 
 	/**
@@ -46,19 +47,30 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 	 *            name of Requirement, an usual identifier, but not unique
 	 * @return a requirement
 	 */
-	public Artifact getRequirement(int id, String title) throws UnsupportedEncodingException {
-		assert (id < 0 || title == null);
+	public Artifact getBy(Long id, String title) {
+		Artifact requirement = find(id);
 
-		Artifact requirement = requirementDAO.find(new Long(id));
-
-		logger.info("Decoded title is " + title);
-
-		// Compares decoded title with instance of database
-		if (requirement.getTitle().equalsIgnoreCase(title)) {
-			return requirement;
-		} else {
-			throw new IllegalArgumentException("This requirement not exist");
+		if (requirement.getTitle() == title) {
+			throw new IllegalArgumentException("This title not matches");
 		}
+
+		return requirement;
+	}
+
+	@Override
+	public void reload(Artifact entity) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedError();
+	}
+
+	@Override
+	public void update(Artifact entity) {
+		requirementDAO.update(entity);
+	}
+
+	@Override
+	public void save(Artifact entity) {
+		requirementDAO.create(entity);
 	}
 
 	/**
@@ -66,6 +78,7 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 	 * 
 	 * @return true if delete was complete, without errors
 	 */
+	@Override
 	public void delete(Artifact requirement) {
 		Artifact requirementToDelete = requirementDAO.find(requirement.getId());
 
@@ -76,47 +89,19 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 		}
 	}
 
-	/**
-	 * Verifies the existence of a requirement by its id
-	 * 
-	 * @param requirementId
-	 * @return true if the requirement exists
-	 */
-	public boolean verifyExistence(long requirementId) {
-
-		logger.info("Verifying the requirement existence in database.");
-
-		Artifact requirement = null;
-		try {
-			requirement = requirementDAO.get("id", requirementId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (requirement == null) {
-			logger.info("The requirement is null");
-			return false;
-		} else {
-			logger.info("The requirement isn't null");
-			return true;
-		}
-	}
-
-	public void create(Artifact requirement) {
-		requirementDAO.create(requirement);
-	}
-
-	/**
-	 * @param artifact
-	 * @return
-	 */
-	public boolean update(Artifact requirement) {
-		return requirementDAO.update(requirement) != null;
-	}
-
 	@Override
 	public boolean exists(Long id) {
-		return false;
+		logger.debug("Verifying the requirement existence in database.");
+
+		Artifact requirement = requirementDAO.find(id);
+
+		if (requirement == null) {
+			logger.debug("The requirement is null");
+		} else {
+			logger.debug("The requirement isn't null");
+		}
+
+		return requirement != null;
 	}
 
 	@Override
@@ -178,5 +163,4 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 
 		return adapter;
 	}
-
 }
