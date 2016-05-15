@@ -114,27 +114,6 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 		return requirementDAO.update(requirement) != null;
 	}
 
-	/**
-	 * Captures a unique requirement based on its id
-	 * 
-	 * @param id
-	 *            of the requirement
-	 * @return a requirement
-	 */
-	public Artifact getByID(Long id) {
-
-		logger.info("Starting DAO search.");
-
-		Artifact requirement = requirementDAO.find(id);
-
-		if (requirement != null) {
-			logger.info("RequirementDAO returned zero requirements.");
-			return requirement;
-		} else {
-			throw new IllegalArgumentException("The requirement does not exist.");
-		}
-	}
-
 	@Override
 	public boolean exists(Long id) {
 		return false;
@@ -142,7 +121,7 @@ public class RequirementService implements Finder<Artifact>, Order<Artifact> {
 
 	@Override
 	public Artifact find(Long id) {
-		return null;
+		return requirementDAO.find(id);
 	}
 
 	@Override

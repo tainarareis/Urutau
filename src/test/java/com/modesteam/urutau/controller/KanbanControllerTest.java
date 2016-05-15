@@ -145,7 +145,7 @@ public class KanbanControllerTest {
 	}
 
 	private void whenGetRequirementByID(Long id, Artifact mockReturned) {
-		when(mockRequirementService.getByID(id)).thenReturn(mockReturned);
+		when(mockRequirementService.find(id)).thenReturn(mockReturned);
 	}
 
 	private void whenFind(Project project) {

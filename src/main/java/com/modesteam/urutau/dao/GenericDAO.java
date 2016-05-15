@@ -62,6 +62,11 @@ public abstract class GenericDAO<Entity> {
 
 		return results;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Entity find(Long id){
+		return (Entity) entityManager.find(entityClass, id);
+	}
 
 	/**
 	 * Gets a Entity by a field with certain value

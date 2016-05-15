@@ -70,7 +70,7 @@ public class RequirementEditor {
 		if (requirementExistence) {
 			logger.info("The requirement exists in database");
 
-			Artifact requirement = requirementService.getByID(requirementID);
+			Artifact requirement = requirementService.find(requirementID);
 
 			redirectToEditionPage(requirement, requirement.getArtifactType());
 		} else {

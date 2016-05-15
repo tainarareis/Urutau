@@ -79,7 +79,7 @@ public class KanbanController {
 		Artifact requirementToMove = null;
 
 		try {
-			requirementToMove = requirementService.getByID(requirementID);
+			requirementToMove = requirementService.find(requirementID);
 			Layer targetLayer = kanbanService.getLayerByID(layerID);
 
 			if (!validator.hasErrors()) {

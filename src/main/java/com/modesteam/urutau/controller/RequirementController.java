@@ -109,7 +109,7 @@ public class RequirementController {
 
 		logger.info("The artifact with the id " + requirementID + " is solicitated for exclusion");
 
-		Artifact requirement = requirementService.getByID(requirementID);
+		Artifact requirement = requirementService.find(requirementID);
 		try {
 			requirementService.delete(requirement);
 		} catch (Exception exception) {
