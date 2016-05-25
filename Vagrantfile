@@ -9,6 +9,9 @@ Vagrant.configure(2) do |config|
 	#Config define a machine called web
 	config.vm.define :my_virtualbox do |web_config|
         web_config.vm.network "private_network", ip: "192.168.50.10"
+        
+    #Shell script to install JDK
+    config.vm.provision "shell", path: "provision.sh"
     end
 end
   # Disable automatic box update checking. If you disable this, then
