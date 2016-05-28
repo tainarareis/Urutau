@@ -4,7 +4,7 @@
 # Vagrant in version 2
 Vagrant.configure(2) do |config|
 	#Ubuntu 64 bits
-  config.vm.box = "hashicorp/precise64"
+    config.vm.box = "hashicorp/precise64"
 
 	#Config define a machine called web
 	config.vm.define :my_virtualbox do |web_config|
@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
   end
   
     #Shell script to install JDK
-    config.vm.provision "shell", path: "provision.sh"
+    #config.vm.provision "shell", path: "provision.sh"
 
     # Check box update, its equivalent to the command
     # `vagrant box outdated` but its recomend to check automaticaticaly
@@ -27,6 +27,11 @@ Vagrant.configure(2) do |config|
     # Share an additional folder to the guest VM
     # First argument: the path on the host to the actual folder
     # Second argument: the path on the guest to mount the folder
-    config.vm.synced_folder "../data", "/vagrant_data"
-
+    #config.vm.synced_folder "../data", "/vagrant_data"
+    
+    config.vm.provision :puppet do |puppet| 
+        puppet.manifests_path = "manifests"
+        puppet.module_path = "modules"
+        puppet.manifest_file = "default.pp" 
+    end
 end
