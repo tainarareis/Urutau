@@ -16,9 +16,7 @@ Vagrant.configure(2) do |config|
     # using a specific IP.
     web_config.vm.network "private_network", ip: "192.168.50.10"
   end
-  
-    #Shell script to install JDK
-    #config.vm.provision "shell", path: "provision.sh"
+ 
 
     # Check box update, its equivalent to the command
     # `vagrant box outdated` but its recomend to check automaticaticaly
@@ -29,9 +27,10 @@ Vagrant.configure(2) do |config|
     # Second argument: the path on the guest to mount the folder
     #config.vm.synced_folder "../data", "/vagrant_data"
     
+    #Config puppet as provisioner
     config.vm.provision :puppet do |puppet| 
-        puppet.manifests_path = "manifests"
-        puppet.module_path = "modules"
+        puppet.manifests_path = "puppet/manifests"
+        puppet.module_path = "puppet/modules"
         puppet.manifest_file = "default.pp" 
     end
 end
