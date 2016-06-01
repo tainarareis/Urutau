@@ -9,3 +9,6 @@ env:
 jdk:
   - oraclejdk8
   - oraclejdk7
+
+
+install: /bin/true
