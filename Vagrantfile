@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
 
 	#Config define a machine called web
 	config.vm.define :my_virtualbox do |web_config|
-      
+
     # Allow accessing "localhost:8080" to access port 80 on the guest machine.
     config.vm.network "forwarded_port", guest: 80, host: 8080
 
@@ -16,7 +16,12 @@ Vagrant.configure(2) do |config|
     # using a specific IP.
     web_config.vm.network "private_network", ip: "192.168.50.10"
   end
- 
+
+config.push.define "heroku" do |push|
+  push.app = "urutau-vagrant"
+  push.dir = "urutau-vagrant/"
+  push.remote = "urutau-vagrant"
+end
 
     # Check box update, its equivalent to the command
     # `vagrant box outdated` but its recomend to check automaticaticaly
@@ -26,11 +31,11 @@ Vagrant.configure(2) do |config|
     # First argument: the path on the host to the actual folder
     # Second argument: the path on the guest to mount the folder
     #config.vm.synced_folder "../data", "/vagrant_data"
-    
+
     #Config puppet as provisioner
-    config.vm.provision :puppet do |puppet| 
+    config.vm.provision :puppet do |puppet|
         puppet.manifests_path = "puppet/manifests"
         puppet.module_path = "puppet/modules"
-        puppet.manifest_file = "default.pp" 
+        puppet.manifest_file = "default.pp"
     end
 end
