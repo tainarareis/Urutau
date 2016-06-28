@@ -1,0 +1,8 @@
+./.git
+./.gitignore
+./.slugignore
+./.vagrant/machines/default/virtualbox/
+./WebContent
+./puppet
+README.md
+Vagrantfile
