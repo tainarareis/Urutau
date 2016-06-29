@@ -35,7 +35,13 @@ end
     #Config puppet as provisioner
     config.vm.provision :puppet do |puppet|
         puppet.manifests_path = "puppet/manifests"
+        puppet.manifest_file = "default.pp" 
         puppet.module_path = "puppet/modules"
-        puppet.manifest_file = "default.pp"
     end
+    
+    #Config vagrant push to heroku
+    config.push.define "heroku" do |push|
+        push.app = "urutaugcs"
+    end
+    
 end

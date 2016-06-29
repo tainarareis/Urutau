@@ -1,15 +1,37 @@
-  exec { "apt_update":
-    command => "apt-get update",
-    path    => "/usr/bin",
-  }
+#Executa o update no sistema
+exec { "apt_update":
+  command => "apt-get update",
+  path    => "/usr/bin",
+}
 
-  tomcat::install { '/opt/tomcat':
-    source_url => 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.69/bin/apache-tomcat-7.0.69.tar.gz',
-  }
-  
-  tomcat::instance { 'default':
-    catalina_home => '/opt/tomcat',
-  }
-  
-  include java, maven
+#Instalacao das dependencias
+package { [
+  'openjdk-7-jdk',
+  'git',
+  'tomcat7',
+  'maven',
+]:
+  ensure => present,
+  require => Exec["apt_update"],
+}
 
+#Configuracao do banco de dados
+
+class { 'postgresql::server': }
+
+postgresql::server::db { 'urutau' :
+    user => 'urutau',
+    password => postgresql_password('urutau', 'urutau'),
+
+}
+
+postgresql::server::role { 'urutau' :
+    password_hash => postgresql_password('urutau', 'urutau'),
+
+}
+
+postgresql::server::database_grant { 'permission' :
+    privilege => 'ALL',
+    db => 'urutau',
+    role => 'urutau',
+}
