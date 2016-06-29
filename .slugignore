@@ -1,8 +1,8 @@
 ./.git
 ./.gitignore
 ./.slugignore
-./.vagrant/machines/default/virtualbox/
-./WebContent
+./.vagrant/machines/default/virtualbox
+
 ./puppet
 README.md
 Vagrantfile
