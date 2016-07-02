@@ -13,8 +13,9 @@ jdk:
 install: "/bin/true"
 
 deploy:
- provider: heroku 
- api_key:
+  provider: heroku 
+  app: urutau-travis
+  api_key:
     secure: K53yiEGH+8BXGTA1J8hZzb7U1fhinTiVt3Pi+ebRTHHq2nwzKd3/c1fB6szC64xTmRW3kFDjndWIBhTUopyl+lB+jowp3QA7GngTZDAQxT0wByMiXNd4yB4b0YKMuCzqVV/dz+UgONtV2Udq2F8if2HSAtHxn2VSFitBcDk2hLuWy3KpXF1x3+5sqgYGOVcVtjB5o5B8qKDa+hGzy0ncjFRgYygMkRd32tzSieHWJcyCAeQutfyZTa5wZqXhIRXn3T4EduJi1gJA1eS6BzycjduyagXOzK7bh0/Zx6XlsUkfvoqG/u71esQSk4TwGOsR35EFU/UxIVKUI+Teqqveo8A6qxOmtj2qcfg7VK/34maRUOzK+mTVTmlpQqPmhjgXpdYA9maTIx1wXm33r4WFybR1BC7DtnSoSus19MATiLxMX/hqpLlk5Ik1eMHc1RM+sTV7BFfUh6vcetjuFlUmaweb2oJG8510en7ajXBECp6t+lpWmXTSY8YsdEbmDeNaKzGdqEFW2iwlc17KSBs2XGkyoSRMBwu164JgI0Pw6qG68dhnmo6RRi7cuzUzsEAG2EF7kW8tS3rISigMbEcwEXyZ3s3fb26aD3YGhj9H/IkuW/X/0OCDIwAUePftzAxhNNW3R5RHZnKTz7I8tFgRp/C4dkeGOQVHoAfi+3v4TLk=
 6   on:
 7     branch: deploy
