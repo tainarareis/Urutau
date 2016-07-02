@@ -4,9 +4,10 @@ env:
   global:
   - JAVA_HOME=/usr/lib/jvm/java-8-oracle
 jdk:
-- oraclejdk8
-- oraclejdk7
+  - oraclejdk8
+
 install: "/bin/true"
+
 deploy:
   provider: heroku
   api_key:
