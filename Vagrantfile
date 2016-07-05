@@ -8,20 +8,13 @@ Vagrant.configure(2) do |config|
 
 	#Config define a machine called web
 	config.vm.define :my_virtualbox do |web_config|
+        # Allow accessing "localhost:8080" to access port 80 on the guest machine.
+        config.vm.network "forwarded_port", guest: 80, host: 8090
 
-    # Allow accessing "localhost:8080" to access port 80 on the guest machine.
-    config.vm.network "forwarded_port", guest: 80, host: 8080
-
-    # Create a private network, which allows host-only access to the machine
-    # using a specific IP.
-    web_config.vm.network "private_network", ip: "192.168.50.10"
-  end
-
-config.push.define "heroku" do |push|
-  push.app = "urutau-vagrant"
-  push.dir = "urutau-vagrant/"
-  push.remote = "urutau-vagrant"
-end
+        # Create a private network, which allows host-only access to the machine
+        # using a specific IP.
+        web_config.vm.network "private_network", ip: "192.168.50.10"
+    end
 
     # Check box update, its equivalent to the command
     # `vagrant box outdated` but its recomend to check automaticaticaly
@@ -37,11 +30,5 @@ end
         puppet.manifests_path = "puppet/manifests"
         puppet.manifest_file = "default.pp" 
         puppet.module_path = "puppet/modules"
-    end
-    
-    #Config vagrant push to heroku
-    config.push.define "heroku" do |push|
-        push.app = "urutaugcs"
-    end
-    
+    end    
 end
